@@ -1,0 +1,1532 @@
+[
+    {
+        "label": "django.db.models.deletion",
+        "kind": 6,
+        "isExtraImport": true,
+        "importPath": "django.db.models.deletion",
+        "description": "django.db.models.deletion",
+        "detail": "django.db.models.deletion",
+        "documentation": {}
+    },
+    {
+        "label": "migrations",
+        "importPath": "django.db",
+        "description": "django.db",
+        "isExtraImport": true,
+        "detail": "django.db",
+        "documentation": {}
+    },
+    {
+        "label": "models",
+        "importPath": "django.db",
+        "description": "django.db",
+        "isExtraImport": true,
+        "detail": "django.db",
+        "documentation": {}
+    },
+    {
+        "label": "migrations",
+        "importPath": "django.db",
+        "description": "django.db",
+        "isExtraImport": true,
+        "detail": "django.db",
+        "documentation": {}
+    },
+    {
+        "label": "models",
+        "importPath": "django.db",
+        "description": "django.db",
+        "isExtraImport": true,
+        "detail": "django.db",
+        "documentation": {}
+    },
+    {
+        "label": "migrations",
+        "importPath": "django.db",
+        "description": "django.db",
+        "isExtraImport": true,
+        "detail": "django.db",
+        "documentation": {}
+    },
+    {
+        "label": "models",
+        "importPath": "django.db",
+        "description": "django.db",
+        "isExtraImport": true,
+        "detail": "django.db",
+        "documentation": {}
+    },
+    {
+        "label": "migrations",
+        "importPath": "django.db",
+        "description": "django.db",
+        "isExtraImport": true,
+        "detail": "django.db",
+        "documentation": {}
+    },
+    {
+        "label": "models",
+        "importPath": "django.db",
+        "description": "django.db",
+        "isExtraImport": true,
+        "detail": "django.db",
+        "documentation": {}
+    },
+    {
+        "label": "migrations",
+        "importPath": "django.db",
+        "description": "django.db",
+        "isExtraImport": true,
+        "detail": "django.db",
+        "documentation": {}
+    },
+    {
+        "label": "models",
+        "importPath": "django.db",
+        "description": "django.db",
+        "isExtraImport": true,
+        "detail": "django.db",
+        "documentation": {}
+    },
+    {
+        "label": "migrations",
+        "importPath": "django.db",
+        "description": "django.db",
+        "isExtraImport": true,
+        "detail": "django.db",
+        "documentation": {}
+    },
+    {
+        "label": "models",
+        "importPath": "django.db",
+        "description": "django.db",
+        "isExtraImport": true,
+        "detail": "django.db",
+        "documentation": {}
+    },
+    {
+        "label": "models",
+        "importPath": "django.db",
+        "description": "django.db",
+        "isExtraImport": true,
+        "detail": "django.db",
+        "documentation": {}
+    },
+    {
+        "label": "models",
+        "importPath": "django.db",
+        "description": "django.db",
+        "isExtraImport": true,
+        "detail": "django.db",
+        "documentation": {}
+    },
+    {
+        "label": "admin",
+        "importPath": "django.contrib",
+        "description": "django.contrib",
+        "isExtraImport": true,
+        "detail": "django.contrib",
+        "documentation": {}
+    },
+    {
+        "label": "admin",
+        "importPath": "django.contrib",
+        "description": "django.contrib",
+        "isExtraImport": true,
+        "detail": "django.contrib",
+        "documentation": {}
+    },
+    {
+        "label": "admin",
+        "importPath": "django.contrib",
+        "description": "django.contrib",
+        "isExtraImport": true,
+        "detail": "django.contrib",
+        "documentation": {}
+    },
+    {
+        "label": "AppConfig",
+        "importPath": "django.apps",
+        "description": "django.apps",
+        "isExtraImport": true,
+        "detail": "django.apps",
+        "documentation": {}
+    },
+    {
+        "label": "AppConfig",
+        "importPath": "django.apps",
+        "description": "django.apps",
+        "isExtraImport": true,
+        "detail": "django.apps",
+        "documentation": {}
+    },
+    {
+        "label": "AsyncWebsocketConsumer",
+        "importPath": "channels.generic.websocket",
+        "description": "channels.generic.websocket",
+        "isExtraImport": true,
+        "detail": "channels.generic.websocket",
+        "documentation": {}
+    },
+    {
+        "label": "AsyncWebsocketConsumer",
+        "importPath": "channels.generic.websocket",
+        "description": "channels.generic.websocket",
+        "isExtraImport": true,
+        "detail": "channels.generic.websocket",
+        "documentation": {}
+    },
+    {
+        "label": "get_channel_layer",
+        "importPath": "channels.layers",
+        "description": "channels.layers",
+        "isExtraImport": true,
+        "detail": "channels.layers",
+        "documentation": {}
+    },
+    {
+        "label": "get_channel_layer",
+        "importPath": "channels.layers",
+        "description": "channels.layers",
+        "isExtraImport": true,
+        "detail": "channels.layers",
+        "documentation": {}
+    },
+    {
+        "label": "get_channel_layer",
+        "importPath": "channels.layers",
+        "description": "channels.layers",
+        "isExtraImport": true,
+        "detail": "channels.layers",
+        "documentation": {}
+    },
+    {
+        "label": "async_to_sync",
+        "importPath": "asgiref.sync",
+        "description": "asgiref.sync",
+        "isExtraImport": true,
+        "detail": "asgiref.sync",
+        "documentation": {}
+    },
+    {
+        "label": "sync_to_async",
+        "importPath": "asgiref.sync",
+        "description": "asgiref.sync",
+        "isExtraImport": true,
+        "detail": "asgiref.sync",
+        "documentation": {}
+    },
+    {
+        "label": "async_to_sync",
+        "importPath": "asgiref.sync",
+        "description": "asgiref.sync",
+        "isExtraImport": true,
+        "detail": "asgiref.sync",
+        "documentation": {}
+    },
+    {
+        "label": "async_to_sync",
+        "importPath": "asgiref.sync",
+        "description": "asgiref.sync",
+        "isExtraImport": true,
+        "detail": "asgiref.sync",
+        "documentation": {}
+    },
+    {
+        "label": "datetime",
+        "importPath": "datetime",
+        "description": "datetime",
+        "isExtraImport": true,
+        "detail": "datetime",
+        "documentation": {}
+    },
+    {
+        "label": "datetime",
+        "importPath": "datetime",
+        "description": "datetime",
+        "isExtraImport": true,
+        "detail": "datetime",
+        "documentation": {}
+    },
+    {
+        "label": "datetime",
+        "importPath": "datetime",
+        "description": "datetime",
+        "isExtraImport": true,
+        "detail": "datetime",
+        "documentation": {}
+    },
+    {
+        "label": "datetime",
+        "importPath": "datetime",
+        "description": "datetime",
+        "isExtraImport": true,
+        "detail": "datetime",
+        "documentation": {}
+    },
+    {
+        "label": "datetime",
+        "importPath": "datetime",
+        "description": "datetime",
+        "isExtraImport": true,
+        "detail": "datetime",
+        "documentation": {}
+    },
+    {
+        "label": "timedelta",
+        "importPath": "datetime",
+        "description": "datetime",
+        "isExtraImport": true,
+        "detail": "datetime",
+        "documentation": {}
+    },
+    {
+        "label": "json",
+        "kind": 6,
+        "isExtraImport": true,
+        "importPath": "json",
+        "description": "json",
+        "detail": "json",
+        "documentation": {}
+    },
+    {
+        "label": "os",
+        "kind": 6,
+        "isExtraImport": true,
+        "importPath": "os",
+        "description": "os",
+        "detail": "os",
+        "documentation": {}
+    },
+    {
+        "label": "User",
+        "importPath": "django.contrib.auth.models",
+        "description": "django.contrib.auth.models",
+        "isExtraImport": true,
+        "detail": "django.contrib.auth.models",
+        "documentation": {}
+    },
+    {
+        "label": "redis",
+        "kind": 6,
+        "isExtraImport": true,
+        "importPath": "redis",
+        "description": "redis",
+        "detail": "redis",
+        "documentation": {}
+    },
+    {
+        "label": "settings",
+        "importPath": "django.conf",
+        "description": "django.conf",
+        "isExtraImport": true,
+        "detail": "django.conf",
+        "documentation": {}
+    },
+    {
+        "label": "settings",
+        "importPath": "django.conf",
+        "description": "django.conf",
+        "isExtraImport": true,
+        "detail": "django.conf",
+        "documentation": {}
+    },
+    {
+        "label": "cache",
+        "importPath": "django.core.cache",
+        "description": "django.core.cache",
+        "isExtraImport": true,
+        "detail": "django.core.cache",
+        "documentation": {}
+    },
+    {
+        "label": "Count",
+        "importPath": "django.db.models",
+        "description": "django.db.models",
+        "isExtraImport": true,
+        "detail": "django.db.models",
+        "documentation": {}
+    },
+    {
+        "label": "Q",
+        "importPath": "django.db.models",
+        "description": "django.db.models",
+        "isExtraImport": true,
+        "detail": "django.db.models",
+        "documentation": {}
+    },
+    {
+        "label": "serializers",
+        "importPath": "rest_framework",
+        "description": "rest_framework",
+        "isExtraImport": true,
+        "detail": "rest_framework",
+        "documentation": {}
+    },
+    {
+        "label": "status",
+        "importPath": "rest_framework",
+        "description": "rest_framework",
+        "isExtraImport": true,
+        "detail": "rest_framework",
+        "documentation": {}
+    },
+    {
+        "label": "shared_task",
+        "importPath": "celery",
+        "description": "celery",
+        "isExtraImport": true,
+        "detail": "celery",
+        "documentation": {}
+    },
+    {
+        "label": "Celery",
+        "importPath": "celery",
+        "description": "celery",
+        "isExtraImport": true,
+        "detail": "celery",
+        "documentation": {}
+    },
+    {
+        "label": "SoftTimeLimitExceeded",
+        "importPath": "celery.exceptions",
+        "description": "celery.exceptions",
+        "isExtraImport": true,
+        "detail": "celery.exceptions",
+        "documentation": {}
+    },
+    {
+        "label": "send_twilio_message",
+        "importPath": "sms.services",
+        "description": "sms.services",
+        "isExtraImport": true,
+        "detail": "sms.services",
+        "documentation": {}
+    },
+    {
+        "label": "send_twilio_message",
+        "importPath": "sms.services",
+        "description": "sms.services",
+        "isExtraImport": true,
+        "detail": "sms.services",
+        "documentation": {}
+    },
+    {
+        "label": "time",
+        "kind": 6,
+        "isExtraImport": true,
+        "importPath": "time",
+        "description": "time",
+        "detail": "time",
+        "documentation": {}
+    },
+    {
+        "label": "asyncio",
+        "kind": 6,
+        "isExtraImport": true,
+        "importPath": "asyncio",
+        "description": "asyncio",
+        "detail": "asyncio",
+        "documentation": {}
+    },
+    {
+        "label": "path",
+        "importPath": "django.urls",
+        "description": "django.urls",
+        "isExtraImport": true,
+        "detail": "django.urls",
+        "documentation": {}
+    },
+    {
+        "label": "path",
+        "importPath": "django.urls",
+        "description": "django.urls",
+        "isExtraImport": true,
+        "detail": "django.urls",
+        "documentation": {}
+    },
+    {
+        "label": "include",
+        "importPath": "django.urls",
+        "description": "django.urls",
+        "isExtraImport": true,
+        "detail": "django.urls",
+        "documentation": {}
+    },
+    {
+        "label": "re_path",
+        "importPath": "django.urls",
+        "description": "django.urls",
+        "isExtraImport": true,
+        "detail": "django.urls",
+        "documentation": {}
+    },
+    {
+        "label": "path",
+        "importPath": "django.urls",
+        "description": "django.urls",
+        "isExtraImport": true,
+        "detail": "django.urls",
+        "documentation": {}
+    },
+    {
+        "label": "api_view",
+        "importPath": "rest_framework.decorators",
+        "description": "rest_framework.decorators",
+        "isExtraImport": true,
+        "detail": "rest_framework.decorators",
+        "documentation": {}
+    },
+    {
+        "label": "permission_classes",
+        "importPath": "rest_framework.decorators",
+        "description": "rest_framework.decorators",
+        "isExtraImport": true,
+        "detail": "rest_framework.decorators",
+        "documentation": {}
+    },
+    {
+        "label": "api_view",
+        "importPath": "rest_framework.decorators",
+        "description": "rest_framework.decorators",
+        "isExtraImport": true,
+        "detail": "rest_framework.decorators",
+        "documentation": {}
+    },
+    {
+        "label": "IsAuthenticated",
+        "importPath": "rest_framework.permissions",
+        "description": "rest_framework.permissions",
+        "isExtraImport": true,
+        "detail": "rest_framework.permissions",
+        "documentation": {}
+    },
+    {
+        "label": "Response",
+        "importPath": "rest_framework.response",
+        "description": "rest_framework.response",
+        "isExtraImport": true,
+        "detail": "rest_framework.response",
+        "documentation": {}
+    },
+    {
+        "label": "Response",
+        "importPath": "rest_framework.response",
+        "description": "rest_framework.response",
+        "isExtraImport": true,
+        "detail": "rest_framework.response",
+        "documentation": {}
+    },
+    {
+        "label": "csv",
+        "kind": 6,
+        "isExtraImport": true,
+        "importPath": "csv",
+        "description": "csv",
+        "detail": "csv",
+        "documentation": {}
+    },
+    {
+        "label": "TextIOWrapper",
+        "importPath": "io",
+        "description": "io",
+        "isExtraImport": true,
+        "detail": "io",
+        "documentation": {}
+    },
+    {
+        "label": "get_object_or_404",
+        "importPath": "django.shortcuts",
+        "description": "django.shortcuts",
+        "isExtraImport": true,
+        "detail": "django.shortcuts",
+        "documentation": {}
+    },
+    {
+        "label": "ProtocolTypeRouter",
+        "importPath": "channels.routing",
+        "description": "channels.routing",
+        "isExtraImport": true,
+        "detail": "channels.routing",
+        "documentation": {}
+    },
+    {
+        "label": "URLRouter",
+        "importPath": "channels.routing",
+        "description": "channels.routing",
+        "isExtraImport": true,
+        "detail": "channels.routing",
+        "documentation": {}
+    },
+    {
+        "label": "AuthMiddlewareStack",
+        "importPath": "channels.auth",
+        "description": "channels.auth",
+        "isExtraImport": true,
+        "detail": "channels.auth",
+        "documentation": {}
+    },
+    {
+        "label": "get_asgi_application",
+        "importPath": "django.core.asgi",
+        "description": "django.core.asgi",
+        "isExtraImport": true,
+        "detail": "django.core.asgi",
+        "documentation": {}
+    },
+    {
+        "label": "websocket_urlpatterns",
+        "importPath": "sms.routing",
+        "description": "sms.routing",
+        "isExtraImport": true,
+        "detail": "sms.routing",
+        "documentation": {}
+    },
+    {
+        "label": "Path",
+        "importPath": "pathlib",
+        "description": "pathlib",
+        "isExtraImport": true,
+        "detail": "pathlib",
+        "documentation": {}
+    },
+    {
+        "label": "load_dotenv",
+        "importPath": "dotenv",
+        "description": "dotenv",
+        "isExtraImport": true,
+        "detail": "dotenv",
+        "documentation": {}
+    },
+    {
+        "label": "get_wsgi_application",
+        "importPath": "django.core.wsgi",
+        "description": "django.core.wsgi",
+        "isExtraImport": true,
+        "detail": "django.core.wsgi",
+        "documentation": {}
+    },
+    {
+        "label": "register_client",
+        "importPath": "core.redis_clients",
+        "description": "core.redis_clients",
+        "isExtraImport": true,
+        "detail": "core.redis_clients",
+        "documentation": {}
+    },
+    {
+        "label": "unregister_channel",
+        "importPath": "core.redis_clients",
+        "description": "core.redis_clients",
+        "isExtraImport": true,
+        "detail": "core.redis_clients",
+        "documentation": {}
+    },
+    {
+        "label": "get_client",
+        "importPath": "core.redis_clients",
+        "description": "core.redis_clients",
+        "isExtraImport": true,
+        "detail": "core.redis_clients",
+        "documentation": {}
+    },
+    {
+        "label": "SMSConsumer",
+        "importPath": "sms.consumers",
+        "description": "sms.consumers",
+        "isExtraImport": true,
+        "detail": "sms.consumers",
+        "documentation": {}
+    },
+    {
+        "label": "CampaignConsumer",
+        "importPath": "campaign.consumers",
+        "description": "campaign.consumers",
+        "isExtraImport": true,
+        "detail": "campaign.consumers",
+        "documentation": {}
+    },
+    {
+        "label": "Client",
+        "importPath": "twilio.rest",
+        "description": "twilio.rest",
+        "isExtraImport": true,
+        "detail": "twilio.rest",
+        "documentation": {}
+    },
+    {
+        "label": "Client",
+        "importPath": "twilio.rest",
+        "description": "twilio.rest",
+        "isExtraImport": true,
+        "detail": "twilio.rest",
+        "documentation": {}
+    },
+    {
+        "label": "TestCase",
+        "importPath": "django.test",
+        "description": "django.test",
+        "isExtraImport": true,
+        "detail": "django.test",
+        "documentation": {}
+    },
+    {
+        "label": "HttpResponse",
+        "importPath": "django.http",
+        "description": "django.http",
+        "isExtraImport": true,
+        "detail": "django.http",
+        "documentation": {}
+    },
+    {
+        "label": "JsonResponse",
+        "importPath": "django.http",
+        "description": "django.http",
+        "isExtraImport": true,
+        "detail": "django.http",
+        "documentation": {}
+    },
+    {
+        "label": "csrf_exempt",
+        "importPath": "django.views.decorators.csrf",
+        "description": "django.views.decorators.csrf",
+        "isExtraImport": true,
+        "detail": "django.views.decorators.csrf",
+        "documentation": {}
+    },
+    {
+        "label": "CampaignContact",
+        "importPath": "campaign.models",
+        "description": "campaign.models",
+        "isExtraImport": true,
+        "detail": "campaign.models",
+        "documentation": {}
+    },
+    {
+        "label": "send_campaign_ws",
+        "importPath": "campaign.utils",
+        "description": "campaign.utils",
+        "isExtraImport": true,
+        "detail": "campaign.utils",
+        "documentation": {}
+    },
+    {
+        "label": "sys",
+        "kind": 6,
+        "isExtraImport": true,
+        "importPath": "sys",
+        "description": "sys",
+        "detail": "sys",
+        "documentation": {}
+    },
+    {
+        "label": "Migration",
+        "kind": 6,
+        "importPath": "backend.campaign.migrations.0001_initial",
+        "description": "backend.campaign.migrations.0001_initial",
+        "peekOfCode": "class Migration(migrations.Migration):\n    initial = True\n    dependencies = [\n    ]\n    operations = [\n        migrations.CreateModel(\n            name='Campaign',\n            fields=[\n                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),\n                ('name', models.CharField(max_length=255)),",
+        "detail": "backend.campaign.migrations.0001_initial",
+        "documentation": {}
+    },
+    {
+        "label": "Migration",
+        "kind": 6,
+        "importPath": "backend.campaign.migrations.0002_campaign_variables",
+        "description": "backend.campaign.migrations.0002_campaign_variables",
+        "peekOfCode": "class Migration(migrations.Migration):\n    dependencies = [\n        ('campaign', '0001_initial'),\n    ]\n    operations = [\n        migrations.AddField(\n            model_name='campaign',\n            name='variables',\n            field=models.JSONField(blank=True, default=list),\n        ),",
+        "detail": "backend.campaign.migrations.0002_campaign_variables",
+        "documentation": {}
+    },
+    {
+        "label": "Migration",
+        "kind": 6,
+        "importPath": "backend.campaign.migrations.0003_alter_campaign_id_alter_campaigncontact_campaign_and_more",
+        "description": "backend.campaign.migrations.0003_alter_campaign_id_alter_campaigncontact_campaign_and_more",
+        "peekOfCode": "class Migration(migrations.Migration):\n    dependencies = [\n        ('campaign', '0002_campaign_variables'),\n    ]\n    operations = [\n        migrations.AlterField(\n            model_name='campaign',\n            name='id',\n            field=models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID'),\n        ),",
+        "detail": "backend.campaign.migrations.0003_alter_campaign_id_alter_campaigncontact_campaign_and_more",
+        "documentation": {}
+    },
+    {
+        "label": "Migration",
+        "kind": 6,
+        "importPath": "backend.campaign.migrations.0004_alter_campaign_from_number_and_more",
+        "description": "backend.campaign.migrations.0004_alter_campaign_from_number_and_more",
+        "peekOfCode": "class Migration(migrations.Migration):\n    dependencies = [\n        ('campaign', '0003_alter_campaign_id_alter_campaigncontact_campaign_and_more'),\n    ]\n    operations = [\n        migrations.AlterField(\n            model_name='campaign',\n            name='from_number',\n            field=models.CharField(default='+19198041653', max_length=20),\n        ),",
+        "detail": "backend.campaign.migrations.0004_alter_campaign_from_number_and_more",
+        "documentation": {}
+    },
+    {
+        "label": "Migration",
+        "kind": 6,
+        "importPath": "backend.campaign.migrations.0005_alter_campaign_options_campaign_actual_duration_and_more",
+        "description": "backend.campaign.migrations.0005_alter_campaign_options_campaign_actual_duration_and_more",
+        "peekOfCode": "class Migration(migrations.Migration):\n    dependencies = [\n        ('campaign', '0004_alter_campaign_from_number_and_more'),\n    ]\n    operations = [\n        migrations.AlterModelOptions(\n            name='campaign',\n            options={'ordering': ['-created_at']},\n        ),\n        migrations.AddField(",
+        "detail": "backend.campaign.migrations.0005_alter_campaign_options_campaign_actual_duration_and_more",
+        "documentation": {}
+    },
+    {
+        "label": "Migration",
+        "kind": 6,
+        "importPath": "backend.campaign.migrations.0006_alter_campaign_from_number",
+        "description": "backend.campaign.migrations.0006_alter_campaign_from_number",
+        "peekOfCode": "class Migration(migrations.Migration):\n    dependencies = [\n        ('campaign', '0005_alter_campaign_options_campaign_actual_duration_and_more'),\n    ]\n    operations = [\n        migrations.AlterField(\n            model_name='campaign',\n            name='from_number',\n            field=models.CharField(blank=True, default='+19198041653', max_length=20, null=True),\n        ),",
+        "detail": "backend.campaign.migrations.0006_alter_campaign_from_number",
+        "documentation": {}
+    },
+    {
+        "label": "CampaignConfig",
+        "kind": 6,
+        "importPath": "backend.campaign.apps",
+        "description": "backend.campaign.apps",
+        "peekOfCode": "class CampaignConfig(AppConfig):\n    name = 'campaign'",
+        "detail": "backend.campaign.apps",
+        "documentation": {}
+    },
+    {
+        "label": "CampaignConsumer",
+        "kind": 6,
+        "importPath": "backend.campaign.consumers",
+        "description": "backend.campaign.consumers",
+        "peekOfCode": "class CampaignConsumer(AsyncWebsocketConsumer):\n    async def connect(self):\n        await self.accept()\n    async def disconnect(self, close_code):\n        # Leave campaign group on disconnect\n        if hasattr(self, 'campaign_group'):\n            await self.channel_layer.group_discard(\n                self.campaign_group,\n                self.channel_name\n            )",
+        "detail": "backend.campaign.consumers",
+        "documentation": {}
+    },
+    {
+        "label": "Campaign",
+        "kind": 6,
+        "importPath": "backend.campaign.models",
+        "description": "backend.campaign.models",
+        "peekOfCode": "class Campaign(models.Model):\n    STATUS_CHOICES = [\n        ('draft', 'Draft'),\n        ('scheduled', 'Scheduled'),\n        ('running', 'Running'),\n        ('paused', 'Paused'),\n        ('completed', 'Completed'),\n        ('stopped', 'Stopped'),\n        ('failed', 'Failed'),\n    ]",
+        "detail": "backend.campaign.models",
+        "documentation": {}
+    },
+    {
+        "label": "CampaignContact",
+        "kind": 6,
+        "importPath": "backend.campaign.models",
+        "description": "backend.campaign.models",
+        "peekOfCode": "class CampaignContact(models.Model):\n    campaign = models.ForeignKey(Campaign, related_name=\"contacts\", on_delete=models.CASCADE)\n    phone = models.CharField(max_length=20)\n    meta = models.JSONField(default=dict)  # CSV columns\n    rendered_message = models.TextField()\n    status = models.CharField(\n        max_length=20,\n        default=\"queued\",\n        choices=[\n            (\"queued\", \"Queued\"),",
+        "detail": "backend.campaign.models",
+        "documentation": {}
+    },
+    {
+        "label": "CampaignStatsManager",
+        "kind": 6,
+        "importPath": "backend.campaign.redis_stats",
+        "description": "backend.campaign.redis_stats",
+        "peekOfCode": "class CampaignStatsManager:\n    \"\"\"Manager for campaign statistics stored in Redis\"\"\"\n    def __init__(self):\n        self.redis_client = cache\n    def get_stats(self, campaign_id):  # <-- THIS MUST HAVE campaign_id PARAMETER\n        \"\"\"Get campaign statistics from Redis\"\"\"\n        stats_key = f'campaign:{campaign_id}:stats'\n        try:\n            # Try to get from Redis first\n            stats_data = self.redis_client.get(stats_key)",
+        "detail": "backend.campaign.redis_stats",
+        "documentation": {}
+    },
+    {
+        "label": "stats_manager",
+        "kind": 5,
+        "importPath": "backend.campaign.redis_stats",
+        "description": "backend.campaign.redis_stats",
+        "peekOfCode": "stats_manager = CampaignStatsManager()",
+        "detail": "backend.campaign.redis_stats",
+        "documentation": {}
+    },
+    {
+        "label": "CampaignSerializer",
+        "kind": 6,
+        "importPath": "backend.campaign.serializers",
+        "description": "backend.campaign.serializers",
+        "peekOfCode": "class CampaignSerializer(serializers.ModelSerializer):\n    stats = serializers.SerializerMethodField()\n    class Meta:\n        model = Campaign\n        fields = ['id', 'name', 'from_number', 'template', 'status', \n                  'variables', 'created_at', 'stats']\n        read_only_fields = ['created_at', 'variables', 'stats']\n    def get_stats(self, obj):\n        return obj.get_stats()  # This calls the model's get_stats method\nclass CampaignContactSerializer(serializers.ModelSerializer):",
+        "detail": "backend.campaign.serializers",
+        "documentation": {}
+    },
+    {
+        "label": "CampaignContactSerializer",
+        "kind": 6,
+        "importPath": "backend.campaign.serializers",
+        "description": "backend.campaign.serializers",
+        "peekOfCode": "class CampaignContactSerializer(serializers.ModelSerializer):\n    class Meta:\n        model = CampaignContact\n        fields = [\n            'id', 'campaign', 'phone', 'meta', \n            'rendered_message', 'status', 'message_sid', 'replied_at'\n        ]\n        read_only_fields = ['rendered_message', 'message_sid', 'replied_at']",
+        "detail": "backend.campaign.serializers",
+        "documentation": {}
+    },
+    {
+        "label": "run_campaign",
+        "kind": 2,
+        "importPath": "backend.campaign.tasks",
+        "description": "backend.campaign.tasks",
+        "peekOfCode": "def run_campaign(campaign_id):\n    \"\"\"Run a campaign - send messages to all contacts\"\"\"\n    try:\n        campaign = Campaign.objects.get(id=campaign_id)\n        # Update campaign status\n        campaign.status = 'running'\n        campaign.save(update_fields=['status'])\n        # Send WebSocket update\n        send_campaign_ws(campaign_id, {\n            'type': 'CAMPAIGN_STARTED',",
+        "detail": "backend.campaign.tasks",
+        "documentation": {}
+    },
+    {
+        "label": "pause_campaign",
+        "kind": 2,
+        "importPath": "backend.campaign.tasks",
+        "description": "backend.campaign.tasks",
+        "peekOfCode": "def pause_campaign(campaign_id):\n    \"\"\"Pause a running campaign\"\"\"\n    try:\n        campaign = Campaign.objects.get(id=campaign_id)\n        campaign.status = 'paused'\n        campaign.save(update_fields=['status'])\n        send_campaign_ws(campaign_id, {\n            'type': 'CAMPAIGN_PAUSED',\n            'campaign_id': campaign_id\n        })",
+        "detail": "backend.campaign.tasks",
+        "documentation": {}
+    },
+    {
+        "label": "update_delivery_status",
+        "kind": 2,
+        "importPath": "backend.campaign.tasks",
+        "description": "backend.campaign.tasks",
+        "peekOfCode": "def update_delivery_status(message_sid, status):\n    \"\"\"Update message delivery status\"\"\"\n    try:\n        contact = CampaignContact.objects.get(message_sid=message_sid)\n        if status == 'delivered':\n            contact.status = 'delivered'\n            contact.save()\n            # Update Redis stats - use consistent keys\n            stats_manager.update_stats(contact.campaign_id, {'delivered': 1})\n        elif status == 'failed':",
+        "detail": "backend.campaign.tasks",
+        "documentation": {}
+    },
+    {
+        "label": "urlpatterns",
+        "kind": 5,
+        "importPath": "backend.campaign.urls",
+        "description": "backend.campaign.urls",
+        "peekOfCode": "urlpatterns = [\n    # Campaign CRUD\n    path('', views.campaign_list_create, name='campaign-list'),\n    path('<int:campaign_id>/', views.campaign_detail, name='campaign-detail'),\n    path('<int:campaign_id>/action/', views.campaign_action, name='campaign-action'),\n    path('<int:campaign_id>/upload/', views.upload_contacts, name='upload-contacts'),\n]",
+        "detail": "backend.campaign.urls",
+        "documentation": {}
+    },
+    {
+        "label": "send_campaign_ws",
+        "kind": 2,
+        "importPath": "backend.campaign.utils",
+        "description": "backend.campaign.utils",
+        "peekOfCode": "def send_campaign_ws(campaign_id, payload: dict):\n    \"\"\"\n    Send WebSocket update to all subscribed clients for a campaign\n    \"\"\"\n    channel_layer = get_channel_layer()\n    async_to_sync(channel_layer.group_send)(\n        f\"campaign_{campaign_id}\",\n        {\n            \"type\": \"campaign_event\",\n            \"data\": {",
+        "detail": "backend.campaign.utils",
+        "documentation": {}
+    },
+    {
+        "label": "render_template",
+        "kind": 2,
+        "importPath": "backend.campaign.views",
+        "description": "backend.campaign.views",
+        "peekOfCode": "def render_template(template, meta):\n    # Clean keys and values\n    clean_meta = {k.strip(): str(v).strip() for k, v in meta.items()}\n    msg = template\n    for k, v in clean_meta.items():\n        msg = msg.replace(f\"{{{{{k}}}}}\", v)\n    return msg\n@api_view([\"POST\"])\ndef upload_contacts(request, campaign_id):\n    campaign = Campaign.objects.get(id=campaign_id)",
+        "detail": "backend.campaign.views",
+        "documentation": {}
+    },
+    {
+        "label": "upload_contacts",
+        "kind": 2,
+        "importPath": "backend.campaign.views",
+        "description": "backend.campaign.views",
+        "peekOfCode": "def upload_contacts(request, campaign_id):\n    campaign = Campaign.objects.get(id=campaign_id)\n    # campaign = Campaign.objects.get(id=campaign_id, user=request.user)\n    csv_file = request.FILES[\"file\"]\n    reader = csv.DictReader(TextIOWrapper(csv_file, encoding=\"utf-8\"))\n    headers = reader.fieldnames or []\n    variables = [h for h in headers if h != \"phone\"]\n    # save variables on campaign\n    campaign.variables = variables\n    campaign.save(update_fields=[\"variables\"])",
+        "detail": "backend.campaign.views",
+        "documentation": {}
+    },
+    {
+        "label": "campaign_list_create",
+        "kind": 2,
+        "importPath": "backend.campaign.views",
+        "description": "backend.campaign.views",
+        "peekOfCode": "def campaign_list_create(request):\n    if request.method == 'GET':\n        campaigns = Campaign.objects.all()\n        # campaigns = Campaign.objects.filter(user=request.user)\n        serializer = CampaignSerializer(campaigns, many=True)\n        return Response(serializer.data)\n    elif request.method == 'POST':\n        serializer = CampaignSerializer(data=request.data)\n        if serializer.is_valid():\n            # campaign = serializer.save(user=request.user)",
+        "detail": "backend.campaign.views",
+        "documentation": {}
+    },
+    {
+        "label": "campaign_detail",
+        "kind": 2,
+        "importPath": "backend.campaign.views",
+        "description": "backend.campaign.views",
+        "peekOfCode": "def campaign_detail(request, campaign_id):\n    campaign = get_object_or_404(Campaign, id=campaign_id)\n    # campaign = get_object_or_404(Campaign, id=campaign_id, user=request.user)\n    if request.method == 'GET':\n        serializer = CampaignSerializer(campaign)\n        return Response(serializer.data)\n    elif request.method == 'PUT':\n        serializer = CampaignSerializer(campaign, data=request.data, partial=True)\n        if serializer.is_valid():\n            serializer.save()",
+        "detail": "backend.campaign.views",
+        "documentation": {}
+    },
+    {
+        "label": "campaign_action",
+        "kind": 2,
+        "importPath": "backend.campaign.views",
+        "description": "backend.campaign.views",
+        "peekOfCode": "def campaign_action(request, campaign_id):\n    \"\"\"\n    Handle campaign actions: start, pause, complete\n    \"\"\"\n    # campaign = get_object_or_404(Campaign, id=campaign_id, user=request.user)\n    campaign = get_object_or_404(Campaign, id=campaign_id)\n    action = request.data.get('action')\n    if action == 'start':\n        # Validate can start\n        if campaign.status not in [\"stopped\", \"draft\", \"paused\"]:",
+        "detail": "backend.campaign.views",
+        "documentation": {}
+    },
+    {
+        "label": "django_asgi_app",
+        "kind": 5,
+        "importPath": "backend.core.asgi",
+        "description": "backend.core.asgi",
+        "peekOfCode": "django_asgi_app = get_asgi_application()\napplication = ProtocolTypeRouter({\n    \"http\": django_asgi_app, \n    \"websocket\": AuthMiddlewareStack(\n        URLRouter(websocket_urlpatterns)\n    ),\n})",
+        "detail": "backend.core.asgi",
+        "documentation": {}
+    },
+    {
+        "label": "application",
+        "kind": 5,
+        "importPath": "backend.core.asgi",
+        "description": "backend.core.asgi",
+        "peekOfCode": "application = ProtocolTypeRouter({\n    \"http\": django_asgi_app, \n    \"websocket\": AuthMiddlewareStack(\n        URLRouter(websocket_urlpatterns)\n    ),\n})",
+        "detail": "backend.core.asgi",
+        "documentation": {}
+    },
+    {
+        "label": "app",
+        "kind": 5,
+        "importPath": "backend.core.celery",
+        "description": "backend.core.celery",
+        "peekOfCode": "app = Celery('core')\n# Using a string here means the worker doesn't have to serialize\n# the configuration object to child processes.\napp.config_from_object('django.conf:settings', namespace='CELERY')\n# Load task modules from all registered Django app configs.\napp.autodiscover_tasks()",
+        "detail": "backend.core.celery",
+        "documentation": {}
+    },
+    {
+        "label": "register_client",
+        "kind": 2,
+        "importPath": "backend.core.redis_clients",
+        "description": "backend.core.redis_clients",
+        "peekOfCode": "def register_client(phone, channel_name):\n    redis_client.set(f\"sms:client:{phone}\", channel_name)\ndef get_client(phone):\n    return redis_client.get(f\"sms:client:{phone}\")\ndef unregister_channel(channel_name):\n    for key in redis_client.scan_iter(\"sms:client:*\"):\n        if redis_client.get(key) == channel_name:\n            redis_client.delete(key)",
+        "detail": "backend.core.redis_clients",
+        "documentation": {}
+    },
+    {
+        "label": "get_client",
+        "kind": 2,
+        "importPath": "backend.core.redis_clients",
+        "description": "backend.core.redis_clients",
+        "peekOfCode": "def get_client(phone):\n    return redis_client.get(f\"sms:client:{phone}\")\ndef unregister_channel(channel_name):\n    for key in redis_client.scan_iter(\"sms:client:*\"):\n        if redis_client.get(key) == channel_name:\n            redis_client.delete(key)",
+        "detail": "backend.core.redis_clients",
+        "documentation": {}
+    },
+    {
+        "label": "unregister_channel",
+        "kind": 2,
+        "importPath": "backend.core.redis_clients",
+        "description": "backend.core.redis_clients",
+        "peekOfCode": "def unregister_channel(channel_name):\n    for key in redis_client.scan_iter(\"sms:client:*\"):\n        if redis_client.get(key) == channel_name:\n            redis_client.delete(key)",
+        "detail": "backend.core.redis_clients",
+        "documentation": {}
+    },
+    {
+        "label": "redis_client",
+        "kind": 5,
+        "importPath": "backend.core.redis_clients",
+        "description": "backend.core.redis_clients",
+        "peekOfCode": "redis_client = redis.Redis(\n    host=os.getenv(\"REDIS_HOST\", \"127.0.0.1\"),\n    port=int(os.getenv(\"REDIS_PORT\", 6379)),\n    decode_responses=True\n)\ndef register_client(phone, channel_name):\n    redis_client.set(f\"sms:client:{phone}\", channel_name)\ndef get_client(phone):\n    return redis_client.get(f\"sms:client:{phone}\")\ndef unregister_channel(channel_name):",
+        "detail": "backend.core.redis_clients",
+        "documentation": {}
+    },
+    {
+        "label": "BASE_DIR",
+        "kind": 5,
+        "importPath": "backend.core.settings",
+        "description": "backend.core.settings",
+        "peekOfCode": "BASE_DIR = Path(__file__).resolve().parent.parent\n# Quick-start development settings - unsuitable for production\n# See https://docs.djangoproject.com/en/6.0/howto/deployment/checklist/\n# SECURITY WARNING: keep the secret key used in production secret!\nSECRET_KEY = 'django-insecure-#a7zr2mf@6k$7l7x8ajqrcfh*z-7s^$cdzzz-lqtxnuqmx&99j'\n# SECURITY WARNING: don't run with debug turned on in production!\nDEBUG = True\nALLOWED_HOSTS = [\"api.twilioconnector.com\", \"app.twilioconnector.com\", \"localhost\", \"drum-ultimate-roughly.ngrok-free.app\"]\n# Application definition\nINSTALLED_APPS = [",
+        "detail": "backend.core.settings",
+        "documentation": {}
+    },
+    {
+        "label": "SECRET_KEY",
+        "kind": 5,
+        "importPath": "backend.core.settings",
+        "description": "backend.core.settings",
+        "peekOfCode": "SECRET_KEY = 'django-insecure-#a7zr2mf@6k$7l7x8ajqrcfh*z-7s^$cdzzz-lqtxnuqmx&99j'\n# SECURITY WARNING: don't run with debug turned on in production!\nDEBUG = True\nALLOWED_HOSTS = [\"api.twilioconnector.com\", \"app.twilioconnector.com\", \"localhost\", \"drum-ultimate-roughly.ngrok-free.app\"]\n# Application definition\nINSTALLED_APPS = [\n    'django.contrib.admin',\n    'django.contrib.auth',\n    'django.contrib.contenttypes',\n    'django.contrib.sessions',",
+        "detail": "backend.core.settings",
+        "documentation": {}
+    },
+    {
+        "label": "DEBUG",
+        "kind": 5,
+        "importPath": "backend.core.settings",
+        "description": "backend.core.settings",
+        "peekOfCode": "DEBUG = True\nALLOWED_HOSTS = [\"api.twilioconnector.com\", \"app.twilioconnector.com\", \"localhost\", \"drum-ultimate-roughly.ngrok-free.app\"]\n# Application definition\nINSTALLED_APPS = [\n    'django.contrib.admin',\n    'django.contrib.auth',\n    'django.contrib.contenttypes',\n    'django.contrib.sessions',\n    'django.contrib.messages',\n    'django.contrib.staticfiles',",
+        "detail": "backend.core.settings",
+        "documentation": {}
+    },
+    {
+        "label": "ALLOWED_HOSTS",
+        "kind": 5,
+        "importPath": "backend.core.settings",
+        "description": "backend.core.settings",
+        "peekOfCode": "ALLOWED_HOSTS = [\"api.twilioconnector.com\", \"app.twilioconnector.com\", \"localhost\", \"drum-ultimate-roughly.ngrok-free.app\"]\n# Application definition\nINSTALLED_APPS = [\n    'django.contrib.admin',\n    'django.contrib.auth',\n    'django.contrib.contenttypes',\n    'django.contrib.sessions',\n    'django.contrib.messages',\n    'django.contrib.staticfiles',\n    'channels',",
+        "detail": "backend.core.settings",
+        "documentation": {}
+    },
+    {
+        "label": "INSTALLED_APPS",
+        "kind": 5,
+        "importPath": "backend.core.settings",
+        "description": "backend.core.settings",
+        "peekOfCode": "INSTALLED_APPS = [\n    'django.contrib.admin',\n    'django.contrib.auth',\n    'django.contrib.contenttypes',\n    'django.contrib.sessions',\n    'django.contrib.messages',\n    'django.contrib.staticfiles',\n    'channels',\n    'corsheaders',\n    'rest_framework',",
+        "detail": "backend.core.settings",
+        "documentation": {}
+    },
+    {
+        "label": "MIDDLEWARE",
+        "kind": 5,
+        "importPath": "backend.core.settings",
+        "description": "backend.core.settings",
+        "peekOfCode": "MIDDLEWARE = [\n    'django.middleware.security.SecurityMiddleware',\n    'django.contrib.sessions.middleware.SessionMiddleware',\n    \"corsheaders.middleware.CorsMiddleware\",\n    'django.middleware.common.CommonMiddleware',\n    'django.middleware.csrf.CsrfViewMiddleware',\n    'django.contrib.auth.middleware.AuthenticationMiddleware',\n    'django.contrib.messages.middleware.MessageMiddleware',\n    'django.middleware.clickjacking.XFrameOptionsMiddleware',\n]",
+        "detail": "backend.core.settings",
+        "documentation": {}
+    },
+    {
+        "label": "ROOT_URLCONF",
+        "kind": 5,
+        "importPath": "backend.core.settings",
+        "description": "backend.core.settings",
+        "peekOfCode": "ROOT_URLCONF = 'core.urls'\nTEMPLATES = [\n    {\n        'BACKEND': 'django.template.backends.django.DjangoTemplates',\n        'DIRS': [],\n        'APP_DIRS': True,\n        'OPTIONS': {\n            'context_processors': [\n                'django.template.context_processors.request',\n                'django.contrib.auth.context_processors.auth',",
+        "detail": "backend.core.settings",
+        "documentation": {}
+    },
+    {
+        "label": "TEMPLATES",
+        "kind": 5,
+        "importPath": "backend.core.settings",
+        "description": "backend.core.settings",
+        "peekOfCode": "TEMPLATES = [\n    {\n        'BACKEND': 'django.template.backends.django.DjangoTemplates',\n        'DIRS': [],\n        'APP_DIRS': True,\n        'OPTIONS': {\n            'context_processors': [\n                'django.template.context_processors.request',\n                'django.contrib.auth.context_processors.auth',\n                'django.contrib.messages.context_processors.messages',",
+        "detail": "backend.core.settings",
+        "documentation": {}
+    },
+    {
+        "label": "WSGI_APPLICATION",
+        "kind": 5,
+        "importPath": "backend.core.settings",
+        "description": "backend.core.settings",
+        "peekOfCode": "WSGI_APPLICATION = 'core.wsgi.application'\n# Database\n# https://docs.djangoproject.com/en/6.0/ref/settings/#databases\nDATABASES = {\n    'default': {\n        'ENGINE': 'django.db.backends.sqlite3',\n        'NAME': BASE_DIR / 'db.sqlite3',\n    }\n}\n# Password validation",
+        "detail": "backend.core.settings",
+        "documentation": {}
+    },
+    {
+        "label": "DATABASES",
+        "kind": 5,
+        "importPath": "backend.core.settings",
+        "description": "backend.core.settings",
+        "peekOfCode": "DATABASES = {\n    'default': {\n        'ENGINE': 'django.db.backends.sqlite3',\n        'NAME': BASE_DIR / 'db.sqlite3',\n    }\n}\n# Password validation\n# https://docs.djangoproject.com/en/6.0/ref/settings/#auth-password-validators\nAUTH_PASSWORD_VALIDATORS = [\n    {",
+        "detail": "backend.core.settings",
+        "documentation": {}
+    },
+    {
+        "label": "AUTH_PASSWORD_VALIDATORS",
+        "kind": 5,
+        "importPath": "backend.core.settings",
+        "description": "backend.core.settings",
+        "peekOfCode": "AUTH_PASSWORD_VALIDATORS = [\n    {\n        'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator',\n    },\n    {\n        'NAME': 'django.contrib.auth.password_validation.MinimumLengthValidator',\n    },\n    {\n        'NAME': 'django.contrib.auth.password_validation.CommonPasswordValidator',\n    },",
+        "detail": "backend.core.settings",
+        "documentation": {}
+    },
+    {
+        "label": "LANGUAGE_CODE",
+        "kind": 5,
+        "importPath": "backend.core.settings",
+        "description": "backend.core.settings",
+        "peekOfCode": "LANGUAGE_CODE = 'en-us'\nTIME_ZONE = 'UTC'\nUSE_I18N = True\nUSE_TZ = True\n# Static files (CSS, JavaScript, Images)\n# https://docs.djangoproject.com/en/6.0/howto/static-files/\nSTATIC_URL = 'static/'\n# settings.py\nLOGGING = {\n    'version': 1,",
+        "detail": "backend.core.settings",
+        "documentation": {}
+    },
+    {
+        "label": "TIME_ZONE",
+        "kind": 5,
+        "importPath": "backend.core.settings",
+        "description": "backend.core.settings",
+        "peekOfCode": "TIME_ZONE = 'UTC'\nUSE_I18N = True\nUSE_TZ = True\n# Static files (CSS, JavaScript, Images)\n# https://docs.djangoproject.com/en/6.0/howto/static-files/\nSTATIC_URL = 'static/'\n# settings.py\nLOGGING = {\n    'version': 1,\n    'disable_existing_loggers': False,",
+        "detail": "backend.core.settings",
+        "documentation": {}
+    },
+    {
+        "label": "USE_I18N",
+        "kind": 5,
+        "importPath": "backend.core.settings",
+        "description": "backend.core.settings",
+        "peekOfCode": "USE_I18N = True\nUSE_TZ = True\n# Static files (CSS, JavaScript, Images)\n# https://docs.djangoproject.com/en/6.0/howto/static-files/\nSTATIC_URL = 'static/'\n# settings.py\nLOGGING = {\n    'version': 1,\n    'disable_existing_loggers': False,\n    'formatters': {",
+        "detail": "backend.core.settings",
+        "documentation": {}
+    },
+    {
+        "label": "USE_TZ",
+        "kind": 5,
+        "importPath": "backend.core.settings",
+        "description": "backend.core.settings",
+        "peekOfCode": "USE_TZ = True\n# Static files (CSS, JavaScript, Images)\n# https://docs.djangoproject.com/en/6.0/howto/static-files/\nSTATIC_URL = 'static/'\n# settings.py\nLOGGING = {\n    'version': 1,\n    'disable_existing_loggers': False,\n    'formatters': {\n        'verbose': {",
+        "detail": "backend.core.settings",
+        "documentation": {}
+    },
+    {
+        "label": "STATIC_URL",
+        "kind": 5,
+        "importPath": "backend.core.settings",
+        "description": "backend.core.settings",
+        "peekOfCode": "STATIC_URL = 'static/'\n# settings.py\nLOGGING = {\n    'version': 1,\n    'disable_existing_loggers': False,\n    'formatters': {\n        'verbose': {\n            'format': '{levelname} {asctime} {module} {message}',\n            'style': '{',\n        },",
+        "detail": "backend.core.settings",
+        "documentation": {}
+    },
+    {
+        "label": "LOGGING",
+        "kind": 5,
+        "importPath": "backend.core.settings",
+        "description": "backend.core.settings",
+        "peekOfCode": "LOGGING = {\n    'version': 1,\n    'disable_existing_loggers': False,\n    'formatters': {\n        'verbose': {\n            'format': '{levelname} {asctime} {module} {message}',\n            'style': '{',\n        },\n        'simple': {\n            'format': '{levelname} {message}',",
+        "detail": "backend.core.settings",
+        "documentation": {}
+    },
+    {
+        "label": "LOGGING_CONFIG",
+        "kind": 5,
+        "importPath": "backend.core.settings",
+        "description": "backend.core.settings",
+        "peekOfCode": "LOGGING_CONFIG = 'logging.config.dictConfig'\nASGI_APPLICATION = 'core.asgi.application'\nCSRF_TRUSTED_ORIGINS = [\n    \"https://api.twilioconnector.com\",\n    \"https://app.twilioconnector.com\",\n    \"https://twilioconnector.com\",\n    \"https://www.twilioconnector.com\",\n    \"http://localhost:3000\",\n]\nCORS_ALLOWED_ORIGINS = [",
+        "detail": "backend.core.settings",
+        "documentation": {}
+    },
+    {
+        "label": "ASGI_APPLICATION",
+        "kind": 5,
+        "importPath": "backend.core.settings",
+        "description": "backend.core.settings",
+        "peekOfCode": "ASGI_APPLICATION = 'core.asgi.application'\nCSRF_TRUSTED_ORIGINS = [\n    \"https://api.twilioconnector.com\",\n    \"https://app.twilioconnector.com\",\n    \"https://twilioconnector.com\",\n    \"https://www.twilioconnector.com\",\n    \"http://localhost:3000\",\n]\nCORS_ALLOWED_ORIGINS = [\n    \"http://localhost:3000\",",
+        "detail": "backend.core.settings",
+        "documentation": {}
+    },
+    {
+        "label": "CSRF_TRUSTED_ORIGINS",
+        "kind": 5,
+        "importPath": "backend.core.settings",
+        "description": "backend.core.settings",
+        "peekOfCode": "CSRF_TRUSTED_ORIGINS = [\n    \"https://api.twilioconnector.com\",\n    \"https://app.twilioconnector.com\",\n    \"https://twilioconnector.com\",\n    \"https://www.twilioconnector.com\",\n    \"http://localhost:3000\",\n]\nCORS_ALLOWED_ORIGINS = [\n    \"http://localhost:3000\",\n    \"https://twilioconnector.com\",",
+        "detail": "backend.core.settings",
+        "documentation": {}
+    },
+    {
+        "label": "CORS_ALLOWED_ORIGINS",
+        "kind": 5,
+        "importPath": "backend.core.settings",
+        "description": "backend.core.settings",
+        "peekOfCode": "CORS_ALLOWED_ORIGINS = [\n    \"http://localhost:3000\",\n    \"https://twilioconnector.com\",\n    \"https://www.twilioconnector.com\",\n    \"https://app.twilioconnector.com\",\n    \"https://api.twilioconnector.com\",\n]\nCORS_ALLOW_CREDENTIALS = True\nCHANNEL_LAYERS = {\n    \"default\": {",
+        "detail": "backend.core.settings",
+        "documentation": {}
+    },
+    {
+        "label": "CORS_ALLOW_CREDENTIALS",
+        "kind": 5,
+        "importPath": "backend.core.settings",
+        "description": "backend.core.settings",
+        "peekOfCode": "CORS_ALLOW_CREDENTIALS = True\nCHANNEL_LAYERS = {\n    \"default\": {\n        \"BACKEND\": \"channels_redis.core.RedisChannelLayer\",\n        \"CONFIG\": {\n            \"hosts\": [(\"127.0.0.1\", 6379)],\n        },\n    },\n}\n# Celery Configuration",
+        "detail": "backend.core.settings",
+        "documentation": {}
+    },
+    {
+        "label": "CHANNEL_LAYERS",
+        "kind": 5,
+        "importPath": "backend.core.settings",
+        "description": "backend.core.settings",
+        "peekOfCode": "CHANNEL_LAYERS = {\n    \"default\": {\n        \"BACKEND\": \"channels_redis.core.RedisChannelLayer\",\n        \"CONFIG\": {\n            \"hosts\": [(\"127.0.0.1\", 6379)],\n        },\n    },\n}\n# Celery Configuration\nCELERY_BROKER_URL = 'redis://localhost:6379/0'  # Redis as broker",
+        "detail": "backend.core.settings",
+        "documentation": {}
+    },
+    {
+        "label": "CELERY_BROKER_URL",
+        "kind": 5,
+        "importPath": "backend.core.settings",
+        "description": "backend.core.settings",
+        "peekOfCode": "CELERY_BROKER_URL = 'redis://localhost:6379/0'  # Redis as broker\nCELERY_RESULT_BACKEND = 'django-db'  # Using Django database for results\nCELERY_CACHE_BACKEND = 'django-cache'\nCELERY_ACCEPT_CONTENT = ['application/json']\nCELERY_TASK_SERIALIZER = 'json'\nCELERY_RESULT_SERIALIZER = 'json'\nCELERY_TIMEZONE = 'UTC'\nCELERY_ENABLE_UTC = True\nCELERY_BROKER_CONNECTION_RETRY_ON_STARTUP = True\n# Task settings",
+        "detail": "backend.core.settings",
+        "documentation": {}
+    },
+    {
+        "label": "CELERY_RESULT_BACKEND",
+        "kind": 5,
+        "importPath": "backend.core.settings",
+        "description": "backend.core.settings",
+        "peekOfCode": "CELERY_RESULT_BACKEND = 'django-db'  # Using Django database for results\nCELERY_CACHE_BACKEND = 'django-cache'\nCELERY_ACCEPT_CONTENT = ['application/json']\nCELERY_TASK_SERIALIZER = 'json'\nCELERY_RESULT_SERIALIZER = 'json'\nCELERY_TIMEZONE = 'UTC'\nCELERY_ENABLE_UTC = True\nCELERY_BROKER_CONNECTION_RETRY_ON_STARTUP = True\n# Task settings\nCELERY_TASK_TRACK_STARTED = True",
+        "detail": "backend.core.settings",
+        "documentation": {}
+    },
+    {
+        "label": "CELERY_CACHE_BACKEND",
+        "kind": 5,
+        "importPath": "backend.core.settings",
+        "description": "backend.core.settings",
+        "peekOfCode": "CELERY_CACHE_BACKEND = 'django-cache'\nCELERY_ACCEPT_CONTENT = ['application/json']\nCELERY_TASK_SERIALIZER = 'json'\nCELERY_RESULT_SERIALIZER = 'json'\nCELERY_TIMEZONE = 'UTC'\nCELERY_ENABLE_UTC = True\nCELERY_BROKER_CONNECTION_RETRY_ON_STARTUP = True\n# Task settings\nCELERY_TASK_TRACK_STARTED = True\nCELERY_TASK_TIME_LIMIT = 30 * 60  # 30 minutes",
+        "detail": "backend.core.settings",
+        "documentation": {}
+    },
+    {
+        "label": "CELERY_ACCEPT_CONTENT",
+        "kind": 5,
+        "importPath": "backend.core.settings",
+        "description": "backend.core.settings",
+        "peekOfCode": "CELERY_ACCEPT_CONTENT = ['application/json']\nCELERY_TASK_SERIALIZER = 'json'\nCELERY_RESULT_SERIALIZER = 'json'\nCELERY_TIMEZONE = 'UTC'\nCELERY_ENABLE_UTC = True\nCELERY_BROKER_CONNECTION_RETRY_ON_STARTUP = True\n# Task settings\nCELERY_TASK_TRACK_STARTED = True\nCELERY_TASK_TIME_LIMIT = 30 * 60  # 30 minutes\nCELERY_TASK_SOFT_TIME_LIMIT = 25 * 60  # 25 minutes",
+        "detail": "backend.core.settings",
+        "documentation": {}
+    },
+    {
+        "label": "CELERY_TASK_SERIALIZER",
+        "kind": 5,
+        "importPath": "backend.core.settings",
+        "description": "backend.core.settings",
+        "peekOfCode": "CELERY_TASK_SERIALIZER = 'json'\nCELERY_RESULT_SERIALIZER = 'json'\nCELERY_TIMEZONE = 'UTC'\nCELERY_ENABLE_UTC = True\nCELERY_BROKER_CONNECTION_RETRY_ON_STARTUP = True\n# Task settings\nCELERY_TASK_TRACK_STARTED = True\nCELERY_TASK_TIME_LIMIT = 30 * 60  # 30 minutes\nCELERY_TASK_SOFT_TIME_LIMIT = 25 * 60  # 25 minutes\nCELERY_TASK_ALWAYS_EAGER = False  # Set to True for local testing without worker",
+        "detail": "backend.core.settings",
+        "documentation": {}
+    },
+    {
+        "label": "CELERY_RESULT_SERIALIZER",
+        "kind": 5,
+        "importPath": "backend.core.settings",
+        "description": "backend.core.settings",
+        "peekOfCode": "CELERY_RESULT_SERIALIZER = 'json'\nCELERY_TIMEZONE = 'UTC'\nCELERY_ENABLE_UTC = True\nCELERY_BROKER_CONNECTION_RETRY_ON_STARTUP = True\n# Task settings\nCELERY_TASK_TRACK_STARTED = True\nCELERY_TASK_TIME_LIMIT = 30 * 60  # 30 minutes\nCELERY_TASK_SOFT_TIME_LIMIT = 25 * 60  # 25 minutes\nCELERY_TASK_ALWAYS_EAGER = False  # Set to True for local testing without worker\n# Results",
+        "detail": "backend.core.settings",
+        "documentation": {}
+    },
+    {
+        "label": "CELERY_TIMEZONE",
+        "kind": 5,
+        "importPath": "backend.core.settings",
+        "description": "backend.core.settings",
+        "peekOfCode": "CELERY_TIMEZONE = 'UTC'\nCELERY_ENABLE_UTC = True\nCELERY_BROKER_CONNECTION_RETRY_ON_STARTUP = True\n# Task settings\nCELERY_TASK_TRACK_STARTED = True\nCELERY_TASK_TIME_LIMIT = 30 * 60  # 30 minutes\nCELERY_TASK_SOFT_TIME_LIMIT = 25 * 60  # 25 minutes\nCELERY_TASK_ALWAYS_EAGER = False  # Set to True for local testing without worker\n# Results\nCELERY_RESULT_EXPIRES = 3600  # 1 hour",
+        "detail": "backend.core.settings",
+        "documentation": {}
+    },
+    {
+        "label": "CELERY_ENABLE_UTC",
+        "kind": 5,
+        "importPath": "backend.core.settings",
+        "description": "backend.core.settings",
+        "peekOfCode": "CELERY_ENABLE_UTC = True\nCELERY_BROKER_CONNECTION_RETRY_ON_STARTUP = True\n# Task settings\nCELERY_TASK_TRACK_STARTED = True\nCELERY_TASK_TIME_LIMIT = 30 * 60  # 30 minutes\nCELERY_TASK_SOFT_TIME_LIMIT = 25 * 60  # 25 minutes\nCELERY_TASK_ALWAYS_EAGER = False  # Set to True for local testing without worker\n# Results\nCELERY_RESULT_EXPIRES = 3600  # 1 hour\n# Worker settings",
+        "detail": "backend.core.settings",
+        "documentation": {}
+    },
+    {
+        "label": "CELERY_BROKER_CONNECTION_RETRY_ON_STARTUP",
+        "kind": 5,
+        "importPath": "backend.core.settings",
+        "description": "backend.core.settings",
+        "peekOfCode": "CELERY_BROKER_CONNECTION_RETRY_ON_STARTUP = True\n# Task settings\nCELERY_TASK_TRACK_STARTED = True\nCELERY_TASK_TIME_LIMIT = 30 * 60  # 30 minutes\nCELERY_TASK_SOFT_TIME_LIMIT = 25 * 60  # 25 minutes\nCELERY_TASK_ALWAYS_EAGER = False  # Set to True for local testing without worker\n# Results\nCELERY_RESULT_EXPIRES = 3600  # 1 hour\n# Worker settings\nCELERY_WORKER_PREFETCH_MULTIPLIER = 1",
+        "detail": "backend.core.settings",
+        "documentation": {}
+    },
+    {
+        "label": "CELERY_TASK_TRACK_STARTED",
+        "kind": 5,
+        "importPath": "backend.core.settings",
+        "description": "backend.core.settings",
+        "peekOfCode": "CELERY_TASK_TRACK_STARTED = True\nCELERY_TASK_TIME_LIMIT = 30 * 60  # 30 minutes\nCELERY_TASK_SOFT_TIME_LIMIT = 25 * 60  # 25 minutes\nCELERY_TASK_ALWAYS_EAGER = False  # Set to True for local testing without worker\n# Results\nCELERY_RESULT_EXPIRES = 3600  # 1 hour\n# Worker settings\nCELERY_WORKER_PREFETCH_MULTIPLIER = 1\nCELERY_WORKER_MAX_TASKS_PER_CHILD = 1000\nCELERY_WORKER_SEND_TASK_EVENTS = True",
+        "detail": "backend.core.settings",
+        "documentation": {}
+    },
+    {
+        "label": "CELERY_TASK_TIME_LIMIT",
+        "kind": 5,
+        "importPath": "backend.core.settings",
+        "description": "backend.core.settings",
+        "peekOfCode": "CELERY_TASK_TIME_LIMIT = 30 * 60  # 30 minutes\nCELERY_TASK_SOFT_TIME_LIMIT = 25 * 60  # 25 minutes\nCELERY_TASK_ALWAYS_EAGER = False  # Set to True for local testing without worker\n# Results\nCELERY_RESULT_EXPIRES = 3600  # 1 hour\n# Worker settings\nCELERY_WORKER_PREFETCH_MULTIPLIER = 1\nCELERY_WORKER_MAX_TASKS_PER_CHILD = 1000\nCELERY_WORKER_SEND_TASK_EVENTS = True\n# Beat scheduler (for periodic tasks)",
+        "detail": "backend.core.settings",
+        "documentation": {}
+    },
+    {
+        "label": "CELERY_TASK_SOFT_TIME_LIMIT",
+        "kind": 5,
+        "importPath": "backend.core.settings",
+        "description": "backend.core.settings",
+        "peekOfCode": "CELERY_TASK_SOFT_TIME_LIMIT = 25 * 60  # 25 minutes\nCELERY_TASK_ALWAYS_EAGER = False  # Set to True for local testing without worker\n# Results\nCELERY_RESULT_EXPIRES = 3600  # 1 hour\n# Worker settings\nCELERY_WORKER_PREFETCH_MULTIPLIER = 1\nCELERY_WORKER_MAX_TASKS_PER_CHILD = 1000\nCELERY_WORKER_SEND_TASK_EVENTS = True\n# Beat scheduler (for periodic tasks)\nCELERY_BEAT_SCHEDULER = 'django_celery_beat.schedulers:DatabaseScheduler'",
+        "detail": "backend.core.settings",
+        "documentation": {}
+    },
+    {
+        "label": "CELERY_TASK_ALWAYS_EAGER",
+        "kind": 5,
+        "importPath": "backend.core.settings",
+        "description": "backend.core.settings",
+        "peekOfCode": "CELERY_TASK_ALWAYS_EAGER = False  # Set to True for local testing without worker\n# Results\nCELERY_RESULT_EXPIRES = 3600  # 1 hour\n# Worker settings\nCELERY_WORKER_PREFETCH_MULTIPLIER = 1\nCELERY_WORKER_MAX_TASKS_PER_CHILD = 1000\nCELERY_WORKER_SEND_TASK_EVENTS = True\n# Beat scheduler (for periodic tasks)\nCELERY_BEAT_SCHEDULER = 'django_celery_beat.schedulers:DatabaseScheduler'",
+        "detail": "backend.core.settings",
+        "documentation": {}
+    },
+    {
+        "label": "CELERY_RESULT_EXPIRES",
+        "kind": 5,
+        "importPath": "backend.core.settings",
+        "description": "backend.core.settings",
+        "peekOfCode": "CELERY_RESULT_EXPIRES = 3600  # 1 hour\n# Worker settings\nCELERY_WORKER_PREFETCH_MULTIPLIER = 1\nCELERY_WORKER_MAX_TASKS_PER_CHILD = 1000\nCELERY_WORKER_SEND_TASK_EVENTS = True\n# Beat scheduler (for periodic tasks)\nCELERY_BEAT_SCHEDULER = 'django_celery_beat.schedulers:DatabaseScheduler'",
+        "detail": "backend.core.settings",
+        "documentation": {}
+    },
+    {
+        "label": "CELERY_WORKER_PREFETCH_MULTIPLIER",
+        "kind": 5,
+        "importPath": "backend.core.settings",
+        "description": "backend.core.settings",
+        "peekOfCode": "CELERY_WORKER_PREFETCH_MULTIPLIER = 1\nCELERY_WORKER_MAX_TASKS_PER_CHILD = 1000\nCELERY_WORKER_SEND_TASK_EVENTS = True\n# Beat scheduler (for periodic tasks)\nCELERY_BEAT_SCHEDULER = 'django_celery_beat.schedulers:DatabaseScheduler'",
+        "detail": "backend.core.settings",
+        "documentation": {}
+    },
+    {
+        "label": "CELERY_WORKER_MAX_TASKS_PER_CHILD",
+        "kind": 5,
+        "importPath": "backend.core.settings",
+        "description": "backend.core.settings",
+        "peekOfCode": "CELERY_WORKER_MAX_TASKS_PER_CHILD = 1000\nCELERY_WORKER_SEND_TASK_EVENTS = True\n# Beat scheduler (for periodic tasks)\nCELERY_BEAT_SCHEDULER = 'django_celery_beat.schedulers:DatabaseScheduler'",
+        "detail": "backend.core.settings",
+        "documentation": {}
+    },
+    {
+        "label": "CELERY_WORKER_SEND_TASK_EVENTS",
+        "kind": 5,
+        "importPath": "backend.core.settings",
+        "description": "backend.core.settings",
+        "peekOfCode": "CELERY_WORKER_SEND_TASK_EVENTS = True\n# Beat scheduler (for periodic tasks)\nCELERY_BEAT_SCHEDULER = 'django_celery_beat.schedulers:DatabaseScheduler'",
+        "detail": "backend.core.settings",
+        "documentation": {}
+    },
+    {
+        "label": "CELERY_BEAT_SCHEDULER",
+        "kind": 5,
+        "importPath": "backend.core.settings",
+        "description": "backend.core.settings",
+        "peekOfCode": "CELERY_BEAT_SCHEDULER = 'django_celery_beat.schedulers:DatabaseScheduler'",
+        "detail": "backend.core.settings",
+        "documentation": {}
+    },
+    {
+        "label": "urlpatterns",
+        "kind": 5,
+        "importPath": "backend.core.urls",
+        "description": "backend.core.urls",
+        "peekOfCode": "urlpatterns = [\n    path('admin/', admin.site.urls),\n    path('', include(\"sms.urls\")),\n    path('api/campaigns/', include(\"campaign.urls\")),\n]",
+        "detail": "backend.core.urls",
+        "documentation": {}
+    },
+    {
+        "label": "application",
+        "kind": 5,
+        "importPath": "backend.core.wsgi",
+        "description": "backend.core.wsgi",
+        "peekOfCode": "application = get_wsgi_application()",
+        "detail": "backend.core.wsgi",
+        "documentation": {}
+    },
+    {
+        "label": "SmsConfig",
+        "kind": 6,
+        "importPath": "backend.sms.apps",
+        "description": "backend.sms.apps",
+        "peekOfCode": "class SmsConfig(AppConfig):\n    name = 'sms'",
+        "detail": "backend.sms.apps",
+        "documentation": {}
+    },
+    {
+        "label": "SMSConsumer",
+        "kind": 6,
+        "importPath": "backend.sms.consumers",
+        "description": "backend.sms.consumers",
+        "peekOfCode": "class SMSConsumer(AsyncWebsocketConsumer):\n    async def connect(self):\n        await self.accept()\n        self.client_id = self.channel_name\n        await self.send(json.dumps({\n            \"type\": \"connected\",\n            \"clientId\": self.client_id,\n            \"timestamp\": datetime.utcnow().isoformat()\n        }))\n    async def disconnect(self, close_code):",
+        "detail": "backend.sms.consumers",
+        "documentation": {}
+    },
+    {
+        "label": "websocket_urlpatterns",
+        "kind": 5,
+        "importPath": "backend.sms.routing",
+        "description": "backend.sms.routing",
+        "peekOfCode": "websocket_urlpatterns = [\n    re_path(r'ws$', SMSConsumer.as_asgi()),\n    re_path(r\"ws/campaign$\", CampaignConsumer.as_asgi()),\n]",
+        "detail": "backend.sms.routing",
+        "documentation": {}
+    },
+    {
+        "label": "client",
+        "kind": 5,
+        "importPath": "backend.sms.services",
+        "description": "backend.sms.services",
+        "peekOfCode": "client = Client(\n    os.getenv(\"TWILIO_ACCOUNT_SID\"),\n    os.getenv(\"TWILIO_AUTH_TOKEN\")\n)\nasync def send_twilio_message(to, body, from_number=None):\n    \"\"\"Send SMS via Twilio with status callback\"\"\"\n    server_url = os.getenv('SERVER_URL')\n    twilio_phone = os.getenv(\"TWILIO_PHONE_NUMBER\")\n    if from_number:\n        twilio_phone = from_number ",
+        "detail": "backend.sms.services",
+        "documentation": {}
+    },
+    {
+        "label": "urlpatterns",
+        "kind": 5,
+        "importPath": "backend.sms.urls",
+        "description": "backend.sms.urls",
+        "peekOfCode": "urlpatterns = [\n    path(\"webhook/incoming\", incoming_webhook),\n    path(\"webhook/status\", status_webhook),\n    path(\"api/send\", send_message),\n    path(\"api/messages\", fetch_messages),\n    path(\"api/conversations\", fetch_conversations),  # Add this line\n]",
+        "detail": "backend.sms.urls",
+        "documentation": {}
+    },
+    {
+        "label": "incoming_webhook",
+        "kind": 2,
+        "importPath": "backend.sms.views",
+        "description": "backend.sms.views",
+        "peekOfCode": "def incoming_webhook(request):\n    \"\"\"Handle incoming SMS from Twilio\"\"\"\n    from_ = request.POST.get(\"From\")\n    to = request.POST.get(\"To\")\n    body = request.POST.get(\"Body\")\n    sid = request.POST.get(\"MessageSid\")\n    print(\"INCOMING\", from_)\n    channel_name = get_client(to)\n    if channel_name:\n        channel_layer = get_channel_layer()",
+        "detail": "backend.sms.views",
+        "documentation": {}
+    },
+    {
+        "label": "status_webhook",
+        "kind": 2,
+        "importPath": "backend.sms.views",
+        "description": "backend.sms.views",
+        "peekOfCode": "def status_webhook(request):\n    \"\"\"Handle message status updates from Twilio\"\"\"\n    sid = request.POST.get(\"MessageSid\")\n    status = request.POST.get(\"MessageStatus\")\n    to = request.POST.get(\"To\")\n    print(f\"Status webhook received: {sid} -> {status} for {to}\")\n    CampaignContact.objects.select_related(\"campaign\").filter(\n        message_sid=sid\n    ).update(status=status)\n    contact = CampaignContact.objects.select_related(\"campaign\").filter(message_sid=sid).first()",
+        "detail": "backend.sms.views",
+        "documentation": {}
+    },
+    {
+        "label": "send_message",
+        "kind": 2,
+        "importPath": "backend.sms.views",
+        "description": "backend.sms.views",
+        "peekOfCode": "def send_message(request):\n    \"\"\"HTTP API endpoint to send SMS\"\"\"\n    to = request.data.get(\"to\")\n    body = request.data.get(\"body\")\n    from_ = request.data.get(\"from\")\n    message_id = request.data.get(\"messageId\")\n    if not to or not body:\n        return Response(\n            {\"error\": 'Missing \"to\" or \"body\"'},\n            status=400",
+        "detail": "backend.sms.views",
+        "documentation": {}
+    },
+    {
+        "label": "fetch_messages",
+        "kind": 2,
+        "importPath": "backend.sms.views",
+        "description": "backend.sms.views",
+        "peekOfCode": "def fetch_messages(request):\n    \"\"\"Fetch messages with cursor-based pagination - Better for chat apps\"\"\"\n    page_size = int(request.GET.get(\"pageSize\", 20))\n    phone_number = request.GET.get(\"phoneNumber\")\n    contact_number = request.GET.get(\"contact\")\n    before_date = request.GET.get(\"beforeDate\")  # Cursor for pagination\n    if not phone_number:\n        return Response({\"error\": \"phoneNumber is required\"}, status=400)\n    phone_number = phone_number.strip()\n    if contact_number:",
+        "detail": "backend.sms.views",
+        "documentation": {}
+    },
+    {
+        "label": "fetch_conversations",
+        "kind": 2,
+        "importPath": "backend.sms.views",
+        "description": "backend.sms.views",
+        "peekOfCode": "def fetch_conversations(request):\n    \"\"\"Fetch list of recent conversations (grouped by contact)\"\"\"\n    phone_number = request.GET.get(\"phoneNumber\")\n    limit = int(request.GET.get(\"limit\", 50))\n    if not phone_number:\n        return Response({\"error\": \"phoneNumber is required\"}, status=400)\n    phone_number = phone_number.strip()\n    try:\n        # Get recent messages (last 30 days)\n        date_after = datetime.utcnow() - timedelta(days=30)",
+        "detail": "backend.sms.views",
+        "documentation": {}
+    },
+    {
+        "label": "twilio_client",
+        "kind": 5,
+        "importPath": "backend.sms.views",
+        "description": "backend.sms.views",
+        "peekOfCode": "twilio_client = Client(\n    os.getenv(\"TWILIO_ACCOUNT_SID\"),\n    os.getenv(\"TWILIO_AUTH_TOKEN\")\n)\nTWILIO_PHONE_NUMBER=os.getenv(\"TWILIO_PHONE_NUMBER\")\n@csrf_exempt\ndef incoming_webhook(request):\n    \"\"\"Handle incoming SMS from Twilio\"\"\"\n    from_ = request.POST.get(\"From\")\n    to = request.POST.get(\"To\")",
+        "detail": "backend.sms.views",
+        "documentation": {}
+    },
+    {
+        "label": "main",
+        "kind": 2,
+        "importPath": "backend.manage",
+        "description": "backend.manage",
+        "peekOfCode": "def main():\n    \"\"\"Run administrative tasks.\"\"\"\n    os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'core.settings')\n    try:\n        from django.core.management import execute_from_command_line\n    except ImportError as exc:\n        raise ImportError(\n            \"Couldn't import Django. Are you sure it's installed and \"\n            \"available on your PYTHONPATH environment variable? Did you \"\n            \"forget to activate a virtual environment?\"",
+        "detail": "backend.manage",
+        "documentation": {}
+    },
+    {
+        "label": "_Known",
+        "kind": 6,
+        "importPath": "frontend.node_modules.flatted.python.flatted",
+        "description": "frontend.node_modules.flatted.python.flatted",
+        "peekOfCode": "class _Known:\n    def __init__(self):\n        self.key = []\n        self.value = []\nclass _String:\n    def __init__(self, value):\n        self.value = value\ndef _array_keys(value):\n    keys = []\n    i = 0",
+        "detail": "frontend.node_modules.flatted.python.flatted",
+        "documentation": {}
+    },
+    {
+        "label": "_String",
+        "kind": 6,
+        "importPath": "frontend.node_modules.flatted.python.flatted",
+        "description": "frontend.node_modules.flatted.python.flatted",
+        "peekOfCode": "class _String:\n    def __init__(self, value):\n        self.value = value\ndef _array_keys(value):\n    keys = []\n    i = 0\n    for _ in value:\n        keys.append(i)\n        i += 1\n    return keys",
+        "detail": "frontend.node_modules.flatted.python.flatted",
+        "documentation": {}
+    },
+    {
+        "label": "parse",
+        "kind": 2,
+        "importPath": "frontend.node_modules.flatted.python.flatted",
+        "description": "frontend.node_modules.flatted.python.flatted",
+        "peekOfCode": "def parse(value, *args, **kwargs):\n    json = _json.loads(value, *args, **kwargs)\n    wrapped = []\n    for value in json:\n        wrapped.append(_wrap(value))\n    input = []\n    for value in wrapped:\n        if isinstance(value, _String):\n            input.append(value.value)\n        else:",
+        "detail": "frontend.node_modules.flatted.python.flatted",
+        "documentation": {}
+    },
+    {
+        "label": "stringify",
+        "kind": 2,
+        "importPath": "frontend.node_modules.flatted.python.flatted",
+        "description": "frontend.node_modules.flatted.python.flatted",
+        "peekOfCode": "def stringify(value, *args, **kwargs):\n    known = _Known()\n    input = []\n    output = []\n    i = int(_index(known, input, value))\n    while i < len(input):\n        output.append(_transform(known, input, input[i]))\n        i += 1\n    return _json.dumps(output, *args, **kwargs)",
+        "detail": "frontend.node_modules.flatted.python.flatted",
+        "documentation": {}
+    }
+]

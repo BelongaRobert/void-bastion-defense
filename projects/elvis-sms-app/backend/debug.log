@@ -1,0 +1,2476 @@
+ERROR 2026-02-05 01:38:13,674 log Invalid HTTP_HOST header: 'drum-ultimate-roughly.ngrok-free.app'. You may need to add 'drum-ultimate-roughly.ngrok-free.app' to ALLOWED_HOSTS.
+Traceback (most recent call last):
+  File "C:\Work\Elvis Work\backend\env\Lib\site-packages\asgiref\sync.py", line 557, in thread_handler
+    raise exc_info[1]
+  File "C:\Work\Elvis Work\backend\env\Lib\site-packages\django\core\handlers\exception.py", line 42, in inner
+    response = await get_response(request)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Work\Elvis Work\backend\env\Lib\site-packages\django\utils\deprecation.py", line 321, in __acall__
+    response = await sync_to_async(
+               ^^^^^^^^^^^^^^^^^^^^
+  File "C:\Work\Elvis Work\backend\env\Lib\site-packages\asgiref\sync.py", line 506, in __call__
+    ret = await asyncio.shield(exec_coro)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\manag\AppData\Local\Programs\Python\Python312\Lib\concurrent\futures\thread.py", line 59, in run
+    result = self.fn(*self.args, **self.kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Work\Elvis Work\backend\env\Lib\site-packages\asgiref\sync.py", line 561, in thread_handler
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Work\Elvis Work\backend\env\Lib\site-packages\django\middleware\common.py", line 48, in process_request
+    host = request.get_host()
+           ^^^^^^^^^^^^^^^^^^
+  File "C:\Work\Elvis Work\backend\env\Lib\site-packages\django\http\request.py", line 205, in get_host
+    raise DisallowedHost(msg)
+django.core.exceptions.DisallowedHost: Invalid HTTP_HOST header: 'drum-ultimate-roughly.ngrok-free.app'. You may need to add 'drum-ultimate-roughly.ngrok-free.app' to ALLOWED_HOSTS.
+ERROR 2026-02-05 01:39:41,703 log Invalid HTTP_HOST header: 'drum-ultimate-roughly.ngrok-free.app'. You may need to add 'drum-ultimate-roughly.ngrok-free.app' to ALLOWED_HOSTS.
+Traceback (most recent call last):
+  File "C:\Work\Elvis Work\backend\env\Lib\site-packages\asgiref\sync.py", line 557, in thread_handler
+    raise exc_info[1]
+  File "C:\Work\Elvis Work\backend\env\Lib\site-packages\django\core\handlers\exception.py", line 42, in inner
+    response = await get_response(request)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Work\Elvis Work\backend\env\Lib\site-packages\django\utils\deprecation.py", line 321, in __acall__
+    response = await sync_to_async(
+               ^^^^^^^^^^^^^^^^^^^^
+  File "C:\Work\Elvis Work\backend\env\Lib\site-packages\asgiref\sync.py", line 506, in __call__
+    ret = await asyncio.shield(exec_coro)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\manag\AppData\Local\Programs\Python\Python312\Lib\concurrent\futures\thread.py", line 59, in run
+    result = self.fn(*self.args, **self.kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Work\Elvis Work\backend\env\Lib\site-packages\asgiref\sync.py", line 561, in thread_handler
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Work\Elvis Work\backend\env\Lib\site-packages\django\middleware\common.py", line 48, in process_request
+    host = request.get_host()
+           ^^^^^^^^^^^^^^^^^^
+  File "C:\Work\Elvis Work\backend\env\Lib\site-packages\django\http\request.py", line 205, in get_host
+    raise DisallowedHost(msg)
+django.core.exceptions.DisallowedHost: Invalid HTTP_HOST header: 'drum-ultimate-roughly.ngrok-free.app'. You may need to add 'drum-ultimate-roughly.ngrok-free.app' to ALLOWED_HOSTS.
+ERROR 2026-02-05 01:39:43,624 log Invalid HTTP_HOST header: 'drum-ultimate-roughly.ngrok-free.app'. You may need to add 'drum-ultimate-roughly.ngrok-free.app' to ALLOWED_HOSTS.
+Traceback (most recent call last):
+  File "C:\Work\Elvis Work\backend\env\Lib\site-packages\asgiref\sync.py", line 557, in thread_handler
+    raise exc_info[1]
+  File "C:\Work\Elvis Work\backend\env\Lib\site-packages\django\core\handlers\exception.py", line 42, in inner
+    response = await get_response(request)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Work\Elvis Work\backend\env\Lib\site-packages\django\utils\deprecation.py", line 321, in __acall__
+    response = await sync_to_async(
+               ^^^^^^^^^^^^^^^^^^^^
+  File "C:\Work\Elvis Work\backend\env\Lib\site-packages\asgiref\sync.py", line 506, in __call__
+    ret = await asyncio.shield(exec_coro)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\manag\AppData\Local\Programs\Python\Python312\Lib\concurrent\futures\thread.py", line 59, in run
+    result = self.fn(*self.args, **self.kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Work\Elvis Work\backend\env\Lib\site-packages\asgiref\sync.py", line 561, in thread_handler
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Work\Elvis Work\backend\env\Lib\site-packages\django\middleware\common.py", line 48, in process_request
+    host = request.get_host()
+           ^^^^^^^^^^^^^^^^^^
+  File "C:\Work\Elvis Work\backend\env\Lib\site-packages\django\http\request.py", line 205, in get_host
+    raise DisallowedHost(msg)
+django.core.exceptions.DisallowedHost: Invalid HTTP_HOST header: 'drum-ultimate-roughly.ngrok-free.app'. You may need to add 'drum-ultimate-roughly.ngrok-free.app' to ALLOWED_HOSTS.
+WARNING 2026-02-05 01:40:22,964 log Not Found: /ws
+WARNING 2026-02-05 01:40:37,780 log Not Found: /ws
+WARNING 2026-02-05 01:44:23,425 log Not Found: /webhook/status
+WARNING 2026-02-05 01:44:25,050 log Not Found: /webhook/status
+WARNING 2026-02-05 01:47:51,619 log Not Found: /webhook/incoming
+WARNING 2026-02-05 01:47:51,884 log Not Found: /favicon.ico
+WARNING 2026-02-05 01:48:11,271 log Not Found: /webhook/incoming/
+WARNING 2026-02-05 01:48:20,323 log Not Found: /webhook/incoming/
+WARNING 2026-02-05 01:48:22,364 log Not Found: /webhook/incoming/
+WARNING 2026-02-05 01:49:03,969 log Forbidden (Referer checking failed - no Referer.): /webhook/status
+WARNING 2026-02-05 01:49:06,269 log Forbidden (Referer checking failed - no Referer.): /webhook/status
+WARNING 2026-02-05 01:50:11,007 log Forbidden (Referer checking failed - no Referer.): /webhook/status
+WARNING 2026-02-05 01:50:14,225 log Forbidden (Referer checking failed - no Referer.): /webhook/status
+WARNING 2026-02-05 01:51:37,430 log Forbidden (Referer checking failed - no Referer.): /webhook/status
+WARNING 2026-02-05 01:51:39,547 log Forbidden (Referer checking failed - no Referer.): /webhook/status
+WARNING 2026-02-05 20:56:55,043 log Not Found: /static/admin/css/dark_mode.css
+WARNING 2026-02-05 20:56:55,044 log Not Found: /static/admin/css/base.css
+WARNING 2026-02-05 20:56:55,070 log Not Found: /static/admin/js/theme.js
+WARNING 2026-02-05 20:56:55,075 log Not Found: /static/admin/css/nav_sidebar.css
+WARNING 2026-02-05 20:56:55,098 log Not Found: /static/admin/css/login.css
+WARNING 2026-02-05 20:56:55,103 log Not Found: /static/admin/css/responsive.css
+WARNING 2026-02-05 20:56:55,120 log Not Found: /static/admin/js/nav_sidebar.js
+WARNING 2026-02-05 20:56:55,244 log Not Found: /favicon.ico
+WARNING 2026-02-05 21:23:29,310 log Not Found: /favicon.ico
+WARNING 2026-02-08 01:44:26,309 log Not Found: /api/campaigns/
+WARNING 2026-02-08 01:44:29,583 log Not Found: /api/campaigns/
+WARNING 2026-02-08 01:44:37,679 log Not Found: /api/campaigns/
+WARNING 2026-02-08 01:44:37,914 log Not Found: /favicon.ico
+WARNING 2026-02-08 01:45:00,351 log Not Found: /api/campaigns/
+WARNING 2026-02-08 01:45:01,228 log Not Found: /api/campaigns/
+WARNING 2026-02-08 01:45:01,589 log Not Found: /api/campaigns/
+WARNING 2026-02-08 01:45:02,011 log Not Found: /api/campaigns/
+WARNING 2026-02-08 01:45:02,475 log Not Found: /api/campaigns/
+WARNING 2026-02-08 01:45:02,916 log Not Found: /api/campaigns/
+WARNING 2026-02-08 01:45:03,548 log Not Found: /api/campaigns/
+WARNING 2026-02-08 01:45:03,994 log Not Found: /api/campaigns/
+WARNING 2026-02-08 01:45:04,401 log Not Found: /api/campaigns/
+WARNING 2026-02-08 01:45:04,666 log Not Found: /api/campaigns/
+WARNING 2026-02-08 01:45:04,932 log Not Found: /api/campaigns/
+WARNING 2026-02-08 01:45:05,296 log Not Found: /api/campaigns/
+WARNING 2026-02-08 01:45:05,893 log Not Found: /api/campaigns/
+WARNING 2026-02-08 01:45:06,589 log Not Found: /api/campaigns/
+WARNING 2026-02-08 01:45:06,919 log Not Found: /api/campaigns/
+WARNING 2026-02-08 01:45:07,343 log Not Found: /api/campaigns/
+WARNING 2026-02-08 01:45:07,678 log Not Found: /api/campaigns/
+WARNING 2026-02-08 01:45:07,980 log Not Found: /api/campaigns/
+WARNING 2026-02-08 01:45:08,248 log Not Found: /api/campaigns/
+WARNING 2026-02-08 01:49:46,359 log Not Found: /api/campaigns/
+WARNING 2026-02-08 01:58:27,458 log Not Found: /static/rest_framework/css/bootstrap.min.css
+WARNING 2026-02-08 01:58:27,486 log Not Found: /static/rest_framework/css/bootstrap-tweaks.css
+WARNING 2026-02-08 01:58:27,488 log Not Found: /static/rest_framework/css/prettify.css
+WARNING 2026-02-08 01:58:27,509 log Not Found: /static/rest_framework/css/default.css
+WARNING 2026-02-08 01:58:27,509 log Not Found: /static/rest_framework/js/jquery-3.7.1.min.js
+WARNING 2026-02-08 01:58:27,529 log Not Found: /static/rest_framework/js/csrf.js
+WARNING 2026-02-08 01:58:27,529 log Not Found: /static/rest_framework/js/ajax-form.js
+WARNING 2026-02-08 01:58:27,547 log Not Found: /static/rest_framework/js/bootstrap.min.js
+WARNING 2026-02-08 01:58:27,547 log Not Found: /static/rest_framework/js/prettify-min.js
+WARNING 2026-02-08 01:58:27,565 log Not Found: /static/rest_framework/js/load-ajax-form.js
+WARNING 2026-02-08 01:58:27,566 log Not Found: /static/rest_framework/js/default.js
+WARNING 2026-02-08 01:58:30,633 log Bad Request: /api/campaigns/
+WARNING 2026-02-08 01:58:50,237 log Bad Request: /api/campaigns/
+ERROR 2026-02-08 01:59:46,578 log Internal Server Error: /api/campaigns/
+Traceback (most recent call last):
+  File "C:\Work\Elvis Work\backend\env\Lib\site-packages\asgiref\sync.py", line 557, in thread_handler
+    raise exc_info[1]
+  File "C:\Work\Elvis Work\backend\env\Lib\site-packages\django\core\handlers\exception.py", line 42, in inner
+    response = await get_response(request)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Work\Elvis Work\backend\env\Lib\site-packages\asgiref\sync.py", line 557, in thread_handler
+    raise exc_info[1]
+  File "C:\Work\Elvis Work\backend\env\Lib\site-packages\django\core\handlers\base.py", line 253, in _get_response_async
+    response = await wrapped_callback(
+               ^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Work\Elvis Work\backend\env\Lib\site-packages\asgiref\sync.py", line 506, in __call__
+    ret = await asyncio.shield(exec_coro)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\manag\AppData\Local\Programs\Python\Python312\Lib\concurrent\futures\thread.py", line 59, in run
+    result = self.fn(*self.args, **self.kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Work\Elvis Work\backend\env\Lib\site-packages\asgiref\sync.py", line 561, in thread_handler
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Work\Elvis Work\backend\env\Lib\site-packages\django\views\decorators\csrf.py", line 65, in _view_wrapper
+    return view_func(request, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Work\Elvis Work\backend\env\Lib\site-packages\django\views\generic\base.py", line 105, in view
+    return self.dispatch(request, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Work\Elvis Work\backend\env\Lib\site-packages\rest_framework\views.py", line 515, in dispatch
+    response = self.handle_exception(exc)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Work\Elvis Work\backend\env\Lib\site-packages\rest_framework\views.py", line 475, in handle_exception
+    self.raise_uncaught_exception(exc)
+  File "C:\Work\Elvis Work\backend\env\Lib\site-packages\rest_framework\views.py", line 486, in raise_uncaught_exception
+    raise exc
+  File "C:\Work\Elvis Work\backend\env\Lib\site-packages\rest_framework\views.py", line 512, in dispatch
+    response = handler(request, *args, **kwargs)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Work\Elvis Work\backend\env\Lib\site-packages\rest_framework\decorators.py", line 50, in handler
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Work\Elvis Work\backend\campaign\views.py", line 66, in campaign_list_create
+    'campaign': CampaignSerializer(campaign).data
+                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Work\Elvis Work\backend\env\Lib\site-packages\rest_framework\serializers.py", line 573, in data
+    ret = super().data
+          ^^^^^^^^^^^^
+  File "C:\Work\Elvis Work\backend\env\Lib\site-packages\rest_framework\serializers.py", line 251, in data
+    self._data = self.to_representation(self.instance)
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Work\Elvis Work\backend\env\Lib\site-packages\rest_framework\serializers.py", line 540, in to_representation
+    ret[field.field_name] = field.to_representation(attribute)
+                            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Work\Elvis Work\backend\env\Lib\site-packages\rest_framework\fields.py", line 1870, in to_representation
+    return method(value)
+           ^^^^^^^^^^^^^
+  File "C:\Work\Elvis Work\backend\campaign\serializers.py", line 13, in get_stats
+    return obj.get_stats()
+           ^^^^^^^^^^^^^^^
+  File "C:\Work\Elvis Work\backend\campaign\models.py", line 31, in get_stats
+    contacts = self.campaigncontact_set.all()
+               ^^^^^^^^^^^^^^^^^^^^^^^^
+AttributeError: 'Campaign' object has no attribute 'campaigncontact_set'
+WARNING 2026-02-08 02:17:11,178 log Not Found: /static/admin/css/base.css
+WARNING 2026-02-08 02:17:11,194 log Not Found: /static/admin/css/dark_mode.css
+WARNING 2026-02-08 02:17:11,232 log Not Found: /static/admin/css/login.css
+WARNING 2026-02-08 02:17:11,254 log Not Found: /static/admin/css/nav_sidebar.css
+WARNING 2026-02-08 02:17:11,256 log Not Found: /static/admin/css/responsive.css
+WARNING 2026-02-08 02:17:11,271 log Not Found: /static/admin/js/theme.js
+WARNING 2026-02-08 02:17:11,292 log Not Found: /static/admin/js/nav_sidebar.js
+WARNING 2026-02-08 02:17:11,303 log Not Found: /static/admin/css/nav_sidebar.css
+WARNING 2026-02-08 02:17:11,314 log Not Found: /static/admin/css/login.css
+WARNING 2026-02-08 02:17:11,322 log Not Found: /static/admin/css/responsive.css
+WARNING 2026-02-08 02:17:14,065 log Not Found: /static/admin/css/base.css
+WARNING 2026-02-08 02:17:14,105 log Not Found: /static/admin/css/dark_mode.css
+WARNING 2026-02-08 02:17:14,105 log Not Found: /static/admin/js/theme.js
+WARNING 2026-02-08 02:17:14,106 log Not Found: /static/admin/css/nav_sidebar.css
+WARNING 2026-02-08 02:17:14,136 log Not Found: /static/admin/css/login.css
+WARNING 2026-02-08 02:17:14,136 log Not Found: /static/admin/css/nav_sidebar.css
+WARNING 2026-02-08 02:17:14,140 log Not Found: /static/admin/css/responsive.css
+WARNING 2026-02-08 02:17:14,151 log Not Found: /static/admin/js/nav_sidebar.js
+WARNING 2026-02-08 02:17:21,716 log Not Found: /static/admin/css/base.css
+WARNING 2026-02-08 02:17:21,720 log Not Found: /static/admin/css/dark_mode.css
+WARNING 2026-02-08 02:17:21,720 log Not Found: /static/admin/js/theme.js
+WARNING 2026-02-08 02:17:21,742 log Not Found: /static/admin/css/nav_sidebar.css
+WARNING 2026-02-08 02:17:21,745 log Not Found: /static/admin/css/login.css
+WARNING 2026-02-08 02:17:21,748 log Not Found: /static/admin/css/responsive.css
+WARNING 2026-02-08 02:17:21,758 log Not Found: /static/admin/js/nav_sidebar.js
+WARNING 2026-02-08 02:17:30,646 log Not Found: /static/admin/css/base.css
+WARNING 2026-02-08 02:17:30,647 log Not Found: /static/admin/css/dark_mode.css
+WARNING 2026-02-08 02:17:30,647 log Not Found: /static/admin/js/theme.js
+WARNING 2026-02-08 02:17:30,678 log Not Found: /static/admin/css/nav_sidebar.css
+WARNING 2026-02-08 02:17:30,680 log Not Found: /static/admin/css/login.css
+WARNING 2026-02-08 02:17:30,680 log Not Found: /static/admin/css/responsive.css
+WARNING 2026-02-08 02:17:30,698 log Not Found: /static/admin/js/nav_sidebar.js
+WARNING 2026-02-08 02:17:55,717 log Not Found: /static/admin/css/base.css
+WARNING 2026-02-08 02:17:55,719 log Not Found: /static/admin/css/dark_mode.css
+WARNING 2026-02-08 02:17:55,734 log Not Found: /static/admin/css/dashboard.css
+WARNING 2026-02-08 02:17:55,735 log Not Found: /static/admin/css/nav_sidebar.css
+WARNING 2026-02-08 02:17:55,754 log Not Found: /static/admin/js/theme.js
+WARNING 2026-02-08 02:17:55,754 log Not Found: /static/admin/css/responsive.css
+WARNING 2026-02-08 02:17:55,784 log Not Found: /static/admin/js/nav_sidebar.js
+WARNING 2026-02-08 02:17:55,784 log Not Found: /static/admin/css/nav_sidebar.css
+WARNING 2026-02-08 02:17:55,799 log Not Found: /static/admin/css/dashboard.css
+WARNING 2026-02-08 02:17:59,970 log Not Found: /static/admin/css/base.css
+WARNING 2026-02-08 02:17:59,986 log Not Found: /static/admin/css/changelists.css
+WARNING 2026-02-08 02:17:59,987 log Not Found: /static/admin/js/theme.js
+WARNING 2026-02-08 02:17:59,988 log Not Found: /static/admin/css/dark_mode.css
+WARNING 2026-02-08 02:17:59,988 log Not Found: /static/admin/css/nav_sidebar.css
+WARNING 2026-02-08 02:17:59,990 log Not Found: /static/admin/js/vendor/jquery/jquery.js
+WARNING 2026-02-08 02:18:00,021 log Not Found: /static/admin/css/responsive.css
+WARNING 2026-02-08 02:18:00,049 log Not Found: /static/admin/js/actions.js
+WARNING 2026-02-08 02:18:00,049 log Not Found: /static/admin/js/jquery.init.js
+WARNING 2026-02-08 02:18:00,049 log Not Found: /static/admin/js/admin/RelatedObjectLookups.js
+WARNING 2026-02-08 02:18:00,052 log Not Found: /static/admin/css/changelists.css
+WARNING 2026-02-08 02:18:00,057 log Not Found: /static/admin/js/core.js
+WARNING 2026-02-08 02:18:00,090 log Not Found: /static/admin/js/urlify.js
+WARNING 2026-02-08 02:18:00,094 log Not Found: /static/admin/js/prepopulate.js
+WARNING 2026-02-08 02:18:00,094 log Not Found: /static/admin/js/vendor/xregexp/xregexp.js
+WARNING 2026-02-08 02:18:00,120 log Not Found: /static/admin/js/nav_sidebar.js
+WARNING 2026-02-08 02:18:00,135 log Not Found: /static/admin/js/filters.js
+WARNING 2026-02-08 02:18:00,135 log Not Found: /static/admin/css/responsive.css
+WARNING 2026-02-08 02:18:02,559 log Not Found: /static/admin/css/base.css
+WARNING 2026-02-08 02:18:02,566 log Not Found: /static/admin/css/dark_mode.css
+WARNING 2026-02-08 02:18:02,566 log Not Found: /static/admin/js/theme.js
+WARNING 2026-02-08 02:18:02,566 log Not Found: /static/admin/css/forms.css
+WARNING 2026-02-08 02:18:02,568 log Not Found: /static/admin/css/nav_sidebar.css
+WARNING 2026-02-08 02:18:02,611 log Not Found: /static/admin/css/responsive.css
+WARNING 2026-02-08 02:18:02,618 log Not Found: /static/admin/js/vendor/jquery/jquery.js
+WARNING 2026-02-08 02:18:02,620 log Not Found: /static/admin/js/jquery.init.js
+WARNING 2026-02-08 02:18:02,621 log Not Found: /static/admin/js/admin/RelatedObjectLookups.js
+WARNING 2026-02-08 02:18:02,622 log Not Found: /static/admin/js/core.js
+WARNING 2026-02-08 02:18:02,638 log Not Found: /static/admin/js/actions.js
+WARNING 2026-02-08 02:18:02,652 log Not Found: /static/admin/js/urlify.js
+WARNING 2026-02-08 02:18:02,661 log Not Found: /static/admin/js/vendor/xregexp/xregexp.js
+WARNING 2026-02-08 02:18:02,662 log Not Found: /static/admin/js/prepopulate.js
+WARNING 2026-02-08 02:18:02,662 log Not Found: /static/admin/js/prepopulate_init.js
+WARNING 2026-02-08 02:18:02,694 log Not Found: /static/admin/js/nav_sidebar.js
+WARNING 2026-02-08 02:18:02,694 log Not Found: /static/admin/js/change_form.js
+WARNING 2026-02-08 02:18:02,698 log Not Found: /static/admin/css/responsive.css
+WARNING 2026-02-08 02:23:54,839 log Not Found: /static/admin/css/base.css
+WARNING 2026-02-08 02:23:54,854 log Not Found: /static/admin/css/dark_mode.css
+WARNING 2026-02-08 02:23:54,865 log Not Found: /static/admin/css/nav_sidebar.css
+WARNING 2026-02-08 02:23:54,875 log Not Found: /static/admin/css/responsive.css
+WARNING 2026-02-08 02:23:54,886 log Not Found: /static/admin/js/theme.js
+WARNING 2026-02-08 02:23:54,896 log Not Found: /static/admin/js/vendor/jquery/jquery.js
+WARNING 2026-02-08 02:23:54,907 log Not Found: /static/admin/css/nav_sidebar.css
+WARNING 2026-02-08 02:23:54,919 log Not Found: /static/admin/js/jquery.init.js
+WARNING 2026-02-08 02:23:54,931 log Not Found: /static/admin/js/core.js
+WARNING 2026-02-08 02:23:54,944 log Not Found: /static/admin/js/admin/RelatedObjectLookups.js
+WARNING 2026-02-08 02:23:54,957 log Not Found: /static/admin/js/actions.js
+WARNING 2026-02-08 02:23:54,971 log Not Found: /static/admin/js/urlify.js
+WARNING 2026-02-08 02:23:54,983 log Not Found: /static/admin/js/prepopulate.js
+WARNING 2026-02-08 02:23:54,991 log Not Found: /static/admin/js/vendor/xregexp/xregexp.js
+WARNING 2026-02-08 02:23:55,006 log Not Found: /static/admin/js/nav_sidebar.js
+WARNING 2026-02-08 02:23:55,017 log Not Found: /static/admin/css/responsive.css
+WARNING 2026-02-08 02:23:55,027 log Not Found: /static/admin/js/cancel.js
+WARNING 2026-02-08 02:23:57,219 log Not Found: /static/admin/css/base.css
+WARNING 2026-02-08 02:23:57,248 log Not Found: /static/admin/js/theme.js
+WARNING 2026-02-08 02:23:57,248 log Not Found: /static/admin/css/changelists.css
+WARNING 2026-02-08 02:23:57,250 log Not Found: /static/admin/css/nav_sidebar.css
+WARNING 2026-02-08 02:23:57,252 log Not Found: /static/admin/css/dark_mode.css
+WARNING 2026-02-08 02:23:57,271 log Not Found: /static/admin/css/responsive.css
+WARNING 2026-02-08 02:23:57,301 log Not Found: /static/admin/js/core.js
+WARNING 2026-02-08 02:23:57,303 log Not Found: /static/admin/js/admin/RelatedObjectLookups.js
+WARNING 2026-02-08 02:23:57,304 log Not Found: /static/admin/js/jquery.init.js
+WARNING 2026-02-08 02:23:57,304 log Not Found: /static/admin/js/vendor/jquery/jquery.js
+WARNING 2026-02-08 02:23:57,306 log Not Found: /static/admin/css/nav_sidebar.css
+WARNING 2026-02-08 02:23:57,322 log Not Found: /static/admin/css/changelists.css
+WARNING 2026-02-08 02:23:57,349 log Not Found: /static/admin/js/actions.js
+WARNING 2026-02-08 02:23:57,349 log Not Found: /static/admin/js/vendor/xregexp/xregexp.js
+WARNING 2026-02-08 02:23:57,349 log Not Found: /static/admin/js/prepopulate.js
+WARNING 2026-02-08 02:23:57,349 log Not Found: /static/admin/js/urlify.js
+WARNING 2026-02-08 02:23:57,384 log Not Found: /static/admin/js/nav_sidebar.js
+WARNING 2026-02-08 02:23:57,384 log Not Found: /static/admin/js/filters.js
+WARNING 2026-02-08 02:23:57,385 log Not Found: /static/admin/css/responsive.css
+WARNING 2026-02-08 02:23:59,809 log Not Found: /static/admin/css/base.css
+WARNING 2026-02-08 02:23:59,826 log Not Found: /static/admin/css/dark_mode.css
+WARNING 2026-02-08 02:23:59,832 log Not Found: /static/admin/js/theme.js
+WARNING 2026-02-08 02:23:59,832 log Not Found: /static/admin/css/changelists.css
+WARNING 2026-02-08 02:23:59,836 log Not Found: /static/admin/css/nav_sidebar.css
+WARNING 2026-02-08 02:23:59,858 log Not Found: /static/admin/css/responsive.css
+WARNING 2026-02-08 02:23:59,882 log Not Found: /static/admin/js/vendor/jquery/jquery.js
+WARNING 2026-02-08 02:23:59,887 log Not Found: /static/admin/js/jquery.init.js
+WARNING 2026-02-08 02:23:59,892 log Not Found: /static/admin/js/admin/RelatedObjectLookups.js
+WARNING 2026-02-08 02:23:59,893 log Not Found: /static/admin/js/core.js
+WARNING 2026-02-08 02:23:59,909 log Not Found: /static/admin/css/changelists.css
+WARNING 2026-02-08 02:23:59,911 log Not Found: /static/admin/js/actions.js
+WARNING 2026-02-08 02:23:59,933 log Not Found: /static/admin/js/urlify.js
+WARNING 2026-02-08 02:23:59,935 log Not Found: /static/admin/js/vendor/xregexp/xregexp.js
+WARNING 2026-02-08 02:23:59,935 log Not Found: /static/admin/js/prepopulate.js
+WARNING 2026-02-08 02:23:59,964 log Not Found: /static/admin/css/responsive.css
+WARNING 2026-02-08 02:23:59,964 log Not Found: /static/admin/js/nav_sidebar.js
+WARNING 2026-02-08 02:23:59,965 log Not Found: /static/admin/js/filters.js
+WARNING 2026-02-08 02:24:01,270 log Not Found: /static/admin/css/base.css
+WARNING 2026-02-08 02:24:01,280 log Not Found: /static/admin/css/dark_mode.css
+WARNING 2026-02-08 02:24:01,284 log Not Found: /static/admin/js/theme.js
+WARNING 2026-02-08 02:24:01,286 log Not Found: /static/admin/css/nav_sidebar.css
+WARNING 2026-02-08 02:24:01,287 log Not Found: /static/admin/css/changelists.css
+WARNING 2026-02-08 02:24:01,318 log Not Found: /static/admin/css/responsive.css
+WARNING 2026-02-08 02:24:01,337 log Not Found: /static/admin/js/vendor/jquery/jquery.js
+WARNING 2026-02-08 02:24:01,338 log Not Found: /static/admin/js/jquery.init.js
+WARNING 2026-02-08 02:24:01,350 log Not Found: /static/admin/js/admin/RelatedObjectLookups.js
+WARNING 2026-02-08 02:24:01,350 log Not Found: /static/admin/js/actions.js
+WARNING 2026-02-08 02:24:01,350 log Not Found: /static/admin/js/core.js
+WARNING 2026-02-08 02:24:01,368 log Not Found: /static/admin/js/urlify.js
+WARNING 2026-02-08 02:24:01,373 log Not Found: /static/admin/js/vendor/xregexp/xregexp.js
+WARNING 2026-02-08 02:24:01,373 log Not Found: /static/admin/js/prepopulate.js
+WARNING 2026-02-08 02:24:01,406 log Not Found: /static/admin/js/nav_sidebar.js
+WARNING 2026-02-08 02:24:01,407 log Not Found: /static/admin/css/responsive.css
+WARNING 2026-02-08 02:24:01,409 log Not Found: /static/admin/js/filters.js
+WARNING 2026-02-08 02:24:10,816 log Not Found: /static/admin/css/base.css
+WARNING 2026-02-08 02:24:10,831 log Not Found: /static/admin/css/dark_mode.css
+WARNING 2026-02-08 02:24:10,852 log Not Found: /static/admin/css/nav_sidebar.css
+WARNING 2026-02-08 02:24:10,864 log Not Found: /static/admin/css/changelists.css
+WARNING 2026-02-08 02:24:10,873 log Not Found: /static/admin/css/responsive.css
+WARNING 2026-02-08 02:24:10,883 log Not Found: /static/admin/js/theme.js
+WARNING 2026-02-08 02:24:10,897 log Not Found: /static/admin/css/nav_sidebar.css
+WARNING 2026-02-08 02:24:10,914 log Not Found: /static/admin/css/changelists.css
+WARNING 2026-02-08 02:24:10,925 log Not Found: /static/admin/js/vendor/jquery/jquery.js
+WARNING 2026-02-08 02:24:10,937 log Not Found: /static/admin/js/jquery.init.js
+WARNING 2026-02-08 02:24:10,950 log Not Found: /static/admin/js/core.js
+WARNING 2026-02-08 02:24:10,964 log Not Found: /static/admin/js/admin/RelatedObjectLookups.js
+WARNING 2026-02-08 02:24:10,983 log Not Found: /static/admin/js/actions.js
+WARNING 2026-02-08 02:24:10,983 log Not Found: /static/admin/js/urlify.js
+WARNING 2026-02-08 02:24:11,006 log Not Found: /static/admin/js/vendor/xregexp/xregexp.js
+WARNING 2026-02-08 02:24:11,006 log Not Found: /static/admin/js/prepopulate.js
+WARNING 2026-02-08 02:24:11,030 log Not Found: /static/admin/js/filters.js
+WARNING 2026-02-08 02:24:11,030 log Not Found: /static/admin/js/nav_sidebar.js
+WARNING 2026-02-08 02:24:11,040 log Not Found: /static/admin/css/responsive.css
+WARNING 2026-02-08 02:24:26,722 log Not Found: /static/admin/css/base.css
+WARNING 2026-02-08 02:24:26,733 log Not Found: /static/admin/css/dark_mode.css
+WARNING 2026-02-08 02:24:26,743 log Not Found: /static/admin/css/nav_sidebar.css
+WARNING 2026-02-08 02:24:26,752 log Not Found: /static/admin/css/changelists.css
+WARNING 2026-02-08 02:24:26,762 log Not Found: /static/admin/css/responsive.css
+WARNING 2026-02-08 02:24:26,771 log Not Found: /static/admin/js/theme.js
+WARNING 2026-02-08 02:24:26,794 log Not Found: /static/admin/css/nav_sidebar.css
+WARNING 2026-02-08 02:24:26,803 log Not Found: /static/admin/css/changelists.css
+WARNING 2026-02-08 02:24:26,814 log Not Found: /static/admin/js/vendor/jquery/jquery.js
+WARNING 2026-02-08 02:24:26,825 log Not Found: /static/admin/js/jquery.init.js
+WARNING 2026-02-08 02:24:26,836 log Not Found: /static/admin/js/core.js
+WARNING 2026-02-08 02:24:26,845 log Not Found: /static/admin/js/admin/RelatedObjectLookups.js
+WARNING 2026-02-08 02:24:26,860 log Not Found: /static/admin/js/actions.js
+WARNING 2026-02-08 02:24:26,869 log Not Found: /static/admin/js/urlify.js
+WARNING 2026-02-08 02:24:26,886 log Not Found: /static/admin/js/prepopulate.js
+WARNING 2026-02-08 02:24:26,898 log Not Found: /static/admin/js/vendor/xregexp/xregexp.js
+WARNING 2026-02-08 02:24:26,908 log Not Found: /static/admin/js/nav_sidebar.js
+WARNING 2026-02-08 02:24:26,919 log Not Found: /static/admin/css/responsive.css
+WARNING 2026-02-08 02:24:26,929 log Not Found: /static/admin/js/filters.js
+WARNING 2026-02-08 02:25:26,056 log Bad Request: /api/campaigns/
+WARNING 2026-02-08 02:29:21,391 log Not Found: /static/admin/css/base.css
+WARNING 2026-02-08 02:29:21,401 log Not Found: /static/admin/css/dark_mode.css
+WARNING 2026-02-08 02:29:21,411 log Not Found: /static/admin/css/nav_sidebar.css
+WARNING 2026-02-08 02:29:21,420 log Not Found: /static/admin/css/changelists.css
+WARNING 2026-02-08 02:29:21,431 log Not Found: /static/admin/css/responsive.css
+WARNING 2026-02-08 02:29:21,440 log Not Found: /static/admin/js/theme.js
+WARNING 2026-02-08 02:29:21,464 log Not Found: /static/admin/css/nav_sidebar.css
+WARNING 2026-02-08 02:29:21,474 log Not Found: /static/admin/css/changelists.css
+WARNING 2026-02-08 02:29:21,484 log Not Found: /static/admin/js/vendor/jquery/jquery.js
+WARNING 2026-02-08 02:29:21,494 log Not Found: /static/admin/js/jquery.init.js
+WARNING 2026-02-08 02:29:21,500 log Not Found: /static/admin/js/core.js
+WARNING 2026-02-08 02:29:21,514 log Not Found: /static/admin/js/admin/RelatedObjectLookups.js
+WARNING 2026-02-08 02:29:21,526 log Not Found: /static/admin/js/actions.js
+WARNING 2026-02-08 02:29:21,536 log Not Found: /static/admin/js/urlify.js
+WARNING 2026-02-08 02:29:21,546 log Not Found: /static/admin/js/prepopulate.js
+WARNING 2026-02-08 02:29:21,557 log Not Found: /static/admin/js/vendor/xregexp/xregexp.js
+WARNING 2026-02-08 02:29:21,564 log Not Found: /static/admin/js/nav_sidebar.js
+WARNING 2026-02-08 02:29:21,579 log Not Found: /static/admin/js/filters.js
+WARNING 2026-02-08 02:29:21,579 log Not Found: /static/admin/css/responsive.css
+WARNING 2026-02-08 02:29:22,462 log Not Found: /static/admin/css/base.css
+WARNING 2026-02-08 02:29:22,463 log Not Found: /static/admin/css/nav_sidebar.css
+WARNING 2026-02-08 02:29:22,466 log Not Found: /static/admin/css/changelists.css
+WARNING 2026-02-08 02:29:22,466 log Not Found: /static/admin/js/theme.js
+WARNING 2026-02-08 02:29:22,469 log Not Found: /static/admin/css/dark_mode.css
+WARNING 2026-02-08 02:29:22,519 log Not Found: /static/admin/js/vendor/jquery/jquery.js
+WARNING 2026-02-08 02:29:22,519 log Not Found: /static/admin/js/jquery.init.js
+WARNING 2026-02-08 02:29:22,519 log Not Found: /static/admin/css/responsive.css
+WARNING 2026-02-08 02:29:22,519 log Not Found: /static/admin/js/core.js
+WARNING 2026-02-08 02:29:22,519 log Not Found: /static/admin/js/admin/RelatedObjectLookups.js
+WARNING 2026-02-08 02:29:22,533 log Not Found: /static/admin/css/nav_sidebar.css
+WARNING 2026-02-08 02:29:22,549 log Not Found: /static/admin/css/changelists.css
+WARNING 2026-02-08 02:29:22,573 log Not Found: /static/admin/js/actions.js
+WARNING 2026-02-08 02:29:22,574 log Not Found: /static/admin/js/prepopulate.js
+WARNING 2026-02-08 02:29:22,574 log Not Found: /static/admin/js/urlify.js
+WARNING 2026-02-08 02:29:22,577 log Not Found: /static/admin/js/vendor/xregexp/xregexp.js
+WARNING 2026-02-08 02:29:22,612 log Not Found: /static/admin/css/responsive.css
+WARNING 2026-02-08 02:29:22,612 log Not Found: /static/admin/js/filters.js
+WARNING 2026-02-08 02:29:22,613 log Not Found: /static/admin/js/nav_sidebar.js
+WARNING 2026-02-08 02:29:24,067 log Not Found: /static/admin/css/base.css
+WARNING 2026-02-08 02:29:24,071 log Not Found: /static/admin/js/calendar.js
+WARNING 2026-02-08 02:29:24,071 log Not Found: /static/admin/js/theme.js
+WARNING 2026-02-08 02:29:24,071 log Not Found: /static/admin/css/forms.css
+WARNING 2026-02-08 02:29:24,075 log Not Found: /static/admin/css/nav_sidebar.css
+WARNING 2026-02-08 02:29:24,075 log Not Found: /static/admin/css/dark_mode.css
+WARNING 2026-02-08 02:29:24,106 log Not Found: /static/admin/css/responsive.css
+WARNING 2026-02-08 02:29:24,124 log Not Found: /static/admin/js/vendor/jquery/jquery.js
+WARNING 2026-02-08 02:29:24,129 log Not Found: /static/admin/js/jquery.init.js
+WARNING 2026-02-08 02:29:24,129 log Not Found: /static/admin/js/admin/DateTimeShortcuts.js
+WARNING 2026-02-08 02:29:24,133 log Not Found: /static/admin/js/core.js
+WARNING 2026-02-08 02:29:24,157 log Not Found: /static/admin/css/nav_sidebar.css
+WARNING 2026-02-08 02:29:24,179 log Not Found: /static/admin/css/forms.css
+WARNING 2026-02-08 02:29:24,188 log Not Found: /static/admin/js/urlify.js
+WARNING 2026-02-08 02:29:24,188 log Not Found: /static/admin/js/admin/RelatedObjectLookups.js
+WARNING 2026-02-08 02:29:24,191 log Not Found: /static/admin/js/prepopulate.js
+WARNING 2026-02-08 02:29:24,194 log Not Found: /static/admin/js/actions.js
+WARNING 2026-02-08 02:29:24,203 log Not Found: /static/admin/js/vendor/xregexp/xregexp.js
+WARNING 2026-02-08 02:29:24,209 log Not Found: /static/admin/js/prepopulate_init.js
+WARNING 2026-02-08 02:29:24,262 log Not Found: /static/admin/css/responsive.css
+WARNING 2026-02-08 02:29:24,262 log Not Found: /static/admin/js/nav_sidebar.js
+WARNING 2026-02-08 02:29:24,269 log Not Found: /static/admin/img/icon-viewlink.svg
+WARNING 2026-02-08 02:29:24,269 log Not Found: /static/admin/js/change_form.js
+WARNING 2026-02-08 02:29:24,270 log Not Found: /static/admin/img/icon-addlink.svg
+WARNING 2026-02-08 02:29:24,272 log Not Found: /static/admin/img/icon-changelink.svg
+WARNING 2026-02-08 02:29:29,272 log Not Found: /static/admin/css/base.css
+WARNING 2026-02-08 02:29:29,280 log Not Found: /static/admin/css/nav_sidebar.css
+WARNING 2026-02-08 02:29:29,281 log Not Found: /static/admin/js/theme.js
+WARNING 2026-02-08 02:29:29,281 log Not Found: /static/admin/css/dark_mode.css
+WARNING 2026-02-08 02:29:29,281 log Not Found: /static/admin/css/forms.css
+WARNING 2026-02-08 02:29:29,315 log Not Found: /static/admin/css/responsive.css
+WARNING 2026-02-08 02:29:29,339 log Not Found: /static/admin/js/vendor/jquery/jquery.js
+WARNING 2026-02-08 02:29:29,345 log Not Found: /static/admin/js/calendar.js
+WARNING 2026-02-08 02:29:29,345 log Not Found: /static/admin/css/nav_sidebar.css
+WARNING 2026-02-08 02:29:29,345 log Not Found: /static/admin/js/admin/DateTimeShortcuts.js
+WARNING 2026-02-08 02:29:29,346 log Not Found: /static/admin/js/jquery.init.js
+WARNING 2026-02-08 02:29:29,384 log Not Found: /static/admin/js/core.js
+WARNING 2026-02-08 02:29:29,390 log Not Found: /static/admin/js/urlify.js
+WARNING 2026-02-08 02:29:29,390 log Not Found: /static/admin/js/admin/RelatedObjectLookups.js
+WARNING 2026-02-08 02:29:29,390 log Not Found: /static/admin/js/actions.js
+WARNING 2026-02-08 02:29:29,390 log Not Found: /static/admin/js/prepopulate.js
+WARNING 2026-02-08 02:29:29,410 log Not Found: /static/admin/js/vendor/xregexp/xregexp.js
+WARNING 2026-02-08 02:29:29,410 log Not Found: /static/admin/js/prepopulate_init.js
+WARNING 2026-02-08 02:29:29,503 log Not Found: /static/admin/js/nav_sidebar.js
+WARNING 2026-02-08 02:29:29,503 log Not Found: /static/admin/css/responsive.css
+WARNING 2026-02-08 02:29:29,503 log Not Found: /static/admin/img/icon-changelink.svg
+WARNING 2026-02-08 02:29:29,503 log Not Found: /static/admin/img/icon-viewlink.svg
+WARNING 2026-02-08 02:29:29,504 log Not Found: /static/admin/img/icon-addlink.svg
+WARNING 2026-02-08 02:29:29,529 log Not Found: /static/admin/js/change_form.js
+WARNING 2026-02-08 02:30:59,088 log Not Found: /static/admin/css/base.css
+WARNING 2026-02-08 02:30:59,101 log Not Found: /static/admin/css/dark_mode.css
+WARNING 2026-02-08 02:30:59,112 log Not Found: /static/admin/css/nav_sidebar.css
+WARNING 2026-02-08 02:30:59,121 log Not Found: /static/admin/css/changelists.css
+WARNING 2026-02-08 02:30:59,131 log Not Found: /static/admin/css/responsive.css
+WARNING 2026-02-08 02:30:59,141 log Not Found: /static/admin/js/theme.js
+WARNING 2026-02-08 02:30:59,163 log Not Found: /static/admin/css/nav_sidebar.css
+WARNING 2026-02-08 02:30:59,174 log Not Found: /static/admin/css/changelists.css
+WARNING 2026-02-08 02:30:59,184 log Not Found: /static/admin/js/vendor/jquery/jquery.js
+WARNING 2026-02-08 02:30:59,196 log Not Found: /static/admin/js/jquery.init.js
+WARNING 2026-02-08 02:30:59,206 log Not Found: /static/admin/js/core.js
+WARNING 2026-02-08 02:30:59,219 log Not Found: /static/admin/js/admin/RelatedObjectLookups.js
+WARNING 2026-02-08 02:30:59,233 log Not Found: /static/admin/js/actions.js
+WARNING 2026-02-08 02:30:59,255 log Not Found: /static/admin/js/urlify.js
+WARNING 2026-02-08 02:30:59,255 log Not Found: /static/admin/js/prepopulate.js
+WARNING 2026-02-08 02:30:59,267 log Not Found: /static/admin/js/vendor/xregexp/xregexp.js
+WARNING 2026-02-08 02:30:59,280 log Not Found: /static/admin/js/nav_sidebar.js
+WARNING 2026-02-08 02:30:59,306 log Not Found: /static/admin/js/filters.js
+WARNING 2026-02-08 02:30:59,306 log Not Found: /static/admin/css/responsive.css
+WARNING 2026-02-08 02:31:01,776 log Not Found: /static/admin/css/base.css
+WARNING 2026-02-08 02:31:01,779 log Not Found: /static/admin/css/dark_mode.css
+WARNING 2026-02-08 02:31:01,786 log Not Found: /static/admin/css/nav_sidebar.css
+WARNING 2026-02-08 02:31:01,787 log Not Found: /static/admin/js/theme.js
+WARNING 2026-02-08 02:31:01,787 log Not Found: /static/admin/css/forms.css
+WARNING 2026-02-08 02:31:01,833 log Not Found: /static/admin/css/responsive.css
+WARNING 2026-02-08 02:31:01,833 log Not Found: /static/admin/js/vendor/jquery/jquery.js
+WARNING 2026-02-08 02:31:01,844 log Not Found: /static/admin/js/jquery.init.js
+WARNING 2026-02-08 02:31:01,849 log Not Found: /static/admin/js/core.js
+WARNING 2026-02-08 02:31:01,849 log Not Found: /static/admin/js/admin/RelatedObjectLookups.js
+WARNING 2026-02-08 02:31:01,858 log Not Found: /static/admin/css/nav_sidebar.css
+WARNING 2026-02-08 02:31:01,887 log Not Found: /static/admin/css/forms.css
+WARNING 2026-02-08 02:31:01,890 log Not Found: /static/admin/js/actions.js
+WARNING 2026-02-08 02:31:01,896 log Not Found: /static/admin/js/urlify.js
+WARNING 2026-02-08 02:31:01,896 log Not Found: /static/admin/js/vendor/xregexp/xregexp.js
+WARNING 2026-02-08 02:31:01,896 log Not Found: /static/admin/js/prepopulate.js
+WARNING 2026-02-08 02:31:01,905 log Not Found: /static/admin/js/prepopulate_init.js
+WARNING 2026-02-08 02:31:01,931 log Not Found: /static/admin/css/responsive.css
+WARNING 2026-02-08 02:31:01,931 log Not Found: /static/admin/js/change_form.js
+WARNING 2026-02-08 02:31:01,932 log Not Found: /static/admin/js/nav_sidebar.js
+WARNING 2026-02-08 02:31:14,424 log Not Found: /static/admin/css/base.css
+WARNING 2026-02-08 02:31:14,424 log Not Found: /static/admin/css/dark_mode.css
+WARNING 2026-02-08 02:31:14,442 log Not Found: /static/admin/css/changelists.css
+WARNING 2026-02-08 02:31:14,443 log Not Found: /static/admin/css/nav_sidebar.css
+WARNING 2026-02-08 02:31:14,463 log Not Found: /static/admin/css/responsive.css
+WARNING 2026-02-08 02:31:14,463 log Not Found: /static/admin/js/theme.js
+WARNING 2026-02-08 02:31:14,480 log Not Found: /static/admin/js/vendor/jquery/jquery.js
+WARNING 2026-02-08 02:31:14,500 log Not Found: /static/admin/css/nav_sidebar.css
+WARNING 2026-02-08 02:31:14,500 log Not Found: /static/admin/css/changelists.css
+WARNING 2026-02-08 02:31:14,522 log Not Found: /static/admin/js/core.js
+WARNING 2026-02-08 02:31:14,523 log Not Found: /static/admin/js/jquery.init.js
+WARNING 2026-02-08 02:31:14,540 log Not Found: /static/admin/js/actions.js
+WARNING 2026-02-08 02:31:14,541 log Not Found: /static/admin/js/admin/RelatedObjectLookups.js
+WARNING 2026-02-08 02:31:14,556 log Not Found: /static/admin/js/urlify.js
+WARNING 2026-02-08 02:31:14,556 log Not Found: /static/admin/js/prepopulate.js
+WARNING 2026-02-08 02:31:14,572 log Not Found: /static/admin/js/vendor/xregexp/xregexp.js
+WARNING 2026-02-08 02:31:14,579 log Not Found: /static/admin/js/nav_sidebar.js
+WARNING 2026-02-08 02:31:14,597 log Not Found: /static/admin/css/responsive.css
+WARNING 2026-02-08 02:31:14,597 log Not Found: /static/admin/js/filters.js
+WARNING 2026-02-08 02:31:15,843 log Not Found: /static/admin/css/base.css
+WARNING 2026-02-08 02:31:15,845 log Not Found: /static/admin/css/dark_mode.css
+WARNING 2026-02-08 02:31:15,847 log Not Found: /static/admin/js/theme.js
+WARNING 2026-02-08 02:31:15,847 log Not Found: /static/admin/css/forms.css
+WARNING 2026-02-08 02:31:15,854 log Not Found: /static/admin/css/nav_sidebar.css
+WARNING 2026-02-08 02:31:15,893 log Not Found: /static/admin/css/responsive.css
+WARNING 2026-02-08 02:31:15,893 log Not Found: /static/admin/js/vendor/jquery/jquery.js
+WARNING 2026-02-08 02:31:15,893 log Not Found: /static/admin/js/core.js
+WARNING 2026-02-08 02:31:15,893 log Not Found: /static/admin/js/jquery.init.js
+WARNING 2026-02-08 02:31:15,909 log Not Found: /static/admin/js/admin/RelatedObjectLookups.js
+WARNING 2026-02-08 02:31:15,919 log Not Found: /static/admin/js/actions.js
+WARNING 2026-02-08 02:31:15,985 log Not Found: /static/admin/js/vendor/xregexp/xregexp.js
+WARNING 2026-02-08 02:31:15,987 log Not Found: /static/admin/js/urlify.js
+WARNING 2026-02-08 02:31:15,989 log Not Found: /static/admin/js/prepopulate.js
+WARNING 2026-02-08 02:31:15,993 log Not Found: /static/admin/js/prepopulate_init.js
+WARNING 2026-02-08 02:31:16,029 log Not Found: /static/admin/js/change_form.js
+WARNING 2026-02-08 02:31:16,029 log Not Found: /static/admin/js/nav_sidebar.js
+WARNING 2026-02-08 02:31:16,029 log Not Found: /static/admin/css/responsive.css
+ERROR 2026-02-08 15:00:35,025 log Internal Server Error: /api/campaigns/11/action/
+Traceback (most recent call last):
+  File "C:\Work\Elvis Work\backend\env\Lib\site-packages\asgiref\sync.py", line 557, in thread_handler
+    raise exc_info[1]
+  File "C:\Work\Elvis Work\backend\env\Lib\site-packages\django\core\handlers\exception.py", line 42, in inner
+    response = await get_response(request)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Work\Elvis Work\backend\env\Lib\site-packages\asgiref\sync.py", line 557, in thread_handler
+    raise exc_info[1]
+  File "C:\Work\Elvis Work\backend\env\Lib\site-packages\django\core\handlers\base.py", line 253, in _get_response_async
+    response = await wrapped_callback(
+               ^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Work\Elvis Work\backend\env\Lib\site-packages\asgiref\sync.py", line 506, in __call__
+    ret = await asyncio.shield(exec_coro)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\manag\AppData\Local\Programs\Python\Python312\Lib\concurrent\futures\thread.py", line 59, in run
+    result = self.fn(*self.args, **self.kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Work\Elvis Work\backend\env\Lib\site-packages\asgiref\sync.py", line 561, in thread_handler
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Work\Elvis Work\backend\env\Lib\site-packages\django\views\decorators\csrf.py", line 65, in _view_wrapper
+    return view_func(request, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Work\Elvis Work\backend\env\Lib\site-packages\django\views\generic\base.py", line 105, in view
+    return self.dispatch(request, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Work\Elvis Work\backend\env\Lib\site-packages\rest_framework\views.py", line 515, in dispatch
+    response = self.handle_exception(exc)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Work\Elvis Work\backend\env\Lib\site-packages\rest_framework\views.py", line 475, in handle_exception
+    self.raise_uncaught_exception(exc)
+  File "C:\Work\Elvis Work\backend\env\Lib\site-packages\rest_framework\views.py", line 486, in raise_uncaught_exception
+    raise exc
+  File "C:\Work\Elvis Work\backend\env\Lib\site-packages\rest_framework\views.py", line 512, in dispatch
+    response = handler(request, *args, **kwargs)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Work\Elvis Work\backend\env\Lib\site-packages\rest_framework\decorators.py", line 50, in handler
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Work\Elvis Work\backend\campaign\views.py", line 152, in campaign_action
+    """
+        
+  File "C:\Work\Elvis Work\backend\env\Lib\site-packages\celery\app\task.py", line 444, in delay
+    return self.apply_async(args, kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Work\Elvis Work\backend\env\Lib\site-packages\celery\app\task.py", line 608, in apply_async
+    return app.send_task(
+           ^^^^^^^^^^^^^^
+  File "C:\Work\Elvis Work\backend\env\Lib\site-packages\celery\app\base.py", line 946, in send_task
+    self.backend.on_task_call(P, task_id)
+    ^^^^^^^^^^^^
+  File "C:\Work\Elvis Work\backend\env\Lib\site-packages\celery\app\base.py", line 1452, in backend
+    self._backend = self._get_backend()
+                    ^^^^^^^^^^^^^^^^^^^
+  File "C:\Work\Elvis Work\backend\env\Lib\site-packages\celery\app\base.py", line 1117, in _get_backend
+    backend, url = backends.by_url(
+                   ^^^^^^^^^^^^^^^^
+  File "C:\Work\Elvis Work\backend\env\Lib\site-packages\celery\app\backends.py", line 69, in by_url
+    return by_name(backend, loader), url
+           ^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Work\Elvis Work\backend\env\Lib\site-packages\celery\app\backends.py", line 49, in by_name
+    cls = symbol_by_name(backend, aliases)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Work\Elvis Work\backend\env\Lib\site-packages\kombu\utils\imports.py", line 59, in symbol_by_name
+    module = imp(module_name, package=package, **kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\manag\AppData\Local\Programs\Python\Python312\Lib\importlib\__init__.py", line 90, in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<frozen importlib._bootstrap>", line 1387, in _gcd_import
+  File "<frozen importlib._bootstrap>", line 1360, in _find_and_load
+  File "<frozen importlib._bootstrap>", line 1331, in _find_and_load_unlocked
+  File "<frozen importlib._bootstrap>", line 935, in _load_unlocked
+  File "<frozen importlib._bootstrap_external>", line 999, in exec_module
+  File "<frozen importlib._bootstrap>", line 488, in _call_with_frames_removed
+  File "C:\Work\Elvis Work\backend\env\Lib\site-packages\django_celery_results\backends\__init__.py", line 2, in <module>
+    from .database import DatabaseBackend
+  File "C:\Work\Elvis Work\backend\env\Lib\site-packages\django_celery_results\backends\database.py", line 15, in <module>
+    from ..models import ChordCounter
+  File "C:\Work\Elvis Work\backend\env\Lib\site-packages\django_celery_results\models.py", line 18, in <module>
+    class TaskResult(models.Model):
+  File "C:\Work\Elvis Work\backend\env\Lib\site-packages\django\db\models\base.py", line 136, in __new__
+    raise RuntimeError(
+RuntimeError: Model class django_celery_results.models.TaskResult doesn't declare an explicit app_label and isn't in an application in INSTALLED_APPS.
+WARNING 2026-02-08 15:00:55,253 log Forbidden: /api/campaigns/11/action/
+WARNING 2026-02-08 15:01:05,356 log Forbidden: /api/campaigns/11/action/
+WARNING 2026-02-08 15:01:11,542 log Method Not Allowed: /api/campaigns/11/action/
+WARNING 2026-02-08 15:01:11,627 log Not Found: /static/rest_framework/css/bootstrap.min.css
+WARNING 2026-02-08 15:01:11,639 log Not Found: /static/rest_framework/css/bootstrap-tweaks.css
+WARNING 2026-02-08 15:01:11,652 log Not Found: /static/rest_framework/css/prettify.css
+WARNING 2026-02-08 15:01:11,658 log Not Found: /static/rest_framework/css/default.css
+WARNING 2026-02-08 15:01:11,668 log Not Found: /static/rest_framework/js/jquery-3.7.1.min.js
+WARNING 2026-02-08 15:01:11,677 log Not Found: /static/rest_framework/js/ajax-form.js
+WARNING 2026-02-08 15:01:11,692 log Not Found: /static/rest_framework/js/csrf.js
+WARNING 2026-02-08 15:01:11,696 log Not Found: /static/rest_framework/js/bootstrap.min.js
+WARNING 2026-02-08 15:01:11,709 log Not Found: /static/rest_framework/js/prettify-min.js
+WARNING 2026-02-08 15:01:11,715 log Not Found: /static/rest_framework/js/default.js
+WARNING 2026-02-08 15:01:11,725 log Not Found: /static/rest_framework/js/load-ajax-form.js
+ERROR 2026-02-08 15:01:54,760 log Internal Server Error: /api/campaigns/11/action/
+Traceback (most recent call last):
+  File "C:\Work\Elvis Work\backend\env\Lib\site-packages\asgiref\sync.py", line 557, in thread_handler
+    raise exc_info[1]
+  File "C:\Work\Elvis Work\backend\env\Lib\site-packages\django\core\handlers\exception.py", line 42, in inner
+    response = await get_response(request)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Work\Elvis Work\backend\env\Lib\site-packages\asgiref\sync.py", line 557, in thread_handler
+    raise exc_info[1]
+  File "C:\Work\Elvis Work\backend\env\Lib\site-packages\django\core\handlers\base.py", line 253, in _get_response_async
+    response = await wrapped_callback(
+               ^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Work\Elvis Work\backend\env\Lib\site-packages\asgiref\sync.py", line 506, in __call__
+    ret = await asyncio.shield(exec_coro)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\manag\AppData\Local\Programs\Python\Python312\Lib\concurrent\futures\thread.py", line 59, in run
+    result = self.fn(*self.args, **self.kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Work\Elvis Work\backend\env\Lib\site-packages\asgiref\sync.py", line 561, in thread_handler
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Work\Elvis Work\backend\env\Lib\site-packages\django\views\decorators\csrf.py", line 65, in _view_wrapper
+    return view_func(request, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Work\Elvis Work\backend\env\Lib\site-packages\django\views\generic\base.py", line 105, in view
+    return self.dispatch(request, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Work\Elvis Work\backend\env\Lib\site-packages\rest_framework\views.py", line 515, in dispatch
+    response = self.handle_exception(exc)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Work\Elvis Work\backend\env\Lib\site-packages\rest_framework\views.py", line 475, in handle_exception
+    self.raise_uncaught_exception(exc)
+  File "C:\Work\Elvis Work\backend\env\Lib\site-packages\rest_framework\views.py", line 486, in raise_uncaught_exception
+    raise exc
+  File "C:\Work\Elvis Work\backend\env\Lib\site-packages\rest_framework\views.py", line 512, in dispatch
+    response = handler(request, *args, **kwargs)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Work\Elvis Work\backend\env\Lib\site-packages\rest_framework\decorators.py", line 50, in handler
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Work\Elvis Work\backend\campaign\views.py", line 151, in campaign_action
+    campaign = get_object_or_404(Campaign, id=campaign_id, user=request.user)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Work\Elvis Work\backend\env\Lib\site-packages\django\shortcuts.py", line 90, in get_object_or_404
+    return queryset.get(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Work\Elvis Work\backend\env\Lib\site-packages\django\db\models\query.py", line 621, in get
+    clone = self._chain() if self.query.combinator else self.filter(*args, **kwargs)
+                                                        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Work\Elvis Work\backend\env\Lib\site-packages\django\db\models\query.py", line 1495, in filter
+    return self._filter_or_exclude(False, args, kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Work\Elvis Work\backend\env\Lib\site-packages\django\db\models\query.py", line 1513, in _filter_or_exclude
+    clone._filter_or_exclude_inplace(negate, args, kwargs)
+  File "C:\Work\Elvis Work\backend\env\Lib\site-packages\django\db\models\query.py", line 1523, in _filter_or_exclude_inplace
+    self._query.add_q(Q(*args, **kwargs))
+  File "C:\Work\Elvis Work\backend\env\Lib\site-packages\django\db\models\sql\query.py", line 1648, in add_q
+    clause, _ = self._add_q(q_object, can_reuse)
+                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Work\Elvis Work\backend\env\Lib\site-packages\django\db\models\sql\query.py", line 1680, in _add_q
+    child_clause, needed_inner = self.build_filter(
+                                 ^^^^^^^^^^^^^^^^^^
+  File "C:\Work\Elvis Work\backend\env\Lib\site-packages\django\db\models\sql\query.py", line 1528, in build_filter
+    lookups, parts, reffed_expression = self.solve_lookup_type(arg, summarize)
+                                        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Work\Elvis Work\backend\env\Lib\site-packages\django\db\models\sql\query.py", line 1335, in solve_lookup_type
+    _, field, _, lookup_parts = self.names_to_path(lookup_splitted, self.get_meta())
+                                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Work\Elvis Work\backend\env\Lib\site-packages\django\db\models\sql\query.py", line 1813, in names_to_path
+    raise FieldError(
+django.core.exceptions.FieldError: Cannot resolve keyword 'user' into field. Choices are: actual_duration, allow_replies, completed_at, contacts, created_at, estimated_duration, from_number, id, messages_per_minute, name, scheduled_time, started_at, status, stop_keywords, template, updated_at, variables
+WARNING 2026-02-08 16:03:46,272 log Bad Request: /api/campaigns/21/action/
+WARNING 2026-02-08 16:04:04,721 log Bad Request: /api/campaigns/21/action/
+WARNING 2026-02-08 19:43:24,732 log Not Found: /static/admin/css/dark_mode.css
+WARNING 2026-02-08 19:43:24,732 log Not Found: /static/admin/css/base.css
+WARNING 2026-02-08 19:43:24,782 log Not Found: /static/admin/css/nav_sidebar.css
+WARNING 2026-02-08 19:43:24,782 log Not Found: /static/admin/css/dashboard.css
+WARNING 2026-02-08 19:43:24,826 log Not Found: /static/admin/css/responsive.css
+WARNING 2026-02-08 19:43:24,826 log Not Found: /static/admin/js/theme.js
+WARNING 2026-02-08 19:43:24,889 log Not Found: /static/admin/js/nav_sidebar.js
+WARNING 2026-02-08 19:43:24,893 log Not Found: /static/admin/css/nav_sidebar.css
+WARNING 2026-02-08 19:43:24,936 log Not Found: /static/admin/css/dashboard.css
+WARNING 2026-02-08 19:43:24,939 log Not Found: /static/admin/css/responsive.css
+WARNING 2026-02-08 19:43:25,176 log Not Found: /favicon.ico
+WARNING 2026-02-08 19:43:29,802 log Not Found: /static/admin/css/base.css
+WARNING 2026-02-08 19:43:29,826 log Not Found: /static/admin/css/dark_mode.css
+WARNING 2026-02-08 19:43:29,826 log Not Found: /static/admin/js/theme.js
+WARNING 2026-02-08 19:43:29,828 log Not Found: /static/admin/css/nav_sidebar.css
+WARNING 2026-02-08 19:43:29,842 log Not Found: /static/admin/css/changelists.css
+WARNING 2026-02-08 19:43:29,919 log Not Found: /static/admin/css/responsive.css
+WARNING 2026-02-08 19:43:29,968 log Not Found: /static/admin/js/vendor/jquery/jquery.js
+WARNING 2026-02-08 19:43:29,971 log Not Found: /static/admin/js/jquery.init.js
+WARNING 2026-02-08 19:43:29,975 log Not Found: /static/admin/js/core.js
+WARNING 2026-02-08 19:43:29,977 log Not Found: /static/admin/js/admin/RelatedObjectLookups.js
+WARNING 2026-02-08 19:43:30,000 log Not Found: /static/admin/js/actions.js
+WARNING 2026-02-08 19:43:30,053 log Not Found: /static/admin/js/prepopulate.js
+WARNING 2026-02-08 19:43:30,060 log Not Found: /static/admin/js/vendor/xregexp/xregexp.js
+WARNING 2026-02-08 19:43:30,063 log Not Found: /static/admin/js/urlify.js
+WARNING 2026-02-08 19:43:30,126 log Not Found: /static/admin/js/nav_sidebar.js
+WARNING 2026-02-08 19:43:30,136 log Not Found: /static/admin/css/responsive.css
+WARNING 2026-02-08 19:43:30,138 log Not Found: /static/admin/js/filters.js
+WARNING 2026-02-08 19:43:32,119 log Not Found: /static/admin/css/forms.css
+WARNING 2026-02-08 19:43:32,120 log Not Found: /static/admin/css/base.css
+WARNING 2026-02-08 19:43:32,123 log Not Found: /static/admin/css/nav_sidebar.css
+WARNING 2026-02-08 19:43:32,123 log Not Found: /static/admin/js/theme.js
+WARNING 2026-02-08 19:43:32,131 log Not Found: /static/admin/css/dark_mode.css
+WARNING 2026-02-08 19:43:32,232 log Not Found: /static/admin/js/vendor/jquery/jquery.js
+WARNING 2026-02-08 19:43:32,241 log Not Found: /static/admin/css/responsive.css
+WARNING 2026-02-08 19:43:32,251 log Not Found: /static/admin/js/calendar.js
+WARNING 2026-02-08 19:43:32,251 log Not Found: /static/admin/js/jquery.init.js
+WARNING 2026-02-08 19:43:32,262 log Not Found: /static/admin/js/admin/DateTimeShortcuts.js
+WARNING 2026-02-08 19:43:32,284 log Not Found: /static/admin/css/nav_sidebar.css
+WARNING 2026-02-08 19:43:32,371 log Not Found: /static/admin/css/forms.css
+WARNING 2026-02-08 19:43:32,380 log Not Found: /static/admin/js/actions.js
+WARNING 2026-02-08 19:43:32,383 log Not Found: /static/admin/js/admin/RelatedObjectLookups.js
+WARNING 2026-02-08 19:43:32,386 log Not Found: /static/admin/js/core.js
+WARNING 2026-02-08 19:43:32,388 log Not Found: /static/admin/js/urlify.js
+WARNING 2026-02-08 19:43:32,417 log Not Found: /static/admin/js/prepopulate.js
+WARNING 2026-02-08 19:43:32,446 log Not Found: /static/admin/js/vendor/xregexp/xregexp.js
+WARNING 2026-02-08 19:43:32,446 log Not Found: /static/admin/js/prepopulate_init.js
+WARNING 2026-02-08 19:43:32,581 log Not Found: /static/admin/js/change_form.js
+WARNING 2026-02-08 19:43:32,581 log Not Found: /static/admin/js/nav_sidebar.js
+WARNING 2026-02-08 19:43:32,584 log Not Found: /static/admin/img/icon-changelink.svg
+WARNING 2026-02-08 19:43:32,584 log Not Found: /static/admin/css/responsive.css
+WARNING 2026-02-08 19:43:32,590 log Not Found: /static/admin/img/icon-viewlink.svg
+WARNING 2026-02-08 19:43:32,590 log Not Found: /static/admin/img/icon-addlink.svg
+ERROR 2026-02-08 20:51:34,914 log Internal Server Error: /api/campaigns/
+Traceback (most recent call last):
+  File "C:\Work\Elvis Work\backend\env\Lib\site-packages\asgiref\sync.py", line 557, in thread_handler
+    raise exc_info[1]
+  File "C:\Work\Elvis Work\backend\env\Lib\site-packages\django\core\handlers\exception.py", line 42, in inner
+    response = await get_response(request)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Work\Elvis Work\backend\env\Lib\site-packages\asgiref\sync.py", line 557, in thread_handler
+    raise exc_info[1]
+  File "C:\Work\Elvis Work\backend\env\Lib\site-packages\django\core\handlers\base.py", line 253, in _get_response_async
+    response = await wrapped_callback(
+               ^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Work\Elvis Work\backend\env\Lib\site-packages\asgiref\sync.py", line 506, in __call__
+    ret = await asyncio.shield(exec_coro)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\manag\AppData\Local\Programs\Python\Python312\Lib\concurrent\futures\thread.py", line 59, in run
+    result = self.fn(*self.args, **self.kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Work\Elvis Work\backend\env\Lib\site-packages\asgiref\sync.py", line 561, in thread_handler
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Work\Elvis Work\backend\env\Lib\site-packages\django\views\decorators\csrf.py", line 65, in _view_wrapper
+    return view_func(request, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Work\Elvis Work\backend\env\Lib\site-packages\django\views\generic\base.py", line 105, in view
+    return self.dispatch(request, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Work\Elvis Work\backend\env\Lib\site-packages\rest_framework\views.py", line 515, in dispatch
+    response = self.handle_exception(exc)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Work\Elvis Work\backend\env\Lib\site-packages\rest_framework\views.py", line 475, in handle_exception
+    self.raise_uncaught_exception(exc)
+  File "C:\Work\Elvis Work\backend\env\Lib\site-packages\rest_framework\views.py", line 486, in raise_uncaught_exception
+    raise exc
+  File "C:\Work\Elvis Work\backend\env\Lib\site-packages\rest_framework\views.py", line 512, in dispatch
+    response = handler(request, *args, **kwargs)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Work\Elvis Work\backend\env\Lib\site-packages\rest_framework\decorators.py", line 50, in handler
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Work\Elvis Work\backend\campaign\views.py", line 90, in campaign_list_create
+    print(rendered, campaign.template, row)
+          ^^^^^^^^
+UnboundLocalError: cannot access local variable 'rendered' where it is not associated with a value
+ERROR 2026-02-08 20:51:41,500 log Internal Server Error: /api/campaigns/
+Traceback (most recent call last):
+  File "C:\Work\Elvis Work\backend\env\Lib\site-packages\asgiref\sync.py", line 557, in thread_handler
+    raise exc_info[1]
+  File "C:\Work\Elvis Work\backend\env\Lib\site-packages\django\core\handlers\exception.py", line 42, in inner
+    response = await get_response(request)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Work\Elvis Work\backend\env\Lib\site-packages\asgiref\sync.py", line 557, in thread_handler
+    raise exc_info[1]
+  File "C:\Work\Elvis Work\backend\env\Lib\site-packages\django\core\handlers\base.py", line 253, in _get_response_async
+    response = await wrapped_callback(
+               ^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Work\Elvis Work\backend\env\Lib\site-packages\asgiref\sync.py", line 506, in __call__
+    ret = await asyncio.shield(exec_coro)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\manag\AppData\Local\Programs\Python\Python312\Lib\concurrent\futures\thread.py", line 59, in run
+    result = self.fn(*self.args, **self.kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Work\Elvis Work\backend\env\Lib\site-packages\asgiref\sync.py", line 561, in thread_handler
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Work\Elvis Work\backend\env\Lib\site-packages\django\views\decorators\csrf.py", line 65, in _view_wrapper
+    return view_func(request, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Work\Elvis Work\backend\env\Lib\site-packages\django\views\generic\base.py", line 105, in view
+    return self.dispatch(request, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Work\Elvis Work\backend\env\Lib\site-packages\rest_framework\views.py", line 515, in dispatch
+    response = self.handle_exception(exc)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Work\Elvis Work\backend\env\Lib\site-packages\rest_framework\views.py", line 475, in handle_exception
+    self.raise_uncaught_exception(exc)
+  File "C:\Work\Elvis Work\backend\env\Lib\site-packages\rest_framework\views.py", line 486, in raise_uncaught_exception
+    raise exc
+  File "C:\Work\Elvis Work\backend\env\Lib\site-packages\rest_framework\views.py", line 512, in dispatch
+    response = handler(request, *args, **kwargs)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Work\Elvis Work\backend\env\Lib\site-packages\rest_framework\decorators.py", line 50, in handler
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Work\Elvis Work\backend\campaign\views.py", line 90, in campaign_list_create
+    rendered = render_template(campaign.template, row)
+          ^^^^^^^^
+UnboundLocalError: cannot access local variable 'rendered' where it is not associated with a value
+WARNING 2026-02-08 20:55:03,800 log Not Found: /static/admin/css/base.css
+WARNING 2026-02-08 20:55:03,810 log Not Found: /static/admin/css/dark_mode.css
+WARNING 2026-02-08 20:55:03,846 log Not Found: /static/admin/css/nav_sidebar.css
+WARNING 2026-02-08 20:55:03,857 log Not Found: /static/admin/css/dashboard.css
+WARNING 2026-02-08 20:55:03,898 log Not Found: /static/admin/css/responsive.css
+WARNING 2026-02-08 20:55:03,902 log Not Found: /static/admin/js/theme.js
+WARNING 2026-02-08 20:55:03,970 log Not Found: /static/admin/js/nav_sidebar.js
+WARNING 2026-02-08 20:55:03,972 log Not Found: /static/admin/css/nav_sidebar.css
+WARNING 2026-02-08 20:55:04,016 log Not Found: /static/admin/css/dashboard.css
+WARNING 2026-02-08 20:55:04,017 log Not Found: /static/admin/css/responsive.css
+WARNING 2026-02-08 20:55:06,751 log Not Found: /static/admin/css/base.css
+WARNING 2026-02-08 20:55:06,760 log Not Found: /static/admin/js/theme.js
+WARNING 2026-02-08 20:55:06,763 log Not Found: /static/admin/css/changelists.css
+WARNING 2026-02-08 20:55:06,775 log Not Found: /static/admin/css/nav_sidebar.css
+WARNING 2026-02-08 20:55:06,775 log Not Found: /static/admin/css/dark_mode.css
+WARNING 2026-02-08 20:55:06,891 log Not Found: /static/admin/css/responsive.css
+WARNING 2026-02-08 20:55:06,891 log Not Found: /static/admin/js/vendor/jquery/jquery.js
+WARNING 2026-02-08 20:55:06,913 log Not Found: /static/admin/js/jquery.init.js
+WARNING 2026-02-08 20:55:06,915 log Not Found: /static/admin/js/core.js
+WARNING 2026-02-08 20:55:06,920 log Not Found: /static/admin/js/admin/RelatedObjectLookups.js
+WARNING 2026-02-08 20:55:06,941 log Not Found: /static/admin/css/nav_sidebar.css
+WARNING 2026-02-08 20:55:07,088 log Not Found: /static/admin/css/changelists.css
+WARNING 2026-02-08 20:55:07,094 log Not Found: /static/admin/js/vendor/xregexp/xregexp.js
+WARNING 2026-02-08 20:55:07,094 log Not Found: /static/admin/js/actions.js
+WARNING 2026-02-08 20:55:07,094 log Not Found: /static/admin/js/prepopulate.js
+WARNING 2026-02-08 20:55:07,094 log Not Found: /static/admin/js/urlify.js
+WARNING 2026-02-08 20:55:07,177 log Not Found: /static/admin/js/nav_sidebar.js
+WARNING 2026-02-08 20:55:07,180 log Not Found: /static/admin/css/responsive.css
+WARNING 2026-02-08 20:55:07,185 log Not Found: /static/admin/js/filters.js
+WARNING 2026-02-08 20:55:09,970 log Not Found: /static/admin/css/base.css
+WARNING 2026-02-08 20:55:10,040 log Not Found: /static/admin/css/dark_mode.css
+WARNING 2026-02-08 20:55:10,040 log Not Found: /static/admin/css/forms.css
+WARNING 2026-02-08 20:55:10,040 log Not Found: /static/admin/js/theme.js
+WARNING 2026-02-08 20:55:10,040 log Not Found: /static/admin/css/nav_sidebar.css
+WARNING 2026-02-08 20:55:10,162 log Not Found: /static/admin/css/responsive.css
+WARNING 2026-02-08 20:55:10,170 log Not Found: /static/admin/js/jquery.init.js
+WARNING 2026-02-08 20:55:10,174 log Not Found: /static/admin/js/vendor/jquery/jquery.js
+WARNING 2026-02-08 20:55:10,182 log Not Found: /static/admin/js/calendar.js
+WARNING 2026-02-08 20:55:10,203 log Not Found: /static/admin/css/forms.css
+WARNING 2026-02-08 20:55:10,286 log Not Found: /static/admin/js/admin/DateTimeShortcuts.js
+WARNING 2026-02-08 20:55:10,290 log Not Found: /static/admin/js/actions.js
+WARNING 2026-02-08 20:55:10,290 log Not Found: /static/admin/js/core.js
+WARNING 2026-02-08 20:55:10,294 log Not Found: /static/admin/js/admin/RelatedObjectLookups.js
+WARNING 2026-02-08 20:55:10,313 log Not Found: /static/admin/js/urlify.js
+WARNING 2026-02-08 20:55:10,380 log Not Found: /static/admin/js/prepopulate.js
+WARNING 2026-02-08 20:55:10,380 log Not Found: /static/admin/js/vendor/xregexp/xregexp.js
+WARNING 2026-02-08 20:55:10,386 log Not Found: /static/admin/js/prepopulate_init.js
+WARNING 2026-02-08 20:55:10,502 log Not Found: /static/admin/img/icon-changelink.svg
+WARNING 2026-02-08 20:55:10,508 log Not Found: /static/admin/js/nav_sidebar.js
+WARNING 2026-02-08 20:55:10,510 log Not Found: /static/admin/css/responsive.css
+WARNING 2026-02-08 20:55:10,510 log Not Found: /static/admin/img/icon-addlink.svg
+WARNING 2026-02-08 20:55:10,516 log Not Found: /static/admin/img/icon-viewlink.svg
+WARNING 2026-02-08 20:55:10,517 log Not Found: /static/admin/js/change_form.js
+WARNING 2026-02-08 21:02:23,228 log Not Found: /static/admin/css/base.css
+WARNING 2026-02-08 21:02:23,240 log Not Found: /static/admin/css/responsive.css
+ERROR 2026-02-12 22:47:47,740 log Invalid HTTP_HOST header: 'drum-ultimate-roughly.ngrok-free.app'. You may need to add 'drum-ultimate-roughly.ngrok-free.app' to ALLOWED_HOSTS.
+Traceback (most recent call last):
+  File "C:\Work\Elvis Work\backend\env\Lib\site-packages\asgiref\sync.py", line 557, in thread_handler
+    raise exc_info[1]
+  File "C:\Work\Elvis Work\backend\env\Lib\site-packages\django\core\handlers\exception.py", line 42, in inner
+    response = await get_response(request)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Work\Elvis Work\backend\env\Lib\site-packages\django\utils\deprecation.py", line 132, in __acall__
+    response = await sync_to_async(
+               ^^^^^^^^^^^^^^^^^^^^
+  File "C:\Work\Elvis Work\backend\env\Lib\site-packages\asgiref\sync.py", line 506, in __call__
+    ret = await asyncio.shield(exec_coro)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\manag\AppData\Local\Programs\Python\Python312\Lib\concurrent\futures\thread.py", line 59, in run
+    result = self.fn(*self.args, **self.kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Work\Elvis Work\backend\env\Lib\site-packages\asgiref\sync.py", line 561, in thread_handler
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Work\Elvis Work\backend\env\Lib\site-packages\django\middleware\common.py", line 48, in process_request
+    host = request.get_host()
+           ^^^^^^^^^^^^^^^^^^
+  File "C:\Work\Elvis Work\backend\env\Lib\site-packages\django\http\request.py", line 202, in get_host
+    raise DisallowedHost(msg)
+django.core.exceptions.DisallowedHost: Invalid HTTP_HOST header: 'drum-ultimate-roughly.ngrok-free.app'. You may need to add 'drum-ultimate-roughly.ngrok-free.app' to ALLOWED_HOSTS.
+ERROR 2026-02-12 22:47:48,320 log Invalid HTTP_HOST header: 'drum-ultimate-roughly.ngrok-free.app'. You may need to add 'drum-ultimate-roughly.ngrok-free.app' to ALLOWED_HOSTS.
+Traceback (most recent call last):
+  File "C:\Work\Elvis Work\backend\env\Lib\site-packages\asgiref\sync.py", line 557, in thread_handler
+    raise exc_info[1]
+  File "C:\Work\Elvis Work\backend\env\Lib\site-packages\django\core\handlers\exception.py", line 42, in inner
+    response = await get_response(request)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Work\Elvis Work\backend\env\Lib\site-packages\django\utils\deprecation.py", line 132, in __acall__
+    response = await sync_to_async(
+               ^^^^^^^^^^^^^^^^^^^^
+  File "C:\Work\Elvis Work\backend\env\Lib\site-packages\asgiref\sync.py", line 506, in __call__
+    ret = await asyncio.shield(exec_coro)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\manag\AppData\Local\Programs\Python\Python312\Lib\concurrent\futures\thread.py", line 59, in run
+    result = self.fn(*self.args, **self.kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Work\Elvis Work\backend\env\Lib\site-packages\asgiref\sync.py", line 561, in thread_handler
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Work\Elvis Work\backend\env\Lib\site-packages\django\middleware\common.py", line 48, in process_request
+    host = request.get_host()
+           ^^^^^^^^^^^^^^^^^^
+  File "C:\Work\Elvis Work\backend\env\Lib\site-packages\django\http\request.py", line 202, in get_host
+    raise DisallowedHost(msg)
+django.core.exceptions.DisallowedHost: Invalid HTTP_HOST header: 'drum-ultimate-roughly.ngrok-free.app'. You may need to add 'drum-ultimate-roughly.ngrok-free.app' to ALLOWED_HOSTS.
+WARNING 2026-02-12 23:27:44,420 log Bad Request: /api/campaigns/40/action/
+WARNING 2026-02-12 23:37:19,464 log Bad Request: /api/campaigns/40/action/
+ERROR 2026-02-13 00:02:12,245 log Internal Server Error: /api/conversations
+ERROR 2026-02-13 00:02:12,501 log Internal Server Error: /api/conversations
+ERROR 2026-02-13 00:02:35,762 log Internal Server Error: /api/conversations
+ERROR 2026-02-13 00:02:36,018 log Internal Server Error: /api/conversations
+ERROR 2026-02-13 00:03:55,840 log Internal Server Error: /api/conversations
+ERROR 2026-02-13 00:03:56,112 log Internal Server Error: /api/conversations
+ERROR 2026-02-13 00:04:00,978 log Internal Server Error: /api/conversations
+ERROR 2026-02-13 00:04:01,298 log Internal Server Error: /api/conversations
+ERROR 2026-02-15 20:01:41,322 log Internal Server Error: /api/campaigns/
+Traceback (most recent call last):
+  File "C:\Work\Elvis Work\backend\env\Lib\site-packages\asgiref\sync.py", line 557, in thread_handler
+    raise exc_info[1]
+  File "C:\Work\Elvis Work\backend\env\Lib\site-packages\django\core\handlers\exception.py", line 42, in inner
+    response = await get_response(request)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Work\Elvis Work\backend\env\Lib\site-packages\asgiref\sync.py", line 557, in thread_handler
+    raise exc_info[1]
+  File "C:\Work\Elvis Work\backend\env\Lib\site-packages\django\core\handlers\base.py", line 253, in _get_response_async
+    response = await wrapped_callback(
+               ^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Work\Elvis Work\backend\env\Lib\site-packages\asgiref\sync.py", line 506, in __call__
+    ret = await asyncio.shield(exec_coro)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\manag\AppData\Local\Programs\Python\Python312\Lib\concurrent\futures\thread.py", line 59, in run
+    result = self.fn(*self.args, **self.kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Work\Elvis Work\backend\env\Lib\site-packages\asgiref\sync.py", line 561, in thread_handler
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Work\Elvis Work\backend\env\Lib\site-packages\django\views\decorators\csrf.py", line 65, in _view_wrapper
+    return view_func(request, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Work\Elvis Work\backend\env\Lib\site-packages\django\views\generic\base.py", line 105, in view
+    return self.dispatch(request, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Work\Elvis Work\backend\env\Lib\site-packages\rest_framework\views.py", line 515, in dispatch
+    response = self.handle_exception(exc)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Work\Elvis Work\backend\env\Lib\site-packages\rest_framework\views.py", line 475, in handle_exception
+    self.raise_uncaught_exception(exc)
+  File "C:\Work\Elvis Work\backend\env\Lib\site-packages\rest_framework\views.py", line 486, in raise_uncaught_exception
+    raise exc
+  File "C:\Work\Elvis Work\backend\env\Lib\site-packages\rest_framework\views.py", line 512, in dispatch
+    response = handler(request, *args, **kwargs)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Work\Elvis Work\backend\env\Lib\site-packages\rest_framework\decorators.py", line 50, in handler
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Work\Elvis Work\backend\campaign\views.py", line 73, in campaign_list_create
+    return Response(serializer.data)
+                    ^^^^^^^^^^^^^^^
+  File "C:\Work\Elvis Work\backend\env\Lib\site-packages\rest_framework\serializers.py", line 797, in data
+    ret = super().data
+          ^^^^^^^^^^^^
+  File "C:\Work\Elvis Work\backend\env\Lib\site-packages\rest_framework\serializers.py", line 251, in data
+    self._data = self.to_representation(self.instance)
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Work\Elvis Work\backend\env\Lib\site-packages\rest_framework\serializers.py", line 716, in to_representation
+    self.child.to_representation(item) for item in iterable
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Work\Elvis Work\backend\env\Lib\site-packages\rest_framework\serializers.py", line 540, in to_representation
+    ret[field.field_name] = field.to_representation(attribute)
+                            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Work\Elvis Work\backend\env\Lib\site-packages\rest_framework\fields.py", line 1870, in to_representation
+    return method(value)
+           ^^^^^^^^^^^^^
+  File "C:\Work\Elvis Work\backend\campaign\serializers.py", line 14, in get_stats
+    return obj.get_stats()  # This now uses Redis automatically
+           ^^^^^^^^^^^^^^^
+  File "C:\Work\Elvis Work\backend\campaign\models.py", line 50, in get_stats
+    redis_stats = stats_manager.get_stats(self.id)
+                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+TypeError: CampaignStatsManager.get_stats() takes 1 positional argument but 2 were given
+ERROR 2026-02-15 20:01:47,071 log Internal Server Error: /api/campaigns/
+Traceback (most recent call last):
+  File "C:\Work\Elvis Work\backend\env\Lib\site-packages\asgiref\sync.py", line 557, in thread_handler
+    raise exc_info[1]
+  File "C:\Work\Elvis Work\backend\env\Lib\site-packages\django\core\handlers\exception.py", line 42, in inner
+    response = await get_response(request)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Work\Elvis Work\backend\env\Lib\site-packages\asgiref\sync.py", line 557, in thread_handler
+    raise exc_info[1]
+  File "C:\Work\Elvis Work\backend\env\Lib\site-packages\django\core\handlers\base.py", line 253, in _get_response_async
+    response = await wrapped_callback(
+               ^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Work\Elvis Work\backend\env\Lib\site-packages\asgiref\sync.py", line 506, in __call__
+    ret = await asyncio.shield(exec_coro)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\manag\AppData\Local\Programs\Python\Python312\Lib\concurrent\futures\thread.py", line 59, in run
+    result = self.fn(*self.args, **self.kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Work\Elvis Work\backend\env\Lib\site-packages\asgiref\sync.py", line 561, in thread_handler
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Work\Elvis Work\backend\env\Lib\site-packages\django\views\decorators\csrf.py", line 65, in _view_wrapper
+    return view_func(request, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Work\Elvis Work\backend\env\Lib\site-packages\django\views\generic\base.py", line 105, in view
+    return self.dispatch(request, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Work\Elvis Work\backend\env\Lib\site-packages\rest_framework\views.py", line 515, in dispatch
+    response = self.handle_exception(exc)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Work\Elvis Work\backend\env\Lib\site-packages\rest_framework\views.py", line 475, in handle_exception
+    self.raise_uncaught_exception(exc)
+  File "C:\Work\Elvis Work\backend\env\Lib\site-packages\rest_framework\views.py", line 486, in raise_uncaught_exception
+    raise exc
+  File "C:\Work\Elvis Work\backend\env\Lib\site-packages\rest_framework\views.py", line 512, in dispatch
+    response = handler(request, *args, **kwargs)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Work\Elvis Work\backend\env\Lib\site-packages\rest_framework\decorators.py", line 50, in handler
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Work\Elvis Work\backend\campaign\views.py", line 73, in campaign_list_create
+    return Response(serializer.data)
+                    ^^^^^^^^^^^^^^^
+  File "C:\Work\Elvis Work\backend\env\Lib\site-packages\rest_framework\serializers.py", line 797, in data
+    ret = super().data
+          ^^^^^^^^^^^^
+  File "C:\Work\Elvis Work\backend\env\Lib\site-packages\rest_framework\serializers.py", line 251, in data
+    self._data = self.to_representation(self.instance)
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Work\Elvis Work\backend\env\Lib\site-packages\rest_framework\serializers.py", line 716, in to_representation
+    self.child.to_representation(item) for item in iterable
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Work\Elvis Work\backend\env\Lib\site-packages\rest_framework\serializers.py", line 540, in to_representation
+    ret[field.field_name] = field.to_representation(attribute)
+                            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Work\Elvis Work\backend\env\Lib\site-packages\rest_framework\fields.py", line 1870, in to_representation
+    return method(value)
+           ^^^^^^^^^^^^^
+  File "C:\Work\Elvis Work\backend\campaign\serializers.py", line 14, in get_stats
+    return obj.get_stats()  # This now uses Redis automatically
+           ^^^^^^^^^^^^^^^
+  File "C:\Work\Elvis Work\backend\campaign\models.py", line 50, in get_stats
+    redis_stats = stats_manager.get_stats(self.id)
+                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+TypeError: CampaignStatsManager.get_stats() takes 1 positional argument but 2 were given
+ERROR 2026-02-15 20:05:34,854 log Internal Server Error: /api/campaigns/
+Traceback (most recent call last):
+  File "C:\Work\Elvis Work\backend\env\Lib\site-packages\asgiref\sync.py", line 557, in thread_handler
+    raise exc_info[1]
+  File "C:\Work\Elvis Work\backend\env\Lib\site-packages\django\core\handlers\exception.py", line 42, in inner
+    response = await get_response(request)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Work\Elvis Work\backend\env\Lib\site-packages\asgiref\sync.py", line 557, in thread_handler
+    raise exc_info[1]
+  File "C:\Work\Elvis Work\backend\env\Lib\site-packages\django\core\handlers\base.py", line 253, in _get_response_async
+    response = await wrapped_callback(
+               ^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Work\Elvis Work\backend\env\Lib\site-packages\asgiref\sync.py", line 506, in __call__
+    ret = await asyncio.shield(exec_coro)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\manag\AppData\Local\Programs\Python\Python312\Lib\concurrent\futures\thread.py", line 59, in run
+    result = self.fn(*self.args, **self.kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Work\Elvis Work\backend\env\Lib\site-packages\asgiref\sync.py", line 561, in thread_handler
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Work\Elvis Work\backend\env\Lib\site-packages\django\views\decorators\csrf.py", line 65, in _view_wrapper
+    return view_func(request, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Work\Elvis Work\backend\env\Lib\site-packages\django\views\generic\base.py", line 105, in view
+    return self.dispatch(request, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Work\Elvis Work\backend\env\Lib\site-packages\rest_framework\views.py", line 515, in dispatch
+    response = self.handle_exception(exc)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Work\Elvis Work\backend\env\Lib\site-packages\rest_framework\views.py", line 475, in handle_exception
+    self.raise_uncaught_exception(exc)
+  File "C:\Work\Elvis Work\backend\env\Lib\site-packages\rest_framework\views.py", line 486, in raise_uncaught_exception
+    raise exc
+  File "C:\Work\Elvis Work\backend\env\Lib\site-packages\rest_framework\views.py", line 512, in dispatch
+    response = handler(request, *args, **kwargs)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Work\Elvis Work\backend\env\Lib\site-packages\rest_framework\decorators.py", line 50, in handler
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Work\Elvis Work\backend\campaign\views.py", line 73, in campaign_list_create
+    return Response(serializer.data)
+                    ^^^^^^^^^^^^^^^
+  File "C:\Work\Elvis Work\backend\env\Lib\site-packages\rest_framework\serializers.py", line 797, in data
+    ret = super().data
+          ^^^^^^^^^^^^
+  File "C:\Work\Elvis Work\backend\env\Lib\site-packages\rest_framework\serializers.py", line 251, in data
+    self._data = self.to_representation(self.instance)
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Work\Elvis Work\backend\env\Lib\site-packages\rest_framework\serializers.py", line 716, in to_representation
+    self.child.to_representation(item) for item in iterable
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Work\Elvis Work\backend\env\Lib\site-packages\rest_framework\serializers.py", line 540, in to_representation
+    ret[field.field_name] = field.to_representation(attribute)
+                            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Work\Elvis Work\backend\env\Lib\site-packages\rest_framework\fields.py", line 1870, in to_representation
+    return method(value)
+           ^^^^^^^^^^^^^
+  File "C:\Work\Elvis Work\backend\campaign\serializers.py", line 14, in get_stats
+    return obj.get_stats()  # This now uses Redis automatically
+           ^^^^^^^^^^^^^^^
+  File "C:\Work\Elvis Work\backend\campaign\models.py", line 50, in get_stats
+    redis_stats = stats_manager.get_stats(self.id)
+                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+TypeError: CampaignStatsManager.get_stats() takes 1 positional argument but 2 were given
+ERROR 2026-02-15 20:09:20,885 log Internal Server Error: /api/campaigns/
+Traceback (most recent call last):
+  File "C:\Work\Elvis Work\backend\env\Lib\site-packages\asgiref\sync.py", line 557, in thread_handler
+    raise exc_info[1]
+  File "C:\Work\Elvis Work\backend\env\Lib\site-packages\django\core\handlers\exception.py", line 42, in inner
+    response = await get_response(request)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Work\Elvis Work\backend\env\Lib\site-packages\asgiref\sync.py", line 557, in thread_handler
+    raise exc_info[1]
+  File "C:\Work\Elvis Work\backend\env\Lib\site-packages\django\core\handlers\base.py", line 253, in _get_response_async
+    response = await wrapped_callback(
+               ^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Work\Elvis Work\backend\env\Lib\site-packages\asgiref\sync.py", line 506, in __call__
+    ret = await asyncio.shield(exec_coro)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\manag\AppData\Local\Programs\Python\Python312\Lib\concurrent\futures\thread.py", line 59, in run
+    result = self.fn(*self.args, **self.kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Work\Elvis Work\backend\env\Lib\site-packages\asgiref\sync.py", line 561, in thread_handler
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Work\Elvis Work\backend\env\Lib\site-packages\django\views\decorators\csrf.py", line 65, in _view_wrapper
+    return view_func(request, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Work\Elvis Work\backend\env\Lib\site-packages\django\views\generic\base.py", line 105, in view
+    return self.dispatch(request, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Work\Elvis Work\backend\env\Lib\site-packages\rest_framework\views.py", line 515, in dispatch
+    response = self.handle_exception(exc)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Work\Elvis Work\backend\env\Lib\site-packages\rest_framework\views.py", line 475, in handle_exception
+    self.raise_uncaught_exception(exc)
+  File "C:\Work\Elvis Work\backend\env\Lib\site-packages\rest_framework\views.py", line 486, in raise_uncaught_exception
+    raise exc
+  File "C:\Work\Elvis Work\backend\env\Lib\site-packages\rest_framework\views.py", line 512, in dispatch
+    response = handler(request, *args, **kwargs)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Work\Elvis Work\backend\env\Lib\site-packages\rest_framework\decorators.py", line 50, in handler
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Work\Elvis Work\backend\campaign\views.py", line 73, in campaign_list_create
+    serializer = CampaignSerializer(campaigns, many=True)
+                    ^^^^^^^^^^^^^^^
+  File "C:\Work\Elvis Work\backend\env\Lib\site-packages\rest_framework\serializers.py", line 797, in data
+    ret = super().data
+          ^^^^^^^^^^^^
+  File "C:\Work\Elvis Work\backend\env\Lib\site-packages\rest_framework\serializers.py", line 251, in data
+    self._data = self.to_representation(self.instance)
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Work\Elvis Work\backend\env\Lib\site-packages\rest_framework\serializers.py", line 716, in to_representation
+    self.child.to_representation(item) for item in iterable
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Work\Elvis Work\backend\env\Lib\site-packages\rest_framework\serializers.py", line 540, in to_representation
+    ret[field.field_name] = field.to_representation(attribute)
+                            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Work\Elvis Work\backend\env\Lib\site-packages\rest_framework\fields.py", line 1870, in to_representation
+    return method(value)
+           ^^^^^^^^^^^^^
+  File "C:\Work\Elvis Work\backend\campaign\serializers.py", line 14, in get_stats
+  File "C:\Work\Elvis Work\backend\campaign\models.py", line 50, in get_stats
+    redis_stats = stats_manager.get_stats(self.id)
+                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+TypeError: CampaignStatsManager.get_stats() takes 1 positional argument but 2 were given
+ERROR 2026-02-15 20:12:52,849 log Internal Server Error: /api/campaigns/
+Traceback (most recent call last):
+  File "C:\Work\Elvis Work\backend\env\Lib\site-packages\asgiref\sync.py", line 557, in thread_handler
+    raise exc_info[1]
+  File "C:\Work\Elvis Work\backend\env\Lib\site-packages\django\core\handlers\exception.py", line 42, in inner
+    response = await get_response(request)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Work\Elvis Work\backend\env\Lib\site-packages\asgiref\sync.py", line 557, in thread_handler
+    raise exc_info[1]
+  File "C:\Work\Elvis Work\backend\env\Lib\site-packages\django\core\handlers\base.py", line 253, in _get_response_async
+    response = await wrapped_callback(
+               ^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Work\Elvis Work\backend\env\Lib\site-packages\asgiref\sync.py", line 506, in __call__
+    ret = await asyncio.shield(exec_coro)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\manag\AppData\Local\Programs\Python\Python312\Lib\concurrent\futures\thread.py", line 59, in run
+    result = self.fn(*self.args, **self.kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Work\Elvis Work\backend\env\Lib\site-packages\asgiref\sync.py", line 561, in thread_handler
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Work\Elvis Work\backend\env\Lib\site-packages\django\views\decorators\csrf.py", line 65, in _view_wrapper
+    return view_func(request, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Work\Elvis Work\backend\env\Lib\site-packages\django\views\generic\base.py", line 105, in view
+    return self.dispatch(request, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Work\Elvis Work\backend\env\Lib\site-packages\rest_framework\views.py", line 515, in dispatch
+    response = self.handle_exception(exc)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Work\Elvis Work\backend\env\Lib\site-packages\rest_framework\views.py", line 475, in handle_exception
+    self.raise_uncaught_exception(exc)
+  File "C:\Work\Elvis Work\backend\env\Lib\site-packages\rest_framework\views.py", line 486, in raise_uncaught_exception
+    raise exc
+  File "C:\Work\Elvis Work\backend\env\Lib\site-packages\rest_framework\views.py", line 512, in dispatch
+    response = handler(request, *args, **kwargs)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Work\Elvis Work\backend\env\Lib\site-packages\rest_framework\decorators.py", line 50, in handler
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Work\Elvis Work\backend\campaign\views.py", line 73, in campaign_list_create
+    serializer = CampaignSerializer(campaigns, many=True)
+                    ^^^^^^^^^^^^^^^
+  File "C:\Work\Elvis Work\backend\env\Lib\site-packages\rest_framework\serializers.py", line 797, in data
+    ret = super().data
+          ^^^^^^^^^^^^
+  File "C:\Work\Elvis Work\backend\env\Lib\site-packages\rest_framework\serializers.py", line 251, in data
+    self._data = self.to_representation(self.instance)
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Work\Elvis Work\backend\env\Lib\site-packages\rest_framework\serializers.py", line 716, in to_representation
+    self.child.to_representation(item) for item in iterable
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Work\Elvis Work\backend\env\Lib\site-packages\rest_framework\serializers.py", line 540, in to_representation
+    ret[field.field_name] = field.to_representation(attribute)
+                            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Work\Elvis Work\backend\env\Lib\site-packages\rest_framework\fields.py", line 1870, in to_representation
+    return method(value)
+           ^^^^^^^^^^^^^
+  File "C:\Work\Elvis Work\backend\campaign\serializers.py", line 14, in get_stats
+  File "C:\Work\Elvis Work\backend\campaign\models.py", line 50, in get_stats
+    redis_stats = stats_manager.get_stats(self.id)
+                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+TypeError: CampaignStatsManager.get_stats() takes 1 positional argument but 2 were given
+ERROR 2026-02-15 20:13:05,352 log Internal Server Error: /api/campaigns/
+Traceback (most recent call last):
+  File "C:\Work\Elvis Work\backend\env\Lib\site-packages\asgiref\sync.py", line 557, in thread_handler
+    raise exc_info[1]
+  File "C:\Work\Elvis Work\backend\env\Lib\site-packages\django\core\handlers\exception.py", line 42, in inner
+    response = await get_response(request)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Work\Elvis Work\backend\env\Lib\site-packages\asgiref\sync.py", line 557, in thread_handler
+    raise exc_info[1]
+  File "C:\Work\Elvis Work\backend\env\Lib\site-packages\django\core\handlers\base.py", line 253, in _get_response_async
+    response = await wrapped_callback(
+               ^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Work\Elvis Work\backend\env\Lib\site-packages\asgiref\sync.py", line 506, in __call__
+    ret = await asyncio.shield(exec_coro)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\manag\AppData\Local\Programs\Python\Python312\Lib\concurrent\futures\thread.py", line 59, in run
+    result = self.fn(*self.args, **self.kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Work\Elvis Work\backend\env\Lib\site-packages\asgiref\sync.py", line 561, in thread_handler
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Work\Elvis Work\backend\env\Lib\site-packages\django\views\decorators\csrf.py", line 65, in _view_wrapper
+    return view_func(request, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Work\Elvis Work\backend\env\Lib\site-packages\django\views\generic\base.py", line 105, in view
+    return self.dispatch(request, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Work\Elvis Work\backend\env\Lib\site-packages\rest_framework\views.py", line 515, in dispatch
+    response = self.handle_exception(exc)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Work\Elvis Work\backend\env\Lib\site-packages\rest_framework\views.py", line 475, in handle_exception
+    self.raise_uncaught_exception(exc)
+  File "C:\Work\Elvis Work\backend\env\Lib\site-packages\rest_framework\views.py", line 486, in raise_uncaught_exception
+    raise exc
+  File "C:\Work\Elvis Work\backend\env\Lib\site-packages\rest_framework\views.py", line 512, in dispatch
+    response = handler(request, *args, **kwargs)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Work\Elvis Work\backend\env\Lib\site-packages\rest_framework\decorators.py", line 50, in handler
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Work\Elvis Work\backend\campaign\views.py", line 74, in campaign_list_create
+    return Response(serializer.data)
+                    ^^^^^^^^^^^^^^^
+  File "C:\Work\Elvis Work\backend\env\Lib\site-packages\rest_framework\serializers.py", line 797, in data
+    ret = super().data
+          ^^^^^^^^^^^^
+  File "C:\Work\Elvis Work\backend\env\Lib\site-packages\rest_framework\serializers.py", line 251, in data
+    self._data = self.to_representation(self.instance)
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Work\Elvis Work\backend\env\Lib\site-packages\rest_framework\serializers.py", line 716, in to_representation
+    self.child.to_representation(item) for item in iterable
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Work\Elvis Work\backend\env\Lib\site-packages\rest_framework\serializers.py", line 540, in to_representation
+    ret[field.field_name] = field.to_representation(attribute)
+                            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Work\Elvis Work\backend\env\Lib\site-packages\rest_framework\fields.py", line 1870, in to_representation
+    return method(value)
+           ^^^^^^^^^^^^^
+  File "C:\Work\Elvis Work\backend\campaign\serializers.py", line 16, in get_stats
+    return obj.get_stats()  # This calls the model's get_stats method
+           ^^^^^^^^^^^^^^^
+  File "C:\Work\Elvis Work\backend\campaign\models.py", line 54, in get_stats
+    'total': redis_stats['total_contacts'],
+             ~~~~~~~~~~~^^^^^^^^^^^^^^^^^^
+KeyError: 'total_contacts'
+ERROR 2026-02-15 20:16:05,646 log Internal Server Error: /api/campaigns/
+Traceback (most recent call last):
+  File "C:\Work\Elvis Work\backend\env\Lib\site-packages\asgiref\sync.py", line 557, in thread_handler
+    raise exc_info[1]
+  File "C:\Work\Elvis Work\backend\env\Lib\site-packages\django\core\handlers\exception.py", line 42, in inner
+    response = await get_response(request)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Work\Elvis Work\backend\env\Lib\site-packages\asgiref\sync.py", line 557, in thread_handler
+    raise exc_info[1]
+  File "C:\Work\Elvis Work\backend\env\Lib\site-packages\django\core\handlers\base.py", line 253, in _get_response_async
+    response = await wrapped_callback(
+               ^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Work\Elvis Work\backend\env\Lib\site-packages\asgiref\sync.py", line 506, in __call__
+    ret = await asyncio.shield(exec_coro)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\manag\AppData\Local\Programs\Python\Python312\Lib\concurrent\futures\thread.py", line 59, in run
+    result = self.fn(*self.args, **self.kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Work\Elvis Work\backend\env\Lib\site-packages\asgiref\sync.py", line 561, in thread_handler
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Work\Elvis Work\backend\env\Lib\site-packages\django\views\decorators\csrf.py", line 65, in _view_wrapper
+    return view_func(request, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Work\Elvis Work\backend\env\Lib\site-packages\django\views\generic\base.py", line 105, in view
+    return self.dispatch(request, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Work\Elvis Work\backend\env\Lib\site-packages\rest_framework\views.py", line 515, in dispatch
+    response = self.handle_exception(exc)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Work\Elvis Work\backend\env\Lib\site-packages\rest_framework\views.py", line 475, in handle_exception
+    self.raise_uncaught_exception(exc)
+  File "C:\Work\Elvis Work\backend\env\Lib\site-packages\rest_framework\views.py", line 486, in raise_uncaught_exception
+    raise exc
+  File "C:\Work\Elvis Work\backend\env\Lib\site-packages\rest_framework\views.py", line 512, in dispatch
+    response = handler(request, *args, **kwargs)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Work\Elvis Work\backend\env\Lib\site-packages\rest_framework\decorators.py", line 50, in handler
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Work\Elvis Work\backend\campaign\views.py", line 74, in campaign_list_create
+    return Response(serializer.data)
+                    ^^^^^^^^^^^^^^^
+  File "C:\Work\Elvis Work\backend\env\Lib\site-packages\rest_framework\serializers.py", line 797, in data
+    ret = super().data
+          ^^^^^^^^^^^^
+  File "C:\Work\Elvis Work\backend\env\Lib\site-packages\rest_framework\serializers.py", line 251, in data
+    self._data = self.to_representation(self.instance)
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Work\Elvis Work\backend\env\Lib\site-packages\rest_framework\serializers.py", line 716, in to_representation
+    self.child.to_representation(item) for item in iterable
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Work\Elvis Work\backend\env\Lib\site-packages\rest_framework\serializers.py", line 540, in to_representation
+    ret[field.field_name] = field.to_representation(attribute)
+                            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Work\Elvis Work\backend\env\Lib\site-packages\rest_framework\fields.py", line 1870, in to_representation
+    return method(value)
+           ^^^^^^^^^^^^^
+  File "C:\Work\Elvis Work\backend\campaign\serializers.py", line 16, in get_stats
+    return obj.get_stats()  # This calls the model's get_stats method
+           ^^^^^^^^^^^^^^^
+  File "C:\Work\Elvis Work\backend\campaign\models.py", line 64, in get_stats
+    'pending': redis_stats['total_contacts'] - (redis_stats['sent'] + redis_stats['failed']),
+               ~~~~~~~~~~~^^^^^^^^^^^^^^^^^^
+KeyError: 'total_contacts'
+ERROR 2026-02-15 22:20:09,899 log Internal Server Error: /api/conversations
+WARNING 2026-02-16 00:23:22,630 log Bad Request: /api/campaigns/
+WARNING 2026-02-16 00:23:32,111 log Bad Request: /api/campaigns/
+WARNING 2026-02-16 00:23:51,178 log Bad Request: /api/campaigns/
+WARNING 2026-02-16 00:23:54,332 log Bad Request: /api/campaigns/
+WARNING 2026-02-16 00:24:21,837 log Bad Request: /api/campaigns/50/action/
+WARNING 2026-02-16 00:24:23,670 log Bad Request: /api/campaigns/50/action/
+WARNING 2026-02-16 23:19:30,425 log Not Found: /dialer/webhook/
+WARNING 2026-02-16 23:19:30,816 log Not Found: /dialer/failover-webhook/
+WARNING 2026-02-16 23:19:31,247 log Not Found: /dialer/webhook/
+WARNING 2026-02-16 23:19:31,607 log Not Found: /dialer/failover-webhook/
+WARNING 2026-02-16 23:19:31,951 log Not Found: /dialer/webhook/
+WARNING 2026-02-16 23:19:32,298 log Not Found: /dialer/failover-webhook/
+WARNING 2026-02-16 23:20:21,971 log Not Found: /dialer/webhook/
+WARNING 2026-02-16 23:20:22,306 log Not Found: /dialer/failover-webhook/
+WARNING 2026-02-16 23:20:22,646 log Not Found: /dialer/webhook/
+WARNING 2026-02-16 23:20:22,979 log Not Found: /dialer/failover-webhook/
+WARNING 2026-02-16 23:20:23,340 log Not Found: /dialer/webhook/
+WARNING 2026-02-16 23:20:23,710 log Not Found: /dialer/failover-webhook/
+WARNING 2026-02-17 00:25:40,570 log Bad Request: /api/campaigns/
+WARNING 2026-02-17 11:07:52,949 log Not Found: /static/admin/css/login.css
+WARNING 2026-02-17 11:07:58,518 log Not Found: /static/admin/css/login.css
+WARNING 2026-02-17 11:08:01,121 log Not Found: /static/admin/css/login.css
+WARNING 2026-02-17 11:08:10,431 log Not Found: /static/admin/js/admin/DateTimeShortcuts.js
+WARNING 2026-02-17 11:08:10,431 log Not Found: /static/admin/js/calendar.js
+WARNING 2026-02-17 11:08:14,922 log Not Found: /static/admin/js/calendar.js
+WARNING 2026-02-17 11:08:14,923 log Not Found: /static/admin/js/admin/DateTimeShortcuts.js
+ERROR 2026-02-17 11:39:38,169 log Internal Server Error: /api/conversations
+ERROR 2026-02-17 11:44:43,559 log Internal Server Error: /api/conversations
+ERROR 2026-02-17 11:44:44,491 log Internal Server Error: /api/conversations
+ERROR 2026-02-17 11:45:49,737 log Internal Server Error: /api/conversations
+ERROR 2026-02-17 11:45:50,255 log Internal Server Error: /api/conversations
+ERROR 2026-02-17 11:46:38,007 log Internal Server Error: /api/conversations
+ERROR 2026-02-17 11:46:38,716 log Internal Server Error: /api/conversations
+ERROR 2026-02-17 11:55:42,325 log Internal Server Error: /api/conversations
+ERROR 2026-02-17 11:55:43,067 log Internal Server Error: /api/conversations
+ERROR 2026-02-17 11:56:45,132 log Internal Server Error: /api/conversations
+ERROR 2026-02-17 11:56:45,469 log Internal Server Error: /api/conversations
+ERROR 2026-02-17 12:00:25,410 log Internal Server Error: /api/conversations
+ERROR 2026-02-17 12:00:26,680 log Internal Server Error: /api/conversations
+ERROR 2026-02-17 12:01:16,096 log Internal Server Error: /api/conversations
+ERROR 2026-02-17 12:01:17,160 log Internal Server Error: /api/conversations
+ERROR 2026-02-17 12:01:48,394 log Internal Server Error: /api/conversations
+ERROR 2026-02-17 12:01:49,429 log Internal Server Error: /api/conversations
+WARNING 2026-02-19 20:09:13,031 log Not Found: /api/conversations/delete
+WARNING 2026-02-19 20:09:54,280 log Not Found: /api/conversations/delete
+WARNING 2026-02-19 20:10:01,009 log Not Found: /api/conversations/delete
+WARNING 2026-02-19 20:10:01,140 log Not Found: /favicon.ico
+WARNING 2026-02-19 20:10:46,222 log Not Found: /api/conversations/delete
+WARNING 2026-02-19 20:10:57,562 log Method Not Allowed: /api/conversations/delete
+WARNING 2026-02-19 20:10:57,628 log Not Found: /static/rest_framework/css/bootstrap.min.css
+WARNING 2026-02-19 20:10:57,628 log Not Found: /static/rest_framework/css/bootstrap-tweaks.css
+WARNING 2026-02-19 20:10:57,652 log Not Found: /static/rest_framework/css/default.css
+WARNING 2026-02-19 20:10:57,652 log Not Found: /static/rest_framework/css/prettify.css
+WARNING 2026-02-19 20:10:57,671 log Not Found: /static/rest_framework/js/ajax-form.js
+WARNING 2026-02-19 20:10:57,671 log Not Found: /static/rest_framework/js/jquery-3.7.1.min.js
+WARNING 2026-02-19 20:10:57,690 log Not Found: /static/rest_framework/js/bootstrap.min.js
+WARNING 2026-02-19 20:10:57,690 log Not Found: /static/rest_framework/js/csrf.js
+WARNING 2026-02-19 20:10:57,711 log Not Found: /static/rest_framework/js/default.js
+WARNING 2026-02-19 20:10:57,712 log Not Found: /static/rest_framework/js/prettify-min.js
+WARNING 2026-02-19 20:10:57,724 log Not Found: /static/rest_framework/js/load-ajax-form.js
+WARNING 2026-02-19 20:19:24,788 log Bad Request: /api/campaigns/62/action/
+WARNING 2026-02-19 20:24:16,346 log Not Found: /api/campaigns/62/contacts/
+ERROR 2026-02-19 20:26:08,335 log Internal Server Error: /api/campaigns/62/contacts/
+Traceback (most recent call last):
+  File "C:\Work\Elvis Work\backend\env\Lib\site-packages\django\db\backends\utils.py", line 105, in _execute
+    return self.cursor.execute(sql, params)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Work\Elvis Work\backend\env\Lib\site-packages\django\db\backends\sqlite3\base.py", line 360, in execute
+    return super().execute(query, params)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+sqlite3.OperationalError: no such column: campaign_campaigncontact.error_message
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "C:\Work\Elvis Work\backend\env\Lib\site-packages\asgiref\sync.py", line 557, in thread_handler
+    raise exc_info[1]
+  File "C:\Work\Elvis Work\backend\env\Lib\site-packages\django\core\handlers\exception.py", line 42, in inner
+    response = await get_response(request)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Work\Elvis Work\backend\env\Lib\site-packages\asgiref\sync.py", line 557, in thread_handler
+    raise exc_info[1]
+  File "C:\Work\Elvis Work\backend\env\Lib\site-packages\django\core\handlers\base.py", line 253, in _get_response_async
+    response = await wrapped_callback(
+               ^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Work\Elvis Work\backend\env\Lib\site-packages\asgiref\sync.py", line 506, in __call__
+    ret = await asyncio.shield(exec_coro)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\manag\AppData\Local\Programs\Python\Python312\Lib\concurrent\futures\thread.py", line 59, in run
+    result = self.fn(*self.args, **self.kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Work\Elvis Work\backend\env\Lib\site-packages\asgiref\sync.py", line 561, in thread_handler
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Work\Elvis Work\backend\env\Lib\site-packages\django\views\decorators\csrf.py", line 65, in _view_wrapper
+    return view_func(request, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Work\Elvis Work\backend\env\Lib\site-packages\django\views\generic\base.py", line 105, in view
+    return self.dispatch(request, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Work\Elvis Work\backend\env\Lib\site-packages\rest_framework\views.py", line 515, in dispatch
+    response = self.handle_exception(exc)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Work\Elvis Work\backend\env\Lib\site-packages\rest_framework\views.py", line 475, in handle_exception
+    self.raise_uncaught_exception(exc)
+  File "C:\Work\Elvis Work\backend\env\Lib\site-packages\rest_framework\views.py", line 486, in raise_uncaught_exception
+    raise exc
+  File "C:\Work\Elvis Work\backend\env\Lib\site-packages\rest_framework\views.py", line 512, in dispatch
+    response = handler(request, *args, **kwargs)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Work\Elvis Work\backend\env\Lib\site-packages\rest_framework\decorators.py", line 50, in handler
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Work\Elvis Work\backend\campaign\views.py", line 212, in campaign_contacts
+    'results': serializer.data,
+               ^^^^^^^^^^^^^^^
+  File "C:\Work\Elvis Work\backend\env\Lib\site-packages\rest_framework\serializers.py", line 797, in data
+    ret = super().data
+          ^^^^^^^^^^^^
+  File "C:\Work\Elvis Work\backend\env\Lib\site-packages\rest_framework\serializers.py", line 251, in data
+    self._data = self.to_representation(self.instance)
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Work\Elvis Work\backend\env\Lib\site-packages\rest_framework\serializers.py", line 716, in to_representation
+    self.child.to_representation(item) for item in iterable
+                                                   ^^^^^^^^
+  File "C:\Work\Elvis Work\backend\env\Lib\site-packages\django\db\models\query.py", line 386, in __iter__
+    self._fetch_all()
+  File "C:\Work\Elvis Work\backend\env\Lib\site-packages\django\db\models\query.py", line 1954, in _fetch_all
+    self._result_cache = list(self._iterable_class(self))
+                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Work\Elvis Work\backend\env\Lib\site-packages\django\db\models\query.py", line 93, in __iter__
+    results = compiler.execute_sql(
+              ^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Work\Elvis Work\backend\env\Lib\site-packages\django\db\models\sql\compiler.py", line 1623, in execute_sql
+    cursor.execute(sql, params)
+  File "C:\Work\Elvis Work\backend\env\Lib\site-packages\django\db\backends\utils.py", line 122, in execute
+    return super().execute(sql, params)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Work\Elvis Work\backend\env\Lib\site-packages\django\db\backends\utils.py", line 79, in execute
+    return self._execute_with_wrappers(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Work\Elvis Work\backend\env\Lib\site-packages\django\db\backends\utils.py", line 92, in _execute_with_wrappers
+    return executor(sql, params, many, context)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Work\Elvis Work\backend\env\Lib\site-packages\django\db\backends\utils.py", line 100, in _execute
+    with self.db.wrap_database_errors:
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Work\Elvis Work\backend\env\Lib\site-packages\django\db\utils.py", line 91, in __exit__
+    raise dj_exc_value.with_traceback(traceback) from exc_value
+  File "C:\Work\Elvis Work\backend\env\Lib\site-packages\django\db\backends\utils.py", line 105, in _execute
+    return self.cursor.execute(sql, params)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Work\Elvis Work\backend\env\Lib\site-packages\django\db\backends\sqlite3\base.py", line 360, in execute
+    return super().execute(query, params)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+django.db.utils.OperationalError: no such column: campaign_campaigncontact.error_message
+ERROR 2026-02-19 20:26:20,131 log Internal Server Error: /api/campaigns/62/contacts/
+Traceback (most recent call last):
+  File "C:\Work\Elvis Work\backend\env\Lib\site-packages\django\db\backends\utils.py", line 105, in _execute
+    return self.cursor.execute(sql, params)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Work\Elvis Work\backend\env\Lib\site-packages\django\db\backends\sqlite3\base.py", line 360, in execute
+    return super().execute(query, params)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+sqlite3.OperationalError: no such column: campaign_campaigncontact.error_message
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "C:\Work\Elvis Work\backend\env\Lib\site-packages\asgiref\sync.py", line 557, in thread_handler
+    raise exc_info[1]
+  File "C:\Work\Elvis Work\backend\env\Lib\site-packages\django\core\handlers\exception.py", line 42, in inner
+    response = await get_response(request)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Work\Elvis Work\backend\env\Lib\site-packages\asgiref\sync.py", line 557, in thread_handler
+    raise exc_info[1]
+  File "C:\Work\Elvis Work\backend\env\Lib\site-packages\django\core\handlers\base.py", line 253, in _get_response_async
+    response = await wrapped_callback(
+               ^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Work\Elvis Work\backend\env\Lib\site-packages\asgiref\sync.py", line 506, in __call__
+    ret = await asyncio.shield(exec_coro)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\manag\AppData\Local\Programs\Python\Python312\Lib\concurrent\futures\thread.py", line 59, in run
+    result = self.fn(*self.args, **self.kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Work\Elvis Work\backend\env\Lib\site-packages\asgiref\sync.py", line 561, in thread_handler
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Work\Elvis Work\backend\env\Lib\site-packages\django\views\decorators\csrf.py", line 65, in _view_wrapper
+    return view_func(request, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Work\Elvis Work\backend\env\Lib\site-packages\django\views\generic\base.py", line 105, in view
+    return self.dispatch(request, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Work\Elvis Work\backend\env\Lib\site-packages\rest_framework\views.py", line 515, in dispatch
+    response = self.handle_exception(exc)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Work\Elvis Work\backend\env\Lib\site-packages\rest_framework\views.py", line 475, in handle_exception
+    self.raise_uncaught_exception(exc)
+  File "C:\Work\Elvis Work\backend\env\Lib\site-packages\rest_framework\views.py", line 486, in raise_uncaught_exception
+    raise exc
+  File "C:\Work\Elvis Work\backend\env\Lib\site-packages\rest_framework\views.py", line 512, in dispatch
+    response = handler(request, *args, **kwargs)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Work\Elvis Work\backend\env\Lib\site-packages\rest_framework\decorators.py", line 50, in handler
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Work\Elvis Work\backend\campaign\views.py", line 212, in campaign_contacts
+    'results': serializer.data,
+               ^^^^^^^^^^^^^^^
+  File "C:\Work\Elvis Work\backend\env\Lib\site-packages\rest_framework\serializers.py", line 797, in data
+    ret = super().data
+          ^^^^^^^^^^^^
+  File "C:\Work\Elvis Work\backend\env\Lib\site-packages\rest_framework\serializers.py", line 251, in data
+    self._data = self.to_representation(self.instance)
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Work\Elvis Work\backend\env\Lib\site-packages\rest_framework\serializers.py", line 716, in to_representation
+    self.child.to_representation(item) for item in iterable
+                                                   ^^^^^^^^
+  File "C:\Work\Elvis Work\backend\env\Lib\site-packages\django\db\models\query.py", line 386, in __iter__
+    self._fetch_all()
+  File "C:\Work\Elvis Work\backend\env\Lib\site-packages\django\db\models\query.py", line 1954, in _fetch_all
+    self._result_cache = list(self._iterable_class(self))
+                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Work\Elvis Work\backend\env\Lib\site-packages\django\db\models\query.py", line 93, in __iter__
+    results = compiler.execute_sql(
+              ^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Work\Elvis Work\backend\env\Lib\site-packages\django\db\models\sql\compiler.py", line 1623, in execute_sql
+    cursor.execute(sql, params)
+  File "C:\Work\Elvis Work\backend\env\Lib\site-packages\django\db\backends\utils.py", line 122, in execute
+    return super().execute(sql, params)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Work\Elvis Work\backend\env\Lib\site-packages\django\db\backends\utils.py", line 79, in execute
+    return self._execute_with_wrappers(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Work\Elvis Work\backend\env\Lib\site-packages\django\db\backends\utils.py", line 92, in _execute_with_wrappers
+    return executor(sql, params, many, context)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Work\Elvis Work\backend\env\Lib\site-packages\django\db\backends\utils.py", line 100, in _execute
+    with self.db.wrap_database_errors:
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Work\Elvis Work\backend\env\Lib\site-packages\django\db\utils.py", line 91, in __exit__
+    raise dj_exc_value.with_traceback(traceback) from exc_value
+  File "C:\Work\Elvis Work\backend\env\Lib\site-packages\django\db\backends\utils.py", line 105, in _execute
+    return self.cursor.execute(sql, params)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Work\Elvis Work\backend\env\Lib\site-packages\django\db\backends\sqlite3\base.py", line 360, in execute
+    return super().execute(query, params)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+django.db.utils.OperationalError: no such column: campaign_campaigncontact.error_message
+WARNING 2026-02-19 20:32:32,180 log Not Found: /static/admin/css/base.css
+WARNING 2026-02-19 20:32:32,199 log Not Found: /static/admin/css/dark_mode.css
+WARNING 2026-02-19 20:32:32,200 log Not Found: /static/admin/css/nav_sidebar.css
+WARNING 2026-02-19 20:32:32,211 log Not Found: /static/admin/css/login.css
+WARNING 2026-02-19 20:32:32,225 log Not Found: /static/admin/css/responsive.css
+WARNING 2026-02-19 20:32:32,228 log Not Found: /static/admin/js/theme.js
+WARNING 2026-02-19 20:32:32,247 log Not Found: /static/admin/js/nav_sidebar.js
+WARNING 2026-02-19 20:32:32,252 log Not Found: /static/admin/css/nav_sidebar.css
+WARNING 2026-02-19 20:32:32,262 log Not Found: /static/admin/css/login.css
+WARNING 2026-02-19 20:32:32,269 log Not Found: /static/admin/css/responsive.css
+WARNING 2026-02-19 20:32:37,144 log Not Found: /static/admin/css/base.css
+WARNING 2026-02-19 20:32:37,151 log Not Found: /static/admin/css/dark_mode.css
+WARNING 2026-02-19 20:32:37,151 log Not Found: /static/admin/css/nav_sidebar.css
+WARNING 2026-02-19 20:32:37,151 log Not Found: /static/admin/css/dashboard.css
+WARNING 2026-02-19 20:32:37,152 log Not Found: /static/admin/css/responsive.css
+WARNING 2026-02-19 20:32:37,152 log Not Found: /static/admin/js/theme.js
+WARNING 2026-02-19 20:32:37,192 log Not Found: /static/admin/js/nav_sidebar.js
+WARNING 2026-02-19 20:32:37,192 log Not Found: /static/admin/css/dashboard.css
+WARNING 2026-02-19 20:32:37,194 log Not Found: /static/admin/css/nav_sidebar.css
+WARNING 2026-02-19 20:32:37,196 log Not Found: /static/admin/css/responsive.css
+WARNING 2026-02-19 20:32:41,444 log Not Found: /static/admin/css/base.css
+WARNING 2026-02-19 20:32:41,474 log Not Found: /static/admin/css/nav_sidebar.css
+WARNING 2026-02-19 20:32:41,474 log Not Found: /static/admin/js/theme.js
+WARNING 2026-02-19 20:32:41,474 log Not Found: /static/admin/css/changelists.css
+WARNING 2026-02-19 20:32:41,474 log Not Found: /static/admin/js/vendor/jquery/jquery.js
+WARNING 2026-02-19 20:32:41,475 log Not Found: /static/admin/css/dark_mode.css
+WARNING 2026-02-19 20:32:41,519 log Not Found: /static/admin/js/core.js
+WARNING 2026-02-19 20:32:41,519 log Not Found: /static/admin/css/responsive.css
+WARNING 2026-02-19 20:32:41,521 log Not Found: /static/admin/js/jquery.init.js
+WARNING 2026-02-19 20:32:41,521 log Not Found: /static/admin/js/admin/RelatedObjectLookups.js
+WARNING 2026-02-19 20:32:41,609 log Not Found: /static/admin/css/nav_sidebar.css
+WARNING 2026-02-19 20:32:41,611 log Not Found: /static/admin/css/changelists.css
+WARNING 2026-02-19 20:32:41,611 log Not Found: /static/admin/js/actions.js
+WARNING 2026-02-19 20:32:41,613 log Not Found: /static/admin/js/urlify.js
+WARNING 2026-02-19 20:32:41,630 log Not Found: /static/admin/js/prepopulate.js
+WARNING 2026-02-19 20:32:41,644 log Not Found: /static/admin/js/vendor/xregexp/xregexp.js
+WARNING 2026-02-19 20:32:41,650 log Not Found: /static/admin/js/nav_sidebar.js
+WARNING 2026-02-19 20:32:41,661 log Not Found: /static/admin/js/filters.js
+WARNING 2026-02-19 20:32:41,661 log Not Found: /static/admin/css/responsive.css
+WARNING 2026-02-19 20:32:43,456 log Not Found: /static/admin/css/base.css
+WARNING 2026-02-19 20:32:43,467 log Not Found: /static/admin/css/dark_mode.css
+WARNING 2026-02-19 20:32:43,467 log Not Found: /static/admin/js/theme.js
+WARNING 2026-02-19 20:32:43,467 log Not Found: /static/admin/css/nav_sidebar.css
+WARNING 2026-02-19 20:32:43,489 log Not Found: /static/admin/css/responsive.css
+WARNING 2026-02-19 20:32:43,515 log Not Found: /static/admin/js/admin/DateTimeShortcuts.js
+WARNING 2026-02-19 20:32:43,516 log Not Found: /static/admin/js/vendor/jquery/jquery.js
+WARNING 2026-02-19 20:32:43,517 log Not Found: /static/admin/js/calendar.js
+WARNING 2026-02-19 20:32:43,523 log Not Found: /static/admin/css/widgets.css
+WARNING 2026-02-19 20:32:43,540 log Not Found: /static/admin/js/jquery.init.js
+WARNING 2026-02-19 20:32:43,571 log Not Found: /static/admin/js/actions.js
+WARNING 2026-02-19 20:32:43,571 log Not Found: /static/admin/js/admin/RelatedObjectLookups.js
+WARNING 2026-02-19 20:32:43,572 log Not Found: /static/admin/js/core.js
+WARNING 2026-02-19 20:32:43,582 log Not Found: /static/admin/js/urlify.js
+WARNING 2026-02-19 20:32:43,595 log Not Found: /static/admin/js/prepopulate.js
+WARNING 2026-02-19 20:32:43,614 log Not Found: /static/admin/js/vendor/xregexp/xregexp.js
+WARNING 2026-02-19 20:32:43,614 log Not Found: /static/admin/js/prepopulate_init.js
+WARNING 2026-02-19 20:32:43,666 log Not Found: /static/admin/css/responsive.css
+WARNING 2026-02-19 20:32:43,674 log Not Found: /static/admin/img/icon-addlink.svg
+WARNING 2026-02-19 20:32:43,674 log Not Found: /static/admin/js/change_form.js
+WARNING 2026-02-19 20:32:43,676 log Not Found: /static/admin/js/nav_sidebar.js
+WARNING 2026-02-19 20:32:43,677 log Not Found: /static/admin/img/icon-viewlink.svg
+WARNING 2026-02-19 21:15:02,722 log Not Found: /api/notifications
+WARNING 2026-02-19 21:15:14,822 log Not Found: /api/notifications
+WARNING 2026-02-19 21:20:01,923 log Not Found: /api/notifications
+ERROR 2026-02-19 21:20:23,417 log Internal Server Error: /api/notifications
+WARNING 2026-02-20 23:16:55,531 log Not Found: /sms/webhook/incoming
+INFO 2026-02-22 21:04:41,755 autoreload Watching for file changes with StatReloader
+INFO 2026-02-22 21:06:45,704 basehttp "POST /webhook/incoming HTTP/1.1" 200 28
+INFO 2026-02-22 21:08:46,960 autoreload C:\Work\Elvis Work\backend\sms\views.py changed, reloading.
+INFO 2026-02-22 21:08:47,853 autoreload Watching for file changes with StatReloader
+INFO 2026-02-22 21:12:02,465 autoreload C:\Work\Elvis Work\backend\sms\views.py changed, reloading.
+INFO 2026-02-22 21:12:04,090 autoreload Watching for file changes with StatReloader
+INFO 2026-02-22 21:12:16,628 autoreload C:\Work\Elvis Work\backend\sms\views.py changed, reloading.
+INFO 2026-02-22 21:12:17,786 autoreload Watching for file changes with StatReloader
+INFO 2026-02-22 21:12:32,628 autoreload C:\Work\Elvis Work\backend\sms\views.py changed, reloading.
+INFO 2026-02-22 21:12:34,527 autoreload Watching for file changes with StatReloader
+INFO 2026-02-22 21:13:29,970 autoreload C:\Work\Elvis Work\backend\sms\views.py changed, reloading.
+INFO 2026-02-22 21:13:30,979 autoreload Watching for file changes with StatReloader
+INFO 2026-02-22 21:38:31,449 autoreload C:\Work\Elvis Work\backend\sms\views.py changed, reloading.
+INFO 2026-02-22 21:38:32,427 autoreload Watching for file changes with StatReloader
+INFO 2026-02-22 22:05:37,370 basehttp "POST /webhook/incoming HTTP/1.1" 200 28
+INFO 2026-02-22 22:05:38,856 basehttp "POST /webhook/incoming HTTP/1.1" 200 28
+INFO 2026-02-22 22:05:39,551 basehttp "POST /webhook/incoming HTTP/1.1" 200 28
+INFO 2026-02-23 19:02:55,439 autoreload Watching for file changes with StatReloader
+INFO 2026-02-23 19:03:12,389 autoreload Watching for file changes with StatReloader
+INFO 2026-02-23 19:15:17,439 basehttp "POST /webhook/incoming HTTP/1.1" 200 28
+INFO 2026-02-23 19:15:19,156 basehttp "POST /webhook/incoming HTTP/1.1" 200 28
+INFO 2026-02-23 19:15:19,770 basehttp "POST /webhook/incoming HTTP/1.1" 200 28
+INFO 2026-02-23 19:15:49,071 basehttp "POST /webhook/incoming HTTP/1.1" 200 28
+INFO 2026-02-23 19:15:50,087 basehttp "POST /webhook/incoming HTTP/1.1" 200 28
+INFO 2026-02-23 19:15:50,669 basehttp "POST /webhook/incoming HTTP/1.1" 200 28
+INFO 2026-02-23 19:16:00,203 basehttp "POST /webhook/incoming HTTP/1.1" 200 28
+INFO 2026-02-23 19:16:07,341 basehttp "POST /webhook/incoming HTTP/1.1" 200 28
+INFO 2026-02-23 19:16:08,429 basehttp "POST /webhook/incoming HTTP/1.1" 200 28
+INFO 2026-02-23 19:16:09,031 basehttp "POST /webhook/incoming HTTP/1.1" 200 28
+INFO 2026-02-23 19:16:39,394 basehttp "POST /webhook/incoming HTTP/1.1" 200 28
+INFO 2026-02-23 19:16:40,375 basehttp "POST /webhook/incoming HTTP/1.1" 200 28
+INFO 2026-02-23 19:16:40,974 basehttp "POST /webhook/incoming HTTP/1.1" 200 28
+INFO 2026-02-23 19:16:56,355 basehttp "POST /webhook/incoming HTTP/1.1" 200 28
+INFO 2026-02-23 19:16:57,377 basehttp "POST /webhook/incoming HTTP/1.1" 200 28
+INFO 2026-02-23 19:16:57,955 basehttp "POST /webhook/incoming HTTP/1.1" 200 28
+INFO 2026-02-23 19:17:23,753 basehttp "POST /webhook/incoming HTTP/1.1" 200 28
+INFO 2026-02-23 19:17:23,987 basehttp "POST /webhook/incoming HTTP/1.1" 200 28
+INFO 2026-02-23 19:17:26,383 basehttp "POST /webhook/incoming HTTP/1.1" 200 28
+WARNING 2026-02-23 19:45:12,384 log Not Found: /ws/campaign
+WARNING 2026-02-23 19:45:12,390 basehttp "GET /ws/campaign HTTP/1.1" 404 4619
+INFO 2026-02-23 19:45:12,392 basehttp - Broken pipe from ('127.0.0.1', 58790)
+INFO 2026-02-23 19:45:12,995 basehttp "GET /api/campaigns/ HTTP/1.1" 200 19892
+WARNING 2026-02-23 19:45:18,327 log Not Found: /ws/campaign
+WARNING 2026-02-23 19:45:18,327 basehttp "GET /ws/campaign HTTP/1.1" 404 4619
+WARNING 2026-02-23 19:45:24,317 log Not Found: /ws/campaign
+WARNING 2026-02-23 19:45:24,317 basehttp "GET /ws/campaign HTTP/1.1" 404 4619
+WARNING 2026-02-23 19:45:30,361 log Not Found: /ws/campaign
+WARNING 2026-02-23 19:45:30,362 basehttp "GET /ws/campaign HTTP/1.1" 404 4619
+WARNING 2026-02-23 19:45:36,323 log Not Found: /ws/campaign
+WARNING 2026-02-23 19:45:36,324 basehttp "GET /ws/campaign HTTP/1.1" 404 4619
+WARNING 2026-02-23 19:45:42,333 log Not Found: /ws/campaign
+WARNING 2026-02-23 19:45:42,333 basehttp "GET /ws/campaign HTTP/1.1" 404 4619
+WARNING 2026-02-23 19:45:48,307 log Not Found: /ws/campaign
+WARNING 2026-02-23 19:45:48,308 basehttp "GET /ws/campaign HTTP/1.1" 404 4619
+WARNING 2026-02-23 19:45:54,311 log Not Found: /ws/campaign
+WARNING 2026-02-23 19:45:54,311 basehttp "GET /ws/campaign HTTP/1.1" 404 4619
+WARNING 2026-02-23 19:46:00,302 log Not Found: /ws/campaign
+WARNING 2026-02-23 19:46:00,304 basehttp "GET /ws/campaign HTTP/1.1" 404 4619
+WARNING 2026-02-23 19:46:06,303 log Not Found: /ws/campaign
+WARNING 2026-02-23 19:46:06,303 basehttp "GET /ws/campaign HTTP/1.1" 404 4619
+WARNING 2026-02-23 19:46:12,308 log Not Found: /ws/campaign
+WARNING 2026-02-23 19:46:12,309 basehttp "GET /ws/campaign HTTP/1.1" 404 4619
+WARNING 2026-02-23 19:46:18,341 log Not Found: /ws/campaign
+WARNING 2026-02-23 19:46:18,341 basehttp "GET /ws/campaign HTTP/1.1" 404 4619
+WARNING 2026-02-23 19:46:24,317 log Not Found: /ws/campaign
+WARNING 2026-02-23 19:46:24,318 basehttp "GET /ws/campaign HTTP/1.1" 404 4619
+WARNING 2026-02-23 19:46:30,308 log Not Found: /ws/campaign
+WARNING 2026-02-23 19:46:30,309 basehttp "GET /ws/campaign HTTP/1.1" 404 4619
+WARNING 2026-02-23 19:46:36,313 log Not Found: /ws/campaign
+WARNING 2026-02-23 19:46:36,313 basehttp "GET /ws/campaign HTTP/1.1" 404 4619
+WARNING 2026-02-23 19:46:42,317 log Not Found: /ws/campaign
+WARNING 2026-02-23 19:46:42,317 basehttp "GET /ws/campaign HTTP/1.1" 404 4619
+WARNING 2026-02-23 19:46:48,317 log Not Found: /ws/campaign
+WARNING 2026-02-23 19:46:48,319 basehttp "GET /ws/campaign HTTP/1.1" 404 4619
+WARNING 2026-02-23 19:46:54,302 log Not Found: /ws/campaign
+WARNING 2026-02-23 19:46:54,302 basehttp "GET /ws/campaign HTTP/1.1" 404 4619
+WARNING 2026-02-23 19:47:00,329 log Not Found: /ws/campaign
+WARNING 2026-02-23 19:47:00,331 basehttp "GET /ws/campaign HTTP/1.1" 404 4619
+WARNING 2026-02-23 19:47:06,332 log Not Found: /ws/campaign
+WARNING 2026-02-23 19:47:06,332 basehttp "GET /ws/campaign HTTP/1.1" 404 4619
+WARNING 2026-02-23 19:47:12,327 log Not Found: /ws/campaign
+WARNING 2026-02-23 19:47:12,327 basehttp "GET /ws/campaign HTTP/1.1" 404 4619
+WARNING 2026-02-23 19:47:18,313 log Not Found: /ws/campaign
+WARNING 2026-02-23 19:47:18,314 basehttp "GET /ws/campaign HTTP/1.1" 404 4619
+WARNING 2026-02-23 19:47:24,319 log Not Found: /ws/campaign
+WARNING 2026-02-23 19:47:24,320 basehttp "GET /ws/campaign HTTP/1.1" 404 4619
+WARNING 2026-02-23 19:47:30,310 log Not Found: /ws/campaign
+WARNING 2026-02-23 19:47:30,312 basehttp "GET /ws/campaign HTTP/1.1" 404 4619
+WARNING 2026-02-23 19:47:36,314 log Not Found: /ws/campaign
+WARNING 2026-02-23 19:47:36,314 basehttp "GET /ws/campaign HTTP/1.1" 404 4619
+WARNING 2026-02-23 19:47:42,327 log Not Found: /ws/campaign
+WARNING 2026-02-23 19:47:42,327 basehttp "GET /ws/campaign HTTP/1.1" 404 4619
+WARNING 2026-02-23 19:47:48,332 log Not Found: /ws/campaign
+WARNING 2026-02-23 19:47:48,333 basehttp "GET /ws/campaign HTTP/1.1" 404 4619
+WARNING 2026-02-23 19:47:54,331 log Not Found: /ws/campaign
+WARNING 2026-02-23 19:47:54,333 basehttp "GET /ws/campaign HTTP/1.1" 404 4619
+WARNING 2026-02-23 19:48:00,340 log Not Found: /ws/campaign
+WARNING 2026-02-23 19:48:00,342 basehttp "GET /ws/campaign HTTP/1.1" 404 4619
+WARNING 2026-02-23 19:48:06,333 log Not Found: /ws/campaign
+WARNING 2026-02-23 19:48:06,335 basehttp "GET /ws/campaign HTTP/1.1" 404 4619
+WARNING 2026-02-23 19:48:12,344 log Not Found: /ws/campaign
+WARNING 2026-02-23 19:48:12,345 basehttp "GET /ws/campaign HTTP/1.1" 404 4619
+WARNING 2026-02-23 19:48:18,324 log Not Found: /ws/campaign
+WARNING 2026-02-23 19:48:18,324 basehttp "GET /ws/campaign HTTP/1.1" 404 4619
+WARNING 2026-02-23 19:48:24,343 log Not Found: /ws/campaign
+WARNING 2026-02-23 19:48:24,343 basehttp "GET /ws/campaign HTTP/1.1" 404 4619
+WARNING 2026-02-23 19:48:30,335 log Not Found: /ws/campaign
+WARNING 2026-02-23 19:48:30,336 basehttp "GET /ws/campaign HTTP/1.1" 404 4619
+WARNING 2026-02-23 19:48:36,324 log Not Found: /ws/campaign
+WARNING 2026-02-23 19:48:36,324 basehttp "GET /ws/campaign HTTP/1.1" 404 4619
+WARNING 2026-02-23 19:48:42,304 log Not Found: /ws/campaign
+WARNING 2026-02-23 19:48:42,305 basehttp "GET /ws/campaign HTTP/1.1" 404 4619
+WARNING 2026-02-23 19:48:48,309 log Not Found: /ws/campaign
+WARNING 2026-02-23 19:48:48,310 basehttp "GET /ws/campaign HTTP/1.1" 404 4619
+WARNING 2026-02-23 19:48:54,300 log Not Found: /ws/campaign
+WARNING 2026-02-23 19:48:54,303 basehttp "GET /ws/campaign HTTP/1.1" 404 4619
+WARNING 2026-02-23 19:49:00,340 log Not Found: /ws/campaign
+WARNING 2026-02-23 19:49:00,341 basehttp "GET /ws/campaign HTTP/1.1" 404 4619
+WARNING 2026-02-23 19:49:06,309 log Not Found: /ws/campaign
+WARNING 2026-02-23 19:49:06,310 basehttp "GET /ws/campaign HTTP/1.1" 404 4619
+WARNING 2026-02-23 19:49:12,316 log Not Found: /ws/campaign
+WARNING 2026-02-23 19:49:12,317 basehttp "GET /ws/campaign HTTP/1.1" 404 4619
+WARNING 2026-02-23 19:49:18,327 log Not Found: /ws/campaign
+WARNING 2026-02-23 19:49:18,328 basehttp "GET /ws/campaign HTTP/1.1" 404 4619
+WARNING 2026-02-23 19:49:24,406 log Not Found: /ws/campaign
+WARNING 2026-02-23 19:49:24,407 basehttp "GET /ws/campaign HTTP/1.1" 404 4619
+WARNING 2026-02-23 19:49:30,341 log Not Found: /ws/campaign
+WARNING 2026-02-23 19:49:30,341 basehttp "GET /ws/campaign HTTP/1.1" 404 4619
+WARNING 2026-02-23 19:49:36,444 log Not Found: /ws/campaign
+WARNING 2026-02-23 19:49:36,445 basehttp "GET /ws/campaign HTTP/1.1" 404 4619
+WARNING 2026-02-23 19:49:42,371 log Not Found: /ws/campaign
+WARNING 2026-02-23 19:49:42,372 basehttp "GET /ws/campaign HTTP/1.1" 404 4619
+WARNING 2026-02-23 19:49:48,447 log Not Found: /ws/campaign
+WARNING 2026-02-23 19:49:48,449 basehttp "GET /ws/campaign HTTP/1.1" 404 4619
+WARNING 2026-02-23 19:49:54,521 log Not Found: /ws/campaign
+WARNING 2026-02-23 19:49:54,524 basehttp "GET /ws/campaign HTTP/1.1" 404 4619
+WARNING 2026-02-23 19:50:00,652 log Not Found: /ws/campaign
+WARNING 2026-02-23 19:50:00,653 basehttp "GET /ws/campaign HTTP/1.1" 404 4619
+WARNING 2026-02-23 19:50:08,015 log Not Found: /ws/campaign
+WARNING 2026-02-23 19:50:08,015 basehttp "GET /ws/campaign HTTP/1.1" 404 4619
+WARNING 2026-02-23 19:50:18,403 log Not Found: /ws/campaign
+WARNING 2026-02-23 19:50:18,405 basehttp "GET /ws/campaign HTTP/1.1" 404 4619
+WARNING 2026-02-23 19:50:25,702 log Not Found: /ws/campaign
+WARNING 2026-02-23 19:50:25,704 basehttp "GET /ws/campaign HTTP/1.1" 404 4619
+WARNING 2026-02-23 19:50:36,214 log Not Found: /ws/campaign
+WARNING 2026-02-23 19:50:36,216 basehttp "GET /ws/campaign HTTP/1.1" 404 4619
+WARNING 2026-02-23 19:50:47,297 log Not Found: /ws/campaign
+WARNING 2026-02-23 19:50:47,299 basehttp "GET /ws/campaign HTTP/1.1" 404 4619
+WARNING 2026-02-23 19:50:55,902 log Not Found: /ws/campaign
+WARNING 2026-02-23 19:50:55,902 basehttp "GET /ws/campaign HTTP/1.1" 404 4619
+WARNING 2026-02-23 19:51:05,709 log Not Found: /ws/campaign
+WARNING 2026-02-23 19:51:05,711 basehttp "GET /ws/campaign HTTP/1.1" 404 4619
+WARNING 2026-02-23 19:51:13,635 log Not Found: /ws/campaign
+WARNING 2026-02-23 19:51:13,637 basehttp "GET /ws/campaign HTTP/1.1" 404 4619
+WARNING 2026-02-23 19:51:22,248 log Not Found: /ws/campaign
+WARNING 2026-02-23 19:51:22,250 basehttp "GET /ws/campaign HTTP/1.1" 404 4619
+WARNING 2026-02-23 19:51:29,980 log Not Found: /ws/campaign
+WARNING 2026-02-23 19:51:29,982 basehttp "GET /ws/campaign HTTP/1.1" 404 4619
+WARNING 2026-02-23 19:51:38,967 log Not Found: /ws/campaign
+WARNING 2026-02-23 19:51:38,970 basehttp "GET /ws/campaign HTTP/1.1" 404 4619
+WARNING 2026-02-23 19:51:47,917 log Not Found: /ws/campaign
+WARNING 2026-02-23 19:51:47,917 basehttp "GET /ws/campaign HTTP/1.1" 404 4619
+WARNING 2026-02-23 19:51:55,430 log Not Found: /ws/campaign
+WARNING 2026-02-23 19:51:55,430 basehttp "GET /ws/campaign HTTP/1.1" 404 4619
+WARNING 2026-02-23 19:52:04,272 log Not Found: /ws/campaign
+WARNING 2026-02-23 19:52:04,274 basehttp "GET /ws/campaign HTTP/1.1" 404 4619
+WARNING 2026-02-23 19:52:11,856 log Not Found: /ws/campaign
+WARNING 2026-02-23 19:52:11,856 basehttp "GET /ws/campaign HTTP/1.1" 404 4619
+WARNING 2026-02-23 19:52:19,285 log Not Found: /ws/campaign
+WARNING 2026-02-23 19:52:19,286 basehttp "GET /ws/campaign HTTP/1.1" 404 4619
+WARNING 2026-02-23 19:52:26,750 log Not Found: /ws/campaign
+WARNING 2026-02-23 19:52:26,752 basehttp "GET /ws/campaign HTTP/1.1" 404 4619
+WARNING 2026-02-23 19:52:32,327 log Not Found: /ws/campaign
+WARNING 2026-02-23 19:52:32,328 basehttp "GET /ws/campaign HTTP/1.1" 404 4619
+WARNING 2026-02-23 19:52:38,299 log Not Found: /ws/campaign
+WARNING 2026-02-23 19:52:38,299 basehttp "GET /ws/campaign HTTP/1.1" 404 4619
+WARNING 2026-02-23 19:52:44,302 log Not Found: /ws/campaign
+WARNING 2026-02-23 19:52:44,303 basehttp "GET /ws/campaign HTTP/1.1" 404 4619
+WARNING 2026-02-23 19:52:50,306 log Not Found: /ws/campaign
+WARNING 2026-02-23 19:52:50,306 basehttp "GET /ws/campaign HTTP/1.1" 404 4619
+WARNING 2026-02-23 19:52:56,321 log Not Found: /ws/campaign
+WARNING 2026-02-23 19:52:56,322 basehttp "GET /ws/campaign HTTP/1.1" 404 4619
+WARNING 2026-02-23 19:53:02,327 log Not Found: /ws/campaign
+WARNING 2026-02-23 19:53:02,349 basehttp "GET /ws/campaign HTTP/1.1" 404 4619
+WARNING 2026-02-23 19:53:08,318 log Not Found: /ws/campaign
+WARNING 2026-02-23 19:53:08,319 basehttp "GET /ws/campaign HTTP/1.1" 404 4619
+WARNING 2026-02-23 19:53:14,324 log Not Found: /ws/campaign
+WARNING 2026-02-23 19:53:14,326 basehttp "GET /ws/campaign HTTP/1.1" 404 4619
+WARNING 2026-02-23 19:53:20,341 log Not Found: /ws/campaign
+WARNING 2026-02-23 19:53:20,341 basehttp "GET /ws/campaign HTTP/1.1" 404 4619
+WARNING 2026-02-23 19:53:26,338 log Not Found: /ws/campaign
+WARNING 2026-02-23 19:53:26,339 basehttp "GET /ws/campaign HTTP/1.1" 404 4619
+WARNING 2026-02-23 19:53:32,342 log Not Found: /ws/campaign
+WARNING 2026-02-23 19:53:32,342 basehttp "GET /ws/campaign HTTP/1.1" 404 4619
+WARNING 2026-02-23 19:55:15,126 log Not Found: /ws/campaign
+WARNING 2026-02-23 19:55:15,127 basehttp "GET /ws/campaign HTTP/1.1" 404 4619
+INFO 2026-02-23 19:55:15,757 basehttp "GET /api/campaigns/ HTTP/1.1" 200 19892
+WARNING 2026-02-23 19:55:21,314 log Not Found: /ws/campaign
+WARNING 2026-02-23 19:55:21,314 basehttp "GET /ws/campaign HTTP/1.1" 404 4619
+WARNING 2026-02-23 19:55:27,308 log Not Found: /ws/campaign
+WARNING 2026-02-23 19:55:27,310 basehttp "GET /ws/campaign HTTP/1.1" 404 4619
+WARNING 2026-02-23 19:55:33,303 log Not Found: /ws/campaign
+WARNING 2026-02-23 19:55:33,306 basehttp "GET /ws/campaign HTTP/1.1" 404 4619
+INFO 2026-02-23 21:22:49,038 autoreload Watching for file changes with StatReloader
+WARNING 2026-02-23 21:23:10,271 log Not Found: /ws/campaign
+WARNING 2026-02-23 21:23:10,272 basehttp "GET /ws/campaign HTTP/1.1" 404 4619
+INFO 2026-02-23 21:23:11,277 basehttp "GET /api/campaigns/ HTTP/1.1" 200 19892
+WARNING 2026-02-23 21:23:16,317 log Not Found: /ws/campaign
+WARNING 2026-02-23 21:23:16,318 basehttp "GET /ws/campaign HTTP/1.1" 404 4619
+WARNING 2026-02-23 21:23:22,313 log Not Found: /ws/campaign
+WARNING 2026-02-23 21:23:22,314 basehttp "GET /ws/campaign HTTP/1.1" 404 4619
+WARNING 2026-02-23 21:23:28,306 log Not Found: /ws/campaign
+WARNING 2026-02-23 21:23:28,307 basehttp "GET /ws/campaign HTTP/1.1" 404 4619
+WARNING 2026-02-23 21:23:34,399 log Not Found: /ws/campaign
+WARNING 2026-02-23 21:23:34,412 basehttp "GET /ws/campaign HTTP/1.1" 404 4619
+WARNING 2026-02-23 21:23:40,315 log Not Found: /ws/campaign
+WARNING 2026-02-23 21:23:40,317 basehttp "GET /ws/campaign HTTP/1.1" 404 4619
+WARNING 2026-02-23 21:23:46,324 log Not Found: /ws/campaign
+WARNING 2026-02-23 21:23:46,325 basehttp "GET /ws/campaign HTTP/1.1" 404 4619
+WARNING 2026-02-23 21:23:52,339 log Not Found: /ws/campaign
+WARNING 2026-02-23 21:23:52,341 basehttp "GET /ws/campaign HTTP/1.1" 404 4619
+WARNING 2026-02-23 21:23:58,321 log Not Found: /ws/campaign
+WARNING 2026-02-23 21:23:58,322 basehttp "GET /ws/campaign HTTP/1.1" 404 4619
+WARNING 2026-02-23 21:24:04,309 log Not Found: /ws/campaign
+WARNING 2026-02-23 21:24:04,311 basehttp "GET /ws/campaign HTTP/1.1" 404 4619
+WARNING 2026-02-23 21:24:10,323 log Not Found: /ws/campaign
+WARNING 2026-02-23 21:24:10,324 basehttp "GET /ws/campaign HTTP/1.1" 404 4619
+WARNING 2026-02-23 21:24:16,328 log Not Found: /ws/campaign
+WARNING 2026-02-23 21:24:16,329 basehttp "GET /ws/campaign HTTP/1.1" 404 4619
+WARNING 2026-02-23 21:24:22,330 log Not Found: /ws/campaign
+WARNING 2026-02-23 21:24:22,331 basehttp "GET /ws/campaign HTTP/1.1" 404 4619
+WARNING 2026-02-23 21:24:28,315 log Not Found: /ws/campaign
+WARNING 2026-02-23 21:24:28,316 basehttp "GET /ws/campaign HTTP/1.1" 404 4619
+WARNING 2026-02-23 21:24:34,319 log Not Found: /ws/campaign
+WARNING 2026-02-23 21:24:34,320 basehttp "GET /ws/campaign HTTP/1.1" 404 4619
+WARNING 2026-02-23 21:24:40,336 log Not Found: /ws/campaign
+WARNING 2026-02-23 21:24:40,337 basehttp "GET /ws/campaign HTTP/1.1" 404 4619
+INFO 2026-02-23 21:24:44,405 basehttp "GET /api/campaigns/65/contacts/?page=1&pageSize=25 HTTP/1.1" 200 7201
+WARNING 2026-02-23 21:24:45,680 log Not Found: /ws/campaign
+WARNING 2026-02-23 21:24:45,680 basehttp "GET /ws/campaign HTTP/1.1" 404 4619
+INFO 2026-02-23 21:24:48,769 basehttp "OPTIONS /api/campaigns/65/action/ HTTP/1.1" 200 0
+INFO 2026-02-23 21:24:48,864 basehttp "POST /api/campaigns/65/action/ HTTP/1.1" 200 49
+INFO 2026-02-23 21:24:49,631 basehttp "GET /api/campaigns/ HTTP/1.1" 200 19892
+WARNING 2026-02-23 21:24:49,745 log Not Found: /ws/campaign
+WARNING 2026-02-23 21:24:49,745 basehttp "GET /ws/campaign HTTP/1.1" 404 4619
+WARNING 2026-02-23 21:24:55,322 log Not Found: /ws/campaign
+WARNING 2026-02-23 21:24:55,322 basehttp "GET /ws/campaign HTTP/1.1" 404 4619
+WARNING 2026-02-23 21:25:01,300 log Not Found: /ws/campaign
+WARNING 2026-02-23 21:25:01,301 basehttp "GET /ws/campaign HTTP/1.1" 404 4619
+WARNING 2026-02-23 21:25:07,319 log Not Found: /ws/campaign
+WARNING 2026-02-23 21:25:07,320 basehttp "GET /ws/campaign HTTP/1.1" 404 4619
+WARNING 2026-02-23 21:25:13,326 log Not Found: /ws/campaign
+WARNING 2026-02-23 21:25:13,326 basehttp "GET /ws/campaign HTTP/1.1" 404 4619
+INFO 2026-02-23 21:25:17,585 basehttp "GET /api/campaigns/65/contacts/?page=1&pageSize=25 HTTP/1.1" 200 7201
+WARNING 2026-02-23 21:25:19,388 log Not Found: /ws/campaign
+WARNING 2026-02-23 21:25:19,389 basehttp "GET /ws/campaign HTTP/1.1" 404 4619
+WARNING 2026-02-23 21:25:25,432 log Not Found: /ws/campaign
+WARNING 2026-02-23 21:25:25,434 basehttp "GET /ws/campaign HTTP/1.1" 404 4619
+WARNING 2026-02-23 21:25:31,386 log Not Found: /ws/campaign
+WARNING 2026-02-23 21:25:31,386 basehttp "GET /ws/campaign HTTP/1.1" 404 4619
+INFO 2026-02-23 21:25:37,545 basehttp "GET /api/campaigns/ HTTP/1.1" 200 19892
+WARNING 2026-02-23 21:25:37,676 log Not Found: /ws/campaign
+WARNING 2026-02-23 21:25:37,677 basehttp "GET /ws/campaign HTTP/1.1" 404 4619
+INFO 2026-02-23 21:25:38,023 basehttp "GET /api/campaigns/65/contacts/?page=1&pageSize=25 HTTP/1.1" 200 7201
+WARNING 2026-02-23 21:25:43,558 log Not Found: /ws/campaign
+WARNING 2026-02-23 21:25:43,558 basehttp "GET /ws/campaign HTTP/1.1" 404 4619
+WARNING 2026-02-23 21:25:44,493 log Not Found: /ws/campaign
+WARNING 2026-02-23 21:25:44,495 basehttp "GET /ws/campaign HTTP/1.1" 404 4619
+WARNING 2026-02-23 21:25:50,232 log Not Found: /ws/campaign
+WARNING 2026-02-23 21:25:50,236 basehttp "GET /ws/campaign HTTP/1.1" 404 4619
+WARNING 2026-02-23 21:25:51,320 log Not Found: /ws/campaign
+WARNING 2026-02-23 21:25:51,321 basehttp "GET /ws/campaign HTTP/1.1" 404 4619
+WARNING 2026-02-23 21:25:57,151 log Not Found: /ws/campaign
+WARNING 2026-02-23 21:25:57,151 basehttp "GET /ws/campaign HTTP/1.1" 404 4619
+WARNING 2026-02-23 21:26:00,465 log Not Found: /ws/campaign
+WARNING 2026-02-23 21:26:00,466 basehttp "GET /ws/campaign HTTP/1.1" 404 4619
+WARNING 2026-02-23 21:26:06,889 log Not Found: /ws/campaign
+WARNING 2026-02-23 21:26:06,889 basehttp "GET /ws/campaign HTTP/1.1" 404 4619
+WARNING 2026-02-23 21:26:10,477 log Not Found: /ws/campaign
+WARNING 2026-02-23 21:26:10,484 basehttp "GET /ws/campaign HTTP/1.1" 404 4619
+WARNING 2026-02-23 21:26:15,498 log Not Found: /ws/campaign
+WARNING 2026-02-23 21:26:15,498 basehttp "GET /ws/campaign HTTP/1.1" 404 4619
+WARNING 2026-02-23 21:26:19,619 log Not Found: /ws/campaign
+WARNING 2026-02-23 21:26:19,619 basehttp "GET /ws/campaign HTTP/1.1" 404 4619
+WARNING 2026-02-23 21:26:26,220 log Not Found: /ws/campaign
+WARNING 2026-02-23 21:26:26,220 basehttp "GET /ws/campaign HTTP/1.1" 404 4619
+WARNING 2026-02-23 21:26:27,490 log Not Found: /ws/campaign
+WARNING 2026-02-23 21:26:27,490 basehttp "GET /ws/campaign HTTP/1.1" 404 4619
+WARNING 2026-02-23 21:26:35,653 log Not Found: /ws/campaign
+WARNING 2026-02-23 21:26:35,653 basehttp "GET /ws/campaign HTTP/1.1" 404 4619
+WARNING 2026-02-23 21:26:35,936 log Not Found: /ws/campaign
+WARNING 2026-02-23 21:26:35,936 basehttp "GET /ws/campaign HTTP/1.1" 404 4619
+WARNING 2026-02-23 21:26:43,628 log Not Found: /ws/campaign
+WARNING 2026-02-23 21:26:43,628 basehttp "GET /ws/campaign HTTP/1.1" 404 4619
+WARNING 2026-02-23 21:26:46,258 log Not Found: /ws/campaign
+WARNING 2026-02-23 21:26:46,259 basehttp "GET /ws/campaign HTTP/1.1" 404 4619
+WARNING 2026-02-23 21:26:53,055 log Not Found: /ws/campaign
+WARNING 2026-02-23 21:26:53,055 basehttp "GET /ws/campaign HTTP/1.1" 404 4619
+WARNING 2026-02-23 21:26:57,135 log Not Found: /ws/campaign
+WARNING 2026-02-23 21:26:57,135 basehttp "GET /ws/campaign HTTP/1.1" 404 4619
+WARNING 2026-02-23 21:27:02,104 log Not Found: /ws/campaign
+WARNING 2026-02-23 21:27:02,104 basehttp "GET /ws/campaign HTTP/1.1" 404 4619
+WARNING 2026-02-23 21:27:05,169 log Not Found: /ws/campaign
+WARNING 2026-02-23 21:27:05,172 basehttp "GET /ws/campaign HTTP/1.1" 404 4619
+INFO 2026-02-23 21:29:15,667 autoreload Watching for file changes with StatReloader
+WARNING 2026-02-23 21:29:16,350 log Not Found: /ws/campaign
+WARNING 2026-02-23 21:29:16,353 basehttp "GET /ws/campaign HTTP/1.1" 404 4619
+WARNING 2026-02-23 21:29:16,381 log Not Found: /ws/campaign
+WARNING 2026-02-23 21:29:16,382 basehttp "GET /ws/campaign HTTP/1.1" 404 4619
+WARNING 2026-02-23 21:29:21,718 log Not Found: /ws/campaign
+WARNING 2026-02-23 21:29:21,718 basehttp "GET /ws/campaign HTTP/1.1" 404 4619
+INFO 2026-02-23 21:29:21,718 basehttp - Broken pipe from ('127.0.0.1', 54323)
+INFO 2026-02-23 21:29:21,726 basehttp "POST /webhook/incoming HTTP/1.1" 200 28
+WARNING 2026-02-23 21:29:22,315 log Not Found: /ws/campaign
+WARNING 2026-02-23 21:29:22,315 basehttp "GET /ws/campaign HTTP/1.1" 404 4619
+INFO 2026-02-23 21:29:22,458 basehttp "POST /webhook/incoming HTTP/1.1" 200 28
+INFO 2026-02-23 21:29:23,057 basehttp "POST /webhook/incoming HTTP/1.1" 200 28
+WARNING 2026-02-23 21:29:27,065 log Not Found: /ws/campaign
+WARNING 2026-02-23 21:29:27,068 basehttp "GET /ws/campaign HTTP/1.1" 404 4619
+WARNING 2026-02-23 21:29:28,327 log Not Found: /ws/campaign
+WARNING 2026-02-23 21:29:28,328 basehttp "GET /ws/campaign HTTP/1.1" 404 4619
+WARNING 2026-02-23 21:29:33,312 log Not Found: /ws/campaign
+WARNING 2026-02-23 21:29:33,313 basehttp "GET /ws/campaign HTTP/1.1" 404 4619
+WARNING 2026-02-23 21:29:34,309 log Not Found: /ws/campaign
+WARNING 2026-02-23 21:29:34,309 basehttp "GET /ws/campaign HTTP/1.1" 404 4619
+INFO 2026-02-23 21:29:34,614 basehttp "POST /webhook/incoming HTTP/1.1" 200 28
+INFO 2026-02-23 21:29:36,636 basehttp "POST /webhook/incoming HTTP/1.1" 200 28
+INFO 2026-02-23 21:29:37,211 basehttp "POST /webhook/incoming HTTP/1.1" 200 28
+WARNING 2026-02-23 21:29:38,945 log Not Found: /ws/campaign
+WARNING 2026-02-23 21:29:38,945 basehttp "GET /ws/campaign HTTP/1.1" 404 4619
+WARNING 2026-02-23 21:29:40,320 log Not Found: /ws/campaign
+WARNING 2026-02-23 21:29:40,320 basehttp "GET /ws/campaign HTTP/1.1" 404 4619
+WARNING 2026-02-23 21:29:44,324 log Not Found: /ws/campaign
+WARNING 2026-02-23 21:29:44,325 basehttp "GET /ws/campaign HTTP/1.1" 404 4619
+WARNING 2026-02-23 21:29:46,311 log Not Found: /ws/campaign
+WARNING 2026-02-23 21:29:46,311 basehttp "GET /ws/campaign HTTP/1.1" 404 4619
+WARNING 2026-02-23 21:29:50,315 log Not Found: /ws/campaign
+WARNING 2026-02-23 21:29:50,316 basehttp "GET /ws/campaign HTTP/1.1" 404 4619
+WARNING 2026-02-23 21:29:51,920 log Not Found: /ws
+WARNING 2026-02-23 21:29:51,924 basehttp "GET /ws HTTP/1.1" 404 4592
+WARNING 2026-02-23 21:29:52,290 log Not Found: /ws/campaign
+WARNING 2026-02-23 21:29:52,290 basehttp "GET /ws/campaign HTTP/1.1" 404 4619
+INFO 2026-02-23 21:29:53,897 basehttp "GET /api/conversations?phoneNumber=%2B19198041653 HTTP/1.1" 200 16102
+INFO 2026-02-23 21:29:58,067 basehttp "POST /webhook/incoming HTTP/1.1" 200 28
+WARNING 2026-02-23 21:29:58,328 log Not Found: /ws/campaign
+WARNING 2026-02-23 21:29:58,328 basehttp "GET /ws/campaign HTTP/1.1" 404 4619
+INFO 2026-02-23 21:29:58,774 basehttp "POST /webhook/incoming HTTP/1.1" 200 28
+INFO 2026-02-23 21:29:59,472 basehttp "POST /webhook/incoming HTTP/1.1" 200 28
+WARNING 2026-02-23 21:30:04,315 log Not Found: /ws/campaign
+WARNING 2026-02-23 21:30:04,319 basehttp "GET /ws/campaign HTTP/1.1" 404 4619
+WARNING 2026-02-23 21:30:10,294 log Not Found: /ws/campaign
+WARNING 2026-02-23 21:30:10,295 basehttp "GET /ws/campaign HTTP/1.1" 404 4619
+INFO 2026-02-23 21:30:11,563 basehttp "POST /webhook/incoming HTTP/1.1" 200 28
+INFO 2026-02-23 21:30:13,303 basehttp "POST /webhook/incoming HTTP/1.1" 200 28
+INFO 2026-02-23 21:30:13,843 basehttp "POST /webhook/incoming HTTP/1.1" 200 28
+WARNING 2026-02-23 21:30:16,314 log Not Found: /ws/campaign
+WARNING 2026-02-23 21:30:16,314 basehttp "GET /ws/campaign HTTP/1.1" 404 4619
+WARNING 2026-02-23 21:30:22,303 log Not Found: /ws/campaign
+WARNING 2026-02-23 21:30:22,304 basehttp "GET /ws/campaign HTTP/1.1" 404 4619
+WARNING 2026-02-23 21:30:28,318 log Not Found: /ws/campaign
+WARNING 2026-02-23 21:30:28,322 basehttp "GET /ws/campaign HTTP/1.1" 404 4619
+WARNING 2026-02-23 21:30:34,327 log Not Found: /ws/campaign
+WARNING 2026-02-23 21:30:34,331 basehttp "GET /ws/campaign HTTP/1.1" 404 4619
+WARNING 2026-02-23 21:30:40,315 log Not Found: /ws/campaign
+WARNING 2026-02-23 21:30:40,315 basehttp "GET /ws/campaign HTTP/1.1" 404 4619
+WARNING 2026-02-23 21:30:46,320 log Not Found: /ws/campaign
+WARNING 2026-02-23 21:30:46,322 basehttp "GET /ws/campaign HTTP/1.1" 404 4619
+WARNING 2026-02-23 21:30:52,326 log Not Found: /ws/campaign
+WARNING 2026-02-23 21:30:52,326 basehttp "GET /ws/campaign HTTP/1.1" 404 4619
+WARNING 2026-02-23 21:30:58,326 log Not Found: /ws/campaign
+WARNING 2026-02-23 21:30:58,326 basehttp "GET /ws/campaign HTTP/1.1" 404 4619
+WARNING 2026-02-23 21:31:04,327 log Not Found: /ws/campaign
+WARNING 2026-02-23 21:31:04,329 basehttp "GET /ws/campaign HTTP/1.1" 404 4619
+WARNING 2026-02-23 21:31:08,668 log Not Found: /ws
+WARNING 2026-02-23 21:31:08,669 basehttp "GET /ws HTTP/1.1" 404 4592
+INFO 2026-02-23 21:31:09,190 basehttp "GET /api/conversations?phoneNumber=%2B19198041653 HTTP/1.1" 200 16104
+WARNING 2026-02-23 21:31:10,309 log Not Found: /ws/campaign
+WARNING 2026-02-23 21:31:10,309 basehttp "GET /ws/campaign HTTP/1.1" 404 4619
+INFO 2026-02-23 21:31:15,000 basehttp "POST /webhook/incoming HTTP/1.1" 200 28
+INFO 2026-02-23 21:31:15,832 basehttp "POST /webhook/incoming HTTP/1.1" 200 28
+WARNING 2026-02-23 21:31:16,304 log Not Found: /ws/campaign
+WARNING 2026-02-23 21:31:16,305 basehttp "GET /ws/campaign HTTP/1.1" 404 4619
+INFO 2026-02-23 21:31:16,427 basehttp "POST /webhook/incoming HTTP/1.1" 200 28
+WARNING 2026-02-23 21:31:22,306 log Not Found: /ws/campaign
+WARNING 2026-02-23 21:31:22,306 basehttp "GET /ws/campaign HTTP/1.1" 404 4619
+WARNING 2026-02-23 22:00:41,046 log Not Found: /static/rest_framework/css/default.css
+WARNING 2026-02-23 22:00:41,046 log Not Found: /static/rest_framework/css/bootstrap.min.css
+WARNING 2026-02-23 22:00:41,046 log Not Found: /static/rest_framework/css/bootstrap-tweaks.css
+WARNING 2026-02-23 22:00:41,046 log Not Found: /static/rest_framework/css/prettify.css
+WARNING 2026-02-23 22:00:41,475 log Not Found: /static/rest_framework/js/default.js
+WARNING 2026-02-23 22:00:41,476 log Not Found: /static/rest_framework/js/prettify-min.js
+WARNING 2026-02-23 22:00:41,476 log Not Found: /static/rest_framework/js/load-ajax-form.js
+WARNING 2026-02-23 22:00:41,477 log Not Found: /static/rest_framework/js/bootstrap.min.js
+WARNING 2026-02-23 22:00:41,477 log Not Found: /static/rest_framework/js/csrf.js
+WARNING 2026-02-23 22:00:41,477 log Not Found: /static/rest_framework/js/ajax-form.js
+WARNING 2026-02-23 22:00:41,481 log Not Found: /static/rest_framework/js/jquery-3.7.1.min.js
+WARNING 2026-02-23 22:00:42,391 log Not Found: /favicon.ico
+ERROR 2026-03-07 00:13:02,081 log Internal Server Error: /api/campaigns/65/action/
+Traceback (most recent call last):
+  File "C:\Work\Elvis Work\backend\env\Lib\site-packages\kombu\utils\functional.py", line 32, in __call__
+    return self.__value__
+           ^^^^^^^^^^^^^^
+AttributeError: 'ChannelPromise' object has no attribute '__value__'. Did you mean: '__call__'?
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\Work\Elvis Work\backend\env\Lib\site-packages\kombu\transport\virtual\base.py", line 951, in create_channel
+    return self._avail_channels.pop()
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+IndexError: pop from empty list
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\Work\Elvis Work\backend\env\Lib\site-packages\redis\connection.py", line 855, in connect_check_health
+    sock = self.retry.call_with_retry(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Work\Elvis Work\backend\env\Lib\site-packages\redis\retry.py", line 116, in call_with_retry
+    return do()
+           ^^^^
+  File "C:\Work\Elvis Work\backend\env\Lib\site-packages\redis\connection.py", line 856, in <lambda>
+    lambda: self._connect(), lambda error: self.disconnect(error)
+            ^^^^^^^^^^^^^^^
+  File "C:\Work\Elvis Work\backend\env\Lib\site-packages\redis\connection.py", line 1306, in _connect
+    raise err
+  File "C:\Work\Elvis Work\backend\env\Lib\site-packages\redis\connection.py", line 1290, in _connect
+    sock.connect(socket_address)
+ConnectionRefusedError: [WinError 10061] No connection could be made because the target machine actively refused it
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\Work\Elvis Work\backend\env\Lib\site-packages\kombu\connection.py", line 474, in _reraise_as_library_errors
+    yield
+  File "C:\Work\Elvis Work\backend\env\Lib\site-packages\kombu\connection.py", line 461, in _ensure_connection
+    return retry_over_time(
+           ^^^^^^^^^^^^^^^^
+  File "C:\Work\Elvis Work\backend\env\Lib\site-packages\kombu\utils\functional.py", line 318, in retry_over_time
+    return fun(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^
+  File "C:\Work\Elvis Work\backend\env\Lib\site-packages\kombu\connection.py", line 941, in _connection_factory
+    self._connection = self._establish_connection()
+                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Work\Elvis Work\backend\env\Lib\site-packages\kombu\connection.py", line 863, in _establish_connection
+    conn = self.transport.establish_connection()
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Work\Elvis Work\backend\env\Lib\site-packages\kombu\transport\virtual\base.py", line 975, in establish_connection
+    self._avail_channels.append(self.create_channel(self))
+                                ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Work\Elvis Work\backend\env\Lib\site-packages\kombu\transport\virtual\base.py", line 953, in create_channel
+    channel = self.Channel(connection)
+              ^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Work\Elvis Work\backend\env\Lib\site-packages\kombu\transport\redis.py", line 757, in __init__
+    self.client.ping()
+  File "C:\Work\Elvis Work\backend\env\Lib\site-packages\redis\commands\core.py", line 1226, in ping
+    return self.execute_command("PING", **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Work\Elvis Work\backend\env\Lib\site-packages\redis\client.py", line 657, in execute_command
+    return self._execute_command(*args, **options)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Work\Elvis Work\backend\env\Lib\site-packages\redis\client.py", line 663, in _execute_command
+    conn = self.connection or pool.get_connection()
+                              ^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Work\Elvis Work\backend\env\Lib\site-packages\redis\utils.py", line 196, in wrapper
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Work\Elvis Work\backend\env\Lib\site-packages\redis\connection.py", line 2603, in get_connection
+    connection.connect()
+  File "C:\Work\Elvis Work\backend\env\Lib\site-packages\redis\connection.py", line 846, in connect
+    self.connect_check_health(check_health=True)
+  File "C:\Work\Elvis Work\backend\env\Lib\site-packages\redis\connection.py", line 863, in connect_check_health
+    raise ConnectionError(self._error_message(e))
+redis.exceptions.ConnectionError: Error 10061 connecting to localhost:6379. No connection could be made because the target machine actively refused it.
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "C:\Work\Elvis Work\backend\env\Lib\site-packages\asgiref\sync.py", line 557, in thread_handler
+    raise exc_info[1]
+  File "C:\Work\Elvis Work\backend\env\Lib\site-packages\django\core\handlers\exception.py", line 42, in inner
+    response = await get_response(request)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Work\Elvis Work\backend\env\Lib\site-packages\asgiref\sync.py", line 557, in thread_handler
+    raise exc_info[1]
+  File "C:\Work\Elvis Work\backend\env\Lib\site-packages\django\core\handlers\base.py", line 253, in _get_response_async
+    response = await wrapped_callback(
+               ^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Work\Elvis Work\backend\env\Lib\site-packages\asgiref\sync.py", line 506, in __call__
+    ret = await asyncio.shield(exec_coro)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\manag\AppData\Local\Programs\Python\Python312\Lib\concurrent\futures\thread.py", line 59, in run
+    result = self.fn(*self.args, **self.kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Work\Elvis Work\backend\env\Lib\site-packages\asgiref\sync.py", line 561, in thread_handler
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Work\Elvis Work\backend\env\Lib\site-packages\django\views\decorators\csrf.py", line 65, in _view_wrapper
+    return view_func(request, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Work\Elvis Work\backend\env\Lib\site-packages\django\views\generic\base.py", line 105, in view
+    return self.dispatch(request, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Work\Elvis Work\backend\env\Lib\site-packages\rest_framework\views.py", line 515, in dispatch
+    response = self.handle_exception(exc)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Work\Elvis Work\backend\env\Lib\site-packages\rest_framework\views.py", line 475, in handle_exception
+    self.raise_uncaught_exception(exc)
+  File "C:\Work\Elvis Work\backend\env\Lib\site-packages\rest_framework\views.py", line 486, in raise_uncaught_exception
+    raise exc
+  File "C:\Work\Elvis Work\backend\env\Lib\site-packages\rest_framework\views.py", line 512, in dispatch
+    response = handler(request, *args, **kwargs)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Work\Elvis Work\backend\env\Lib\site-packages\rest_framework\decorators.py", line 50, in handler
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Work\Elvis Work\backend\campaign\views.py", line 275, in campaign_action
+    campaign.status = "stopped"
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Work\Elvis Work\backend\env\Lib\site-packages\celery\app\task.py", line 444, in delay
+    return self.apply_async(args, kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Work\Elvis Work\backend\env\Lib\site-packages\celery\app\task.py", line 608, in apply_async
+    return app.send_task(
+           ^^^^^^^^^^^^^^
+  File "C:\Work\Elvis Work\backend\env\Lib\site-packages\celery\app\base.py", line 947, in send_task
+    amqp.send_task_message(P, name, message, **options)
+  File "C:\Work\Elvis Work\backend\env\Lib\site-packages\celery\app\amqp.py", line 559, in send_task_message
+    ret = producer.publish(
+          ^^^^^^^^^^^^^^^^^
+  File "C:\Work\Elvis Work\backend\env\Lib\site-packages\kombu\messaging.py", line 190, in publish
+    return _publish(
+           ^^^^^^^^^
+  File "C:\Work\Elvis Work\backend\env\Lib\site-packages\kombu\connection.py", line 558, in _ensured
+    return fun(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^
+  File "C:\Work\Elvis Work\backend\env\Lib\site-packages\kombu\messaging.py", line 200, in _publish
+    channel = self.channel
+              ^^^^^^^^^^^^
+  File "C:\Work\Elvis Work\backend\env\Lib\site-packages\kombu\messaging.py", line 224, in _get_channel
+    channel = self._channel = channel()
+                              ^^^^^^^^^
+  File "C:\Work\Elvis Work\backend\env\Lib\site-packages\kombu\utils\functional.py", line 34, in __call__
+    value = self.__value__ = self.__contract__()
+                             ^^^^^^^^^^^^^^^^^^^
+  File "C:\Work\Elvis Work\backend\env\Lib\site-packages\kombu\messaging.py", line 240, in <lambda>
+    channel = ChannelPromise(lambda: connection.default_channel)
+                                     ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Work\Elvis Work\backend\env\Lib\site-packages\kombu\connection.py", line 960, in default_channel
+    self._ensure_connection(**conn_opts)
+  File "C:\Work\Elvis Work\backend\env\Lib\site-packages\kombu\connection.py", line 460, in _ensure_connection
+    with ctx():
+         ^^^^^
+  File "C:\Users\manag\AppData\Local\Programs\Python\Python312\Lib\contextlib.py", line 158, in __exit__
+    self.gen.throw(value)
+  File "C:\Work\Elvis Work\backend\env\Lib\site-packages\kombu\connection.py", line 478, in _reraise_as_library_errors
+    raise ConnectionError(str(exc)) from exc
+kombu.exceptions.OperationalError: Error 10061 connecting to localhost:6379. No connection could be made because the target machine actively refused it.
+ERROR 2026-03-07 00:13:19,521 log Internal Server Error: /api/campaigns/65/action/
+Traceback (most recent call last):
+  File "C:\Work\Elvis Work\backend\env\Lib\site-packages\kombu\utils\functional.py", line 32, in __call__
+    return self.__value__
+           ^^^^^^^^^^^^^^
+AttributeError: 'ChannelPromise' object has no attribute '__value__'. Did you mean: '__call__'?
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\Work\Elvis Work\backend\env\Lib\site-packages\kombu\transport\virtual\base.py", line 951, in create_channel
+    return self._avail_channels.pop()
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+IndexError: pop from empty list
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\Work\Elvis Work\backend\env\Lib\site-packages\redis\connection.py", line 855, in connect_check_health
+    sock = self.retry.call_with_retry(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Work\Elvis Work\backend\env\Lib\site-packages\redis\retry.py", line 116, in call_with_retry
+    return do()
+           ^^^^
+  File "C:\Work\Elvis Work\backend\env\Lib\site-packages\redis\connection.py", line 856, in <lambda>
+    lambda: self._connect(), lambda error: self.disconnect(error)
+            ^^^^^^^^^^^^^^^
+  File "C:\Work\Elvis Work\backend\env\Lib\site-packages\redis\connection.py", line 1306, in _connect
+    raise err
+  File "C:\Work\Elvis Work\backend\env\Lib\site-packages\redis\connection.py", line 1290, in _connect
+    sock.connect(socket_address)
+ConnectionRefusedError: [WinError 10061] No connection could be made because the target machine actively refused it
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\Work\Elvis Work\backend\env\Lib\site-packages\kombu\connection.py", line 474, in _reraise_as_library_errors
+    yield
+  File "C:\Work\Elvis Work\backend\env\Lib\site-packages\kombu\connection.py", line 461, in _ensure_connection
+    return retry_over_time(
+           ^^^^^^^^^^^^^^^^
+  File "C:\Work\Elvis Work\backend\env\Lib\site-packages\kombu\utils\functional.py", line 318, in retry_over_time
+    return fun(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^
+  File "C:\Work\Elvis Work\backend\env\Lib\site-packages\kombu\connection.py", line 941, in _connection_factory
+    self._connection = self._establish_connection()
+                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Work\Elvis Work\backend\env\Lib\site-packages\kombu\connection.py", line 863, in _establish_connection
+    conn = self.transport.establish_connection()
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Work\Elvis Work\backend\env\Lib\site-packages\kombu\transport\virtual\base.py", line 975, in establish_connection
+    self._avail_channels.append(self.create_channel(self))
+                                ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Work\Elvis Work\backend\env\Lib\site-packages\kombu\transport\virtual\base.py", line 953, in create_channel
+    channel = self.Channel(connection)
+              ^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Work\Elvis Work\backend\env\Lib\site-packages\kombu\transport\redis.py", line 757, in __init__
+    self.client.ping()
+  File "C:\Work\Elvis Work\backend\env\Lib\site-packages\redis\commands\core.py", line 1226, in ping
+    return self.execute_command("PING", **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Work\Elvis Work\backend\env\Lib\site-packages\redis\client.py", line 657, in execute_command
+    return self._execute_command(*args, **options)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Work\Elvis Work\backend\env\Lib\site-packages\redis\client.py", line 663, in _execute_command
+    conn = self.connection or pool.get_connection()
+                              ^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Work\Elvis Work\backend\env\Lib\site-packages\redis\utils.py", line 196, in wrapper
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Work\Elvis Work\backend\env\Lib\site-packages\redis\connection.py", line 2603, in get_connection
+    connection.connect()
+  File "C:\Work\Elvis Work\backend\env\Lib\site-packages\redis\connection.py", line 846, in connect
+    self.connect_check_health(check_health=True)
+  File "C:\Work\Elvis Work\backend\env\Lib\site-packages\redis\connection.py", line 863, in connect_check_health
+    raise ConnectionError(self._error_message(e))
+redis.exceptions.ConnectionError: Error 10061 connecting to localhost:6379. No connection could be made because the target machine actively refused it.
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "C:\Work\Elvis Work\backend\env\Lib\site-packages\asgiref\sync.py", line 557, in thread_handler
+    raise exc_info[1]
+  File "C:\Work\Elvis Work\backend\env\Lib\site-packages\django\core\handlers\exception.py", line 42, in inner
+    response = await get_response(request)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Work\Elvis Work\backend\env\Lib\site-packages\asgiref\sync.py", line 557, in thread_handler
+    raise exc_info[1]
+  File "C:\Work\Elvis Work\backend\env\Lib\site-packages\django\core\handlers\base.py", line 253, in _get_response_async
+    response = await wrapped_callback(
+               ^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Work\Elvis Work\backend\env\Lib\site-packages\asgiref\sync.py", line 506, in __call__
+    ret = await asyncio.shield(exec_coro)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\manag\AppData\Local\Programs\Python\Python312\Lib\concurrent\futures\thread.py", line 59, in run
+    result = self.fn(*self.args, **self.kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Work\Elvis Work\backend\env\Lib\site-packages\asgiref\sync.py", line 561, in thread_handler
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Work\Elvis Work\backend\env\Lib\site-packages\django\views\decorators\csrf.py", line 65, in _view_wrapper
+    return view_func(request, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Work\Elvis Work\backend\env\Lib\site-packages\django\views\generic\base.py", line 105, in view
+    return self.dispatch(request, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Work\Elvis Work\backend\env\Lib\site-packages\rest_framework\views.py", line 515, in dispatch
+    response = self.handle_exception(exc)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Work\Elvis Work\backend\env\Lib\site-packages\rest_framework\views.py", line 475, in handle_exception
+    self.raise_uncaught_exception(exc)
+  File "C:\Work\Elvis Work\backend\env\Lib\site-packages\rest_framework\views.py", line 486, in raise_uncaught_exception
+    raise exc
+  File "C:\Work\Elvis Work\backend\env\Lib\site-packages\rest_framework\views.py", line 512, in dispatch
+    response = handler(request, *args, **kwargs)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Work\Elvis Work\backend\env\Lib\site-packages\rest_framework\decorators.py", line 50, in handler
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Work\Elvis Work\backend\campaign\views.py", line 275, in campaign_action
+    campaign.status = "stopped"
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Work\Elvis Work\backend\env\Lib\site-packages\celery\app\task.py", line 444, in delay
+    return self.apply_async(args, kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Work\Elvis Work\backend\env\Lib\site-packages\celery\app\task.py", line 608, in apply_async
+    return app.send_task(
+           ^^^^^^^^^^^^^^
+  File "C:\Work\Elvis Work\backend\env\Lib\site-packages\celery\app\base.py", line 947, in send_task
+    amqp.send_task_message(P, name, message, **options)
+  File "C:\Work\Elvis Work\backend\env\Lib\site-packages\celery\app\amqp.py", line 559, in send_task_message
+    ret = producer.publish(
+          ^^^^^^^^^^^^^^^^^
+  File "C:\Work\Elvis Work\backend\env\Lib\site-packages\kombu\messaging.py", line 190, in publish
+    return _publish(
+           ^^^^^^^^^
+  File "C:\Work\Elvis Work\backend\env\Lib\site-packages\kombu\connection.py", line 558, in _ensured
+    return fun(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^
+  File "C:\Work\Elvis Work\backend\env\Lib\site-packages\kombu\messaging.py", line 200, in _publish
+    channel = self.channel
+              ^^^^^^^^^^^^
+  File "C:\Work\Elvis Work\backend\env\Lib\site-packages\kombu\messaging.py", line 224, in _get_channel
+    channel = self._channel = channel()
+                              ^^^^^^^^^
+  File "C:\Work\Elvis Work\backend\env\Lib\site-packages\kombu\utils\functional.py", line 34, in __call__
+    value = self.__value__ = self.__contract__()
+                             ^^^^^^^^^^^^^^^^^^^
+  File "C:\Work\Elvis Work\backend\env\Lib\site-packages\kombu\messaging.py", line 240, in <lambda>
+    channel = ChannelPromise(lambda: connection.default_channel)
+                                     ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Work\Elvis Work\backend\env\Lib\site-packages\kombu\connection.py", line 960, in default_channel
+    self._ensure_connection(**conn_opts)
+  File "C:\Work\Elvis Work\backend\env\Lib\site-packages\kombu\connection.py", line 460, in _ensure_connection
+    with ctx():
+         ^^^^^
+  File "C:\Users\manag\AppData\Local\Programs\Python\Python312\Lib\contextlib.py", line 158, in __exit__
+    self.gen.throw(value)
+  File "C:\Work\Elvis Work\backend\env\Lib\site-packages\kombu\connection.py", line 478, in _reraise_as_library_errors
+    raise ConnectionError(str(exc)) from exc
+kombu.exceptions.OperationalError: Error 10061 connecting to localhost:6379. No connection could be made because the target machine actively refused it.
+WARNING 2026-03-07 00:18:05,480 log Not Found: /static/rest_framework/css/prettify.css
+WARNING 2026-03-07 00:18:05,480 log Not Found: /static/rest_framework/css/bootstrap.min.css
+WARNING 2026-03-07 00:18:05,481 log Not Found: /static/rest_framework/css/bootstrap-tweaks.css
+WARNING 2026-03-07 00:18:05,556 log Not Found: /static/rest_framework/js/jquery-3.7.1.min.js
+WARNING 2026-03-07 00:18:05,556 log Not Found: /static/rest_framework/js/ajax-form.js
+WARNING 2026-03-07 00:18:05,558 log Not Found: /static/rest_framework/css/default.css
+WARNING 2026-03-07 00:18:05,594 log Not Found: /static/rest_framework/js/prettify-min.js
+WARNING 2026-03-07 00:18:05,594 log Not Found: /static/rest_framework/js/csrf.js
+WARNING 2026-03-07 00:18:05,594 log Not Found: /static/rest_framework/js/bootstrap.min.js
+WARNING 2026-03-07 00:18:05,617 log Not Found: /static/rest_framework/js/load-ajax-form.js
+WARNING 2026-03-07 00:18:05,617 log Not Found: /static/rest_framework/js/default.js
+WARNING 2026-03-07 00:18:05,674 log Not Found: /favicon.ico
+WARNING 2026-03-07 00:25:15,508 log Not Found: /favicon.ico

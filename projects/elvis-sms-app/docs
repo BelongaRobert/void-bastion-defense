@@ -1,0 +1,37 @@
+❌ Gohighlevel contacts - mapping tool
+❌ send x msgs initially before sending more etc (also schedule runs)
+✅ host that .exe on a windows machine
+✅ Mobile friendly IOS 
+✅ Camapign not working
+✅ Notification is appending empty msg 
+✅ Mobile version tool
+✅ remove notification and show dot only
+✅ Someone reply, I should get a Dot
+✅ Notification system
+✅ Edit the name at the number - edit to link the name
+✅ first_name mapping with an unmapped field dont store first_name
+✅ change window alerts to toast when starting campaign
+✅ when i go back to campagn - it shows old stats 
+✅ Rename feature
+✅ Delete loading
+✅ The chat doesn't reload - use ws
+✅ UI must match exactly with the claude one you sent
+✅ Stop campaign not working
+✅ Campaign marked completed after 4 entry sent (maybe because it was stopped)
+✅ Cannot see the status of all the messages sent (don't know why campaign msg failed)
+✅ Search tool doesn't work for chat
+✅ Lack of pages self loading is making it badd
+✅ Link name to number
+✅ Add contact option missing
+✅ drag and drop is not working
+✅ shows failed when it worked
+✅ progress bar goes 200%
+✅ start campaign still showing
+✅ frontend should mad ipad chat design 100% 
+✅ 100% vh is not working on mac screen
+✅ proper logging for sent and responded messages
+✅ pause campaign 
+✅ twilio chat delete button 
+✅ xlsx 
+✅ map number to name from csv (compulsory) 
+✅ being able to handle two number fields (priority)

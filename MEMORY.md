@@ -1,27 +1,15 @@
-# DaSage's Memory
+# DaSage's Memory — Quick Reference
 
 ## Active Projects
 
-### Clawsight Dashboard v1.0 ✅
-**Status:** Complete — v1.0 shipped 2026-03-21
+### Clawsight Dashboard v1.1 ✅
+**Status:** Complete — v1.1 shipped 2026-03-23
 **Location:** `~/.openclaw/workspace/projects/Clawsight`
-**Repo:** https://github.com/BelongaRobert/Clawsight
+**GitHub:** https://github.com/BelongaRobert/Clawsight
+**Live:** https://clawsight-client.onrender.com (polling) or ngrok (WebSocket)
 
-A real-time dashboard for monitoring DaSage's work, tools, health, and self-improvement.
-
-**v1.0 Features:**
-- **Overview** — System status, quick actions
-- **Work Monitor** — Real-time activity feed from session files
-- **Tool Inventory** — Browse all 11 available tools
-- **Task Queue** — Add, complete, prioritize tasks
-- **Memory Search** — Search MEMORY.md and daily files
-- **Health Metrics** — Gateway, API status, **token usage with 24h charts**
-- **Activity Heatmap** — GitHub-style contribution graph (30-day view)
-- **Performance Metrics** — **Live CPU, memory, disk usage + Ollama status**
-- **Integration Hub** — **Ollama models + GitHub/Git commits & stats**
-- **Self-Improvement** — Track suggestions, **export completed to MEMORY.md**
-
-**Tech Stack:** React + TypeScript + Vite + Express + WebSocket
+**Features:** Real-time activity tracking, TUI terminal, Subagent/Process monitors, mobile-optimized, Render-deployed
+**Tech:** React + TypeScript + Vite + Express + WebSocket (local) / Polling (Render)
 
 **To Resume:**
 ```bash
@@ -30,60 +18,50 @@ npm run server  # Terminal 1
 npm run client  # Terminal 2
 ```
 
-## Workflow with Robert
+### cacao-farm
+**Status:** Robert's PRIVATE project — Google Sheets integration needed
+**Location:** `~/.openclaw/workspace/projects/cacao-farm`
+**Note:** NOT Elvis's project. Robert's own private work.
 
-1. **Project Onboarding:** Always offer Git Clone or Copy/Mirror options
+### elvis-sms-app
+**Status:** Elvis's SMS app — needs fixes
+**Location:** `~/.openclaw/workspace/projects/elvis-sms-app`
+
+### GexDisplayer
+**Status:** Minimal project
+**Location:** `~/.openclaw/workspace/projects/GexDisplayer`
+
+---
+
+## People
+
+### Robert (You)
+**Contact:** +1 919... (Telegram)
+**Focus:** Web app development, AI assistants, hosting
+**Preferences:** Git clone, direct communication, test before push
+
+### Elvis Cueva
+**Status:** Authorized to use my assistance
+**Focus:** Web apps, SMS integration
+**Projects:** elvis-sms-app (NOT cacao-farm — that is Robert's private project)
+
+### Andrew
+**Status:** Workspace ready, waiting for first contact
+**Contact:** +1 919 889 9009 (Telegram)
+**Location:** `~/.openclaw/workspace/andrew/`
+**Note:** Needs to message bot first to activate
+
+---
+
+## Workflow
+
+1. **Project Onboarding:** Offer Git Clone or Copy/Mirror
 2. **Development:** Work in `~/.openclaw/workspace/projects/`
-3. **Testing:** Test after each phase before pushing
-4. **Token Management:** Stop at ~75% terminal usage
-5. **Communication:** Friendly but direct, humor welcome but info first
+3. **Testing:** Test after each phase
+4. **Token Management:** Stop at ~75% usage
+5. **Communication:** Friendly but direct
 
-## Self-Improvement Suggestion Format
-
-**Format:** Structured markdown with sections and visual hierarchy
-
-**Template:**
-```
-[Brief summary sentence]
-
-## Problem
-[Clear description of the issue]
-
-## Solution
-[What should be done]
-
-## [Category] Tasks
-[Task type] → [Target model]
-- Item 1
-- Item 2
-
-## Technical Requirements
-- **Item** — Description
-- **Item** — Description
-
-## Implementation Plan
-**Phase 1:** [Description]
-
-**Phase 2:** [Description]
-
-**Phase 3:** [Description]
-
-## Expected Impact
-- Bullet 1
-- Bullet 2
-
-## Success Metrics
-- Metric 1
-- Metric 2
-```
-
-**Rules:**
-- Use `##` for section headers
-- Use `**bold**` for sub-headers
-- Empty lines (blank rows) between sections
-- Dashes `-` for bullet lists
-- Right arrow `→` for mappings/assignments
-- Em dash `—` for explanations
+---
 
 ## Preferences
 
@@ -92,10 +70,17 @@ npm run client  # Terminal 2
 - **Vibe:** Competent, resourceful, occasionally witty
 - **Focus:** Web application development and hosting
 
+---
+
 ## Tools Available
 
 See full list in Clawsight dashboard or `AGENTS.md`
 
-## Session History
+---
 
-- **2026-03-21:** Shipped Clawsight Dashboard v1.0 (5 phases, 10 features, real-time monitoring)
+## Session History (Brief)
+
+- **2026-03-23:** Clawsight v1.1 — TUI I/O, mobile UX, Render deploy, Andrew's workspace
+- **2026-03-21:** Clawsight v1.0 — Initial release
+
+**Detailed logs:** See `memory/YYYY-MM-DD-detailed.md` files
