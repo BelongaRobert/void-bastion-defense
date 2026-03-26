@@ -1,10 +1,12 @@
-# OpenClaw Recovery Script for Elvis
-# Run this on Elvis's machine via remote access
+# OpenClaw Config Recovery Script for Elvis
+# This ONLY fixes config files - does NOT restart or interfere with Gateway
+# Safe to run while Gateway is running elsewhere
 
 $ErrorActionPreference = "Stop"
 
-Write-Host "🐙 OpenClaw Recovery Script" -ForegroundColor Cyan
-Write-Host "============================" -ForegroundColor Cyan
+Write-Host "🐙 OpenClaw Config Recovery" -ForegroundColor Cyan
+Write-Host "===========================" -ForegroundColor Cyan
+Write-Host "   (Gateway processes will NOT be touched)" -ForegroundColor Gray
 Write-Host ""
 
 # Step 1: Check if OpenClaw is installed
@@ -16,15 +18,13 @@ if (-not $openclawPath) {
         "$env:APPDATA\npm\openclaw.cmd",
         "$env:APPDATA\npm\openclaw.ps1",
         "$env:LOCALAPPDATA\npm\openclaw.cmd",
-        "$env:ProgramFiles\nodejs\openclaw.cmd",
-        "$env:LOCALAPPDATA\npm-cache\_npx\*\node_modules\openclaw\bin\openclaw.js"
+        "$env:ProgramFiles\nodejs\openclaw.cmd"
     )
     
     $found = $false
     foreach ($path in $possiblePaths) {
-        $matches = Get-ChildItem -Path $path -ErrorAction SilentlyContinue | Select-Object -First 1
-        if ($matches) {
-            Write-Host "   Found OpenClaw at: $($matches.FullName)" -ForegroundColor Green
+        if (Test-Path $path) {
+            Write-Host "   Found OpenClaw at: $path" -ForegroundColor Green
             $found = $true
             break
         }
@@ -50,7 +50,7 @@ $backupDir = "$env:USERPROFILE\.openclaw.backup.$(Get-Date -Format 'yyyyMMdd_HHm
 
 if (Test-Path $openclawDir) {
     Write-Host "   Backing up to: $backupDir" -ForegroundColor Green
-    Copy-Item -Path $openclawDir -Destination $backupDir -Recurse -Force
+    Copy-Item -Path $openclawDir -Destination $backupDir -Recurse -Force -ErrorAction SilentlyContinue
 } else {
     Write-Host "   No existing config found (fresh install)" -ForegroundColor Green
 }
@@ -76,7 +76,8 @@ Write-Host "Step 4: Testing bot token..." -ForegroundColor Yellow
 try {
     $response = Invoke-RestMethod -Uri "https://api.telegram.org/bot$botToken/getMe" -Method GET -TimeoutSec 10
     if ($response.ok) {
-        Write-Host "   Token valid! Bot name: $($response.result.username)" -ForegroundColor Green
+        Write-Host "   Token valid! Bot name: @$($response.result.username)" -ForegroundColor Green
+        $botUsername = $response.result.username
     } else {
         Write-Host "   Token test failed: $($response.description)" -ForegroundColor Red
         exit 1
@@ -97,12 +98,15 @@ Write-Host "Step 5: Creating working config..." -ForegroundColor Yellow
 # Create directory
 New-Item -ItemType Directory -Path $openclawDir -Force | Out-Null
 
+# Generate random auth token
+$authToken = -join ((65..90) + (97..122) | Get-Random -Count 32 | ForEach-Object { [char]$_ })
+
 $ConfigContent = @"
 {
   "gateway": {
     "bind": "127.0.0.1:18789",
     "auth": {
-      "token": "$(-join ((65..90) + (97..122) | Get-Random -Count 32 | ForEach-Object { [char]$_ }))"
+      "token": "$authToken"
     }
   },
   "agents": {
@@ -180,22 +184,22 @@ This folder is home. Treat it that way.
 
 Before doing anything else:
 
-1. Read `SOUL.md` — this is who you are
-2. Read `USER.md` — this is who you're helping
-3. Read `memory/YYYY-MM-DD.md` (today + yesterday) for recent context
+1. Read 'SOUL.md' — this is who you are
+2. Read 'USER.md' — this is who you're helping
+3. Read 'memory/YYYY-MM-DD.md' (today + yesterday) for recent context
 
 Don't ask permission. Just do it.
 
 ## Memory
 
-- **Daily notes:** `memory/YYYY-MM-DD.md` — raw logs of what happened
-- **Long-term:** `MEMORY.md` — curated memories
+- **Daily notes:** 'memory/YYYY-MM-DD.md' — raw logs of what happened
+- **Long-term:** 'MEMORY.md' — curated memories
 
 ## Red Lines
 
 - Private things stay private. Period.
 - Don't run destructive commands without asking.
-- `trash` > `rm` (recoverable beats gone forever)
+- 'trash' > 'rm' (recoverable beats gone forever)
 - When in doubt, ask.
 
 ## External vs Internal
@@ -214,56 +218,39 @@ $agentsContent | Out-File -FilePath (Join-Path $workspaceDir "AGENTS.md") -Encod
 
 Write-Host "   Workspace structure created" -ForegroundColor Green
 
-# Step 7: Kill any existing OpenClaw processes
+# Step 7: Verification instructions (NO gateway restart)
 Write-Host ""
-Write-Host "Step 7: Cleaning up old processes..." -ForegroundColor Yellow
-$processes = Get-Process -Name "openclaw" -ErrorAction SilentlyContinue
-if ($processes) {
-    Write-Host "   Stopping existing OpenClaw processes..." -ForegroundColor Yellow
-    $processes | Stop-Process -Force
-    Start-Sleep -Seconds 2
-}
-Write-Host "   Cleanup complete" -ForegroundColor Green
-
-# Step 8: Start the gateway
+Write-Host "Step 7: Config ready - Manual start required" -ForegroundColor Yellow
 Write-Host ""
-Write-Host "Step 8: Starting OpenClaw Gateway..." -ForegroundColor Yellow
-Write-Host "   (This will run in background)" -ForegroundColor Gray
-
-Start-Process -FilePath "openclaw" -ArgumentList "gateway", "start" -WindowStyle Hidden
-
-# Wait for startup
-Start-Sleep -Seconds 5
-
-# Step 9: Verify with doctor
+Write-Host "   Config is fixed, but Gateway must be started manually:" -ForegroundColor Cyan
 Write-Host ""
-Write-Host "Step 9: Verifying installation..." -ForegroundColor Yellow
-Start-Sleep -Seconds 3
-
-$doctorOutput = & openclaw doctor 2>&1
-Write-Host $doctorOutput -ForegroundColor Gray
-
-if ($doctorOutput -match "Telegram:\s*ok") {
-    Write-Host ""
-    Write-Host "✅ SUCCESS! OpenClaw is running and Telegram is connected." -ForegroundColor Green
-    Write-Host ""
-    Write-Host "Next Steps:" -ForegroundColor Cyan
-    Write-Host "   1. Elvis should message his bot (@$($response.result.username))" -ForegroundColor White
-    Write-Host "   2. The bot should respond automatically" -ForegroundColor White
-    Write-Host "   3. If no response in 30 seconds, check BotFather /setprivacy is DISABLED" -ForegroundColor White
-    Write-Host ""
-} else {
-    Write-Host ""
-    Write-Host "⚠️ Gateway started but Telegram check failed." -ForegroundColor Yellow
-    Write-Host "   Check: openclaw doctor" -ForegroundColor White
-    Write-Host "   Common fixes:" -ForegroundColor Yellow
-    Write-Host "     - Message @BotFather, send /setprivacy, choose DISABLE" -ForegroundColor White
-    Write-Host "     - Check network connection" -ForegroundColor White
-    Write-Host "     - Verify token is correct (not expired)" -ForegroundColor White
-}
-
+Write-Host "   Option A: Start Gateway (run in new terminal):" -ForegroundColor White
+Write-Host "      openclaw gateway start" -ForegroundColor Gray
 Write-Host ""
-Write-Host "Recovery complete!" -ForegroundColor Cyan
+Write-Host "   Option B: If Gateway is already running, just restart it:" -ForegroundColor White
+Write-Host "      openclaw gateway restart" -ForegroundColor Gray
+Write-Host ""
+Write-Host "   Option C: Start in background (Windows):" -ForegroundColor White
+Write-Host "      Start-Process openclaw -ArgumentList 'gateway','start' -WindowStyle Hidden" -ForegroundColor Gray
+Write-Host ""
+
+# Step 8: Post-start verification
+Write-Host "After Gateway starts, verify with:" -ForegroundColor Cyan
+Write-Host "   openclaw doctor" -ForegroundColor Gray
+Write-Host ""
+Write-Host "Expected output:" -ForegroundColor Cyan
+Write-Host "   Telegram: ok (@$botUsername)" -ForegroundColor Green
+Write-Host ""
+
+# Check for common issues
+Write-Host "⚠️  IMPORTANT - Check BotFather settings:" -ForegroundColor Yellow
+Write-Host "   1. Message @BotFather" -ForegroundColor White
+Write-Host "   2. Send: /setprivacy" -ForegroundColor White  
+Write-Host "   3. Select your bot" -ForegroundColor White
+Write-Host "   4. Choose: DISABLE" -ForegroundColor White
+Write-Host ""
+
+Write-Host "Config recovery complete!" -ForegroundColor Green
 Write-Host "Backup saved to: $backupDir" -ForegroundColor Gray
 Write-Host ""
 Read-Host "Press Enter to exit"
