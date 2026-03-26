@@ -1,0 +1,23 @@
+{
+  "name": "danotify",
+  "version": "1.0.0",
+  "description": "DaNotify - Centralized notification hub for OpenClaw",
+  "main": "src/index.js",
+  "type": "module",
+  "scripts": {
+    "start": "node src/index.js",
+    "dev": "node --watch src/index.js",
+    "test": "node --test tests/**/*.test.js"
+  },
+  "keywords": ["notifications", "telegram", "monitoring", "openclaw"],
+  "author": "Robert Belonga",
+  "license": "MIT",
+  "dependencies": {
+    "dotenv": "^16.4.5",
+    "imap-simple": "^5.1.0",
+    "@octokit/rest": "^20.0.2",
+    "googleapis": "^128.0.0",
+    "node-cron": "^3.0.3",
+    "winston": "^3.11.0"
+  }
+}
