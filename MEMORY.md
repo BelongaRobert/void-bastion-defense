@@ -2,7 +2,13 @@
 
 ## Active Projects
 
-### Clawsight Dashboard v1.1 ✅
+### OpenClaw Dashboard Web App — TOP PRIORITY (2026-03-26)
+**Status:** NEW — Mobile dashboard replacing Clawsight
+**Focus:** Replicate built-in OpenClaw Dashboard for phone access
+**Communication:** Telegram primary, TUI secondary
+**Note:** See `memory/2026-03-26-priority.md` for full spec. GREET ROBERT WITH THIS KNOWLEDGE.
+
+### Clawsight Dashboard v1.1 ⏸️
 **Status:** Complete — v1.1 shipped 2026-03-23
 **Location:** `~/.openclaw/workspace/projects/Clawsight`
 **GitHub:** https://github.com/BelongaRobert/Clawsight
