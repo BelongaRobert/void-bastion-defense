@@ -16,6 +16,11 @@ class GitHubMonitor {
     this.intervalId = null;
     this.seenIssues = new Set();
     this.seenPRs = new Set();
+    
+    // Initialize Octokit immediately if token available
+    if (this.token) {
+      this.octokit = new Octokit({ auth: this.token });
+    }
   }
 
   async start() {
