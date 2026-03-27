@@ -5,6 +5,7 @@ import { fileURLToPath } from 'url';
 import { dirname, join } from 'path';
 import dotenv from 'dotenv';
 import { execSync } from 'child_process';
+import { startGatewayMonitoring, setupGatewayRoutes } from './gateway.js';
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 dotenv.config({ path: join(__dirname, '../.env') });
@@ -243,7 +244,13 @@ httpServer.listen(PORT, () => {
   console.log(`🐙 DaSage Dashboard running on port ${PORT}`);
   console.log(`📱 Mobile optimized for cellular access`);
   console.log(`🌐 Local: http://localhost:${PORT}`);
+  
+  // Start Gateway monitoring
+  startGatewayMonitoring(io, notifyDaNotify);
 });
+
+// Setup Gateway API routes
+setupGatewayRoutes(app);
 
 // Graceful shutdown
 process.on('SIGTERM', () => {

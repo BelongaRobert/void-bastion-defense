@@ -509,6 +509,87 @@
             gap: 20px;
         }
 
+        /* Gateway Tab Styles */
+        .gateway-status {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 16px;
+            padding: 16px;
+        }
+
+        .gateway-metric {
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+        }
+
+        .gateway-label {
+            font-size: 0.75rem;
+            color: var(--text-secondary);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .gateway-value {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: var(--text-primary);
+        }
+
+        .gateway-value.online {
+            color: var(--tentacle-1);
+        }
+
+        .gateway-value.offline, .gateway-value.error {
+            color: #ef4444;
+        }
+
+        .cron-list, .agent-list {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            padding: 16px;
+        }
+
+        .cron-item, .agent-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 12px;
+            background: rgba(103, 232, 249, 0.05);
+            border-radius: 8px;
+            border-left: 3px solid var(--tentacle-2);
+        }
+
+        .cron-name, .agent-name {
+            font-size: 0.9rem;
+            color: var(--text-primary);
+        }
+
+        .cron-status, .agent-status {
+            font-size: 0.75rem;
+            padding: 4px 8px;
+            border-radius: 4px;
+        }
+
+        .cron-status.enabled {
+            color: var(--tentacle-1);
+            background: rgba(0, 212, 170, 0.1);
+        }
+
+        .cron-status.disabled {
+            color: #ef4444;
+            background: rgba(239, 68, 68, 0.1);
+        }
+
+        .agent-status.running {
+            color: var(--tentacle-1);
+        }
+
+        .agent-status.idle {
+            color: var(--text-secondary);
+        }
+
         /* Scrollbar */
         ::-webkit-scrollbar {
             width: 6px;
@@ -601,6 +682,8 @@
         <button class="tab-btn" data-tab="system">System</button>
         <button class="tab-btn" data-tab="activity">Activity</button>
         <button class="tab-btn" data-tab="projects">Projects</button>
+        <button class="tab-btn" data-tab="monitor">Monitor</button>
+        <button class="tab-btn" data-tab="gateway">Gateway</button>
     </nav>
 
     <!-- Tab Contents -->
@@ -879,6 +962,50 @@
         </div>
     </div>
 
+    <!-- Gateway Tab -->
+    <div class="tab-content" id="tab-gateway">
+        <div class="card">
+            <div class="card-header">
+                <span class="card-title">OpenClaw Gateway</span>
+                <div class="card-icon" id="gateway-status-icon">🔌</div>
+            </div>
+            <div class="gateway-status" id="gateway-status">
+                <div class="gateway-metric">
+                    <span class="gateway-label">Status</span>
+                    <span class="gateway-value" id="gateway-state">Checking...</span>
+                </div>
+                <div class="gateway-metric">
+                    <span class="gateway-label">Uptime</span>
+                    <span class="gateway-value" id="gateway-uptime">--</span>
+                </div>
+                <div class="gateway-metric">
+                    <span class="gateway-label">Version</span>
+                    <span class="gateway-value" id="gateway-version">--</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="card">
+            <div class="card-header">
+                <span class="card-title">Cron Jobs</span>
+                <div class="card-icon">⏰</div>
+            </div>
+            <div class="cron-list" id="cron-list">
+                <div class="cron-item">Loading...</div>
+            </div>
+        </div>
+
+        <div class="card">
+            <div class="card-header">
+                <span class="card-title">Active Agents</span>
+                <div class="card-icon">🤖</div>
+            </div>
+            <div class="agent-list" id="agent-list">
+                <div class="agent-item">Loading...</div>
+            </div>
+        </div>
+    </div>
+
     <script src="/socket.io/socket.io.js"></script>
     <script>
         // Initialize particles
@@ -993,6 +1120,58 @@
                     <span class="connection-time">${new Date(conn.connectedAt).toLocaleTimeString()}</span>
                 </div>
             `).join('');
+        });
+
+        // Gateway updates
+        socket.on('gateway-update', (data) => {
+            const statusIcon = document.getElementById('gateway-status-icon');
+            const statusState = document.getElementById('gateway-state');
+            const statusUptime = document.getElementById('gateway-uptime');
+            const statusVersion = document.getElementById('gateway-version');
+            const cronList = document.getElementById('cron-list');
+            const agentList = document.getElementById('agent-list');
+            
+            if (statusIcon) {
+                statusIcon.textContent = data.status === 'online' ? '✅' : data.status === 'error' ? '⚠️' : '🔴';
+            }
+            if (statusState) {
+                statusState.textContent = data.status.toUpperCase();
+                statusState.className = 'gateway-value ' + data.status;
+            }
+            if (statusUptime) {
+                const hours = Math.floor(data.uptime / 3600);
+                const minutes = Math.floor((data.uptime % 3600) / 60);
+                statusUptime.textContent = `${hours}h ${minutes}m`;
+            }
+            if (statusVersion) {
+                statusVersion.textContent = data.version;
+            }
+            
+            if (cronList && data.cronJobs) {
+                if (data.cronJobs.length === 0) {
+                    cronList.innerHTML = '<div class="cron-item">No cron jobs</div>';
+                } else {
+                    cronList.innerHTML = data.cronJobs.slice(0, 5).map(job => `
+                        <div class="cron-item">
+                            <span class="cron-name">${job.name || 'Unnamed'}</span>
+                            <span class="cron-status ${job.enabled ? 'enabled' : 'disabled'}">${job.enabled ? '✓' : '✗'}</span>
+                        </div>
+                    `).join('');
+                }
+            }
+            
+            if (agentList && data.subagents) {
+                if (data.subagents.length === 0) {
+                    agentList.innerHTML = '<div class="agent-item">No active agents</div>';
+                } else {
+                    agentList.innerHTML = data.subagents.slice(0, 5).map(agent => `
+                        <div class="agent-item">
+                            <span class="agent-name">${agent.name || agent.id?.slice(0, 8)}</span>
+                            <span class="agent-status ${agent.status}">${agent.status}</span>
+                        </div>
+                    `).join('');
+                }
+            }
         });
 
         // Heartbeat
