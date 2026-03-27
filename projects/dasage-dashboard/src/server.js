@@ -6,6 +6,8 @@ import { dirname, join } from 'path';
 import dotenv from 'dotenv';
 import { execSync } from 'child_process';
 import { startGatewayMonitoring, setupGatewayRoutes } from './gateway.js';
+import { startActivityMonitoring } from './activities.js';
+import { startNotificationMonitoring, setupNotificationRoutes, checkThresholds } from './notifications.js';
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 dotenv.config({ path: join(__dirname, '../.env') });
@@ -123,6 +125,15 @@ async function collectSystemData() {
     // Emit to clients
     io.emit('system-update', systemData);
     io.emit('history-update', historyData);
+    
+    // Check thresholds for notifications
+    const alerts = checkThresholds(systemData, notifyDaNotify);
+    if (alerts.length > 0) {
+      alerts.forEach(alert => {
+        addActivity(alert.icon || '⚠️', alert.message);
+        io.emit('notification', alert);
+      });
+    }
     
   } catch (err) {
     console.log('System data error:', err.message);
@@ -245,8 +256,13 @@ httpServer.listen(PORT, () => {
   console.log(`📱 Mobile optimized for cellular access`);
   console.log(`🌐 Local: http://localhost:${PORT}`);
   
-  // Start Gateway monitoring
+  // Start all monitoring
   startGatewayMonitoring(io, notifyDaNotify);
+  startActivityMonitoring(io);
+  startNotificationMonitoring(io, notifyDaNotify);
+  
+  // Setup notification routes
+  setupNotificationRoutes(app, io);
 });
 
 // Setup Gateway API routes
