@@ -1103,16 +1103,182 @@
 
             .tentacle { opacity: 0.2; }
         }
+
+        /* Voice Chat Mode */
+        .voice-chat-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(10, 15, 26, 0.98);
+            z-index: 2000;
+            display: none;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .voice-chat-overlay.active {
+            display: flex;
+        }
+
+        .voice-chat-header {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            right: 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .voice-chat-title {
+            font-size: 1.2rem;
+            color: var(--tentacle-1);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .voice-chat-close {
+            background: none;
+            border: none;
+            color: var(--text-secondary);
+            font-size: 2rem;
+            cursor: pointer;
+            transition: color 0.2s;
+        }
+
+        .voice-chat-close:hover {
+            color: var(--tentacle-1);
+        }
+
+        .voice-chat-mic {
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            background: var(--surface);
+            border: 4px solid var(--foam);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 4rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-bottom: 40px;
+            user-select: none;
+        }
+
+        .voice-chat-mic:hover {
+            border-color: var(--tentacle-1);
+            transform: scale(1.05);
+        }
+
+        .voice-chat-mic.listening {
+            background: var(--tentacle-1);
+            border-color: var(--tentacle-1);
+            animation: pulse-ring 1.5s infinite;
+        }
+
+        @keyframes pulse-ring {
+            0% { box-shadow: 0 0 0 0 rgba(0, 212, 170, 0.4); }
+            70% { box-shadow: 0 0 0 40px rgba(0, 212, 170, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(0, 212, 170, 0); }
+        }
+
+        .voice-chat-transcript {
+            max-width: 600px;
+            width: 100%;
+            background: var(--surface);
+            border: 1px solid var(--foam);
+            border-radius: 16px;
+            padding: 24px;
+            margin-bottom: 24px;
+            min-height: 120px;
+            max-height: 300px;
+            overflow-y: auto;
+        }
+
+        .voice-chat-transcript .user-text {
+            color: var(--tentacle-1);
+            margin-bottom: 12px;
+            font-size: 1.1rem;
+        }
+
+        .voice-chat-transcript .ai-text {
+            color: var(--text-primary);
+            font-size: 1.1rem;
+            line-height: 1.6;
+        }
+
+        .voice-chat-status {
+            font-size: 1rem;
+            color: var(--text-secondary);
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .voice-chat-hint {
+            position: absolute;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%);
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+            text-align: center;
+            width: 80%;
+        }
+
+        .voice-chat-btn {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            background: var(--tentacle-1);
+            border: none;
+            color: var(--abyss);
+            font-size: 1.5rem;
+            cursor: pointer;
+            box-shadow: 0 4px 15px rgba(0, 212, 170, 0.4);
+            z-index: 1000;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
     </style>
 </head>
 <body>
     <!-- Smart Notifications Container -->
     <div class="notification-container" id="notification-container"></div>
 
-    <!-- Voice Control UI -->
-    <button class="voice-mic-btn" id="voice-mic-btn" title="Hold Space or click to speak">🎤</button>
-    <div class="voice-status" id="voice-status">Tap microphone to speak</div>
-    <div class="voice-transcript" id="voice-transcript"></div>
+    <!-- Voice Chat Overlay -->
+    <div class="voice-chat-overlay" id="voice-chat-overlay">
+        <div class="voice-chat-header">
+            <div class="voice-chat-title">
+                🐙 Voice Chat with DaSage
+            </div>
+            <button class="voice-chat-close" id="voice-chat-close">×</button>
+        </div>
+        
+        <div class="voice-chat-transcript" id="voice-chat-transcript">
+            <div class="ai-text">Tap the microphone and ask me anything about your dashboard!</div>
+        </div>
+        
+        <div class="voice-chat-status" id="voice-chat-status">Ready to listen</div>
+        
+        <div class="voice-chat-mic" id="voice-chat-mic">🎤</div>
+        
+        <div class="voice-chat-hint">
+            Try: "What's my CPU usage?" or "Show me the terminal" or "Any alerts?"
+        </div>
+    </div>
+
+    <!-- Voice Chat Button -->
+    <button class="voice-chat-btn" id="voice-chat-btn" title="Voice Chat with DaSage">💬</button>
 
     <!-- Animated Background -->
     <div class="ocean-bg">
@@ -1224,22 +1390,20 @@
                 </div>
             </div>
         </div>
-    </div>
 
-    <!-- Predictions Card -->
-    <div class="card" id="predictions-card">
-        <div class="card-header">
-            <span class="card-title">Predictions</span>
-            <div class="card-icon">🔮</div>
-        </div>
-        <div id="predictions-content">
-            <div class="prediction-item">
-                <span class="prediction-icon">📊</span>
-                <span class="prediction-text">Analyzing trends...</span>
+        <!-- Predictions Card -->
+        <div class="card" id="predictions-card">
+            <div class="card-header">
+                <span class="card-title">Predictions</span>
+                <div class="card-icon">🔮</div>
+            </div>
+            <div id="predictions-content">
+                <div class="prediction-item">
+                    <span class="prediction-icon">📊</span>
+                    <span class="prediction-text">Analyzing trends...</span>
+                </div>
             </div>
         </div>
-    </div>
-
     </div>
 
     <div class="tab-content" id="tab-system">
@@ -2053,208 +2217,134 @@
         loadPredictions();
         setInterval(loadPredictions, 300000);
 
-        // ===== VOICE CONTROL =====
-        // Import voice control functions (loaded as module)
-        let voiceControl = null;
+        // ===== VOICE CHAT MODE =====
+        const voiceChatBtn = document.getElementById('voice-chat-btn');
+        const voiceChatOverlay = document.getElementById('voice-chat-overlay');
+        const voiceChatClose = document.getElementById('voice-chat-close');
+        const voiceChatMic = document.getElementById('voice-chat-mic');
+        const voiceChatTranscript = document.getElementById('voice-chat-transcript');
+        const voiceChatStatus = document.getElementById('voice-chat-status');
         
-        // Setup voice control when page loads
-        document.addEventListener('DOMContentLoaded', () => {
-            // Check if speech recognition is supported
-            if ('webkitSpeechRecognition' in window || 'SpeechRecognition' in window) {
-                const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
-                const recognition = new SpeechRecognition();
-                
-                recognition.continuous = false;
-                recognition.interimResults = true;
-                recognition.lang = 'en-US';
-                
-                let isListening = false;
-                let finalTranscript = '';
-                
-                // Voice commands mapping
-                const VOICE_COMMANDS = {
-                    'show overview': 'overview',
-                    'go to overview': 'overview',
-                    'open overview': 'overview',
-                    'show system': 'system',
-                    'go to system': 'system',
-                    'system status': 'system',
-                    'show activity': 'activity',
-                    'go to activity': 'activity',
-                    'show projects': 'projects',
-                    'go to projects': 'projects',
-                    'show monitor': 'monitor',
-                    'go to monitor': 'monitor',
-                    'show gateway': 'gateway',
-                    'go to gateway': 'gateway',
-                    'show terminal': 'terminal',
-                    'go to terminal': 'terminal',
-                    'refresh': 'refresh',
-                    'reload': 'refresh',
-                    'help': 'help'
-                };
-                
-                function findCommand(transcript) {
-                    const normalized = transcript.toLowerCase().trim();
-                    
-                    // Exact match
-                    if (VOICE_COMMANDS[normalized]) {
-                        return VOICE_COMMANDS[normalized];
-                    }
-                    
-                    // Partial match
-                    for (const [phrase, action] of Object.entries(VOICE_COMMANDS)) {
-                        if (normalized.includes(phrase)) {
-                            return action;
-                        }
-                    }
-                    
-                    return null;
+        let voiceRecognition = null;
+        let isListening = false;
+        
+        // Initialize voice recognition
+        if ('webkitSpeechRecognition' in window || 'SpeechRecognition' in window) {
+            const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+            voiceRecognition = new SpeechRecognition();
+            voiceRecognition.continuous = false;
+            voiceRecognition.interimResults = true;
+            voiceRecognition.lang = 'en-US';
+            
+            voiceRecognition.onstart = () => {
+                isListening = true;
+                voiceChatMic.classList.add('listening');
+                voiceChatStatus.textContent = '🎤 Listening...';
+            };
+            
+            voiceRecognition.onresult = (event) => {
+                let transcript = '';
+                for (let i = event.resultIndex; i < event.results.length; i++) {
+                    transcript += event.results[i][0].transcript;
                 }
                 
-                function executeCommand(command) {
-                    console.log('Executing:', command);
-                    
-                    // Navigate to tab
-                    if (['overview', 'system', 'activity', 'projects', 'monitor', 'gateway', 'terminal'].includes(command)) {
-                        const tabBtn = document.querySelector(`.tab-btn[data-tab="${command}"]`);
-                        if (tabBtn) tabBtn.click();
-                        speak(`Switched to ${command}`);
-                    }
-                    
-                    // Actions
-                    if (command === 'refresh') {
-                        location.reload();
-                        speak('Refreshing');
-                    }
-                    
-                    // Queries
-                    if (command === 'query-cpu') {
-                        const cpu = document.getElementById('cpu-metric')?.textContent || 'unknown';
-                        speak(`CPU is at ${cpu}`);
-                    }
-                    
-                    if (command === 'query-memory') {
-                        const mem = document.getElementById('mem-metric')?.textContent || 'unknown';
-                        speak(`Memory is at ${mem}`);
-                    }
-                    
-                    if (command === 'help') {
-                        speak('You can say: show overview, show system, show terminal, refresh, or say help for more commands.');
-                    }
+                if (event.results[0].isFinal) {
+                    handleVoiceChatInput(transcript);
+                } else {
+                    voiceChatStatus.textContent = `🤔 "${transcript}"`;
                 }
-                
-                function speak(text) {
-                    if ('speechSynthesis' in window) {
-                        window.speechSynthesis.cancel();
-                        const utterance = new SpeechSynthesisUtterance(text);
-                        utterance.rate = 1.0;
-                        utterance.pitch = 1.0;
-                        window.speechSynthesis.speak(utterance);
-                    }
+            };
+            
+            voiceRecognition.onend = () => {
+                isListening = false;
+                voiceChatMic.classList.remove('listening');
+                voiceChatStatus.textContent = 'Ready to listen';
+            };
+            
+            voiceRecognition.onerror = (e) => {
+                console.log('Speech error:', e.error);
+                isListening = false;
+                voiceChatMic.classList.remove('listening');
+                voiceChatStatus.textContent = '❌ Error. Try again.';
+            };
+        }
+        
+        // Handle voice input and send to server
+        async function handleVoiceChatInput(text) {
+            voiceChatTranscript.innerHTML = `
+                <div class="user-text">You: "${escapeHtml(text)}"</div>
+                <div class="ai-text">🐙 Thinking...</div>
+            `;
+            voiceChatStatus.textContent = '🤔 Processing...';
+            
+            try {
+                // Send to server via Socket.io
+                socket.emit('voice-chat-message', { text });
+            } catch (err) {
+                console.log('Failed to send voice chat:', err);
+                voiceChatStatus.textContent = '❌ Failed to send';
+            }
+        }
+        
+        // Handle server response
+        socket.on('voice-chat-response', (response) => {
+            const aiText = response.text || 'Sorry, I did not understand.';
+            
+            // Update transcript
+            voiceChatTranscript.innerHTML = `
+                <div class="user-text">You: "${escapeHtml(response.originalText || '...')}"</div>
+                <div class="ai-text">🐙 ${escapeHtml(aiText)}</div>
+            `;
+            
+            voiceChatStatus.textContent = '✅ Response received';
+            
+            // Speak the response
+            speak(aiText);
+            
+            // Handle navigation actions
+            if (response.action === 'navigate' && response.tab) {
+                const tabBtn = document.querySelector(`.tab-btn[data-tab="${response.tab}"]`);
+                if (tabBtn) {
+                    setTimeout(() => tabBtn.click(), 500);
                 }
-                
-                function updateVoiceState(state, text = '') {
-                    const micBtn = document.getElementById('voice-mic-btn');
-                    const statusEl = document.getElementById('voice-status');
-                    const transcriptEl = document.getElementById('voice-transcript');
-                    
-                    if (micBtn) micBtn.className = `voice-mic-btn ${state}`;
-                    
-                    if (statusEl) {
-                        const messages = {
-                            idle: 'Tap microphone to speak',
-                            listening: '🎤 Listening...',
-                            processing: '🤔 Processing...',
-                            success: '✅ Done',
-                            error: '❌ Try again'
-                        };
-                        statusEl.textContent = messages[state] || state;
-                        statusEl.className = `voice-status ${state}`;
-                    }
-                    
-                    if (transcriptEl && text) {
-                        transcriptEl.textContent = text;
-                        transcriptEl.style.opacity = '1';
-                        setTimeout(() => transcriptEl.style.opacity = '0', 3000);
-                    }
-                }
-                
-                recognition.onstart = () => {
-                    isListening = true;
-                    finalTranscript = '';
-                    updateVoiceState('listening');
-                };
-                
-                recognition.onresult = (event) => {
-                    let interim = '';
-                    for (let i = event.resultIndex; i < event.results.length; i++) {
-                        const transcript = event.results[i][0].transcript;
-                        if (event.results[i].isFinal) {
-                            finalTranscript += transcript;
-                        } else {
-                            interim += transcript;
-                        }
-                    }
-                    updateVoiceState('processing', interim || finalTranscript);
-                };
-                
-                recognition.onend = () => {
-                    isListening = false;
-                    updateVoiceState('idle');
-                    
-                    if (finalTranscript) {
-                        const command = findCommand(finalTranscript);
-                        if (command) {
-                            updateVoiceState('success', finalTranscript);
-                            executeCommand(command);
-                        } else {
-                            updateVoiceState('error', finalTranscript);
-                            speak('Command not recognized');
-                        }
-                    }
-                };
-                
-                recognition.onerror = (e) => {
-                    console.log('Speech error:', e.error);
-                    isListening = false;
-                    updateVoiceState('error');
-                };
-                
-                // Mic button click
-                const micBtn = document.getElementById('voice-mic-btn');
-                if (micBtn) {
-                    micBtn.addEventListener('click', () => {
-                        if (isListening) {
-                            recognition.stop();
-                        } else {
-                            recognition.start();
-                        }
-                    });
-                }
-                
-                // Space bar shortcut
-                let spacePressed = false;
-                document.addEventListener('keydown', (e) => {
-                    if (e.code === 'Space' && !spacePressed && !e.target.matches('input, textarea')) {
-                        e.preventDefault();
-                        spacePressed = true;
-                        recognition.start();
-                    }
-                });
-                
-                document.addEventListener('keyup', (e) => {
-                    if (e.code === 'Space' && spacePressed) {
-                        spacePressed = false;
-                        recognition.stop();
-                    }
-                });
-                
+            }
+        });
+        
+        // Speak function
+        function speak(text) {
+            if ('speechSynthesis' in window) {
+                window.speechSynthesis.cancel();
+                const utterance = new SpeechSynthesisUtterance(text);
+                utterance.rate = 1.0;
+                utterance.pitch = 1.0;
+                window.speechSynthesis.speak(utterance);
+            }
+        }
+        
+        // Open voice chat
+        voiceChatBtn.addEventListener('click', () => {
+            voiceChatOverlay.classList.add('active');
+            if (voiceRecognition) {
+                voiceRecognition.start();
+            }
+        });
+        
+        // Close voice chat
+        voiceChatClose.addEventListener('click', () => {
+            voiceChatOverlay.classList.remove('active');
+            if (isListening && voiceRecognition) {
+                voiceRecognition.stop();
+            }
+        });
+        
+        // Mic button in overlay
+        voiceChatMic.addEventListener('click', () => {
+            if (!voiceRecognition) return;
+            
+            if (isListening) {
+                voiceRecognition.stop();
             } else {
-                // Hide voice button if not supported
-                const micBtn = document.getElementById('voice-mic-btn');
-                if (micBtn) micBtn.style.display = 'none';
-                console.log('Voice control not supported');
+                voiceRecognition.start();
             }
         });
 

@@ -11,6 +11,7 @@ import { startNotificationMonitoring, setupNotificationRoutes, checkThresholds }
 import { getCommandLog, getLogEmitter, loggedExec, loggedExecSync, clearLog } from './logger.js';
 import { sendSmartNotification, checkSmartThresholds, setupPresenceTracking, updatePresence, userPresence } from './smart-notify.js';
 import { addHistoryPoint, getAllPredictions, startAnalyticsCollection } from './analytics.js';
+import { setupVoiceChatRoutes } from './voice-chat-server.js';
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 dotenv.config({ path: join(__dirname, '../.env') });
@@ -30,7 +31,7 @@ app.use(express.static(join(__dirname, '../public')));
 const clients = new Map();
 
 // DaNotify API URL
-const DANOTIFY_URL = process.env.DANOTIFY_URL || 'http://localhost:18789/api/notify';
+const DANOTIFY_URL = process.env.DANOTIFY_URL || 'http://localhost:18790/api/notify';
 
 // System data cache
 let systemData = {
@@ -386,6 +387,9 @@ httpServer.listen(PORT, () => {
 
 // Setup Gateway API routes
 setupGatewayRoutes(app);
+
+// Setup Voice Chat routes
+setupVoiceChatRoutes(app, io);
 
 // Graceful shutdown
 process.on('SIGTERM', () => {
