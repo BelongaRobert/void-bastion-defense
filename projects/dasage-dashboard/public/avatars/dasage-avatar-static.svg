@@ -1,0 +1,121 @@
+<!-- Static version for PNG export (no animations) -->
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="512" height="512">
+  <defs>
+    <radialGradient id="oceanDepth" cx="50%" cy="50%" r="50%" fx="50%" fy="50%">
+      <stop offset="0%" stop-color="#1e2842"/>
+      <stop offset="60%" stop-color="#0a0f1a"/>
+      <stop offset="100%" stop-color="#070b14"/>
+    </radialGradient>
+    
+    <radialGradient id="tentacleGlow" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#67e8f9" stop-opacity="0.9"/>
+      <stop offset="50%" stop-color="#00d4aa" stop-opacity="0.6"/>
+      <stop offset="100%" stop-color="#0891b2" stop-opacity="0"/>
+    </radialGradient>
+    
+    <radialGradient id="eyeGlow" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#ffffff" stop-opacity="1"/>
+      <stop offset="30%" stop-color="#67e8f9" stop-opacity="0.8"/>
+      <stop offset="100%" stop-color="#0891b2" stop-opacity="0"/>
+    </radialGradient>
+    
+    <linearGradient id="bodyGradient" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#6366f1"/>
+      <stop offset="50%" stop-color="#0891b2"/>
+      <stop offset="100%" stop-color="#00d4aa"/>
+    </linearGradient>
+    
+    <filter id="glow" x="-50%" y="-50%" width="200%" height="200%">
+      <feGaussianBlur stdDeviation="8" result="blur"/>
+      <feComposite in="SourceGraphic" in2="blur" operator="over"/>
+    </filter>
+    
+    <filter id="strongGlow" x="-100%" y="-100%" width="300%" height="300%">
+      <feGaussianBlur stdDeviation="15" result="blur"/>
+      <feComposite in="SourceGraphic" in2="blur" operator="over"/>
+    </filter>
+    
+    <filter id="noise">
+      <feTurbulence type="fractalNoise" baseFrequency="0.9" numOctaves="4" stitchTiles="stitch"/>
+      <feColorMatrix type="saturate" values="0"/>
+      <feComponentTransfer>
+        <feFuncA type="linear" slope="0.1"/>
+      </feComponentTransfer>
+    </filter>
+    
+    <clipPath id="circleClip">
+      <circle cx="256" cy="256" r="250"/>
+    </clipPath>
+  </defs>
+  
+  <!-- Background -->
+  <circle cx="256" cy="256" r="250" fill="url(#oceanDepth)"/>
+  <rect x="0" y="0" width="512" height="512" fill="#000" filter="url(#noise)" opacity="0.4"/>
+  
+  <g clip-path="url(#circleClip)">
+    <!-- Particles -->
+    <g opacity="0.6">
+      <circle cx="80" cy="120" r="2" fill="#67e8f9"/>
+      <circle cx="420" cy="80" r="1.5" fill="#00d4aa"/>
+      <circle cx="150" cy="400" r="2.5" fill="#67e8f9"/>
+      <circle cx="400" cy="350" r="1.8" fill="#0891b2"/>
+      <circle cx="60" cy="280" r="1.5" fill="#00d4aa"/>
+      <circle cx="450" cy="200" r="2" fill="#67e8f9"/>
+      <circle cx="100" cy="50" r="1.2" fill="#0891b2"/>
+      <circle cx="380" cy="450" r="1.8" fill="#00d4aa"/>
+    </g>
+    
+    <!-- Tentacles Back -->
+    <g opacity="0.7">
+      <path d="M200 320 Q160 380 140 460" stroke="url(#tentacleGlow)" stroke-width="12" fill="none" stroke-linecap="round"/>
+      <path d="M220 330 Q190 390 180 470" stroke="url(#tentacleGlow)" stroke-width="10" fill="none" stroke-linecap="round"/>
+      <path d="M312 320 Q352 380 372 460" stroke="url(#tentacleGlow)" stroke-width="12" fill="none" stroke-linecap="round"/>
+      <path d="M292 330 Q322 390 332 470" stroke="url(#tentacleGlow)" stroke-width="10" fill="none" stroke-linecap="round"/>
+    </g>
+    
+    <!-- Tentacles Front -->
+    <g opacity="0.9">
+      <path d="M180 310 Q120 360 100 440" stroke="url(#tentacleGlow)" stroke-width="14" fill="none" stroke-linecap="round" filter="url(#glow)"/>
+      <path d="M210 320 Q170 380 150 480" stroke="url(#tentacleGlow)" stroke-width="11" fill="none" stroke-linecap="round"/>
+      <path d="M302 320 Q342 380 362 480" stroke="url(#tentacleGlow)" stroke-width="11" fill="none" stroke-linecap="round"/>
+      <path d="M332 310 Q392 360 412 440" stroke="url(#tentacleGlow)" stroke-width="14" fill="none" stroke-linecap="round" filter="url(#glow)"/>
+    </g>
+    
+    <!-- Head -->
+    <g>
+      <ellipse cx="256" cy="240" rx="85" ry="95" fill="url(#bodyGradient)"/>
+      <ellipse cx="256" cy="240" rx="85" ry="95" fill="url(#tentacleGlow)" opacity="0.3"/>
+      
+      <g filter="url(#strongGlow)">
+        <ellipse cx="220" cy="230" rx="28" ry="35" fill="#0a0f1a"/>
+        <ellipse cx="220" cy="230" rx="20" ry="25" fill="url(#eyeGlow)"/>
+        <circle cx="225" cy="225" r="8" fill="#ffffff" opacity="0.9"/>
+        
+        <ellipse cx="292" cy="230" rx="28" ry="35" fill="#0a0f1a"/>
+        <ellipse cx="292" cy="230" rx="20" ry="25" fill="url(#eyeGlow)"/>
+        <circle cx="297" cy="225" r="8" fill="#ffffff" opacity="0.9"/>
+      </g>
+      
+      <path d="M236 285 Q256 295 276 285" stroke="#0a0f1a" stroke-width="3" fill="none" stroke-linecap="round" opacity="0.6"/>
+      
+      <circle cx="165" cy="380" r="4" fill="#0891b2" opacity="0.5"/>
+      <circle cx="160" cy="405" r="3.5" fill="#0891b2" opacity="0.4"/>
+      <circle cx="155" cy="428" r="3" fill="#0891b2" opacity="0.3"/>
+      
+      <circle cx="347" cy="380" r="4" fill="#0891b2" opacity="0.5"/>
+      <circle cx="352" cy="405" r="3.5" fill="#0891b2" opacity="0.4"/>
+      <circle cx="357" cy="428" r="3" fill="#0891b2" opacity="0.3"/>
+    </g>
+    
+    <!-- Glow Particles -->
+    <g opacity="0.5">
+      <circle cx="180" cy="180" r="3" fill="#67e8f9"/>
+      <circle cx="340" cy="160" r="2.5" fill="#00d4aa"/>
+      <circle cx="150" cy="260" r="2" fill="#67e8f9"/>
+      <circle cx="370" cy="280" r="3" fill="#0891b2"/>
+    </g>
+  </g>
+  
+  <circle cx="256" cy="256" r="248" fill="none" stroke="#00d4aa" stroke-width="2" opacity="0.3" filter="url(#glow)"/>
+  <circle cx="256" cy="256" r="250" fill="none" stroke="#0891b2" stroke-width="1" opacity="0.2"/>
+</svg>

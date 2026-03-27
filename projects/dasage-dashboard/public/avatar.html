@@ -1,0 +1,331 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DaSage Avatar 🐙</title>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --deep-ocean: #0a0f1a;
+            --abyss: #070b14;
+            --surface: #151b2d;
+            --foam: #1e2842;
+            --tentacle-1: #00d4aa;
+            --tentacle-2: #0891b2;
+            --tentacle-3: #6366f1;
+            --bioluminescent: #67e8f9;
+            --text-primary: #f0f9ff;
+            --text-secondary: #94a3b8;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Space Grotesk', -apple-system, sans-serif;
+            background: var(--deep-ocean);
+            color: var(--text-primary);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            overflow-x: hidden;
+        }
+
+        .ocean-bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            background: 
+                radial-gradient(ellipse at 20% 80%, rgba(99, 102, 241, 0.15) 0%, transparent 50%),
+                radial-gradient(ellipse at 80% 20%, rgba(0, 212, 170, 0.1) 0%, transparent 50%),
+                var(--deep-ocean);
+        }
+
+        .container {
+            max-width: 600px;
+            width: 100%;
+            text-align: center;
+        }
+
+        h1 {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 8px;
+            background: linear-gradient(135deg, var(--text-primary), var(--bioluminescent));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .subtitle {
+            color: var(--text-secondary);
+            font-size: 1.1rem;
+            margin-bottom: 40px;
+        }
+
+        .avatar-container {
+            background: var(--surface);
+            border: 1px solid var(--foam);
+            border-radius: 24px;
+            padding: 40px;
+            margin-bottom: 30px;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+        }
+
+        .avatar-container::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, var(--tentacle-2), transparent);
+        }
+
+        .avatar-wrapper {
+            width: 300px;
+            height: 300px;
+            margin: 0 auto 30px;
+            position: relative;
+            border-radius: 50%;
+            overflow: hidden;
+            box-shadow: 
+                0 0 40px rgba(0, 212, 170, 0.3),
+                0 0 80px rgba(103, 232, 249, 0.1);
+            transition: transform 0.3s ease;
+        }
+
+        .avatar-wrapper:hover {
+            transform: scale(1.02);
+        }
+
+        .avatar-wrapper img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .controls {
+            display: flex;
+            gap: 12px;
+            justify-content: center;
+            flex-wrap: wrap;
+            margin-bottom: 20px;
+        }
+
+        .btn {
+            background: rgba(103, 232, 249, 0.1);
+            border: 1px solid var(--foam);
+            color: var(--text-secondary);
+            padding: 12px 24px;
+            border-radius: 12px;
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 0.95rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .btn:hover {
+            background: rgba(103, 232, 249, 0.2);
+            color: var(--text-primary);
+            transform: translateY(-2px);
+        }
+
+        .btn.active {
+            background: var(--tentacle-1);
+            border-color: var(--tentacle-1);
+            color: var(--abyss);
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, var(--tentacle-1), var(--tentacle-2));
+            border: none;
+            color: var(--abyss);
+            font-weight: 600;
+        }
+
+        .btn-primary:hover {
+            box-shadow: 0 4px 20px rgba(0, 212, 170, 0.4);
+        }
+
+        .size-options {
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+            margin-bottom: 30px;
+        }
+
+        .size-btn {
+            background: transparent;
+            border: 1px solid var(--foam);
+            color: var(--text-secondary);
+            width: 60px;
+            height: 60px;
+            border-radius: 12px;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.85rem;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .size-btn:hover, .size-btn.active {
+            border-color: var(--tentacle-1);
+            color: var(--tentacle-1);
+            background: rgba(0, 212, 170, 0.1);
+        }
+
+        .info-card {
+            background: rgba(7, 11, 20, 0.8);
+            border: 1px solid var(--foam);
+            border-radius: 16px;
+            padding: 24px;
+            text-align: left;
+            margin-top: 20px;
+        }
+
+        .info-card h3 {
+            font-size: 1rem;
+            color: var(--tentacle-1);
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .info-card p {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+            line-height: 1.6;
+        }
+
+        .file-path {
+            font-family: 'JetBrains Mono', monospace;
+            background: rgba(0, 0, 0, 0.3);
+            padding: 8px 12px;
+            border-radius: 6px;
+            color: var(--bioluminescent);
+            font-size: 0.8rem;
+            margin-top: 8px;
+            word-break: break-all;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-10px); }
+        }
+
+        .floating {
+            animation: float 4s ease-in-out infinite;
+        }
+    </style>
+</head>
+<body>
+    <div class="ocean-bg"></div>
+    
+    <div class="container">
+        <h1>DaSage Avatar</h1>
+        <p class="subtitle">Your digital assistant's visual identity</p>
+        
+        <div class="avatar-container">
+            <div class="avatar-wrapper floating" id="avatarWrapper">
+                <img id="avatarImg" src="avatars/dasage-avatar-static.svg" alt="DaSage Avatar">
+            </div>
+            
+            <div class="controls">
+                <button class="btn" id="animToggle">🎬 Animation</button>
+                <button class="btn" id="staticToggle" active>🖼️ Static</button>
+            </div>
+            
+            <div class="size-options">
+                <button class="size-btn" data-size="128">128px</button>
+                <button class="size-btn active" data-size="256">256px</button>
+                <button class="size-btn" data-size="512">512px</button>
+            </div>
+            
+            <button class="btn btn-primary" id="downloadBtn">
+                💾 Download PNG
+            </button>
+        </div>
+        
+        <div class="info-card">
+            <h3>📁 Files</h3>
+            <p>Both versions are available in the dashboard public folder:</p>
+            <div class="file-path">avatars/dasage-avatar.svg (animated)</div>
+            <div class="file-path">avatars/dasage-avatar-static.svg (static)</div>
+        </div>
+        
+        <div class="info-card">
+            <h3>🎨 Design Notes</h3>
+            <p>Deep ocean aesthetic with bioluminescent tentacles. The animated version features waving tentacles, pulsing eyes, and drifting plankton particles. The static version is optimized for profile picture use.</p>
+        </div>
+    </div>
+
+    <script>
+        const avatarImg = document.getElementById('avatarImg');
+        const avatarWrapper = document.getElementById('avatarWrapper');
+        const animToggle = document.getElementById('animToggle');
+        const staticToggle = document.getElementById('staticToggle');
+        const sizeBtns = document.querySelectorAll('.size-btn');
+        const downloadBtn = document.getElementById('downloadBtn');
+
+        let currentSize = 256;
+        let isAnimated = false;
+
+        // Toggle animation
+        function setAnimated(animated) {
+            isAnimated = animated;
+            avatarImg.src = animated ? 'avatars/dasage-avatar.svg' : 'avatars/dasage-avatar-static.svg';
+            animToggle.classList.toggle('active', animated);
+            staticToggle.classList.toggle('active', !animated);
+        }
+
+        animToggle.addEventListener('click', () => setAnimated(true));
+        staticToggle.addEventListener('click', () => setAnimated(false));
+
+        // Size selection
+        sizeBtns.forEach(btn => {
+            btn.addEventListener('click', () => {
+                sizeBtns.forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+                currentSize = parseInt(btn.dataset.size);
+                avatarWrapper.style.width = currentSize + 'px';
+                avatarWrapper.style.height = currentSize + 'px';
+            });
+        });
+
+        // Download as PNG (basic implementation - opens image in new tab)
+        downloadBtn.addEventListener('click', () => {
+            const link = document.createElement('a');
+            link.href = isAnimated ? 'avatars/dasage-avatar-static.svg' : avatarImg.src;
+            link.download = `dasage-avatar-${currentSize}px.png`;
+            link.target = '_blank';
+            link.click();
+            
+            // Show feedback
+            downloadBtn.textContent = '✅ Saved!';
+            setTimeout(() => {
+                downloadBtn.textContent = '💾 Download PNG';
+            }, 1500);
+        });
+
+        // Initial state
+        setAnimated(false);
+    </script>
+</body>
+</html>
