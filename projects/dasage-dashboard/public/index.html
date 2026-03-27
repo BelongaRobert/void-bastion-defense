@@ -921,6 +921,119 @@
             color: var(--text-secondary);
         }
 
+        /* Voice Control */
+        .voice-mic-btn {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            background: var(--tentacle-1);
+            border: none;
+            color: var(--abyss);
+            font-size: 1.5rem;
+            cursor: pointer;
+            box-shadow: 0 4px 15px rgba(0, 212, 170, 0.4);
+            transition: all 0.3s ease;
+            z-index: 1000;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .voice-mic-btn:hover {
+            transform: scale(1.1);
+            box-shadow: 0 6px 20px rgba(0, 212, 170, 0.6);
+        }
+
+        .voice-mic-btn.listening {
+            background: #ef4444;
+            animation: pulse 1.5s infinite;
+        }
+
+        .voice-mic-btn.processing {
+            background: #fbbf24;
+        }
+
+        .voice-mic-btn.success {
+            background: #22c55e;
+        }
+
+        .voice-mic-btn.error {
+            background: #ef4444;
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+        }
+
+        .voice-status {
+            position: fixed;
+            bottom: 100px;
+            right: 30px;
+            background: var(--surface);
+            padding: 10px 20px;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            color: var(--text-primary);
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+            opacity: 0;
+            transform: translateY(10px);
+            transition: all 0.3s ease;
+            z-index: 1000;
+            pointer-events: none;
+        }
+
+        .voice-status.listening,
+        .voice-status.processing,
+        .voice-status.success,
+        .voice-status.error {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .voice-transcript {
+            position: fixed;
+            bottom: 140px;
+            right: 30px;
+            max-width: 300px;
+            background: var(--surface);
+            padding: 12px 16px;
+            border-radius: 12px;
+            font-size: 0.9rem;
+            color: var(--text-primary);
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            z-index: 1000;
+            pointer-events: none;
+        }
+
+        /* Mobile adjustments for voice control */
+        @media (max-width: 768px) {
+            .voice-mic-btn {
+                width: 50px;
+                height: 50px;
+                font-size: 1.2rem;
+                bottom: 20px;
+                right: 20px;
+            }
+
+            .voice-status {
+                bottom: 80px;
+                right: 20px;
+                font-size: 0.8rem;
+            }
+
+            .voice-transcript {
+                bottom: 120px;
+                right: 20px;
+                max-width: 250px;
+            }
+        }
+
         /* Scrollbar */
         ::-webkit-scrollbar {
             width: 6px;
@@ -995,6 +1108,11 @@
 <body>
     <!-- Smart Notifications Container -->
     <div class="notification-container" id="notification-container"></div>
+
+    <!-- Voice Control UI -->
+    <button class="voice-mic-btn" id="voice-mic-btn" title="Hold Space or click to speak">🎤</button>
+    <div class="voice-status" id="voice-status">Tap microphone to speak</div>
+    <div class="voice-transcript" id="voice-transcript"></div>
 
     <!-- Animated Background -->
     <div class="ocean-bg">
@@ -1934,6 +2052,211 @@
         // Initial load and refresh every 5 minutes
         loadPredictions();
         setInterval(loadPredictions, 300000);
+
+        // ===== VOICE CONTROL =====
+        // Import voice control functions (loaded as module)
+        let voiceControl = null;
+        
+        // Setup voice control when page loads
+        document.addEventListener('DOMContentLoaded', () => {
+            // Check if speech recognition is supported
+            if ('webkitSpeechRecognition' in window || 'SpeechRecognition' in window) {
+                const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+                const recognition = new SpeechRecognition();
+                
+                recognition.continuous = false;
+                recognition.interimResults = true;
+                recognition.lang = 'en-US';
+                
+                let isListening = false;
+                let finalTranscript = '';
+                
+                // Voice commands mapping
+                const VOICE_COMMANDS = {
+                    'show overview': 'overview',
+                    'go to overview': 'overview',
+                    'open overview': 'overview',
+                    'show system': 'system',
+                    'go to system': 'system',
+                    'system status': 'system',
+                    'show activity': 'activity',
+                    'go to activity': 'activity',
+                    'show projects': 'projects',
+                    'go to projects': 'projects',
+                    'show monitor': 'monitor',
+                    'go to monitor': 'monitor',
+                    'show gateway': 'gateway',
+                    'go to gateway': 'gateway',
+                    'show terminal': 'terminal',
+                    'go to terminal': 'terminal',
+                    'refresh': 'refresh',
+                    'reload': 'refresh',
+                    'help': 'help'
+                };
+                
+                function findCommand(transcript) {
+                    const normalized = transcript.toLowerCase().trim();
+                    
+                    // Exact match
+                    if (VOICE_COMMANDS[normalized]) {
+                        return VOICE_COMMANDS[normalized];
+                    }
+                    
+                    // Partial match
+                    for (const [phrase, action] of Object.entries(VOICE_COMMANDS)) {
+                        if (normalized.includes(phrase)) {
+                            return action;
+                        }
+                    }
+                    
+                    return null;
+                }
+                
+                function executeCommand(command) {
+                    console.log('Executing:', command);
+                    
+                    // Navigate to tab
+                    if (['overview', 'system', 'activity', 'projects', 'monitor', 'gateway', 'terminal'].includes(command)) {
+                        const tabBtn = document.querySelector(`.tab-btn[data-tab="${command}"]`);
+                        if (tabBtn) tabBtn.click();
+                        speak(`Switched to ${command}`);
+                    }
+                    
+                    // Actions
+                    if (command === 'refresh') {
+                        location.reload();
+                        speak('Refreshing');
+                    }
+                    
+                    // Queries
+                    if (command === 'query-cpu') {
+                        const cpu = document.getElementById('cpu-metric')?.textContent || 'unknown';
+                        speak(`CPU is at ${cpu}`);
+                    }
+                    
+                    if (command === 'query-memory') {
+                        const mem = document.getElementById('mem-metric')?.textContent || 'unknown';
+                        speak(`Memory is at ${mem}`);
+                    }
+                    
+                    if (command === 'help') {
+                        speak('You can say: show overview, show system, show terminal, refresh, or say help for more commands.');
+                    }
+                }
+                
+                function speak(text) {
+                    if ('speechSynthesis' in window) {
+                        window.speechSynthesis.cancel();
+                        const utterance = new SpeechSynthesisUtterance(text);
+                        utterance.rate = 1.0;
+                        utterance.pitch = 1.0;
+                        window.speechSynthesis.speak(utterance);
+                    }
+                }
+                
+                function updateVoiceState(state, text = '') {
+                    const micBtn = document.getElementById('voice-mic-btn');
+                    const statusEl = document.getElementById('voice-status');
+                    const transcriptEl = document.getElementById('voice-transcript');
+                    
+                    if (micBtn) micBtn.className = `voice-mic-btn ${state}`;
+                    
+                    if (statusEl) {
+                        const messages = {
+                            idle: 'Tap microphone to speak',
+                            listening: '🎤 Listening...',
+                            processing: '🤔 Processing...',
+                            success: '✅ Done',
+                            error: '❌ Try again'
+                        };
+                        statusEl.textContent = messages[state] || state;
+                        statusEl.className = `voice-status ${state}`;
+                    }
+                    
+                    if (transcriptEl && text) {
+                        transcriptEl.textContent = text;
+                        transcriptEl.style.opacity = '1';
+                        setTimeout(() => transcriptEl.style.opacity = '0', 3000);
+                    }
+                }
+                
+                recognition.onstart = () => {
+                    isListening = true;
+                    finalTranscript = '';
+                    updateVoiceState('listening');
+                };
+                
+                recognition.onresult = (event) => {
+                    let interim = '';
+                    for (let i = event.resultIndex; i < event.results.length; i++) {
+                        const transcript = event.results[i][0].transcript;
+                        if (event.results[i].isFinal) {
+                            finalTranscript += transcript;
+                        } else {
+                            interim += transcript;
+                        }
+                    }
+                    updateVoiceState('processing', interim || finalTranscript);
+                };
+                
+                recognition.onend = () => {
+                    isListening = false;
+                    updateVoiceState('idle');
+                    
+                    if (finalTranscript) {
+                        const command = findCommand(finalTranscript);
+                        if (command) {
+                            updateVoiceState('success', finalTranscript);
+                            executeCommand(command);
+                        } else {
+                            updateVoiceState('error', finalTranscript);
+                            speak('Command not recognized');
+                        }
+                    }
+                };
+                
+                recognition.onerror = (e) => {
+                    console.log('Speech error:', e.error);
+                    isListening = false;
+                    updateVoiceState('error');
+                };
+                
+                // Mic button click
+                const micBtn = document.getElementById('voice-mic-btn');
+                if (micBtn) {
+                    micBtn.addEventListener('click', () => {
+                        if (isListening) {
+                            recognition.stop();
+                        } else {
+                            recognition.start();
+                        }
+                    });
+                }
+                
+                // Space bar shortcut
+                let spacePressed = false;
+                document.addEventListener('keydown', (e) => {
+                    if (e.code === 'Space' && !spacePressed && !e.target.matches('input, textarea')) {
+                        e.preventDefault();
+                        spacePressed = true;
+                        recognition.start();
+                    }
+                });
+                
+                document.addEventListener('keyup', (e) => {
+                    if (e.code === 'Space' && spacePressed) {
+                        spacePressed = false;
+                        recognition.stop();
+                    }
+                });
+                
+            } else {
+                // Hide voice button if not supported
+                const micBtn = document.getElementById('voice-mic-btn');
+                if (micBtn) micBtn.style.display = 'none';
+                console.log('Voice control not supported');
+            }
+        });
 
     </script>
 </body>
