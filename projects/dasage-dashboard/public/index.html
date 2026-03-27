@@ -1176,6 +1176,65 @@
 
         // Heartbeat
         setInterval(() => socket.emit('ping'), 30000);
+
+        // ===== PULL-TO-REFRESH TAB PERSISTENCE =====
+        // Save active tab before page unload
+        window.addEventListener('beforeunload', () => {
+            const activeTab = document.querySelector('.tab-btn.active');
+            if (activeTab) {
+                sessionStorage.setItem('dashboardActiveTab', activeTab.dataset.tab);
+            }
+        });
+
+        // Restore active tab on page load
+        window.addEventListener('load', () => {
+            const savedTab = sessionStorage.getItem('dashboardActiveTab');
+            if (savedTab) {
+                // Remove active from all
+                document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+                document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+                
+                // Activate saved tab
+                const tabBtn = document.querySelector(`.tab-btn[data-tab="${savedTab}"]`);
+                if (tabBtn) {
+                    tabBtn.classList.add('active');
+                    document.getElementById('tab-' + savedTab)?.classList.add('active');
+                }
+            }
+        });
+
+        // Pull-to-refresh detection
+        let touchStartY = 0;
+        let isRefreshing = false;
+
+        document.addEventListener('touchstart', (e) => {
+            touchStartY = e.touches[0].clientY;
+        }, { passive: true });
+
+        document.addEventListener('touchmove', (e) => {
+            if (isRefreshing) return;
+            
+            const touchY = e.touches[0].clientY;
+            const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+            
+            // If at top of page and pulling down
+            if (scrollTop === 0 && touchY > touchStartY + 100) {
+                isRefreshing = true;
+                
+                // Save current tab
+                const activeTab = document.querySelector('.tab-btn.active');
+                if (activeTab) {
+                    sessionStorage.setItem('dashboardActiveTab', activeTab.dataset.tab);
+                }
+                
+                // Show refresh indicator (optional)
+                console.log('Pull to refresh detected - tab will be preserved');
+            }
+        }, { passive: true });
+
+        document.addEventListener('touchend', () => {
+            isRefreshing = false;
+        });
     </script>
 </body>
 </html>
