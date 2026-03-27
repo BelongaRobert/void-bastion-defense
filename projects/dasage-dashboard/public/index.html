@@ -775,6 +775,152 @@
             background: rgba(239, 68, 68, 0.2);
         }
 
+        /* Smart Notifications */
+        .notification-container {
+            position: fixed;
+            top: 80px;
+            right: 20px;
+            z-index: 1000;
+            max-width: 350px;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .notification-item {
+            background: var(--surface);
+            border: 1px solid var(--foam);
+            border-radius: 12px;
+            padding: 16px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+            animation: slideIn 0.3s ease;
+            position: relative;
+        }
+
+        @keyframes slideIn {
+            from {
+                transform: translateX(100%);
+                opacity: 0;
+            }
+            to {
+                transform: translateX(0);
+                opacity: 1;
+            }
+        }
+
+        .notification-item.urgent {
+            border-left: 4px solid #ef4444;
+        }
+
+        .notification-item.high {
+            border-left: 4px solid #fbbf24;
+        }
+
+        .notification-item.normal {
+            border-left: 4px solid #60a5fa;
+        }
+
+        .notification-item.low {
+            border-left: 4px solid #9ca3af;
+        }
+
+        .notification-title {
+            font-weight: 600;
+            color: var(--text-primary);
+            margin-bottom: 4px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .notification-message {
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+            margin-bottom: 12px;
+        }
+
+        .notification-actions {
+            display: flex;
+            gap: 8px;
+        }
+
+        .notification-btn {
+            background: rgba(103, 232, 249, 0.1);
+            border: 1px solid var(--foam);
+            color: var(--text-primary);
+            padding: 6px 12px;
+            border-radius: 6px;
+            font-size: 0.8rem;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .notification-btn:hover {
+            background: var(--tentacle-2);
+            border-color: var(--tentacle-2);
+        }
+
+        .notification-btn.primary {
+            background: var(--tentacle-1);
+            border-color: var(--tentacle-1);
+        }
+
+        .notification-close {
+            position: absolute;
+            top: 8px;
+            right: 8px;
+            background: none;
+            border: none;
+            color: var(--text-secondary);
+            cursor: pointer;
+            font-size: 1.2rem;
+            opacity: 0.5;
+            transition: opacity 0.2s;
+        }
+
+        .notification-close:hover {
+            opacity: 1;
+        }
+
+        /* Predictions Card */
+        #predictions-card {
+            margin-top: 20px;
+        }
+
+        .prediction-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 12px 16px;
+            border-bottom: 1px solid var(--foam);
+        }
+
+        .prediction-item:last-child {
+            border-bottom: none;
+        }
+
+        .prediction-icon {
+            font-size: 1.2rem;
+        }
+
+        .prediction-text {
+            color: var(--text-primary);
+            font-size: 0.9rem;
+        }
+
+        .prediction-urgent {
+            color: #ef4444;
+            font-weight: 600;
+        }
+
+        .prediction-warning {
+            color: #fbbf24;
+        }
+
+        .prediction-info {
+            color: var(--text-secondary);
+        }
+
         /* Scrollbar */
         ::-webkit-scrollbar {
             width: 6px;
@@ -847,6 +993,9 @@
     </style>
 </head>
 <body>
+    <!-- Smart Notifications Container -->
+    <div class="notification-container" id="notification-container"></div>
+
     <!-- Animated Background -->
     <div class="ocean-bg">
         <div class="tentacle"></div>
@@ -957,6 +1106,22 @@
                 </div>
             </div>
         </div>
+    </div>
+
+    <!-- Predictions Card -->
+    <div class="card" id="predictions-card">
+        <div class="card-header">
+            <span class="card-title">Predictions</span>
+            <div class="card-icon">🔮</div>
+        </div>
+        <div id="predictions-content">
+            <div class="prediction-item">
+                <span class="prediction-icon">📊</span>
+                <span class="prediction-text">Analyzing trends...</span>
+            </div>
+        </div>
+    </div>
+
     </div>
 
     <div class="tab-content" id="tab-system">
@@ -1602,6 +1767,174 @@
 
         // Initial load
         loadTerminalCommands();
+
+        // ===== SMART NOTIFICATIONS =====
+        const notificationContainer = document.getElementById('notification-container');
+        const activeNotifications = new Map();
+
+        // Track tab changes for presence
+        document.querySelectorAll('.tab-btn').forEach(btn => {
+            btn.addEventListener('click', () => {
+                socket.emit('tab-change', btn.dataset.tab);
+            });
+        });
+
+        // Send heartbeat every 10 seconds
+        setInterval(() => {
+            socket.emit('heartbeat');
+        }, 10000);
+
+        // Handle incoming smart notifications
+        socket.on('smart-notification', (notification) => {
+            showNotification(notification);
+        });
+
+        // Show notification
+        function showNotification(data) {
+            if (!notificationContainer) return;
+
+            // Create notification element
+            const notif = document.createElement('div');
+            notif.className = `notification-item ${data.priority}`;
+            notif.dataset.id = data.id;
+
+            // Build actions HTML
+            const actionsHtml = data.actions?.map(action => 
+                `<button class="notification-btn ${action.label === 'Dismiss' ? '' : 'primary'}" data-action="${action.action}">${action.label}</button>`
+            ).join('') || '';
+
+            notif.innerHTML = `
+                <button class="notification-close">×</button>
+                <div class="notification-title">${escapeHtml(data.title)}</div>
+                <div class="notification-message">${escapeHtml(data.message)}</div>
+                ${actionsHtml ? `<div class="notification-actions">${actionsHtml}</div>` : ''}
+            `;
+
+            // Add to container
+            notificationContainer.appendChild(notif);
+            activeNotifications.set(data.id, notif);
+
+            // Auto-remove after 10 seconds for non-urgent
+            if (data.priority !== 'urgent') {
+                setTimeout(() => {
+                    closeNotification(data.id);
+                }, 10000);
+            }
+
+            // Close button
+            notif.querySelector('.notification-close').addEventListener('click', () => {
+                closeNotification(data.id);
+            });
+
+            // Action buttons
+            notif.querySelectorAll('.notification-btn').forEach(btn => {
+                btn.addEventListener('click', (e) => {
+                    const action = e.target.dataset.action;
+                    handleNotificationAction(action, data);
+                    if (action === 'dismiss') {
+                        closeNotification(data.id);
+                    }
+                });
+            });
+        }
+
+        // Close notification
+        function closeNotification(id) {
+            const notif = activeNotifications.get(id);
+            if (notif) {
+                notif.style.animation = 'slideIn 0.3s ease reverse';
+                setTimeout(() => {
+                    notif.remove();
+                    activeNotifications.delete(id);
+                }, 300);
+            }
+        }
+
+        // Handle notification actions
+        function handleNotificationAction(action, notification) {
+            socket.emit('notification-action', { action, notificationId: notification.id });
+            
+            if (action.startsWith('navigate:')) {
+                const tab = action.split(':')[1];
+                const tabBtn = document.querySelector(`.tab-btn[data-tab="${tab}"]`);
+                if (tabBtn) tabBtn.click();
+            }
+        }
+
+        // ===== PREDICTIONS =====
+        async function loadPredictions() {
+            try {
+                const response = await fetch('/api/predictions');
+                const data = await response.json();
+                renderPredictions(data);
+            } catch (err) {
+                console.log('Failed to load predictions:', err);
+            }
+        }
+
+        function renderPredictions(data) {
+            const container = document.getElementById('predictions-content');
+            if (!container) return;
+
+            let html = '';
+
+            // Disk C Prediction
+            if (data.diskC && data.diskC.prediction) {
+                const urgency = data.diskC.urgency;
+                const urgencyClass = urgency === 'urgent' ? 'prediction-urgent' : 
+                                   urgency === 'warning' ? 'prediction-warning' : 'prediction-info';
+                html += `
+                    <div class="prediction-item ${urgencyClass}">
+                        <span class="prediction-icon">💾</span>
+                        <span class="prediction-text">${escapeHtml(data.diskC.message)}</span>
+                    </div>
+                `;
+            }
+
+            // Disk D Prediction
+            if (data.diskD && data.diskD.prediction) {
+                const urgency = data.diskD.urgency;
+                const urgencyClass = urgency === 'urgent' ? 'prediction-urgent' : 
+                                   urgency === 'warning' ? 'prediction-warning' : 'prediction-info';
+                html += `
+                    <div class="prediction-item ${urgencyClass}">
+                        <span class="prediction-icon">💿</span>
+                        <span class="prediction-text">${escapeHtml(data.diskD.message)}</span>
+                    </div>
+                `;
+            }
+
+            // Memory Trend
+            if (data.memory) {
+                html += `
+                    <div class="prediction-item">
+                        <span class="prediction-icon">🧠</span>
+                        <span class="prediction-text">${escapeHtml(data.memory.message)}</span>
+                    </div>
+                `;
+            }
+
+            if (!html) {
+                html = `
+                    <div class="prediction-item">
+                        <span class="prediction-icon">📊</span>
+                        <span class="prediction-text">Collecting data for predictions...</span>
+                    </div>
+                `;
+            }
+
+            container.innerHTML = html;
+        }
+
+        // WebSocket real-time updates
+        socket.on('predictions-update', (data) => {
+            renderPredictions(data);
+        });
+
+        // Initial load and refresh every 5 minutes
+        loadPredictions();
+        setInterval(loadPredictions, 300000);
+
     </script>
 </body>
 </html>
