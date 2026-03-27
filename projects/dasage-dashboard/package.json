@@ -1,0 +1,17 @@
+{
+  "name": "dasage-dashboard",
+  "version": "1.0.0",
+  "description": "DaSage's Personal Dashboard - Real-time AI visualization",
+  "main": "src/server.js",
+  "type": "module",
+  "scripts": {
+    "start": "node src/server.js",
+    "dev": "node --watch src/server.js"
+  },
+  "dependencies": {
+    "express": "^4.18.2",
+    "socket.io": "^4.7.4",
+    "cors": "^2.8.5",
+    "dotenv": "^16.4.5"
+  }
+}

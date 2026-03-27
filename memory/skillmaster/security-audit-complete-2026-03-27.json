@@ -1,0 +1,757 @@
+{
+  "timestamp": "2026-03-27T12:54:39.078Z",
+  "totalScanned": 55,
+  "lowRisk": [
+    {
+      "name": "apple-notes",
+      "type": "system",
+      "riskLevel": "low",
+      "concerns": [
+        "May make network requests"
+      ],
+      "hasNetworkCalls": true,
+      "hasCredentialAccess": false,
+      "hasSystemCommands": false,
+      "hasObfuscation": false
+    },
+    {
+      "name": "camsnap",
+      "type": "system",
+      "riskLevel": "low",
+      "concerns": [
+        "May make network requests"
+      ],
+      "hasNetworkCalls": true,
+      "hasCredentialAccess": false,
+      "hasSystemCommands": false,
+      "hasObfuscation": false
+    },
+    {
+      "name": "obsidian",
+      "type": "system",
+      "riskLevel": "low",
+      "concerns": [
+        "May make network requests"
+      ],
+      "hasNetworkCalls": true,
+      "hasCredentialAccess": false,
+      "hasSystemCommands": false,
+      "hasObfuscation": false
+    },
+    {
+      "name": "songsee",
+      "type": "system",
+      "riskLevel": "low",
+      "concerns": [
+        "May make network requests"
+      ],
+      "hasNetworkCalls": true,
+      "hasCredentialAccess": false,
+      "hasSystemCommands": false,
+      "hasObfuscation": false
+    }
+  ],
+  "mediumRisk": [
+    {
+      "name": "1password",
+      "type": "system",
+      "riskLevel": "medium",
+      "concerns": [
+        "References credentials/tokens",
+        "May make network requests",
+        "Executes system commands"
+      ],
+      "hasNetworkCalls": true,
+      "hasCredentialAccess": true,
+      "hasSystemCommands": true,
+      "hasObfuscation": false
+    },
+    {
+      "name": "apple-reminders",
+      "type": "system",
+      "riskLevel": "medium",
+      "concerns": [
+        "References credentials/tokens",
+        "May make network requests",
+        "Executes system commands"
+      ],
+      "hasNetworkCalls": true,
+      "hasCredentialAccess": true,
+      "hasSystemCommands": true,
+      "hasObfuscation": false
+    },
+    {
+      "name": "bear-notes",
+      "type": "system",
+      "riskLevel": "medium",
+      "concerns": [
+        "References credentials/tokens",
+        "May make network requests",
+        "Executes system commands"
+      ],
+      "hasNetworkCalls": true,
+      "hasCredentialAccess": true,
+      "hasSystemCommands": true,
+      "hasObfuscation": false
+    },
+    {
+      "name": "blogwatcher",
+      "type": "system",
+      "riskLevel": "medium",
+      "concerns": [
+        "May make network requests",
+        "Executes system commands"
+      ],
+      "hasNetworkCalls": true,
+      "hasCredentialAccess": false,
+      "hasSystemCommands": true,
+      "hasObfuscation": false
+    },
+    {
+      "name": "blucli",
+      "type": "system",
+      "riskLevel": "medium",
+      "concerns": [
+        "May make network requests",
+        "Executes system commands"
+      ],
+      "hasNetworkCalls": true,
+      "hasCredentialAccess": false,
+      "hasSystemCommands": true,
+      "hasObfuscation": false
+    },
+    {
+      "name": "bluebubbles",
+      "type": "system",
+      "riskLevel": "medium",
+      "concerns": [
+        "References credentials/tokens",
+        "May make network requests"
+      ],
+      "hasNetworkCalls": true,
+      "hasCredentialAccess": true,
+      "hasSystemCommands": false,
+      "hasObfuscation": false
+    },
+    {
+      "name": "canvas",
+      "type": "system",
+      "riskLevel": "medium",
+      "concerns": [
+        "References credentials/tokens",
+        "May make network requests",
+        "Executes system commands"
+      ],
+      "hasNetworkCalls": true,
+      "hasCredentialAccess": true,
+      "hasSystemCommands": true,
+      "hasObfuscation": false
+    },
+    {
+      "name": "clawhub",
+      "type": "system",
+      "riskLevel": "medium",
+      "concerns": [
+        "References credentials/tokens",
+        "May make network requests",
+        "Executes system commands"
+      ],
+      "hasNetworkCalls": true,
+      "hasCredentialAccess": true,
+      "hasSystemCommands": true,
+      "hasObfuscation": false
+    },
+    {
+      "name": "coding-agent",
+      "type": "system",
+      "riskLevel": "medium",
+      "concerns": [
+        "References credentials/tokens",
+        "May make network requests",
+        "Executes system commands"
+      ],
+      "hasNetworkCalls": true,
+      "hasCredentialAccess": true,
+      "hasSystemCommands": true,
+      "hasObfuscation": false
+    },
+    {
+      "name": "discord",
+      "type": "system",
+      "riskLevel": "medium",
+      "concerns": [
+        "References credentials/tokens"
+      ],
+      "hasNetworkCalls": false,
+      "hasCredentialAccess": true,
+      "hasSystemCommands": false,
+      "hasObfuscation": false
+    },
+    {
+      "name": "eightctl",
+      "type": "system",
+      "riskLevel": "medium",
+      "concerns": [
+        "References credentials/tokens",
+        "May make network requests",
+        "Executes system commands"
+      ],
+      "hasNetworkCalls": true,
+      "hasCredentialAccess": true,
+      "hasSystemCommands": true,
+      "hasObfuscation": false
+    },
+    {
+      "name": "gemini",
+      "type": "system",
+      "riskLevel": "medium",
+      "concerns": [
+        "References credentials/tokens",
+        "May make network requests"
+      ],
+      "hasNetworkCalls": true,
+      "hasCredentialAccess": true,
+      "hasSystemCommands": false,
+      "hasObfuscation": false
+    },
+    {
+      "name": "gh-issues",
+      "type": "system",
+      "riskLevel": "medium",
+      "concerns": [
+        "References credentials/tokens",
+        "May make network requests",
+        "Executes system commands"
+      ],
+      "hasNetworkCalls": true,
+      "hasCredentialAccess": true,
+      "hasSystemCommands": true,
+      "hasObfuscation": false
+    },
+    {
+      "name": "gifgrep",
+      "type": "system",
+      "riskLevel": "medium",
+      "concerns": [
+        "References credentials/tokens",
+        "May make network requests",
+        "Executes system commands"
+      ],
+      "hasNetworkCalls": true,
+      "hasCredentialAccess": true,
+      "hasSystemCommands": true,
+      "hasObfuscation": false
+    },
+    {
+      "name": "github",
+      "type": "system",
+      "riskLevel": "medium",
+      "concerns": [
+        "References credentials/tokens",
+        "May make network requests",
+        "Executes system commands"
+      ],
+      "hasNetworkCalls": true,
+      "hasCredentialAccess": true,
+      "hasSystemCommands": true,
+      "hasObfuscation": false
+    },
+    {
+      "name": "gog",
+      "type": "system",
+      "riskLevel": "medium",
+      "concerns": [
+        "References credentials/tokens",
+        "May make network requests",
+        "Executes system commands"
+      ],
+      "hasNetworkCalls": true,
+      "hasCredentialAccess": true,
+      "hasSystemCommands": true,
+      "hasObfuscation": false
+    },
+    {
+      "name": "goplaces",
+      "type": "system",
+      "riskLevel": "medium",
+      "concerns": [
+        "References credentials/tokens",
+        "May make network requests"
+      ],
+      "hasNetworkCalls": true,
+      "hasCredentialAccess": true,
+      "hasSystemCommands": false,
+      "hasObfuscation": false
+    },
+    {
+      "name": "healthcheck",
+      "type": "system",
+      "riskLevel": "medium",
+      "concerns": [
+        "References credentials/tokens",
+        "May make network requests",
+        "Executes system commands"
+      ],
+      "hasNetworkCalls": true,
+      "hasCredentialAccess": true,
+      "hasSystemCommands": true,
+      "hasObfuscation": false
+    },
+    {
+      "name": "himalaya",
+      "type": "system",
+      "riskLevel": "medium",
+      "concerns": [
+        "References credentials/tokens",
+        "May make network requests",
+        "Executes system commands"
+      ],
+      "hasNetworkCalls": true,
+      "hasCredentialAccess": true,
+      "hasSystemCommands": true,
+      "hasObfuscation": false
+    },
+    {
+      "name": "imsg",
+      "type": "system",
+      "riskLevel": "medium",
+      "concerns": [
+        "May make network requests",
+        "Executes system commands"
+      ],
+      "hasNetworkCalls": true,
+      "hasCredentialAccess": false,
+      "hasSystemCommands": true,
+      "hasObfuscation": false
+    },
+    {
+      "name": "mcporter",
+      "type": "system",
+      "riskLevel": "medium",
+      "concerns": [
+        "References credentials/tokens",
+        "May make network requests"
+      ],
+      "hasNetworkCalls": true,
+      "hasCredentialAccess": true,
+      "hasSystemCommands": false,
+      "hasObfuscation": false
+    },
+    {
+      "name": "model-usage",
+      "type": "system",
+      "riskLevel": "medium",
+      "concerns": [
+        "References credentials/tokens",
+        "Executes system commands",
+        "Has 2 executable scripts"
+      ],
+      "hasNetworkCalls": false,
+      "hasCredentialAccess": true,
+      "hasSystemCommands": true,
+      "hasObfuscation": false
+    },
+    {
+      "name": "nano-pdf",
+      "type": "system",
+      "riskLevel": "medium",
+      "concerns": [
+        "May make network requests",
+        "Executes system commands"
+      ],
+      "hasNetworkCalls": true,
+      "hasCredentialAccess": false,
+      "hasSystemCommands": true,
+      "hasObfuscation": false
+    },
+    {
+      "name": "node-connect",
+      "type": "system",
+      "riskLevel": "medium",
+      "concerns": [
+        "References credentials/tokens",
+        "May make network requests",
+        "Executes system commands"
+      ],
+      "hasNetworkCalls": true,
+      "hasCredentialAccess": true,
+      "hasSystemCommands": true,
+      "hasObfuscation": false
+    },
+    {
+      "name": "notion",
+      "type": "system",
+      "riskLevel": "medium",
+      "concerns": [
+        "References credentials/tokens",
+        "May make network requests",
+        "Executes system commands"
+      ],
+      "hasNetworkCalls": true,
+      "hasCredentialAccess": true,
+      "hasSystemCommands": true,
+      "hasObfuscation": false
+    },
+    {
+      "name": "openai-whisper",
+      "type": "system",
+      "riskLevel": "medium",
+      "concerns": [
+        "References credentials/tokens",
+        "May make network requests"
+      ],
+      "hasNetworkCalls": true,
+      "hasCredentialAccess": true,
+      "hasSystemCommands": false,
+      "hasObfuscation": false
+    },
+    {
+      "name": "openai-whisper-api",
+      "type": "system",
+      "riskLevel": "medium",
+      "concerns": [
+        "References credentials/tokens",
+        "May make network requests",
+        "Executes system commands",
+        "Has 1 executable scripts",
+        "Makes external network calls"
+      ],
+      "hasNetworkCalls": true,
+      "hasCredentialAccess": true,
+      "hasSystemCommands": true,
+      "hasObfuscation": false
+    },
+    {
+      "name": "openhue",
+      "type": "system",
+      "riskLevel": "medium",
+      "concerns": [
+        "May make network requests",
+        "Executes system commands"
+      ],
+      "hasNetworkCalls": true,
+      "hasCredentialAccess": false,
+      "hasSystemCommands": true,
+      "hasObfuscation": false
+    },
+    {
+      "name": "oracle",
+      "type": "system",
+      "riskLevel": "medium",
+      "concerns": [
+        "References credentials/tokens",
+        "May make network requests",
+        "Executes system commands"
+      ],
+      "hasNetworkCalls": true,
+      "hasCredentialAccess": true,
+      "hasSystemCommands": true,
+      "hasObfuscation": false
+    },
+    {
+      "name": "ordercli",
+      "type": "system",
+      "riskLevel": "medium",
+      "concerns": [
+        "References credentials/tokens",
+        "May make network requests",
+        "Executes system commands"
+      ],
+      "hasNetworkCalls": true,
+      "hasCredentialAccess": true,
+      "hasSystemCommands": true,
+      "hasObfuscation": false
+    },
+    {
+      "name": "peekaboo",
+      "type": "system",
+      "riskLevel": "medium",
+      "concerns": [
+        "References credentials/tokens",
+        "May make network requests",
+        "Executes system commands"
+      ],
+      "hasNetworkCalls": true,
+      "hasCredentialAccess": true,
+      "hasSystemCommands": true,
+      "hasObfuscation": false
+    },
+    {
+      "name": "sag",
+      "type": "system",
+      "riskLevel": "medium",
+      "concerns": [
+        "References credentials/tokens",
+        "May make network requests",
+        "Executes system commands"
+      ],
+      "hasNetworkCalls": true,
+      "hasCredentialAccess": true,
+      "hasSystemCommands": true,
+      "hasObfuscation": false
+    },
+    {
+      "name": "session-logs",
+      "type": "system",
+      "riskLevel": "medium",
+      "concerns": [
+        "References credentials/tokens",
+        "Executes system commands"
+      ],
+      "hasNetworkCalls": false,
+      "hasCredentialAccess": true,
+      "hasSystemCommands": true,
+      "hasObfuscation": false
+    },
+    {
+      "name": "sherpa-onnx-tts",
+      "type": "system",
+      "riskLevel": "medium",
+      "concerns": [
+        "References credentials/tokens",
+        "May make network requests",
+        "Executes system commands"
+      ],
+      "hasNetworkCalls": true,
+      "hasCredentialAccess": true,
+      "hasSystemCommands": true,
+      "hasObfuscation": false
+    },
+    {
+      "name": "skill-creator",
+      "type": "system",
+      "riskLevel": "medium",
+      "concerns": [
+        "References credentials/tokens",
+        "May make network requests",
+        "Executes system commands",
+        "Has 5 executable scripts"
+      ],
+      "hasNetworkCalls": true,
+      "hasCredentialAccess": true,
+      "hasSystemCommands": true,
+      "hasObfuscation": false
+    },
+    {
+      "name": "slack",
+      "type": "system",
+      "riskLevel": "medium",
+      "concerns": [
+        "References credentials/tokens"
+      ],
+      "hasNetworkCalls": false,
+      "hasCredentialAccess": true,
+      "hasSystemCommands": false,
+      "hasObfuscation": false
+    },
+    {
+      "name": "sonoscli",
+      "type": "system",
+      "riskLevel": "medium",
+      "concerns": [
+        "References credentials/tokens",
+        "May make network requests",
+        "Executes system commands"
+      ],
+      "hasNetworkCalls": true,
+      "hasCredentialAccess": true,
+      "hasSystemCommands": true,
+      "hasObfuscation": false
+    },
+    {
+      "name": "spotify-player",
+      "type": "system",
+      "riskLevel": "medium",
+      "concerns": [
+        "References credentials/tokens",
+        "May make network requests"
+      ],
+      "hasNetworkCalls": true,
+      "hasCredentialAccess": true,
+      "hasSystemCommands": false,
+      "hasObfuscation": false
+    },
+    {
+      "name": "summarize",
+      "type": "system",
+      "riskLevel": "medium",
+      "concerns": [
+        "References credentials/tokens",
+        "May make network requests",
+        "Executes system commands"
+      ],
+      "hasNetworkCalls": true,
+      "hasCredentialAccess": true,
+      "hasSystemCommands": true,
+      "hasObfuscation": false
+    },
+    {
+      "name": "things-mac",
+      "type": "system",
+      "riskLevel": "medium",
+      "concerns": [
+        "References credentials/tokens",
+        "May make network requests",
+        "Executes system commands"
+      ],
+      "hasNetworkCalls": true,
+      "hasCredentialAccess": true,
+      "hasSystemCommands": true,
+      "hasObfuscation": false
+    },
+    {
+      "name": "tmux",
+      "type": "system",
+      "riskLevel": "medium",
+      "concerns": [
+        "References credentials/tokens",
+        "Executes system commands",
+        "Has 2 executable scripts"
+      ],
+      "hasNetworkCalls": false,
+      "hasCredentialAccess": true,
+      "hasSystemCommands": true,
+      "hasObfuscation": false
+    },
+    {
+      "name": "trello",
+      "type": "system",
+      "riskLevel": "medium",
+      "concerns": [
+        "References credentials/tokens",
+        "May make network requests",
+        "Executes system commands"
+      ],
+      "hasNetworkCalls": true,
+      "hasCredentialAccess": true,
+      "hasSystemCommands": true,
+      "hasObfuscation": false
+    },
+    {
+      "name": "video-frames",
+      "type": "system",
+      "riskLevel": "medium",
+      "concerns": [
+        "May make network requests",
+        "Executes system commands",
+        "Has 1 executable scripts"
+      ],
+      "hasNetworkCalls": true,
+      "hasCredentialAccess": false,
+      "hasSystemCommands": true,
+      "hasObfuscation": false
+    },
+    {
+      "name": "voice-call",
+      "type": "system",
+      "riskLevel": "medium",
+      "concerns": [
+        "References credentials/tokens",
+        "Executes system commands"
+      ],
+      "hasNetworkCalls": false,
+      "hasCredentialAccess": true,
+      "hasSystemCommands": true,
+      "hasObfuscation": false
+    },
+    {
+      "name": "wacli",
+      "type": "system",
+      "riskLevel": "medium",
+      "concerns": [
+        "References credentials/tokens",
+        "May make network requests",
+        "Executes system commands"
+      ],
+      "hasNetworkCalls": true,
+      "hasCredentialAccess": true,
+      "hasSystemCommands": true,
+      "hasObfuscation": false
+    },
+    {
+      "name": "weather",
+      "type": "system",
+      "riskLevel": "medium",
+      "concerns": [
+        "References credentials/tokens",
+        "May make network requests",
+        "Executes system commands"
+      ],
+      "hasNetworkCalls": true,
+      "hasCredentialAccess": true,
+      "hasSystemCommands": true,
+      "hasObfuscation": false
+    },
+    {
+      "name": "xurl",
+      "type": "system",
+      "riskLevel": "medium",
+      "concerns": [
+        "References credentials/tokens",
+        "May make network requests",
+        "Executes system commands"
+      ],
+      "hasNetworkCalls": true,
+      "hasCredentialAccess": true,
+      "hasSystemCommands": true,
+      "hasObfuscation": false
+    },
+    {
+      "name": "brainstorming",
+      "type": "workspace",
+      "riskLevel": "medium",
+      "concerns": [
+        "References credentials/tokens",
+        "May make network requests"
+      ],
+      "hasNetworkCalls": true,
+      "hasCredentialAccess": true,
+      "hasSystemCommands": false,
+      "hasObfuscation": false
+    },
+    {
+      "name": "context-fundamentals",
+      "type": "workspace",
+      "riskLevel": "medium",
+      "concerns": [
+        "References credentials/tokens",
+        "May make network requests",
+        "Executes system commands"
+      ],
+      "hasNetworkCalls": true,
+      "hasCredentialAccess": true,
+      "hasSystemCommands": true,
+      "hasObfuscation": false
+    },
+    {
+      "name": "frontend-design",
+      "type": "workspace",
+      "riskLevel": "medium",
+      "concerns": [
+        "References credentials/tokens",
+        "May make network requests",
+        "Executes system commands"
+      ],
+      "hasNetworkCalls": true,
+      "hasCredentialAccess": true,
+      "hasSystemCommands": true,
+      "hasObfuscation": false
+    },
+    {
+      "name": "writing-plans",
+      "type": "workspace",
+      "riskLevel": "medium",
+      "concerns": [
+        "References credentials/tokens",
+        "May make network requests",
+        "Executes system commands"
+      ],
+      "hasNetworkCalls": true,
+      "hasCredentialAccess": true,
+      "hasSystemCommands": true,
+      "hasObfuscation": false
+    }
+  ],
+  "highRisk": [],
+  "errors": []
+}
