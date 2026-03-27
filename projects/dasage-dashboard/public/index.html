@@ -590,6 +590,191 @@
             color: var(--text-secondary);
         }
 
+        /* Terminal Styles */
+        .terminal-controls {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+            padding: 16px;
+            border-bottom: 1px solid var(--foam);
+        }
+
+        .terminal-btn {
+            background: rgba(103, 232, 249, 0.1);
+            border: 1px solid var(--foam);
+            color: var(--text-secondary);
+            font-size: 0.8rem;
+            padding: 6px 12px;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .terminal-btn:hover {
+            background: rgba(103, 232, 249, 0.2);
+            color: var(--text-primary);
+        }
+
+        .terminal-btn.active {
+            background: var(--tentacle-2);
+            color: var(--text-primary);
+            border-color: var(--tentacle-2);
+        }
+
+        .terminal-output {
+            padding: 16px;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.85rem;
+            max-height: 400px;
+            overflow-y: auto;
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 8px;
+            margin: 0 16px 16px;
+        }
+
+        .terminal-line {
+            padding: 8px 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+            display: flex;
+            gap: 8px;
+            align-items: flex-start;
+        }
+
+        .terminal-line:last-child {
+            border-bottom: none;
+        }
+
+        .terminal-prompt {
+            color: var(--tentacle-1);
+            font-weight: 600;
+            flex-shrink: 0;
+        }
+
+        .terminal-text {
+            color: var(--text-primary);
+            word-break: break-word;
+        }
+
+        .terminal-meta {
+            color: var(--text-secondary);
+            font-size: 0.75rem;
+            margin-left: auto;
+            flex-shrink: 0;
+        }
+
+        .terminal-stats {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 12px 16px;
+            border-top: 1px solid var(--foam);
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+        }
+
+        /* Expandable Terminal Details */
+        .terminal-line {
+            cursor: pointer;
+            transition: background 0.2s ease;
+        }
+
+        .terminal-line:hover {
+            background: rgba(103, 232, 249, 0.05);
+        }
+
+        .terminal-line.expanded {
+            background: rgba(103, 232, 249, 0.08);
+        }
+
+        .terminal-details {
+            display: none;
+            padding: 12px 16px 12px 32px;
+            margin-top: 8px;
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 6px;
+            border-left: 3px solid var(--tentacle-2);
+        }
+
+        .terminal-line.expanded .terminal-details {
+            display: block;
+            animation: expandIn 0.3s ease;
+        }
+
+        @keyframes expandIn {
+            from {
+                opacity: 0;
+                transform: translateY(-10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .terminal-details-section {
+            margin-bottom: 12px;
+        }
+
+        .terminal-details-section:last-child {
+            margin-bottom: 0;
+        }
+
+        .terminal-details-label {
+            font-size: 0.75rem;
+            color: var(--text-secondary);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 4px;
+        }
+
+        .terminal-details-content {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.8rem;
+            color: var(--text-primary);
+            white-space: pre-wrap;
+            word-break: break-word;
+            max-height: 200px;
+            overflow-y: auto;
+            background: rgba(0, 0, 0, 0.2);
+            padding: 8px;
+            border-radius: 4px;
+        }
+
+        .terminal-details-content.error {
+            color: #ef4444;
+        }
+
+        .terminal-details-content.success {
+            color: var(--tentacle-1);
+        }
+
+        .terminal-expand-hint {
+            font-size: 0.7rem;
+            color: var(--text-secondary);
+            opacity: 0;
+            transition: opacity 0.2s ease;
+            margin-left: 8px;
+        }
+
+        .terminal-line:hover .terminal-expand-hint {
+            opacity: 1;
+        }
+
+        .terminal-clear {
+            background: rgba(239, 68, 68, 0.1);
+            border: 1px solid rgba(239, 68, 68, 0.3);
+            color: #ef4444;
+            padding: 6px 12px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 0.8rem;
+            transition: all 0.2s ease;
+        }
+
+        .terminal-clear:hover {
+            background: rgba(239, 68, 68, 0.2);
+        }
+
         /* Scrollbar */
         ::-webkit-scrollbar {
             width: 6px;
@@ -622,11 +807,23 @@
             .tab-nav {
                 gap: 4px;
                 padding: 0 10px;
+                overflow-x: auto;
+                -webkit-overflow-scrolling: touch;
+                scrollbar-width: none;
+                -ms-overflow-style: none;
+                justify-content: flex-start;
+                scroll-behavior: smooth;
+            }
+
+            .tab-nav::-webkit-scrollbar {
+                display: none;
             }
 
             .tab-btn {
                 padding: 6px 10px;
                 font-size: 0.75rem;
+                white-space: nowrap;
+                flex-shrink: 0;
             }
 
             .tab-content {
@@ -684,6 +881,7 @@
         <button class="tab-btn" data-tab="projects">Projects</button>
         <button class="tab-btn" data-tab="monitor">Monitor</button>
         <button class="tab-btn" data-tab="gateway">Gateway</button>
+        <button class="tab-btn" data-tab="terminal">Terminal</button>
     </nav>
 
     <!-- Tab Contents -->
@@ -1006,6 +1204,33 @@
         </div>
     </div>
 
+    <!-- Terminal Tab -->
+    <div class="tab-content" id="tab-terminal">
+        <div class="card">
+            <div class="card-header">
+                <span class="card-title">Command Terminal</span>
+                <div class="card-icon">🖥️</div>
+            </div>
+            <div class="terminal-controls">
+                <button class="terminal-btn active" data-filter="all">All</button>
+                <button class="terminal-btn" data-filter="system">🟢 System</button>
+                <button class="terminal-btn" data-filter="git">🔵 Git</button>
+                <button class="terminal-btn" data-filter="network">🟡 Network</button>
+                <button class="terminal-btn" data-filter="error">🔴 Errors</button>
+            </div>
+            <div class="terminal-output" id="terminal-output">
+                <div class="terminal-line">
+                    <span class="terminal-prompt">$</span>
+                    <span class="terminal-text">Terminal ready. Commands will appear here...</span>
+                </div>
+            </div>
+            <div class="terminal-stats">
+                <span id="terminal-count">0 commands</span>
+                <button class="terminal-clear" id="terminal-clear">Clear</button>
+            </div>
+        </div>
+    </div>
+
     <script src="/socket.io/socket.io.js"></script>
     <script>
         // Initialize particles
@@ -1235,6 +1460,148 @@
         document.addEventListener('touchend', () => {
             isRefreshing = false;
         });
+
+        // ===== TERMINAL FUNCTIONALITY =====
+        let terminalFilter = 'all';
+        const terminalCommands = [];
+
+        // Load initial commands
+        async function loadTerminalCommands() {
+            try {
+                const response = await fetch('/api/terminal?limit=50');
+                const data = await response.json();
+                if (data.commands) {
+                    terminalCommands.length = 0;
+                    terminalCommands.push(...data.commands.reverse());
+                    renderTerminal();
+                }
+            } catch (err) {
+                console.log('Failed to load terminal commands:', err);
+            }
+        }
+
+        // Render terminal with expandable details
+        function renderTerminal() {
+            const container = document.getElementById('terminal-output');
+            if (!container) return;
+
+            let filtered = terminalCommands;
+            if (terminalFilter !== 'all') {
+                filtered = terminalCommands.filter(cmd => {
+                    if (terminalFilter === 'error') return cmd.status === 'error';
+                    return cmd.category === terminalFilter;
+                });
+            }
+
+            if (filtered.length === 0) {
+                container.innerHTML = '<div class="terminal-line"><span class="terminal-prompt">$</span><span class="terminal-text">No commands to display</span></div>';
+            } else {
+                container.innerHTML = filtered.map(cmd => {
+                    const icon = cmd.status === 'error' ? '❌' : cmd.status === 'success' ? '✓' : '⏳';
+                    const duration = cmd.duration ? `${cmd.duration}ms` : '';
+                    const hasOutput = cmd.stdout || cmd.stderr;
+                    
+                    // Build expandable details HTML
+                    let detailsHtml = '';
+                    if (hasOutput) {
+                        detailsHtml = `
+                            <div class="terminal-details">
+                                ${cmd.stdout ? `
+                                    <div class="terminal-details-section">
+                                        <div class="terminal-details-label">stdout</div>
+                                        <div class="terminal-details-content success">${escapeHtml(cmd.stdout.substring(0, 1000))}${cmd.stdout.length > 1000 ? '\n... (truncated)' : ''}</div>
+                                    </div>
+                                ` : ''}
+                                ${cmd.stderr ? `
+                                    <div class="terminal-details-section">
+                                        <div class="terminal-details-label">stderr</div>
+                                        <div class="terminal-details-content error">${escapeHtml(cmd.stderr.substring(0, 500))}</div>
+                                    </div>
+                                ` : ''}
+                                <div class="terminal-details-section">
+                                    <div class="terminal-details-label">exit code</div>
+                                    <div class="terminal-details-content">${cmd.exitCode !== null ? cmd.exitCode : 'N/A'}</div>
+                                </div>
+                            </div>
+                        `;
+                    }
+                    
+                    return `
+                        <div class="terminal-line ${hasOutput ? 'has-details' : ''}" data-id="${cmd.id}" data-category="${cmd.category}" data-status="${cmd.status}">
+                            <span class="terminal-prompt">${icon}</span>
+                            <span class="terminal-text">${escapeHtml(cmd.command.substring(0, 80))}${cmd.command.length > 80 ? '...' : ''}</span>
+                            <span class="terminal-expand-hint">${hasOutput ? '↕ tap to expand' : ''}</span>
+                            <span class="terminal-meta">${duration}</span>
+                            ${detailsHtml}
+                        </div>
+                    `;
+                }).join('');
+                
+                // Add click handlers for expandable lines
+                container.querySelectorAll('.terminal-line.has-details').forEach(line => {
+                    line.addEventListener('click', function(e) {
+                        // Don't collapse if selecting text
+                        if (window.getSelection().toString().length > 0) return;
+                        
+                        this.classList.toggle('expanded');
+                    });
+                });
+            }
+
+            // Update count
+            const countEl = document.getElementById('terminal-count');
+            if (countEl) {
+                countEl.textContent = `${filtered.length} command${filtered.length !== 1 ? 's' : ''}`;
+            }
+
+            // Auto-scroll to bottom only if not expanded
+            const hasExpanded = container.querySelector('.terminal-line.expanded');
+            if (!hasExpanded) {
+                container.scrollTop = container.scrollHeight;
+            }
+        }
+
+        // Escape HTML
+        function escapeHtml(text) {
+            const div = document.createElement('div');
+            div.textContent = text;
+            return div.innerHTML;
+        }
+
+        // Terminal filter buttons
+        document.querySelectorAll('.terminal-btn').forEach(btn => {
+            btn.addEventListener('click', () => {
+                document.querySelectorAll('.terminal-btn').forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+                terminalFilter = btn.dataset.filter;
+                renderTerminal();
+            });
+        });
+
+        // Clear button
+        document.getElementById('terminal-clear')?.addEventListener('click', () => {
+            fetch('/api/terminal/clear', { method: 'POST' });
+            terminalCommands.length = 0;
+            renderTerminal();
+        });
+
+        // WebSocket real-time updates
+        socket.on('terminal-command', (cmd) => {
+            terminalCommands.push(cmd);
+            if (terminalCommands.length > 50) terminalCommands.shift();
+            renderTerminal();
+        });
+
+        socket.on('terminal-update', (cmd) => {
+            const index = terminalCommands.findIndex(c => c.id === cmd.id);
+            if (index >= 0) {
+                terminalCommands[index] = cmd;
+                renderTerminal();
+            }
+        });
+
+        // Initial load
+        loadTerminalCommands();
     </script>
 </body>
 </html>
