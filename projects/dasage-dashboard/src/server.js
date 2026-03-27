@@ -9,7 +9,7 @@ import { startGatewayMonitoring, setupGatewayRoutes } from './gateway.js';
 import { startActivityMonitoring } from './activities.js';
 import { startNotificationMonitoring, setupNotificationRoutes, checkThresholds } from './notifications.js';
 import { getCommandLog, getLogEmitter, loggedExec, loggedExecSync, clearLog } from './logger.js';
-import { sendSmartNotification, checkSmartThresholds, setupPresenceTracking, updatePresence } from './smart-notify.js';
+import { sendSmartNotification, checkSmartThresholds, setupPresenceTracking, updatePresence, userPresence } from './smart-notify.js';
 import { addHistoryPoint, getAllPredictions, startAnalyticsCollection } from './analytics.js';
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
@@ -30,7 +30,7 @@ app.use(express.static(join(__dirname, '../public')));
 const clients = new Map();
 
 // DaNotify API URL
-const DANOTIFY_URL = process.env.DANOTIFY_URL || 'http://localhost:18790/api/notify';
+const DANOTIFY_URL = process.env.DANOTIFY_URL || 'http://localhost:18789/api/notify';
 
 // System data cache
 let systemData = {
@@ -56,12 +56,16 @@ const historyData = {
 const activities = [];
 
 function addActivity(icon, text) {
-  const activity = { icon, text, timestamp: Date.now() };
-  activities.unshift(activity);
-  if (activities.length > 20) activities.pop();
+  try {
+    const activity = { icon, text, timestamp: Date.now() };
+    activities.unshift(activity);
+    if (activities.length > 20) activities.pop();
 
-  // Broadcast to all clients
-  io.emit('activity', activity);
+    // Broadcast to all clients
+    io.emit('activity', activity);
+  } catch (err) {
+    console.log('Error in addActivity:', err.message);
+  }
 }
 
 // Collect system data
@@ -184,53 +188,85 @@ io.on('connection', (socket) => {
   });
 
   // Send current data
-  socket.emit('system-update', systemData);
-  socket.emit('init-activities', activities);
-  socket.emit('connections', Array.from(clients.values()));
+  try {
+    socket.emit('system-update', systemData);
+    socket.emit('init-activities', activities);
+    socket.emit('connections', Array.from(clients.values()));
+  } catch (err) {
+    console.log('Error sending initial data:', err.message);
+  }
 
   // Presence tracking - user is active
-  updatePresence('overview', true);
+  try {
+    updatePresence('overview', true);
+  } catch (err) {
+    console.log('Error in presence tracking:', err.message);
+  }
 
   // Track tab changes
   socket.on('tab-change', (tab) => {
-    updatePresence(tab, true);
-    console.log(`User switched to tab: ${tab}`);
+    try {
+      updatePresence(tab, true);
+      console.log(`User switched to tab: ${tab}`);
+    } catch (err) {
+      console.log('Error in tab-change:', err.message);
+    }
   });
 
   // Heartbeat - user is active
   socket.on('heartbeat', () => {
-    updatePresence(userPresence.lastActiveTab, true);
+    try {
+      updatePresence(userPresence?.lastActiveTab || 'overview', true);
+    } catch (err) {
+      console.log('Error in heartbeat:', err.message);
+    }
   });
 
   // Handle action buttons from notifications
   socket.on('notification-action', async (data) => {
-    console.log('Notification action:', data);
-    // Navigate or execute based on action
-    if (data.action.startsWith('navigate:')) {
-      const tab = data.action.split(':')[1];
-      socket.emit('navigate-to', tab);
+    try {
+      console.log('Notification action:', data);
+      // Navigate or execute based on action
+      if (data.action?.startsWith('navigate:')) {
+        const tab = data.action.split(':')[1];
+        socket.emit('navigate-to', tab);
+      }
+    } catch (err) {
+      console.log('Error in notification-action:', err.message);
     }
   });
 
   // Update user count
-  systemData.activeUsers = clients.size;
-  io.emit('system-update', systemData);
-  io.emit('connections', Array.from(clients.values()));
-
-  // Send notification to DaNotify
-  notifyDaNotify('Dashboard Activity', `🖥️ ${browser} ${isMobile ? 'mobile' : 'desktop'} connected from ${clientIp}`, 'low');
-  addActivity('🖥️', `${browser} ${isMobile ? 'mobile' : 'desktop'} connected`);
-
-  socket.on('ping', () => {
-    socket.emit('pong');
-  });
-
-  socket.on('disconnect', () => {
-    console.log('Dashboard client disconnected:', socket.id);
-    clients.delete(socket.id);
+  try {
     systemData.activeUsers = clients.size;
     io.emit('system-update', systemData);
     io.emit('connections', Array.from(clients.values()));
+
+    // Send notification to DaNotify
+    notifyDaNotify('Dashboard Activity', `🖥️ ${browser} ${isMobile ? 'mobile' : 'desktop'} connected from ${clientIp}`, 'low');
+    addActivity('🖥️', `${browser} ${isMobile ? 'mobile' : 'desktop'} connected`);
+  } catch (err) {
+    console.log('Error sending connection notification:', err.message);
+  }
+
+  socket.on('ping', () => {
+    try {
+      socket.emit('pong');
+    } catch (err) {
+      console.log('Error in ping handler:', err.message);
+    }
+  });
+
+  socket.on('disconnect', () => {
+    try {
+      console.log('Dashboard client disconnected:', socket.id);
+      clients.delete(socket.id);
+      systemData.activeUsers = clients.size;
+      io.emit('system-update', systemData);
+      io.emit('connections', Array.from(clients.values()));
+    } catch (err) {
+      console.log('Error in disconnect handler:', err.message);
+    }
   });
 });
 
@@ -312,6 +348,14 @@ httpServer.listen(PORT, () => {
   console.log(`📱 Mobile optimized for cellular access`);
   console.log(`🌐 Local: http://localhost:${PORT}`);
 
+  // Send startup notification to DaNotify
+  const tunnelUrl = process.env.TUNNEL_URL || 'https://distant-professionals-installing-dash.trycloudflare.com';
+  notifyDaNotify(
+    '🐙 Dashboard Started',
+    `Server auto-restarted and is now online\n\n📱 Local: http://localhost:${PORT}\n🌐 Tunnel: ${tunnelUrl}`,
+    'normal'
+  ).catch(err => console.log('Failed to send startup notification:', err.message));
+
   // Start all monitoring
   startGatewayMonitoring(io, notifyDaNotify);
   startActivityMonitoring(io);
@@ -323,10 +367,18 @@ httpServer.listen(PORT, () => {
   // Terminal real-time updates
   const logEmitter = getLogEmitter();
   logEmitter.on('command', (entry) => {
-    io.emit('terminal-command', entry);
+    try {
+      io.emit('terminal-command', entry);
+    } catch (err) {
+      console.log('Error emitting terminal-command:', err.message);
+    }
   });
   logEmitter.on('update', (entry) => {
-    io.emit('terminal-update', entry);
+    try {
+      io.emit('terminal-update', entry);
+    } catch (err) {
+      console.log('Error emitting terminal-update:', err.message);
+    }
   });
 
   console.log('🖥️  Terminal logging active');
@@ -341,6 +393,23 @@ process.on('SIGTERM', () => {
   httpServer.close(() => {
     process.exit(0);
   });
+});
+
+// Global error handlers
+process.on('uncaughtException', (err) => {
+  console.error('Uncaught Exception:', err.message);
+  console.error(err.stack);
+  // Don't exit - log and continue
+});
+
+process.on('unhandledRejection', (reason, promise) => {
+  console.error('Unhandled Rejection at:', promise, 'reason:', reason);
+  // Don't exit - log and continue
+});
+
+// Socket.io error handling
+io.on('error', (err) => {
+  console.error('Socket.io error:', err.message);
 });
 
 export { addActivity };
