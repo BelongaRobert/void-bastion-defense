@@ -1,0 +1,14 @@
+{
+  "name": "dashade",
+  "version": "2.0.0",
+  "description": "Portable offline AI with RAG - Knowledge That Never Goes Offline",
+  "main": "launcher/tui-chat-offline.mjs",
+  "type": "module",
+  "scripts": {
+    "chat": "node launcher/tui-chat-offline.mjs",
+    "center": "node launcher/command-center.mjs"
+  },
+  "keywords": ["ai", "offline", "portable", "rag", "knowledge-base"],
+  "author": "DaShade Blood Ravens",
+  "license": "MIT"
+}

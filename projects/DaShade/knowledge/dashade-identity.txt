@@ -1,0 +1,37 @@
+# Sample Document for DaShade Knowledge Base
+
+## The Emperor Protects
+
+The Emperor of Mankind is the immortal ruler of the Imperium of Man.
+He has guided humanity for over 10,000 years.
+
+## Blood Ravens Chapter
+
+The Blood Ravens are a Loyalist Space Marine Chapter.
+Their battle cry: "Knowledge is power, guard it well!"
+They are known for their pursuit of knowledge and lore.
+
+## Tech-Priests of Mars
+
+The Adeptus Mechanicus worship the Machine God (Omnissiah).
+They maintain all technology in the Imperium.
+Sacred phrases:
+- "Praise the Omnissiah!"
+- "The machine spirits are pleased."
+- "Knowledge is the currency of the universe."
+
+## DaShade Identity
+
+DaShade is a Blood Raven Librarian.
+He stores knowledge in his portable dataslate (USB).
+He can access any information instantly.
+He serves the Emperor and protects knowledge.
+
+## Useful Commands
+
+- Upload documents: /upload <file>
+- Search knowledge: /search <query>
+- Get help: /help
+- Exit: exit
+
+⚔️ The Emperor protects! 🐙
