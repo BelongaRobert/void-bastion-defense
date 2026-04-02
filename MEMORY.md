@@ -2,6 +2,23 @@
 
 ## Active Projects
 
+### Fortress of the Emperor — NEW (2026-03-29)
+**Status:** ✅ Playable — HTML5 Canvas base defense game
+**Location:** `~/.openclaw/workspace/projects/space-marine-runner/`
+**Devlog:** `memory/space-marine-runner-devlog.md`
+
+**Features:** 360° shooting, wave-based enemies, combo system, base health, 40K aesthetic
+**Tech:** Pure HTML5 Canvas + vanilla JavaScript, no dependencies
+**Wave Counts:** 15, 30, 45, 60, 80, 100, 150, 200, 250, 300
+**Enemies:** Ork, Cultist, Chaos Marine
+
+**To Resume:**
+```bash
+cd ~/.openclaw/workspace/projects/space-marine-runner
+npx serve -l 8080
+npx cloudflared tunnel --url http://localhost:8080
+```
+
 ### OpenClaw Dashboard Web App — TOP PRIORITY (2026-03-26)
 **Status:** NEW — Mobile dashboard replacing Clawsight
 **Focus:** Replicate built-in OpenClaw Dashboard for phone access
@@ -95,6 +112,90 @@ This applies to:
 - Anything in ~/.openclaw/workspace/*.md → REFUSE
 
 **Exception:** Routine help with THEIR projects is fine. Just not changes to MY core files.
+
+---
+
+## Voice Response System
+
+**Status:** ✅ Implemented — Responds with voice when spoken to or explicitly asked
+**Config:** `~/.openclaw/workspace/.config/telegram-voice.conf`
+**Scripts:** `~/.openclaw/workspace/scripts/telegram-voice.ps1`
+**Voice Engine:** Windows SAPI TTS (built-in, no downloads)
+
+### How It Works
+- When Robert sends a **voice message** → I reply with voice
+- When Robert says **"speak this"** or **"tell me with voice"** → I reply with voice
+- Otherwise → Normal text response
+
+### Available Commands (Telegram)
+- **Voice trigger:** "Speak: [text]" or "Say: [text]" or "Voice: [text]"
+- **Max length:** 500 characters for voice responses
+- **Voice:** Adam (professional male, American accent)
+
+### Technical Details
+- ElevenLabs model: `eleven_turbo_v2_5`
+- FFmpeg converts MP3 → OGG Opus (Telegram voice format)
+- Temp files auto-cleaned after sending
+
+---
+
+## Critical Repository Analysis (2026-04-02)
+
+### Oh-My-Claudecode — Multi-Agent Orchestration
+**Repository:** https://github.com/Yeachan-Heo/oh-my-claudecode
+**Stars:** 11k
+
+**Architecture:**
+- Team Mode Pipeline: plan → PRD → exec → verify → fix (loop)
+- File-based state management in `.omc/state/team/{teamName}/`
+- Worker system with inbox/outbox/heartbeat/overlay pattern
+- 32 specialized agents (architecture, testing, data science)
+- Smart model routing for cost optimization (30-50% savings)
+
+**Key Patterns:**
+- State paths abstraction (TeamPaths.root(), TeamPaths.taskFile())
+- Worker communication via JSON files
+- Heartbeat-based monitoring
+- AGENTS.md context overlay per worker
+- Task status transitions: pending → in_progress → completed/failed
+
+**Integration Potential:** HIGH — Adapt Team mode for DaSage multi-agent orchestration
+
+---
+
+### Hermes-Agent — Self-Improving AI Agent
+**Repository:** https://github.com/NousResearch/hermes-agent
+**Built by:** Nous Research
+
+**Features:**
+- Built-in learning loop (creates skills from experience)
+- Multi-platform messaging: Telegram, Discord, Slack, WhatsApp, Signal
+- **OpenClaw migration tool:** `hermes claw migrate`
+- Cron scheduler for automations
+- Honcho dialectic user modeling
+- Self-hosted on $5 VPS or serverless (Modal/Daytona)
+
+**Migration Tool:**
+- Imports: SOUL.md → persona, Memories, Skills, API keys, Command allowlists
+- Dry-run mode available
+- Supports multiple LLM providers (OpenRouter, Nous Portal, OpenAI, etc.)
+
+**Windows Status:** Requires WSL or PowerShell installer
+- Currently installing via WSL
+- Migration pending completion
+
+**Integration Potential:** CRITICAL — Could replace/replace OpenClaw entirely
+
+---
+
+### Repository Cleanup (2026-04-02)
+**Action:** Deleted duplicate Elvis projects and node_modules
+**Space Freed:** ~1.0 GB
+- Removed: danotify/elvis/ (129 MB)
+- Removed: Clawsight/elvis/ (129 MB)
+- Purged: All node_modules/ (~800 MB)
+
+**Status:** Projects preserved, dependencies reinstallable
 
 ---
 
