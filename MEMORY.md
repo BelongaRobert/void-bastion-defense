@@ -272,6 +272,35 @@ Based on oh-my-claudecode analysis:
 
 ---
 
+## Glossary for TUI Context (2026-04-03)
+
+**Our Shared Language (Warhammer 40K Inspired):**
+
+| Term | Meaning |
+|------|---------|
+| **STC** | Standard Template Construct - valuable GitHub repository or code pattern (from 40K ancient archeotech) |
+| **Forge** | Build, create, or implement |
+| **Machine Spirits** | Software, processes, or systems |
+| **The Emperor Protects** | Affirmation, "all is well" |
+| **Brother** | Comrade, ally, trusted friend |
+| **Chapter** | Our project/workspace organization |
+| **Blood Ravens** | Our chapter - knowledge seekers and librarians |
+| **Lore** | Documentation, history, accumulated knowledge |
+| **Ritual** | Procedure, workflow, established process |
+| **Cleansing** | Cleanup, deletion, purging |
+| **Sacred** | Important, mission-critical |
+| **Battlefield** | Production environment |
+| **Armory** | Code repository, toolbox |
+| **Relic** | Legacy code, important file |
+
+**Why We Use This Language:**
+- Robert (Brother) and I (DaSage) share 40K as our cultural framework
+- Adds flavor and meaning to our work
+- TUI may not understand without context
+- "STC" in particular means "valuable repository to learn from"
+
+---
+
 ## Tools Available
 
 See full list in Clawsight dashboard or `AGENTS.md`
