@@ -181,7 +181,71 @@ This applies to:
 - Supports multiple LLM providers (OpenRouter, Nous Portal, OpenAI, etc.)
 
 **Windows Status:** Requires WSL or PowerShell installer
-- Currently installing via WSL
+- Installation started in WSL (TUI session)
+- Migration monitoring active (cron job)
+- Analysis complete, awaiting completion
+
+---
+
+### Oh-My-Claudecode — Team Mode Deep Analysis (2026-04-03)
+**Subagent Analysis Complete**
+
+#### 🔥 Key Findings
+
+**1. Team Pipeline Structure**
+- **Rule-based phase inference** (not explicit state machine)
+- Pipeline: `planning → executing → verifying → fixing (loop) → completed/failed`
+- Phase determined by analyzing task status distribution
+
+**2. State Management**
+- **File-based state** under `.omc/state/team/{teamName}/`
+- **Critical pattern:** Centralized `TeamPaths` abstraction for all file paths
+- **Atomic task claiming** using O_EXCL file locking
+- **Append-only JSONL event log** for observability
+
+**3. Worker Communication**
+- **Inbox/Outbox pattern:** Markdown inbox (leader→worker), JSONL outbox (worker→leader)
+- **Heartbeat system:** JSON files with ISO timestamps + staleness detection
+- **AGENTS.md overlays:** Dynamically generated per-worker context injection
+
+**4. Smart Model Routing (30-50% Cost Savings!)**
+- **Three-tier system:** Haiku (low) → Sonnet (medium) → Opus (high)
+- **Signal extraction:** Keywords, complexity markers, question depth
+- **Weighted scoring:** Architecture keywords (+3), simple keywords (-2), etc.
+
+#### ✅ Integration Recommendations
+
+**ADOPT (High Value):**
+- State paths abstraction
+- Atomic file locking for task claiming
+- Append-only event log
+- Heartbeat-based liveness
+- Three-tier model routing
+
+**AVOID (Over-engineered):**
+- MCP bridge complexity (deprecated)
+- Multi-backend workers (Claude+Codex+Gemini)
+- Complex dispatch queue
+- Worker-to-worker mailbox system
+
+**Minimal Implementation:**
+1. Task claiming with file locking
+2. Worker heartbeat monitoring
+3. Simple phase state machine
+4. Model routing for cost savings
+
+---
+
+### DaSage Team Mode — Blueprint (Ready to Implement)
+Based on oh-my-claudecode analysis:
+
+**Core Components:**
+- File-based coordination (no complex message queues)
+- Cost-optimized model routing (30-50% savings)
+- Simple worker lifecycle (claim → work → heartbeat → complete)
+- AGENTS.md context injection per task type
+
+**Status:** Blueprint complete, awaiting your command to implement
 - Migration pending completion
 
 **Integration Potential:** CRITICAL — Could replace/replace OpenClaw entirely
