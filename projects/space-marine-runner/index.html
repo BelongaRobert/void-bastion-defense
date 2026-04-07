@@ -2,60 +2,71 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
-    <title>Fortress of the Emperor</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Void Bastion Defense</title>
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700;900&family=Space+Mono:wght@400;700&display=swap');
-        
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            touch-action: none;
-            user-select: none;
-        }
+        /* ============================================
+           VOID BASTION DEFENSE - MOBILE OPTIMIZED v1.0.0
+           Performance Optimized | Mobile-First | Touch-Friendly
+           ============================================ */
         
         :root {
-            --imperial-gold: #C9A227;
-            --grimdark-red: #8B0000;
-            --boltgun-metal: #2C3E50;
-            --purity-seal: #E8D5B7;
-            --warp-glow: #FF6B35;
-            --void-black: #0D0D0D;
-            --health-green: #2ecc71;
-            --promethium-orange: #FF4500;
+            --bg-primary: #0D0D0D;
+            --bg-secondary: #1a1a1a;
+            --bg-tertiary: #2a2a2a;
+            --accent-gold: #C9A227;
+            --accent-gold-light: #E8D5B7;
+            --accent-gold-dark: #8B7355;
+            --accent-red: #FF4444;
+            --accent-green: #2ecc71;
+            --accent-blue: #00D4FF;
+            --text-primary: #E8D5B7;
+            --text-secondary: #b0b0b0;
+            --text-muted: #666;
+            --danger: #FF4444;
+            --warning: #FFA500;
+            --success: #2ecc71;
+            --ui-scale: 1;
+            --font-family: 'Courier New', monospace;
+        }
+        
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            user-select: none;
+            -webkit-user-select: none;
+            -webkit-tap-highlight-color: transparent;
         }
         
         body {
-            background: var(--void-black);
-            font-family: 'Cinzel', serif;
+            font-family: var(--font-family);
+            background: var(--bg-primary);
+            color: var(--text-primary);
             overflow: hidden;
-            height: 100vh;
-            width: 100vw;
-            display: flex;
-            justify-content: center;
-            align-items: center;
+            touch-action: none;
         }
         
         #gameContainer {
             position: relative;
             width: 100vw;
             height: 100vh;
-            background: radial-gradient(circle at center, #1a0a0a 0%, #0D0D0D 60%, #000 100%);
-            overflow: hidden;
-            border: 4px solid var(--imperial-gold);
-            box-shadow: 
-                0 0 40px rgba(201, 162, 39, 0.5),
-                inset 0 0 200px rgba(139, 0, 0, 0.4);
+            display: flex;
+            justify-content: center;
+            align-items: center;
         }
         
         #gameCanvas {
             display: block;
-            width: 100%;
-            height: 100%;
+            image-rendering: pixelated;
+            image-rendering: crisp-edges;
         }
         
-        #ui {
+        /* ============================================
+           UI OVERLAYS & SCREENS
+           ============================================ */
+        
+        .ui-overlay {
             position: absolute;
             top: 0;
             left: 0;
@@ -65,80 +76,460 @@
             z-index: 10;
         }
         
+        /* ============================================
+           GAME UI (HUD)
+           ============================================ */
+        
+        #gameUI {
+            display: none;
+            padding: calc(10px * var(--ui-scale));
+        }
+        
+        #gameUI.active {
+            display: block;
+        }
+        
         .hud-top {
             position: absolute;
-            top: 10px;
-            left: 10px;
-            right: 10px;
+            top: calc(10px * var(--ui-scale));
+            left: calc(10px * var(--ui-scale));
+            right: calc(10px * var(--ui-scale));
             display: flex;
             justify-content: space-between;
             align-items: flex-start;
+            pointer-events: auto;
         }
         
-        .hud-section {
-            text-align: center;
-            min-width: 80px;
+        .hud-stats {
+            display: flex;
+            flex-direction: column;
+            gap: calc(5px * var(--ui-scale));
         }
         
-        .hud-label {
-            font-size: 9px;
+        .stat-card {
+            background: rgba(26, 26, 26, 0.9);
+            border: 1px solid var(--accent-gold);
+            padding: calc(6px * var(--ui-scale)) calc(10px * var(--ui-scale));
+            border-radius: 4px;
+            min-width: calc(100px * var(--ui-scale));
+        }
+        
+        .stat-label {
+            font-size: calc(10px * var(--ui-scale));
+            color: var(--text-muted);
             text-transform: uppercase;
-            letter-spacing: 2px;
-            color: var(--purity-seal);
-            opacity: 0.7;
-            margin-bottom: 3px;
+            letter-spacing: 1px;
         }
         
-        .hud-value {
-            font-size: 24px;
-            font-weight: 900;
+        .stat-value {
+            font-size: calc(16px * var(--ui-scale));
+            font-weight: bold;
+            color: var(--accent-gold-light);
         }
         
-        .hud-value.enemies {
-            color: var(--grimdark-red);
-            text-shadow: 0 0 10px var(--grimdark-red);
+        .health-bar {
+            width: calc(120px * var(--ui-scale));
+            height: calc(20px * var(--ui-scale));
+            background: var(--bg-tertiary);
+            border: 2px solid var(--accent-gold);
+            border-radius: 10px;
+            overflow: hidden;
+            position: relative;
         }
         
-        .hud-value.wave {
-            color: var(--imperial-gold);
-            text-shadow: 0 0 10px var(--imperial-gold);
+        .health-fill {
+            height: 100%;
+            background: linear-gradient(90deg, var(--danger), var(--warning), var(--success));
+            transition: width 0.3s;
         }
         
-        .hud-value.score {
-            color: var(--purity-seal);
-        }
-        
-        .base-health {
+        .health-text {
             position: absolute;
-            bottom: 100px;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: calc(10px * var(--ui-scale));
+            font-weight: bold;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.8);
+        }
+        
+        .wave-info {
+            position: absolute;
+            top: calc(10px * var(--ui-scale));
             left: 50%;
             transform: translateX(-50%);
-            width: 200px;
+            text-align: center;
+            background: rgba(26, 26, 26, 0.9);
+            border: 1px solid var(--accent-gold);
+            padding: calc(8px * var(--ui-scale)) calc(16px * var(--ui-scale));
+            border-radius: 4px;
+        }
+        
+        .wave-number {
+            font-size: calc(14px * var(--ui-scale));
+            color: var(--text-muted);
+        }
+        
+        .wave-value {
+            font-size: calc(24px * var(--ui-scale));
+            font-weight: bold;
+            color: var(--accent-gold);
+        }
+        
+        /* ============================================
+           WEAPON HUD
+           ============================================ */
+        
+        .weapon-hud {
+            position: absolute;
+            bottom: calc(20px * var(--ui-scale));
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            align-items: center;
+            gap: calc(15px * var(--ui-scale));
+            pointer-events: auto;
+        }
+        
+        .weapon-card {
+            background: rgba(26, 26, 26, 0.95);
+            border: 2px solid var(--accent-gold);
+            border-radius: 8px;
+            padding: calc(10px * var(--ui-scale));
+            min-width: calc(140px * var(--ui-scale));
             text-align: center;
         }
         
-        .base-health-bar {
-            height: 12px;
-            background: rgba(0, 0, 0, 0.7);
-            border: 2px solid var(--imperial-gold);
-            border-radius: 6px;
+        .weapon-icon {
+            font-size: calc(32px * var(--ui-scale));
+            margin-bottom: calc(5px * var(--ui-scale));
+        }
+        
+        .weapon-name {
+            font-size: calc(12px * var(--ui-scale));
+            color: var(--accent-gold-light);
+            margin-bottom: calc(5px * var(--ui-scale));
+        }
+        
+        .ammo-bar {
+            width: 100%;
+            height: calc(8px * var(--ui-scale));
+            background: var(--bg-tertiary);
+            border-radius: 4px;
             overflow: hidden;
+            margin-top: calc(5px * var(--ui-scale));
         }
         
-        .base-health-fill {
+        .ammo-fill {
             height: 100%;
-            background: linear-gradient(90deg, var(--grimdark-red), var(--health-green));
-            transition: width 0.3s;
-            box-shadow: 0 0 10px var(--health-green);
+            background: var(--accent-gold);
+            transition: width 0.1s;
         }
         
-        .base-health-text {
-            font-size: 10px;
-            color: var(--purity-seal);
-            margin-top: 5px;
-            text-transform: uppercase;
-            letter-spacing: 3px;
+        .ammo-text {
+            font-size: calc(10px * var(--ui-scale));
+            color: var(--text-secondary);
+            margin-top: calc(3px * var(--ui-scale));
         }
+        
+        .heat-bar {
+            width: 100%;
+            height: calc(6px * var(--ui-scale));
+            background: var(--bg-tertiary);
+            border-radius: 3px;
+            overflow: hidden;
+            margin-top: calc(5px * var(--ui-scale));
+        }
+        
+        .heat-fill {
+            height: 100%;
+            background: linear-gradient(90deg, var(--warning), var(--danger));
+            transition: width 0.1s;
+        }
+        
+        /* ============================================
+           MENU SCREENS
+           ============================================ */
+        
+        .menu-screen {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(13, 13, 13, 0.95);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: calc(20px * var(--ui-scale));
+            pointer-events: auto;
+            z-index: 100;
+        }
+        
+        .menu-screen.hidden {
+            display: none;
+        }
+        
+        .menu-title {
+            font-size: calc(36px * var(--ui-scale));
+            font-weight: bold;
+            color: var(--accent-gold);
+            text-transform: uppercase;
+            letter-spacing: 4px;
+            margin-bottom: calc(30px * var(--ui-scale));
+            text-align: center;
+            text-shadow: 0 0 20px rgba(201, 162, 39, 0.5);
+        }
+        
+        .menu-subtitle {
+            font-size: calc(14px * var(--ui-scale));
+            color: var(--text-secondary);
+            margin-bottom: calc(40px * var(--ui-scale));
+            text-align: center;
+        }
+        
+        .menu-buttons {
+            display: flex;
+            flex-direction: column;
+            gap: calc(15px * var(--ui-scale));
+            width: 100%;
+            max-width: calc(300px * var(--ui-scale));
+        }
+        
+        .menu-btn {
+            background: var(--bg-secondary);
+            border: 2px solid var(--accent-gold);
+            color: var(--text-primary);
+            padding: calc(15px * var(--ui-scale)) calc(30px * var(--ui-scale));
+            font-size: calc(16px * var(--ui-scale));
+            font-family: var(--font-family);
+            cursor: pointer;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            transition: all 0.2s;
+            border-radius: 4px;
+        }
+        
+        .menu-btn:hover {
+            background: var(--accent-gold);
+            color: var(--bg-primary);
+        }
+        
+        .menu-btn.primary {
+            background: var(--accent-gold);
+            color: var(--bg-primary);
+        }
+        
+        .menu-btn.primary:hover {
+            background: var(--accent-gold-light);
+        }
+        
+        .menu-btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+        
+        /* ============================================
+           GAME OVER SCREEN
+           ============================================ */
+        
+        #gameOverScreen {
+            display: none;
+        }
+        
+        #gameOverScreen.active {
+            display: flex;
+        }
+        
+        .game-over-stats {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: calc(20px * var(--ui-scale));
+            margin-bottom: calc(30px * var(--ui-scale));
+            width: 100%;
+            max-width: calc(400px * var(--ui-scale));
+        }
+        
+        .game-over-stat {
+            background: var(--bg-secondary);
+            border: 1px solid var(--accent-gold);
+            padding: calc(15px * var(--ui-scale));
+            border-radius: 4px;
+            text-align: center;
+        }
+        
+        .game-over-label {
+            font-size: calc(12px * var(--ui-scale));
+            color: var(--text-muted);
+            text-transform: uppercase;
+        }
+        
+        .game-over-value {
+            font-size: calc(24px * var(--ui-scale));
+            color: var(--accent-gold);
+            font-weight: bold;
+        }
+        
+        /* ============================================
+           MOBILE CONTROLS
+           ============================================ */
+        
+        #mobileControls {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            display: none;
+        }
+        
+        #mobileControls.active {
+            display: block;
+        }
+        
+        .mobile-joystick {
+            position: absolute;
+            bottom: calc(20px * var(--ui-scale));
+            left: calc(20px * var(--ui-scale));
+            width: calc(120px * var(--ui-scale));
+            height: calc(120px * var(--ui-scale));
+            background: rgba(201, 162, 39, 0.2);
+            border: 2px solid var(--accent-gold);
+            border-radius: 50%;
+            pointer-events: auto;
+        }
+        
+        .mobile-joystick-thumb {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: calc(40px * var(--ui-scale));
+            height: calc(40px * var(--ui-scale));
+            background: var(--accent-gold);
+            border-radius: 50%;
+            transform: translate(-50%, -50%);
+        }
+        
+        .mobile-fire-btn {
+            position: absolute;
+            bottom: calc(30px * var(--ui-scale));
+            right: calc(30px * var(--ui-scale));
+            width: calc(80px * var(--ui-scale));
+            height: calc(80px * var(--ui-scale));
+            background: rgba(255, 68, 68, 0.3);
+            border: 3px solid var(--danger);
+            border-radius: 50%;
+            pointer-events: auto;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: calc(24px * var(--ui-scale));
+        }
+        
+        .mobile-fire-btn:active {
+            background: rgba(255, 68, 68, 0.6);
+        }
+        
+        /* ============================================
+           SETTINGS MENU
+           ============================================ */
+        
+        .settings-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(calc(280px * var(--ui-scale)), 1fr));
+            gap: calc(20px * var(--ui-scale));
+            width: 100%;
+            max-width: calc(800px * var(--ui-scale));
+            margin-bottom: calc(30px * var(--ui-scale));
+        }
+        
+        .settings-card {
+            background: var(--bg-secondary);
+            border: 1px solid var(--accent-gold-dark);
+            border-radius: 8px;
+            padding: calc(20px * var(--ui-scale));
+        }
+        
+        .settings-title {
+            font-size: calc(14px * var(--ui-scale));
+            color: var(--accent-gold);
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin-bottom: calc(15px * var(--ui-scale));
+            border-bottom: 1px solid var(--accent-gold-dark);
+            padding-bottom: calc(10px * var(--ui-scale));
+        }
+        
+        .setting-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: calc(12px * var(--ui-scale));
+        }
+        
+        .setting-label {
+            font-size: calc(12px * var(--ui-scale));
+            color: var(--text-secondary);
+        }
+        
+        .setting-control {
+            display: flex;
+            align-items: center;
+            gap: calc(10px * var(--ui-scale));
+        }
+        
+        .toggle-switch {
+            width: calc(44px * var(--ui-scale));
+            height: calc(24px * var(--ui-scale));
+            background: var(--bg-tertiary);
+            border-radius: 12px;
+            position: relative;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+        
+        .toggle-switch.active {
+            background: var(--accent-gold);
+        }
+        
+        .toggle-switch::after {
+            content: '';
+            position: absolute;
+            top: 2px;
+            left: 2px;
+            width: calc(20px * var(--ui-scale));
+            height: calc(20px * var(--ui-scale));
+            background: var(--text-primary);
+            border-radius: 50%;
+            transition: transform 0.2s;
+        }
+        
+        .toggle-switch.active::after {
+            transform: translateX(calc(20px * var(--ui-scale)));
+        }
+        
+        .slider-control {
+            width: calc(100px * var(--ui-scale));
+            height: calc(6px * var(--ui-scale));
+            background: var(--bg-tertiary);
+            border-radius: 3px;
+            -webkit-appearance: none;
+        }
+        
+        .slider-control::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            width: calc(16px * var(--ui-scale));
+            height: calc(16px * var(--ui-scale));
+            background: var(--accent-gold);
+            border-radius: 50%;
+            cursor: pointer;
+        }
+        
+        /* ============================================
+           WAVE ANNOUNCEMENT
+           ============================================ */
         
         .wave-announcement {
             position: absolute;
@@ -148,183 +539,37 @@
             text-align: center;
             opacity: 0;
             pointer-events: none;
+            transition: opacity 0.5s;
         }
         
         .wave-announcement.active {
-            animation: waveAnnounce 3s ease-out;
+            opacity: 1;
         }
         
-        @keyframes waveAnnounce {
-            0% { opacity: 0; transform: translate(-50%, -50%) scale(0.5); }
-            20% { opacity: 1; transform: translate(-50%, -50%) scale(1.2); }
-            80% { opacity: 1; transform: translate(-50%, -50%) scale(1); }
-            100% { opacity: 0; transform: translate(-50%, -50%) scale(0.8); }
+        .wave-number-display {
+            font-size: calc(72px * var(--ui-scale));
+            font-weight: bold;
+            color: var(--accent-gold);
+            text-shadow: 0 0 30px rgba(201, 162, 39, 0.8);
         }
         
-        .wave-title {
-            font-size: 48px;
-            font-weight: 900;
-            color: var(--imperial-gold);
-            text-shadow: 0 0 30px var(--imperial-gold);
-        }
-        
-        .wave-subtitle {
-            font-size: 14px;
-            color: var(--grimdark-red);
+        .wave-text {
+            font-size: calc(24px * var(--ui-scale));
+            color: var(--text-secondary);
             text-transform: uppercase;
             letter-spacing: 4px;
-            margin-top: 10px;
         }
         
-        #startScreen, #gameOverScreen {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            background: rgba(13, 13, 13, 0.95);
-            pointer-events: auto;
-            z-index: 20;
-        }
-        
-        #gameOverScreen {
-            display: none;
-        }
-        
-        h1 {
-            color: var(--imperial-gold);
-            font-size: 26px;
-            font-weight: 900;
-            text-align: center;
-            text-transform: uppercase;
-            letter-spacing: 3px;
-            margin-bottom: 8px;
-            text-shadow: 
-                0 0 20px var(--imperial-gold),
-                0 0 40px rgba(201, 162, 39, 0.5);
-            animation: titlePulse 2s ease-in-out infinite;
-        }
-        
-        @keyframes titlePulse {
-            0%, 100% { transform: scale(1); }
-            50% { transform: scale(1.03); }
-        }
-        
-        .subtitle {
-            color: var(--purity-seal);
-            font-size: 11px;
-            text-transform: uppercase;
-            letter-spacing: 4px;
-            margin-bottom: 25px;
-            opacity: 0.8;
-        }
-        
-        .instructions {
-            color: var(--purity-seal);
-            font-size: 10px;
-            text-align: center;
-            margin-bottom: 20px;
-            line-height: 1.5;
-            opacity: 0.7;
-            letter-spacing: 1px;
-            max-width: 300px;
-        }
-        
-        button {
-            background: linear-gradient(180deg, var(--grimdark-red) 0%, #5c0000 100%);
-            color: var(--purity-seal);
-            border: 3px solid var(--imperial-gold);
-            padding: 16px 40px;
-            font-family: 'Cinzel', serif;
-            font-size: 14px;
-            font-weight: 700;
-            text-transform: uppercase;
-            letter-spacing: 4px;
-            cursor: pointer;
-            transition: all 0.3s;
-            box-shadow: 0 0 20px rgba(201, 162, 39, 0.3);
-        }
-        
-        button:hover {
-            background: linear-gradient(180deg, #a00000 0%, var(--grimdark-red) 100%);
-            box-shadow: 0 0 30px rgba(201, 162, 39, 0.5);
-            transform: translateY(-2px);
-        }
-        
-        .final-score {
-            color: var(--imperial-gold);
-            font-size: 38px;
-            font-weight: 900;
-            margin-bottom: 5px;
-            text-shadow: 0 0 20px var(--imperial-gold);
-        }
-        
-        .final-score-label {
-            color: var(--purity-seal);
-            font-size: 11px;
-            text-transform: uppercase;
-            letter-spacing: 3px;
-            margin-bottom: 15px;
-        }
-        
-        .wave-survived {
-            color: var(--grimdark-red);
-            font-size: 18px;
-            font-weight: 700;
-            margin-bottom: 20px;
-        }
-        
-        .touch-zone {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            pointer-events: auto;
-            z-index: 5;
-        }
-        
-        .radar {
-            position: absolute;
-            bottom: 20px;
-            right: 20px;
-            width: 80px;
-            height: 80px;
-            border: 2px solid var(--imperial-gold);
-            border-radius: 50%;
-            background: rgba(0, 0, 0, 0.5);
-            opacity: 0.6;
-        }
-        
-        .radar-sweep {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            width: 50%;
-            height: 2px;
-            background: linear-gradient(90deg, transparent, var(--health-green));
-            transform-origin: left center;
-            animation: radarSweep 2s linear infinite;
-        }
-        
-        @keyframes radarSweep {
-            from { transform: translateY(-50%) rotate(0deg); }
-            to { transform: translateY(-50%) rotate(360deg); }
-        }
+        /* ============================================
+           COMBO COUNTER
+           ============================================ */
         
         .combo-counter {
             position: absolute;
-            top: 80px;
-            left: 50%;
-            transform: translateX(-50%);
-            color: var(--promethium-orange);
-            font-size: 20px;
-            font-weight: 900;
-            text-shadow: 0 0 15px var(--promethium-orange);
+            top: 50%;
+            right: calc(20px * var(--ui-scale));
+            transform: translateY(-50%);
+            text-align: center;
             opacity: 0;
             transition: opacity 0.3s;
         }
@@ -332,687 +577,361 @@
         .combo-counter.active {
             opacity: 1;
         }
+        
+        .combo-text {
+            font-size: calc(14px * var(--ui-scale));
+            color: var(--text-muted);
+            text-transform: uppercase;
+        }
+        
+        .combo-value {
+            font-size: calc(36px * var(--ui-scale));
+            font-weight: bold;
+            color: var(--accent-gold);
+        }
+        
+        /* ============================================
+           TOOLTIPS
+           ============================================ */
+        
+        .tooltip {
+            position: absolute;
+            background: var(--bg-secondary);
+            border: 1px solid var(--accent-gold);
+            padding: calc(8px * var(--ui-scale));
+            border-radius: 4px;
+            font-size: calc(10px * var(--ui-scale));
+            color: var(--text-secondary);
+            pointer-events: none;
+            z-index: 1000;
+            max-width: calc(200px * var(--ui-scale));
+        }
+        
+        .tooltip-title {
+            color: var(--accent-gold);
+            font-weight: bold;
+            margin-bottom: calc(4px * var(--ui-scale));
+        }
+        
+        /* ============================================
+           RESPONSIVE DESIGN
+           ============================================ */
+        
+        @media (max-width: 768px) {
+            :root {
+                --ui-scale: 0.85;
+            }
+            
+            .hud-top {
+                flex-wrap: wrap;
+                gap: calc(10px * var(--ui-scale));
+            }
+            
+            .weapon-card {
+                min-width: calc(120px * var(--ui-scale));
+            }
+            
+            .menu-title {
+                font-size: calc(28px * var(--ui-scale));
+            }
+            
+            .game-over-stats {
+                grid-template-columns: 1fr;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            :root {
+                --ui-scale: 0.75;
+            }
+            
+            .stat-card {
+                min-width: calc(80px * var(--ui-scale));
+            }
+            
+            .health-bar {
+                width: calc(100px * var(--ui-scale));
+            }
+        }
+        
+        /* ============================================
+           ANIMATIONS
+           ============================================ */
+        
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.5; }
+        }
+        
+        @keyframes glow {
+            0%, 100% { box-shadow: 0 0 5px var(--accent-gold); }
+            50% { box-shadow: 0 0 20px var(--accent-gold), 0 0 30px var(--accent-gold); }
+        }
+        
+        .pulsing {
+            animation: pulse 2s infinite;
+        }
+        
+        .glowing {
+            animation: glow 2s infinite;
+        }
+        
+        /* ============================================
+           UTILITY CLASSES
+           ============================================ */
+        
+        .hidden {
+            display: none !important;
+        }
+        
+        .sr-only {
+            position: absolute;
+            width: 1px;
+            height: 1px;
+            padding: 0;
+            margin: -1px;
+            overflow: hidden;
+            clip: rect(0, 0, 0, 0);
+            white-space: nowrap;
+            border-width: 0;
+        }
     </style>
 </head>
 <body>
     <div id="gameContainer">
         <canvas id="gameCanvas"></canvas>
         
-        <div id="ui">
+        <!-- Game UI (HUD) -->
+        <div id="gameUI" class="ui-overlay">
             <div class="hud-top">
-                <div class="hud-section">
-                    <div class="hud-label">Enemies</div>
-                    <div class="hud-value enemies" id="enemyCount"><span id="enemiesAlive">0</span>/<span id="enemiesTotal">15</span></div>
+                <div class="hud-stats">
+                    <div class="stat-card">
+                        <div class="stat-label">Score</div>
+                        <div class="stat-value" id="scoreValue">0</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-label">Credits</div>
+                        <div class="stat-value" id="creditsValue">0</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-label">Kills</div>
+                        <div class="stat-value" id="killsValue">0</div>
+                    </div>
                 </div>
-                <div class="hud-section">
-                    <div class="hud-label">Wave</div>
-                    <div class="hud-value wave" id="waveValue">1</div>
+                
+                <div class="wave-info">
+                    <div class="wave-number">WAVE</div>
+                    <div class="wave-value" id="waveValue">1</div>
                 </div>
-                <div class="hud-section">
-                    <div class="hud-label">Purged</div>
-                    <div class="hud-value score" id="scoreValue">0</div>
+                
+                <div class="hud-stats" style="text-align: right;">
+                    <div class="stat-card">
+                        <div class="stat-label">Fortress Health</div>
+                        <div class="health-bar">
+                            <div class="health-fill" id="healthFill" style="width: 100%"></div>
+                            <div class="health-text" id="healthText">100%</div>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-label">Enemies</div>
+                        <div class="stat-value" id="enemiesValue">0</div>
+                    </div>
                 </div>
             </div>
             
-            <div class="combo-counter" id="comboCounter">PURGE STREAK x<span id="comboValue">1</span>!</div>
+            <div class="weapon-hud">
+                <div class="weapon-card" id="weaponCard">
+                    <div class="weapon-icon" id="weaponIcon">🔫</div>
+                    <div class="weapon-name" id="weaponName">Lasgun</div>
+                    <div class="ammo-bar">
+                        <div class="ammo-fill" id="ammoFill" style="width: 100%"></div>
+                    </div>
+                    <div class="ammo-text" id="ammoText">30 / 30</div>
+                    <div class="heat-bar" id="heatBar" style="display: none;">
+                        <div class="heat-fill" id="heatFill" style="width: 0%"></div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="combo-counter" id="comboCounter">
+                <div class="combo-text">COMBO</div>
+                <div class="combo-value" id="comboValue">x1.0</div>
+            </div>
             
             <div class="wave-announcement" id="waveAnnouncement">
-                <div class="wave-title">WAVE <span id="announceWave">1</span></div>
-                <div class="wave-subtitle" id="announceText">They Come...</div>
+                <div class="wave-number-display" id="waveNumberDisplay">1</div>
+                <div class="wave-text">WAVE INCOMING</div>
             </div>
-            
-            <div class="base-health">
-                <div class="base-health-bar">
-                    <div class="base-health-fill" id="baseHealthFill" style="width: 100%"></div>
+        </div>
+        
+        <!-- Mobile Controls -->
+        <div id="mobileControls">
+            <div class="mobile-joystick" id="mobileJoystick">
+                <div class="mobile-joystick-thumb" id="joystickThumb"></div>
+            </div>
+            <div class="mobile-fire-btn" id="mobileFireBtn">🔥</div>
+        </div>
+        
+        <!-- Main Menu -->
+        <div id="mainMenu" class="menu-screen">
+            <h1 class="menu-title">VOID BASTION</h1>
+            <p class="menu-subtitle">Defense Command Terminal</p>
+            <div class="menu-buttons">
+                <button class="menu-btn primary" onclick="startGame()">⚔️ ENGAGE</button>
+                <button class="menu-btn" onclick="showSettings()">⚙️ SETTINGS</button>
+                <button class="menu-btn" onclick="showLeaderboard()">🏆 LEADERBOARD</button>
+                <button class="menu-btn" onclick="showHelp()">❓ HELP</button>
+            </div>
+        </div>
+        
+        <!-- Settings Menu -->
+        <div id="settingsMenu" class="menu-screen hidden">
+            <h2 class="menu-title">SETTINGS</h2>
+            <div class="settings-grid">
+                <div class="settings-card">
+                    <div class="settings-title">Graphics</div>
+                    <div class="setting-row">
+                        <span class="setting-label">Particle Effects</span>
+                        <div class="toggle-switch active" id="particlesToggle" onclick="toggleSetting('particles')"></div>
+                    </div>
+                    <div class="setting-row">
+                        <span class="setting-label">Screen Shake</span>
+                        <div class="toggle-switch active" id="shakeToggle" onclick="toggleSetting('shake')"></div>
+                    </div>
+                    <div class="setting-row">
+                        <span class="setting-label">Show FPS</span>
+                        <div class="toggle-switch" id="fpsToggle" onclick="toggleSetting('fps')"></div>
+                    </div>
                 </div>
-                <div class="base-health-text">Fortress Integrity</div>
+                
+                <div class="settings-card">
+                    <div class="settings-title">Audio</div>
+                    <div class="setting-row">
+                        <span class="setting-label">Master Volume</span>
+                        <input type="range" class="slider-control" id="masterVolume" min="0" max="100" value="80" onchange="updateVolume('master', this.value)">
+                    </div>
+                    <div class="setting-row">
+                        <span class="setting-label">SFX Volume</span>
+                        <input type="range" class="slider-control" id="sfxVolume" min="0" max="100" value="100" onchange="updateVolume('sfx', this.value)">
+                    </div>
+                    <div class="setting-row">
+                        <span class="setting-label">Music Volume</span>
+                        <input type="range" class="slider-control" id="musicVolume" min="0" max="100" value="70" onchange="updateVolume('music', this.value)">
+                    </div>
+                </div>
+                
+                <div class="settings-card">
+                    <div class="settings-title">Gameplay</div>
+                    <div class="setting-row">
+                        <span class="setting-label">Auto-Fire</span>
+                        <div class="toggle-switch" id="autofireToggle" onclick="toggleSetting('autofire')"></div>
+                    </div>
+                    <div class="setting-row">
+                        <span class="setting-label">Aim Assist</span>
+                        <div class="toggle-switch active" id="aimassistToggle" onclick="toggleSetting('aimassist')"></div>
+                    </div>
+                    <div class="setting-row">
+                        <span class="setting-label">Mobile Controls</span>
+                        <div class="toggle-switch" id="mobileToggle" onclick="toggleSetting('mobile')"></div>
+                    </div>
+                </div>
             </div>
             
-            <div class="radar">
-                <div class="radar-sweep"></div>
+            <button class="menu-btn" onclick="showMainMenu()">← BACK</button>
+        </div>
+        
+        <!-- Help Screen -->
+        <div id="helpMenu" class="menu-screen hidden">
+            <h2 class="menu-title">COMBAT MANUAL</h2>
+            <div class="settings-grid">
+                <div class="settings-card">
+                    <div class="settings-title">Controls</div>
+                    <div class="setting-row" style="flex-direction: column; align-items: flex-start; gap: 8px;">
+                        <div><strong>Mouse:</strong> Aim weapon</div>
+                        <div><strong>Left Click:</strong> Fire weapon</div>
+                        <div><strong>R:</strong> Reload</div>
+                        <div><strong>1-5:</strong> Switch weapons</div>
+                        <div><strong>P:</strong> Pause game</div>
+                    </div>
+                </div>
+                
+                <div class="settings-card">
+                    <div class="settings-title">Enemies</div>
+                    <div class="setting-row" style="flex-direction: column; align-items: flex-start; gap: 8px;">
+                        <div><span style="color: #4a7c4e">●</span> Ork - Fast, weak</div>
+                        <div><span style="color: #FF6B35">●</span> Cultist - Medium</div>
+                        <div><span style="color: #9D00FF">●</span> Chaos - Slow, tanky</div>
+                    </div>
+                </div>
+                
+                <div class="settings-card">
+                    <div class="settings-title">Objectives</div>
+                    <div class="setting-row" style="flex-direction: column; align-items: flex-start; gap: 8px;">
+                        <div>• Defend the fortress</div>
+                        <div>• Survive waves</div>
+                        <div>• Earn credits</div>
+                        <div>• Upgrade weapons</div>
+                    </div>
+                </div>
+            </div>
+            
+            <button class="menu-btn" onclick="showMainMenu()">← BACK</button>
+        </div>
+        
+        <!-- Game Over Screen -->
+        <div id="gameOverScreen" class="menu-screen">
+            <h2 class="menu-title">FORTRESS BREACHED</h2>
+            <div class="game-over-stats">
+                <div class="game-over-stat">
+                    <div class="game-over-label">Final Score</div>
+                    <div class="game-over-value" id="finalScore">0</div>
+                </div>
+                
+                <div class="game-over-stat">
+                    <div class="game-over-label">Waves Survived</div>
+                    <div class="game-over-value" id="finalWave">0</div>
+                </div>
+                
+                <div class="game-over-stat">
+                    <div class="game-over-label">Total Kills</div>
+                    <div class="game-over-value" id="finalKills">0</div>
+                </div>
+                
+                <div class="game-over-stat">
+                    <div class="game-over-label">Credits Earned</div>
+                    <div class="game-over-value" id="finalCredits">0</div>
+                </div>
+            </div>
+            
+            <div class="menu-buttons">
+                <button class="menu-btn primary" onclick="restartGame()">🔄 RETRY</button>
+                <button class="menu-btn" onclick="showMainMenu()">🏠 MAIN MENU</button>
             </div>
         </div>
         
-        <div class="touch-zone" id="touchZone"></div>
-        
-        <div id="startScreen">
-            <h1>Fortress of the<br>Emperor</h1>
-            <div class="subtitle">Defend the Center</div>
-            <div class="instructions">
-                TAP anywhere to aim and SHOOT in 360°<br>
-                Enemies come from ALL directions<br>
-                Waves get larger and relentless<br>
-                Don't let them breach the fortress
+        <!-- Pause Menu -->
+        <div id="pauseMenu" class="menu-screen hidden">
+            <h2 class="menu-title">PAUSED</h2>
+            <div class="menu-buttons">
+                <button class="menu-btn primary" onclick="resumeGame()">▶ RESUME</button>
+                <button class="menu-btn" onclick="showSettings()">⚙️ SETTINGS</button>
+                <button class="menu-btn" onclick="showMainMenu()">🚪 EXIT</button>
             </div>
-            <button onclick="startGame()">Hold the Center</button>
         </div>
         
-        <div id="gameOverScreen">
-            <div class="final-score" id="finalScore">0</div>
-            <div class="final-score-label">Xenos Purged</div>
-            <div class="wave-survived" id="waveSurvived">Wave 1 Fallen</div>
-            <button onclick="restartGame()">Redeploy</button>
+        <!-- Leaderboard Screen -->
+        <div id="leaderboardScreen" class="menu-screen hidden">
+            <h2 class="menu-title">LEADERBOARD</h2>
+            <div class="settings-card" style="max-width: 600px; width: 100%; margin-bottom: 20px;">
+                <div id="leaderboardList" style="max-height: 400px; overflow-y: auto;">
+                    <!-- Leaderboard entries will be inserted here -->
+                </div>
+            </div>
+            
+            <button class="menu-btn" onclick="showMainMenu()">← BACK</button>
         </div>
     </div>
 
-    <script>
-        const canvas = document.getElementById('gameCanvas');
-        const ctx = canvas.getContext('2d');
-        const gameContainer = document.getElementById('gameContainer');
-        
-        function resizeCanvas() {
-            canvas.width = gameContainer.clientWidth;
-            canvas.height = gameContainer.clientHeight;
-        }
-        resizeCanvas();
-        window.addEventListener('resize', resizeCanvas);
-        
-        // Game state
-        let gameRunning = false;
-        let score = 0;
-        let wave = 1;
-        let baseHealth = 1000;
-        let maxBaseHealth = 1000;
-        let combo = 1;
-        let comboTimer = 0;
-        let enemiesKilledThisWave = 0;
-        let enemiesTotalInWave = 15;
-        let waveInProgress = false;
-        
-        // Center base
-        const base = {
-            x: canvas.width / 2,
-            y: canvas.height / 2,
-            radius: 40,
-            color: '#C9A227'
-        };
-        
-        // Player (turret on base)
-        const player = {
-            angle: 0,
-            shootCooldown: 0,
-            aimX: 0,
-            aimY: 0
-        };
-        
-        // Game objects
-        let enemies = [];
-        let bullets = [];
-        let particles = [];
-        let activeSpawnInterval = null;
-        
-        // Wave configurations
-        const waveConfigs = [
-            { count: 15, speed: 0.3, spawnDelay: 400, types: ['ork'] },
-            { count: 30, speed: 0.35, spawnDelay: 350, types: ['ork', 'cultist'] },
-            { count: 45, speed: 0.4, spawnDelay: 300, types: ['ork', 'cultist'] },
-            { count: 60, speed: 0.45, spawnDelay: 250, types: ['ork', 'cultist', 'chaos'] },
-            { count: 80, speed: 0.5, spawnDelay: 220, types: ['ork', 'cultist', 'chaos'] },
-            { count: 100, speed: 0.55, spawnDelay: 200, types: ['ork', 'cultist', 'chaos'] },
-            { count: 150, speed: 0.6, spawnDelay: 180, types: ['ork', 'cultist', 'chaos'] },
-            { count: 200, speed: 0.65, spawnDelay: 160, types: ['ork', 'cultist', 'chaos'] },
-            { count: 250, speed: 0.7, spawnDelay: 140, types: ['ork', 'cultist', 'chaos'] },
-            { count: 300, speed: 0.75, spawnDelay: 120, types: ['ork', 'cultist', 'chaos'] }
-        ];
-        
-        // Touch handling
-        const touchZone = document.getElementById('touchZone');
-        
-        function handleAim(x, y) {
-            const rect = canvas.getBoundingClientRect();
-            const aimX = x - rect.left;
-            const aimY = y - rect.top;
-            player.angle = Math.atan2(aimY - base.y, aimX - base.x);
-            player.aimX = aimX;
-            player.aimY = aimY;
-        }
-        
-        function shoot() {
-            if (player.shootCooldown > 0) return;
-            
-            const bulletSpeed = 12;
-            bullets.push({
-                x: base.x + Math.cos(player.angle) * 45,
-                y: base.y + Math.sin(player.angle) * 45,
-                vx: Math.cos(player.angle) * bulletSpeed,
-                vy: Math.sin(player.angle) * bulletSpeed,
-                angle: player.angle
-            });
-            
-            player.shootCooldown = 6;
-            
-            // Muzzle flash
-            createParticles(
-                base.x + Math.cos(player.angle) * 50,
-                base.y + Math.sin(player.angle) * 50,
-                5, '#FF6B35', 8
-            );
-        }
-        
-        touchZone.addEventListener('touchstart', (e) => {
-            e.preventDefault();
-            if (!gameRunning) return;
-            const touch = e.touches[0];
-            handleAim(touch.clientX, touch.clientY);
-            shoot();
-        }, {passive: false});
-        
-        touchZone.addEventListener('touchmove', (e) => {
-            e.preventDefault();
-            if (!gameRunning) return;
-            const touch = e.touches[0];
-            handleAim(touch.clientX, touch.clientY);
-        }, {passive: false});
-        
-        touchZone.addEventListener('mousedown', (e) => {
-            if (!gameRunning) return;
-            handleAim(e.clientX, e.clientY);
-            shoot();
-        });
-        
-        touchZone.addEventListener('mousemove', (e) => {
-            if (!gameRunning) return;
-            if (e.buttons & 1) {
-                handleAim(e.clientX, e.clientY);
-                if (player.shootCooldown <= 0) shoot();
-            }
-        });
-        
-        // Particle system
-        class Particle {
-            constructor(x, y, color, speed = 5, size = 4) {
-                this.x = x;
-                this.y = y;
-                const angle = Math.random() * Math.PI * 2;
-                const vel = Math.random() * speed;
-                this.vx = Math.cos(angle) * vel;
-                this.vy = Math.sin(angle) * vel;
-                this.life = 30;
-                this.color = color;
-                this.size = size;
-            }
-            
-            update() {
-                this.x += this.vx;
-                this.y += this.vy;
-                this.vy += 0.1;
-                this.life--;
-                this.size *= 0.96;
-            }
-            
-            draw() {
-                ctx.fillStyle = this.color;
-                ctx.globalAlpha = this.life / 30;
-                ctx.fillRect(this.x - this.size/2, this.y - this.size/2, this.size, this.size);
-                ctx.globalAlpha = 1;
-            }
-        }
-        
-        function createParticles(x, y, count, color, speed = 5) {
-            for (let i = 0; i < count; i++) {
-                particles.push(new Particle(x, y, color, speed, 2 + Math.random() * 4));
-            }
-        }
-        
-        // Enemy class
-        class Enemy {
-            constructor(type, speed) {
-                this.type = type;
-                this.speed = speed;
-                this.dead = false;
-                
-                // Spawn at edge of screen
-                const angle = Math.random() * Math.PI * 2;
-                const distance = Math.max(canvas.width, canvas.height) / 2 + 50;
-                this.x = base.x + Math.cos(angle) * distance;
-                this.y = base.y + Math.sin(angle) * distance;
-                
-                // Movement toward base
-                const dx = base.x - this.x;
-                const dy = base.y - this.y;
-                const dist = Math.sqrt(dx * dx + dy * dy);
-                this.vx = (dx / dist) * this.speed;
-                this.vy = (dy / dist) * this.speed;
-                
-                this.angle = Math.atan2(dy, dx);
-                
-                // Stats by type
-                if (type === 'ork') {
-                    this.radius = 12;
-                    this.health = 1;
-                    this.value = 10;
-                    this.color = '#4a7c4e';
-                } else if (type === 'cultist') {
-                    this.radius = 11;
-                    this.health = 1;
-                    this.value = 15;
-                    this.color = '#2c1810';
-                } else if (type === 'chaos') {
-                    this.radius = 15;
-                    this.health = 3;
-                    this.value = 40;
-                    this.color = '#4a0000';
-                    this.speed *= 0.8;
-                    this.vx *= 0.8;
-                    this.vy *= 0.8;
-                }
-            }
-            
-            update() {
-                this.x += this.vx;
-                this.y += this.vy;
-                this.angle = Math.atan2(base.y - this.y, base.x - this.x);
-            }
-            
-            draw() {
-                ctx.save();
-                ctx.translate(this.x, this.y);
-                ctx.rotate(this.angle);
-                
-                if (this.type === 'ork') {
-                    // Green body
-                    ctx.fillStyle = '#4a7c4e';
-                    ctx.fillRect(-8, -8, 16, 16);
-                    // Head
-                    ctx.fillStyle = '#6b9b6f';
-                    ctx.beginPath();
-                    ctx.arc(0, 0, 8, 0, Math.PI * 2);
-                    ctx.fill();
-                    // Red eyes
-                    ctx.fillStyle = '#FF0000';
-                    ctx.fillRect(-3, -2, 2, 2);
-                    ctx.fillRect(1, -2, 2, 2);
-                    // Teeth
-                    ctx.fillStyle = '#ffffcc';
-                    ctx.fillRect(-2, 3, 2, 3);
-                    ctx.fillRect(0, 3, 2, 3);
-                } else if (this.type === 'cultist') {
-                    // Robe
-                    ctx.fillStyle = '#2c1810';
-                    ctx.beginPath();
-                    ctx.moveTo(0, -8);
-                    ctx.lineTo(-7, 8);
-                    ctx.lineTo(7, 8);
-                    ctx.fill();
-                    // Hood
-                    ctx.fillStyle = '#1a0f0a';
-                    ctx.beginPath();
-                    ctx.arc(0, -2, 7, Math.PI, 0);
-                    ctx.fill();
-                    // Glowing eyes
-                    ctx.fillStyle = '#FF6B35';
-                    ctx.shadowBlur = 6;
-                    ctx.shadowColor = '#FF6B35';
-                    ctx.fillRect(-2, -3, 1, 1);
-                    ctx.fillRect(1, -3, 1, 1);
-                    ctx.shadowBlur = 0;
-                } else if (this.type === 'chaos') {
-                    // Armored
-                    ctx.fillStyle = '#4a0000';
-                    ctx.fillRect(-9, -9, 18, 18);
-                    // Spikes
-                    ctx.fillStyle = '#666';
-                    ctx.beginPath();
-                    ctx.moveTo(-5, -5);
-                    ctx.lineTo(-8, -15);
-                    ctx.lineTo(-2, -5);
-                    ctx.fill();
-                    ctx.beginPath();
-                    ctx.moveTo(5, -5);
-                    ctx.lineTo(8, -15);
-                    ctx.lineTo(2, -5);
-                    ctx.fill();
-                    // Helm
-                    ctx.fillStyle = '#3a0000';
-                    ctx.fillRect(-6, -6, 12, 6);
-                    // Green eye lenses
-                    ctx.fillStyle = '#00FF00';
-                    ctx.shadowBlur = 8;
-                    ctx.shadowColor = '#00FF00';
-                    ctx.fillRect(-3, -2, 2, 1);
-                    ctx.fillRect(1, -2, 2, 1);
-                    ctx.shadowBlur = 0;
-                }
-                
-                ctx.restore();
-            }
-        }
-        
-// Spawn wave
-        let activeSpawnInterval = null;
-        
-        function startWave() {
-            if (!gameRunning) return;
-            
-            // Clear any existing spawn interval
-            if (activeSpawnInterval) {
-                clearInterval(activeSpawnInterval);
-                activeSpawnInterval = null;
-            }
-            
-            waveInProgress = true;
-            enemiesKilledThisWave = 0;
-            
-            const config = waveConfigs[Math.min(wave - 1, waveConfigs.length - 1)];
-            let spawned = 0;
-            
-            // Announce wave
-            document.getElementById('announceWave').textContent = wave;
-            const texts = ['They Come...', 'Hold the Line!', 'Purge the Unclean!', 'No Mercy!', 'Stand Firm!', 'Death to Traitors!', 'For the Emperor!'];
-            document.getElementById('announceText').textContent = texts[Math.min(wave - 1, texts.length - 1)];
-            document.getElementById('waveAnnouncement').classList.add('active');
-            setTimeout(() => document.getElementById('waveAnnouncement').classList.remove('active'), 3000);
-            
-            // Set total enemies for this wave
-            enemiesTotalInWave = config.count;
-            document.getElementById('enemiesTotal').textContent = enemiesTotalInWave;
-            document.getElementById('enemiesAlive').textContent = '0';
-            
-            activeSpawnInterval = setInterval(() => {
-                if (!gameRunning || spawned >= config.count) {
-                    clearInterval(activeSpawnInterval);
-                    activeSpawnInterval = null;
-                    return;
-                }
-                
-                const type = config.types[Math.floor(Math.random() * config.types.length)];
-                enemies.push(new Enemy(type, config.speed));
-                spawned++;
-            }, config.spawnDelay);
-        }
-        
-        // Check collision
-        function checkCollision(bullet, enemy) {
-            const dx = bullet.x - enemy.x;
-            const dy = bullet.y - enemy.y;
-            return Math.sqrt(dx * dx + dy * dy) < enemy.radius + 5;
-        }
-        
-        // Draw base
-        function drawBase() {
-            ctx.save();
-            ctx.translate(base.x, base.y);
-            
-            // Outer ring
-            ctx.strokeStyle = '#C9A227';
-            ctx.lineWidth = 4;
-            ctx.beginPath();
-            ctx.arc(0, 0, base.radius, 0, Math.PI * 2);
-            ctx.stroke();
-            
-            // Inner platform
-            ctx.fillStyle = '#2C3E50';
-            ctx.beginPath();
-            ctx.arc(0, 0, base.radius - 4, 0, Math.PI * 2);
-            ctx.fill();
-            
-            // Imperial aquila (simplified)
-            ctx.fillStyle = '#C9A227';
-            ctx.font = 'bold 30px Cinzel';
-            ctx.textAlign = 'center';
-            ctx.textBaseline = 'middle';
-            ctx.fillText('⚜', 0, 0);
-            
-            // Turret
-            ctx.rotate(player.angle);
-            ctx.fillStyle = '#E8D5B7';
-            ctx.fillRect(20, -6, 30, 12);
-            ctx.fillStyle = '#C9A227';
-            ctx.fillRect(45, -8, 8, 16);
-            
-            ctx.restore();
-            
-            // Base health ring indicator
-            const healthPercent = baseHealth / maxBaseHealth;
-            ctx.strokeStyle = healthPercent > 0.5 ? '#2ecc71' : healthPercent > 0.25 ? '#C9A227' : '#8B0000';
-            ctx.lineWidth = 6;
-            ctx.beginPath();
-            ctx.arc(base.x, base.y, base.radius + 10, -Math.PI/2, -Math.PI/2 + (Math.PI * 2 * healthPercent));
-            ctx.stroke();
-        }
-        
-        // Draw background
-        function drawBackground() {
-            ctx.fillStyle = '#0D0D0D';
-            ctx.fillRect(0, 0, canvas.width, canvas.height);
-            
-            // Grid lines (tactical display)
-            ctx.strokeStyle = 'rgba(201, 162, 39, 0.1)';
-            ctx.lineWidth = 1;
-            for (let i = 0; i < canvas.width; i += 60) {
-                ctx.beginPath();
-                ctx.moveTo(i, 0);
-                ctx.lineTo(i, canvas.height);
-                ctx.stroke();
-            }
-            for (let i = 0; i < canvas.height; i += 60) {
-                ctx.beginPath();
-                ctx.moveTo(0, i);
-                ctx.lineTo(canvas.width, i);
-                ctx.stroke();
-            }
-            
-            // Stars
-            ctx.fillStyle = '#fff';
-            for (let i = 0; i < 100; i++) {
-                const x = (i * 37 + Date.now() * 0.005) % canvas.width;
-                const y = (i * 23) % canvas.height;
-                ctx.fillRect(x, y, 1, 1);
-            }
-        }
-        
-        // Aim line
-        function drawAimLine() {
-            ctx.strokeStyle = 'rgba(201, 162, 39, 0.3)';
-            ctx.lineWidth = 2;
-            ctx.setLineDash([10, 10]);
-            ctx.beginPath();
-            ctx.moveTo(base.x, base.y);
-            ctx.lineTo(
-                base.x + Math.cos(player.angle) * 200,
-                base.y + Math.sin(player.angle) * 200
-            );
-            ctx.stroke();
-            ctx.setLineDash([]);
-        }
-        
-        // Update game
-        function update() {
-            if (!gameRunning) return;
-            
-            // Keep base centered
-            base.x = canvas.width / 2;
-            base.y = canvas.height / 2;
-            
-            // Shooting cooldown
-            if (player.shootCooldown > 0) player.shootCooldown--;
-            
-            // Combo timer
-            if (comboTimer > 0) {
-                comboTimer--;
-                if (comboTimer <= 0) {
-                    combo = 1;
-                    document.getElementById('comboCounter').classList.remove('active');
-                }
-            }
-            
-            // Update bullets
-            bullets = bullets.filter(bullet => {
-                bullet.x += bullet.vx;
-                bullet.y += bullet.vy;
-                
-                let hit = false;
-                enemies.forEach(enemy => {
-                    if (!enemy.dead && checkCollision(bullet, enemy)) {
-                        enemy.health--;
-                        hit = true;
-                        
-                        if (enemy.health <= 0) {
-                            enemy.dead = true;
-                            score += enemy.value * combo;
-                            enemiesKilledThisWave++;
-                            combo = Math.min(combo + 1, 10);
-                            comboTimer = 120;
-                            document.getElementById('comboValue').textContent = combo;
-                            document.getElementById('comboCounter').classList.add('active');
-                            document.getElementById('scoreValue').textContent = score;
-                            
-                            createParticles(enemy.x, enemy.y, 12, enemy.color, 6);
-                        } else {
-                            createParticles(bullet.x, bullet.y, 5, '#FFD700', 4);
-                        }
-                    }
-                });
-                
-                // Remove if off screen
-                return bullet.x > 0 && bullet.x < canvas.width &&
-                       bullet.y > 0 && bullet.y < canvas.height && !hit;
-            });
-            
-            // Update enemies
-            enemies = enemies.filter(enemy => {
-                enemy.update();
-                
-                // Check collision with base
-                const dx = base.x - enemy.x;
-                const dy = base.y - enemy.y;
-                const dist = Math.sqrt(dx * dx + dy * dy);
-                
-                if (dist < base.radius + enemy.radius) {
-                    baseHealth -= 20;
-                    updateBaseHealth();
-                    createParticles(enemy.x, enemy.y, 15, '#8B0000', 7);
-                    
-                    if (baseHealth <= 0) {
-                        gameOver();
-                    }
-                    return false;
-                }
-                
-                return !enemy.dead;
-            });
-            
-            // Update particles
-            particles = particles.filter(p => {
-                p.update();
-                return p.life > 0;
-            });
-            
-            // Update UI
-            document.getElementById('enemiesAlive').textContent = enemies.length;
-            
-            // Check wave completion
-            if (waveInProgress && enemies.length === 0 && enemiesKilledThisWave > 0) {
-                waveInProgress = false;
-                wave++;
-                document.getElementById('waveValue').textContent = wave;
-                
-                // Heal base slightly between waves
-                baseHealth = Math.min(baseHealth + 100, maxBaseHealth);
-                updateBaseHealth();
-                
-                setTimeout(startWave, 2000);
-            }
-            
-            // Start first wave
-            if (!waveInProgress && enemies.length === 0 && wave === 1) {
-                setTimeout(startWave, 1000);
-            }
-        }
-        
-        function updateBaseHealth() {
-            const fill = document.getElementById('baseHealthFill');
-            const percent = Math.max(0, baseHealth / maxBaseHealth * 100);
-            fill.style.width = percent + '%';
-        }
-        
-        // Draw everything
-        function draw() {
-            ctx.clearRect(0, 0, canvas.width, canvas.height);
-            
-            drawBackground();
-            drawAimLine();
-            
-            enemies.forEach(e => e.draw());
-            
-            // Draw bullets
-            bullets.forEach(b => {
-                ctx.save();
-                ctx.translate(b.x, b.y);
-                ctx.rotate(b.angle);
-                
-                ctx.fillStyle = '#FFD700';
-                ctx.shadowBlur = 6;
-                ctx.shadowColor = '#FF6B35';
-                ctx.fillRect(0, -2, 15, 4);
-                ctx.shadowBlur = 0;
-                
-                ctx.restore();
-            });
-            
-            particles.forEach(p => p.draw());
-            
-            drawBase();
-        }
-        
-        // Game loop
-        function gameLoop() {
-            update();
-            draw();
-            if (gameRunning) requestAnimationFrame(gameLoop);
-        }
-        
-        // Start game
-        function startGame() {
-            // Clear any active spawn interval from previous game
-            if (activeSpawnInterval) {
-                clearInterval(activeSpawnInterval);
-                activeSpawnInterval = null;
-            }
-            
-            // Ensure canvas is sized correctly
-            resizeCanvas();
-            base.x = canvas.width / 2;
-            base.y = canvas.height / 2;
-            
-            document.getElementById('startScreen').style.display = 'none';
-            document.getElementById('gameOverScreen').style.display = 'none';
-            
-            score = 0;
-            wave = 1;
-            baseHealth = maxBaseHealth;
-            combo = 1;
-            comboTimer = 0;
-            enemies = [];
-            bullets = [];
-            particles = [];
-            waveInProgress = false;
-            
-            document.getElementById('scoreValue').textContent = '0';
-            document.getElementById('waveValue').textContent = '1';
-            document.getElementById('enemiesAlive').textContent = '0';
-            document.getElementById('enemiesTotal').textContent = '15';
-            document.getElementById('comboCounter').classList.remove('active');
-            updateBaseHealth();
-            
-            gameRunning = true;
-            gameLoop();
-        }
-        
-        // Game over
-        function gameOver() {
-            gameRunning = false;
-            document.getElementById('finalScore').textContent = score;
-            document.getElementById('waveSurvived').textContent = `Wave ${wave} - Fortress Breached`;
-            document.getElementById('gameOverScreen').style.display = 'flex';
-        }
-        
-        // Restart
-        function restartGame() {
-            startGame();
-        }
-        
-        updateBaseHealth();
-    </script>
+    <script src="game.js"></script>
 </body>
 </html>
