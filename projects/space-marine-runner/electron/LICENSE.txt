@@ -1,0 +1,23 @@
+VOID BASTION DEFENSE
+Copyright (c) 2026 Void Bastion Studios. All rights reserved.
+
+END USER LICENSE AGREEMENT
+
+1. GRANT OF LICENSE
+   Void Bastion Studios grants you a non-exclusive, non-transferable license to use this software.
+
+2. RESTRICTIONS
+   - Do not distribute unauthorized copies
+   - Do not reverse engineer, decompile, or disassemble
+   - Do not use for commercial purposes without authorization
+
+3. STEAM INTEGRATION
+   This software uses Steamworks SDK. Your use is also subject to the Steam Subscriber Agreement.
+
+4. NO WARRANTY
+   This software is provided "as is" without warranty of any kind.
+
+5. LIMITATION OF LIABILITY
+   Void Bastion Studios shall not be liable for any damages arising from use of this software.
+
+For support: support@voidbastion.com

@@ -1,0 +1,89 @@
+{
+  "name": "void-bastion-defense",
+  "version": "1.0.0",
+  "description": "Void Bastion Defense - A space marine tower defense game",
+  "main": "main.js",
+  "author": "Void Bastion Studios",
+  "license": "Proprietary",
+  "homepage": "https://voidbastion.com",
+  "scripts": {
+    "start": "electron .",
+    "dev": "electron . --dev",
+    "build": "electron-builder",
+    "build:win": "electron-builder --win",
+    "build:portable": "electron-builder --win portable",
+    "dist": "npm run build",
+    "postinstall": "electron-builder install-app-deps",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "build": {
+    "appId": "com.voidbastion.defense",
+    "productName": "Void Bastion Defense",
+    "copyright": "Copyright © 2026 Void Bastion Studios",
+    "directories": {
+      "output": "dist",
+      "buildResources": "build"
+    },
+    "files": [
+      "main.js",
+      "preload.js",
+      "src/**/*",
+      "assets/**/*",
+      "node_modules/**/*"
+    ],
+    "extraResources": [
+      {
+        "from": "steamworks_sdk/",
+        "to": "steamworks_sdk/",
+        "filter": ["**/*"]
+      }
+    ],
+    "win": {
+      "target": [
+        {
+          "target": "nsis",
+          "arch": ["x64", "ia32"]
+        },
+        {
+          "target": "portable",
+          "arch": ["x64"]
+        }
+      ],
+      "icon": "assets/icon.ico",
+      "requestedExecutionLevel": "asInvoker"
+    },
+    "nsis": {
+      "oneClick": false,
+      "allowElevation": true,
+      "allowToChangeInstallationDirectory": true,
+      "installerIcon": "assets/icon.ico",
+      "uninstallerIcon": "assets/icon.ico",
+      "installerHeaderIcon": "assets/icon.ico",
+      "createDesktopShortcut": true,
+      "createStartMenuShortcut": true,
+      "shortcutName": "Void Bastion Defense",
+      "include": "build/installer.nsh",
+      "license": "LICENSE.txt"
+    },
+    "portable": {
+      "artifactName": "${productName}-Portable-${version}.exe"
+    },
+    "publish": {
+      "provider": "github",
+      "owner": "voidbastion",
+      "repo": "void-bastion-defense",
+      "releaseType": "release"
+    }
+  },
+  "dependencies": {
+    "electron-log": "^5.0.1",
+    "electron-updater": "^6.1.7"
+  },
+  "devDependencies": {
+    "electron": "^28.1.0",
+    "electron-builder": "^24.9.1"
+  },
+  "optionalDependencies": {
+    "greenworks": "^0.16.0"
+  }
+}

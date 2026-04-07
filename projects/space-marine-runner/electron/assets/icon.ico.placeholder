@@ -1,0 +1,20 @@
+# Placeholder Icon File
+
+Replace this with a proper .ico file for Void Bastion Defense.
+
+Icon requirements:
+- Format: Windows ICO
+- Sizes: 16x16, 32x32, 48x48, 256x256
+- Color depth: 32-bit with alpha
+
+Recommended tools:
+- GIMP (export as .ico with multiple sizes)
+- icoconverter.com
+- Visual Studio Image Editor
+
+For Steam, also provide:
+- library_capsule_600x900.png
+- header_capsule_460x215.png
+- main_capsule_616x353.png
+- small_capsule_231x87.png
+- hero_capsule_1920x620.png
