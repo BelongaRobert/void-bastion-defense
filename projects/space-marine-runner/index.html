@@ -177,6 +177,65 @@
         }
         
         /* ============================================
+           PAUSE BUTTON
+           ============================================ */
+
+        .pause-btn {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            width: 44px;
+            height: 44px;
+            background: rgba(26, 26, 26, 0.95);
+            border: 2px solid var(--accent-gold);
+            border-radius: 8px;
+            font-size: 24px;
+            cursor: pointer;
+            z-index: 1000;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.2s;
+            touch-action: manipulation;
+            -webkit-tap-highlight-color: transparent;
+            pointer-events: auto;
+        }
+
+        /* Only show pause button when game is active */
+        #gameUI.active .pause-btn {
+            display: flex;
+        }
+
+        .pause-btn:hover {
+            background: var(--accent-gold);
+            transform: scale(1.05);
+        }
+
+        .pause-btn:active {
+            transform: scale(0.95);
+        }
+
+        @media (max-width: 768px) {
+            #pauseButton {
+                display: flex !important;
+                position: fixed;
+                top: 10px;
+                right: 10px;
+                width: 44px;
+                height: 44px;
+                z-index: 1000;
+            }
+        }
+
+        @media (max-width: 480px) {
+            #pauseButton {
+                width: 48px;
+                height: 48px;
+                font-size: 26px;
+            }
+        }
+
+        /* ============================================
            WEAPON HUD
            ============================================ */
         
@@ -371,6 +430,173 @@
             font-weight: bold;
         }
         
+        /* ============================================
+           ARSENAL SCREEN STYLES
+           ============================================ */
+
+        .arsenal-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+            gap: 15px;
+            width: 100%;
+            max-width: 600px;
+            margin-bottom: 20px;
+            padding: 20px;
+            background: var(--bg-secondary);
+            border: 1px solid var(--accent-gold-dark);
+            border-radius: 8px;
+            max-height: 250px;
+            overflow-y: auto;
+        }
+
+        .arsenal-weapon-card {
+            background: var(--bg-tertiary);
+            border: 2px solid var(--accent-gold-dark);
+            border-radius: 8px;
+            padding: 15px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .arsenal-weapon-card:hover {
+            border-color: var(--accent-gold);
+            transform: translateY(-2px);
+        }
+
+        .arsenal-weapon-card.selected {
+            border-color: var(--accent-gold);
+            box-shadow: 0 0 15px rgba(201, 162, 39, 0.5);
+            background: var(--bg-secondary);
+        }
+
+        .arsenal-weapon-card.owned {
+            border-color: var(--accent-green);
+        }
+
+        .arsenal-weapon-card.locked {
+            opacity: 0.6;
+            cursor: not-allowed;
+        }
+
+        .arsenal-weapon-icon {
+            font-size: 32px;
+            margin-bottom: 8px;
+        }
+
+        .arsenal-weapon-name {
+            font-size: 12px;
+            color: var(--text-primary);
+            margin-bottom: 5px;
+        }
+
+        .arsenal-weapon-cost {
+            font-size: 10px;
+            color: var(--accent-gold);
+        }
+
+        .arsenal-weapon-cost.owned {
+            color: var(--accent-green);
+        }
+
+        .arsenal-details {
+            background: var(--bg-secondary);
+            border: 1px solid var(--accent-gold);
+            border-radius: 8px;
+            padding: 20px;
+            width: 100%;
+            max-width: 600px;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        .arsenal-preview {
+            font-size: 64px;
+            margin-bottom: 10px;
+        }
+
+        .arsenal-desc {
+            color: var(--text-secondary);
+            font-size: 14px;
+            margin: 10px 0;
+            min-height: 40px;
+        }
+
+        .weapon-stats {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 10px;
+            margin: 15px 0;
+        }
+
+        .weapon-stat {
+            background: var(--bg-tertiary);
+            padding: 10px;
+            border-radius: 4px;
+        }
+
+        .weapon-stat-label {
+            font-size: 10px;
+            color: var(--text-muted);
+            text-transform: uppercase;
+        }
+
+        .weapon-stat-value {
+            font-size: 16px;
+            color: var(--accent-gold);
+            font-weight: bold;
+        }
+
+        .arsenal-actions {
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+            margin-top: 15px;
+        }
+
+        .arsenal-actions .menu-btn {
+            flex: 1;
+            max-width: 150px;
+        }
+
+        @media (max-width: 768px) {
+            .arsenal-grid {
+                grid-template-columns: repeat(3, 1fr);
+                gap: 10px;
+                padding: 15px;
+            }
+
+            .arsenal-weapon-icon {
+                font-size: 24px;
+            }
+
+            .arsenal-weapon-name {
+                font-size: 10px;
+            }
+
+            .arsenal-preview {
+                font-size: 48px;
+            }
+
+            .weapon-stats {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .arsenal-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .arsenal-actions {
+                flex-direction: column;
+            }
+
+            .arsenal-actions .menu-btn {
+                max-width: 100%;
+            }
+        }
+
         /* ============================================
            MOBILE CONTROLS
            ============================================ */
@@ -638,6 +864,13 @@
             .game-over-stats {
                 grid-template-columns: 1fr;
             }
+            
+            #pauseButton {
+                top: 10px;
+                right: 10px;
+                width: 44px;
+                height: 44px;
+            }
         }
         
         @media (max-width: 480px) {
@@ -651,6 +884,12 @@
             
             .health-bar {
                 width: calc(100px * var(--ui-scale));
+            }
+            
+            #pauseButton {
+                width: 48px;
+                height: 48px;
+                font-size: 26px;
             }
         }
         
@@ -739,6 +978,11 @@
                 </div>
             </div>
             
+            <!-- Pause Button - Positioned absolute to gameUI -->
+            <button id="pauseButton" class="pause-btn" onclick="togglePause()" aria-label="Pause Game">
+                ⏸️
+            </button>
+            
             <div class="weapon-hud">
                 <div class="weapon-card" id="weaponCard">
                     <div class="weapon-icon" id="weaponIcon">🔫</div>
@@ -777,7 +1021,10 @@
             <h1 class="menu-title">VOID BASTION</h1>
             <p class="menu-subtitle">Defense Command Terminal</p>
             <div class="menu-buttons">
-                <button class="menu-btn primary" onclick="startGame()">⚔️ ENGAGE</button>
+                <button class="menu-btn primary" onclick="startGame()">⚔️ CAMPAIGN</button>
+                <button class="menu-btn" onclick="startEndless()">♾️ ENDLESS</button>
+                <button class="menu-btn" onclick="showArsenal()">🔫 ARSENAL</button>
+                <button class="menu-btn" onclick="showBastion()">🏰 BASTION</button>
                 <button class="menu-btn" onclick="showSettings()">⚙️ SETTINGS</button>
                 <button class="menu-btn" onclick="showLeaderboard()">🏆 LEADERBOARD</button>
                 <button class="menu-btn" onclick="showHelp()">❓ HELP</button>
@@ -914,6 +1161,7 @@
             <h2 class="menu-title">PAUSED</h2>
             <div class="menu-buttons">
                 <button class="menu-btn primary" onclick="resumeGame()">▶ RESUME</button>
+                <button class="menu-btn" onclick="showArsenalFromPause()">🔫 ARSENAL</button>
                 <button class="menu-btn" onclick="showSettings()">⚙️ SETTINGS</button>
                 <button class="menu-btn" onclick="showMainMenu()">🚪 EXIT</button>
             </div>
@@ -929,6 +1177,63 @@
             </div>
             
             <button class="menu-btn" onclick="showMainMenu()">← BACK</button>
+        </div>
+
+        <!-- Arsenal Screen -->
+        <div id="arsenalScreen" class="menu-screen hidden">
+            <h2 class="menu-title">ARSENAL</h2>
+            <p class="menu-subtitle">Credits: <span id="arsenalCredits">0</span></p>
+            
+            <div id="arsenalGrid" class="arsenal-grid">
+                <!-- Weapons will be dynamically inserted here -->
+            </div>
+            
+            <div class="arsenal-details" id="arsenalDetails">
+                <div class="arsenal-preview" id="weaponPreview">🔫</div>
+                <h3 id="weaponDetailName">Select a Weapon</h3>
+                <p id="weaponDetailDesc" class="arsenal-desc">Click on a weapon to view details and purchase upgrades.</p>
+                <div class="weapon-stats" id="weaponStats">
+                    <!-- Stats will be shown here -->
+                </div>
+                <div class="arsenal-actions">
+                    <button class="menu-btn" id="buyWeaponBtn" onclick="buySelectedWeapon()" disabled>BUY WEAPON</button>
+                    <button class="menu-btn" id="equipWeaponBtn" onclick="equipSelectedWeapon()" disabled>EQUIP</button>
+                </div>
+            </div>
+            
+            <button class="menu-btn" id="arsenalBackBtn" onclick="arsenalBack()">← BACK</button>
+        </div>
+
+        <!-- Bastion Screen (placeholder) -->
+        <div id="bastionScreen" class="menu-screen hidden">
+            <h2 class="menu-title">BASTION</h2>
+            <p class="menu-subtitle">Fortress Upgrades Coming Soon!</p>
+            <div class="settings-card" style="max-width: 500px; width: 100%; margin-bottom: 20px; text-align: center; padding: 40px;">
+                <div style="font-size: 64px; margin-bottom: 20px;">🏰</div>
+                <p style="color: var(--text-secondary);">Upgrade your fortress defenses, unlock new turrets, and reinforce your position against the horde.</p>
+                <p style="color: var(--accent-gold); margin-top: 20px;">🚧 Under Construction 🚧</p>
+            </div>
+            
+            <button class="menu-btn" onclick="showMainMenu()">← BACK</button>
+        </div>
+
+        <!-- Endless Mode Screen (placeholder) -->
+        <div id="endlessScreen" class="menu-screen hidden">
+            <h2 class="menu-title">ENDLESS MODE</h2>
+            <p class="menu-subtitle">Survive as long as you can!</p>
+            <div class="settings-card" style="max-width: 500px; width: 100%; margin-bottom: 20px; text-align: center;">
+                <div style="font-size: 48px; margin-bottom: 20px;">♾️</div>
+                <p style="color: var(--text-secondary); margin-bottom: 20px;">Endless waves with increasing difficulty. How long can you survive?</p>
+                <div style="background: var(--bg-tertiary); padding: 20px; border-radius: 8px; margin-bottom: 20px;">
+                    <p style="color: var(--accent-gold); font-weight: bold;">Starting Wave: 1</p>
+                    <p style="color: var(--text-muted); font-size: 12px;">Enemy strength increases every wave</p>
+                </div>
+            </div>
+            
+            <div class="menu-buttons">
+                <button class="menu-btn primary" onclick="startEndlessGame()">⚔️ START ENDLESS</button>
+                <button class="menu-btn" onclick="showMainMenu()">← BACK</button>
+            </div>
         </div>
     </div>
 
