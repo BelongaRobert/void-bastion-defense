@@ -2,14 +2,14 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Void Bastion Defense</title>
     <style>
         /* ============================================
            VOID BASTION DEFENSE - MOBILE OPTIMIZED v1.0.0
            Performance Optimized | Mobile-First | Touch-Friendly
            ============================================ */
-        
+
         :root {
             --bg-primary: #0D0D0D;
             --bg-secondary: #1a1a1a;
@@ -29,7 +29,7 @@
             --ui-scale: 1;
             --font-family: 'Courier New', monospace;
         }
-        
+
         * {
             box-sizing: border-box;
             margin: 0;
@@ -38,15 +38,18 @@
             -webkit-user-select: none;
             -webkit-tap-highlight-color: transparent;
         }
-        
-        body {
+
+        html, body {
             font-family: var(--font-family);
             background: var(--bg-primary);
             color: var(--text-primary);
             overflow: hidden;
             touch-action: none;
+            position: fixed;
+            width: 100%;
+            height: 100%;
         }
-        
+
         #gameContainer {
             position: relative;
             width: 100vw;
@@ -55,17 +58,29 @@
             justify-content: center;
             align-items: center;
         }
-        
+
         #gameCanvas {
             display: block;
             image-rendering: pixelated;
             image-rendering: crisp-edges;
+            touch-action: manipulation;
+            -webkit-touch-callout: none;
+            -webkit-user-select: none;
+            user-select: none;
+            z-index: 1;
         }
-        
+
+        #gameUI, button, .menu-item {
+            touch-action: manipulation;
+            -webkit-touch-callout: none;
+            -webkit-user-select: none;
+            user-select: none;
+        }
+
         /* ============================================
            UI OVERLAYS & SCREENS
            ============================================ */
-        
+
         .ui-overlay {
             position: absolute;
             top: 0;
@@ -75,20 +90,20 @@
             pointer-events: none;
             z-index: 10;
         }
-        
+
         /* ============================================
            GAME UI (HUD)
            ============================================ */
-        
+
         #gameUI {
             display: none;
             padding: calc(10px * var(--ui-scale));
         }
-        
+
         #gameUI.active {
             display: block;
         }
-        
+
         .hud-top {
             position: absolute;
             top: calc(10px * var(--ui-scale));
@@ -99,13 +114,13 @@
             align-items: flex-start;
             pointer-events: auto;
         }
-        
+
         .hud-stats {
             display: flex;
             flex-direction: column;
             gap: calc(5px * var(--ui-scale));
         }
-        
+
         .stat-card {
             background: rgba(26, 26, 26, 0.9);
             border: 1px solid var(--accent-gold);
@@ -113,20 +128,20 @@
             border-radius: 4px;
             min-width: calc(100px * var(--ui-scale));
         }
-        
+
         .stat-label {
             font-size: calc(10px * var(--ui-scale));
             color: var(--text-muted);
             text-transform: uppercase;
             letter-spacing: 1px;
         }
-        
+
         .stat-value {
             font-size: calc(16px * var(--ui-scale));
             font-weight: bold;
             color: var(--accent-gold-light);
         }
-        
+
         .health-bar {
             width: calc(120px * var(--ui-scale));
             height: calc(20px * var(--ui-scale));
@@ -136,13 +151,13 @@
             overflow: hidden;
             position: relative;
         }
-        
+
         .health-fill {
             height: 100%;
             background: linear-gradient(90deg, var(--danger), var(--warning), var(--success));
             transition: width 0.3s;
         }
-        
+
         .health-text {
             position: absolute;
             top: 50%;
@@ -152,7 +167,7 @@
             font-weight: bold;
             text-shadow: 1px 1px 2px rgba(0,0,0,0.8);
         }
-        
+
         .wave-info {
             position: absolute;
             top: calc(10px * var(--ui-scale));
@@ -164,18 +179,18 @@
             padding: calc(8px * var(--ui-scale)) calc(16px * var(--ui-scale));
             border-radius: 4px;
         }
-        
+
         .wave-number {
             font-size: calc(14px * var(--ui-scale));
             color: var(--text-muted);
         }
-        
+
         .wave-value {
             font-size: calc(24px * var(--ui-scale));
             font-weight: bold;
             color: var(--accent-gold);
         }
-        
+
         /* ============================================
            PAUSE BUTTON
            ============================================ */
@@ -238,7 +253,7 @@
         /* ============================================
            WEAPON HUD
            ============================================ */
-        
+
         .weapon-hud {
             position: absolute;
             bottom: calc(20px * var(--ui-scale));
@@ -249,7 +264,7 @@
             gap: calc(15px * var(--ui-scale));
             pointer-events: auto;
         }
-        
+
         .weapon-card {
             background: rgba(26, 26, 26, 0.95);
             border: 2px solid var(--accent-gold);
@@ -258,18 +273,18 @@
             min-width: calc(140px * var(--ui-scale));
             text-align: center;
         }
-        
+
         .weapon-icon {
             font-size: calc(32px * var(--ui-scale));
             margin-bottom: calc(5px * var(--ui-scale));
         }
-        
+
         .weapon-name {
             font-size: calc(12px * var(--ui-scale));
             color: var(--accent-gold-light);
             margin-bottom: calc(5px * var(--ui-scale));
         }
-        
+
         .ammo-bar {
             width: 100%;
             height: calc(8px * var(--ui-scale));
@@ -278,19 +293,19 @@
             overflow: hidden;
             margin-top: calc(5px * var(--ui-scale));
         }
-        
+
         .ammo-fill {
             height: 100%;
             background: var(--accent-gold);
             transition: width 0.1s;
         }
-        
+
         .ammo-text {
             font-size: calc(10px * var(--ui-scale));
             color: var(--text-secondary);
             margin-top: calc(3px * var(--ui-scale));
         }
-        
+
         .heat-bar {
             width: 100%;
             height: calc(6px * var(--ui-scale));
@@ -299,19 +314,19 @@
             overflow: hidden;
             margin-top: calc(5px * var(--ui-scale));
         }
-        
+
         .heat-fill {
             height: 100%;
             background: linear-gradient(90deg, var(--warning), var(--danger));
             transition: width 0.1s;
         }
-        
+
         /* ============================================
            MENU SCREENS
            ============================================ */
-        
+
         .menu-screen {
-            position: absolute;
+            position: fixed;
             top: 0;
             left: 0;
             width: 100%;
@@ -323,13 +338,25 @@
             align-items: center;
             padding: calc(20px * var(--ui-scale));
             pointer-events: auto;
-            z-index: 100;
         }
-        
+
         .menu-screen.hidden {
             display: none;
         }
-        
+
+        /* Z-INDEX HIERARCHY - Settings must be above Pause */
+        #gameCanvas { z-index: 1; }
+        #gameUI { z-index: 10; }
+        #pauseMenu { z-index: 100; }
+        #settingsMenu { z-index: 200; }
+        #arsenalScreen { z-index: 100; }
+        #leaderboardScreen { z-index: 100; }
+        #bastionScreen { z-index: 100; }
+        #endlessScreen { z-index: 100; }
+        #helpMenu { z-index: 100; }
+        #gameOverScreen { z-index: 150; }
+        #mainMenu { z-index: 50; }
+
         .menu-title {
             font-size: calc(36px * var(--ui-scale));
             font-weight: bold;
@@ -340,14 +367,14 @@
             text-align: center;
             text-shadow: 0 0 20px rgba(201, 162, 39, 0.5);
         }
-        
+
         .menu-subtitle {
             font-size: calc(14px * var(--ui-scale));
             color: var(--text-secondary);
             margin-bottom: calc(40px * var(--ui-scale));
             text-align: center;
         }
-        
+
         .menu-buttons {
             display: flex;
             flex-direction: column;
@@ -355,7 +382,7 @@
             width: 100%;
             max-width: calc(300px * var(--ui-scale));
         }
-        
+
         .menu-btn {
             background: var(--bg-secondary);
             border: 2px solid var(--accent-gold);
@@ -369,38 +396,38 @@
             transition: all 0.2s;
             border-radius: 4px;
         }
-        
+
         .menu-btn:hover {
             background: var(--accent-gold);
             color: var(--bg-primary);
         }
-        
+
         .menu-btn.primary {
             background: var(--accent-gold);
             color: var(--bg-primary);
         }
-        
+
         .menu-btn.primary:hover {
             background: var(--accent-gold-light);
         }
-        
+
         .menu-btn:disabled {
             opacity: 0.5;
             cursor: not-allowed;
         }
-        
+
         /* ============================================
            GAME OVER SCREEN
            ============================================ */
-        
+
         #gameOverScreen {
             display: none;
         }
-        
+
         #gameOverScreen.active {
             display: flex;
         }
-        
+
         .game-over-stats {
             display: grid;
             grid-template-columns: repeat(2, 1fr);
@@ -409,7 +436,7 @@
             width: 100%;
             max-width: calc(400px * var(--ui-scale));
         }
-        
+
         .game-over-stat {
             background: var(--bg-secondary);
             border: 1px solid var(--accent-gold);
@@ -417,132 +444,191 @@
             border-radius: 4px;
             text-align: center;
         }
-        
+
         .game-over-label {
             font-size: calc(12px * var(--ui-scale));
             color: var(--text-muted);
             text-transform: uppercase;
         }
-        
+
         .game-over-value {
             font-size: calc(24px * var(--ui-scale));
             color: var(--accent-gold);
             font-weight: bold;
         }
-        
+
         /* ============================================
-           ARSENAL SCREEN STYLES
+           ARSENAL SCREEN STYLES - COMPACT GRID
            ============================================ */
 
         .arsenal-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
-            gap: 15px;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 10px;
             width: 100%;
-            max-width: 600px;
-            margin-bottom: 20px;
-            padding: 20px;
+            max-width: 500px;
+            margin-bottom: 15px;
+            padding: 15px;
             background: var(--bg-secondary);
             border: 1px solid var(--accent-gold-dark);
             border-radius: 8px;
-            max-height: 250px;
+            max-height: 280px;
             overflow-y: auto;
         }
 
         .arsenal-weapon-card {
+            width: 100%;
+            aspect-ratio: 1;
+            min-height: 110px;
+            max-height: 120px;
             background: var(--bg-tertiary);
             border: 2px solid var(--accent-gold-dark);
             border-radius: 8px;
-            padding: 15px;
+            padding: 8px;
             text-align: center;
             cursor: pointer;
-            transition: all 0.2s;
+            transition: all 0.2s ease;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            position: relative;
         }
 
         .arsenal-weapon-card:hover {
             border-color: var(--accent-gold);
-            transform: translateY(-2px);
+            transform: translateY(-3px);
+            box-shadow: 0 4px 12px rgba(201, 162, 39, 0.3);
         }
 
         .arsenal-weapon-card.selected {
             border-color: var(--accent-gold);
-            box-shadow: 0 0 15px rgba(201, 162, 39, 0.5);
+            box-shadow: 0 0 15px rgba(201, 162, 39, 0.6), inset 0 0 10px rgba(201, 162, 39, 0.2);
             background: var(--bg-secondary);
+            transform: scale(1.02);
         }
 
         .arsenal-weapon-card.owned {
             border-color: var(--accent-green);
         }
 
+        .arsenal-weapon-card.owned::after {
+            content: '✓';
+            position: absolute;
+            top: 4px;
+            right: 4px;
+            font-size: 10px;
+            color: var(--accent-green);
+            background: rgba(46, 204, 113, 0.2);
+            width: 16px;
+            height: 16px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
         .arsenal-weapon-card.locked {
-            opacity: 0.6;
+            opacity: 0.5;
             cursor: not-allowed;
+            filter: grayscale(0.6);
+        }
+
+        .arsenal-weapon-card.locked:hover {
+            transform: none;
+            box-shadow: none;
+            border-color: var(--accent-gold-dark);
         }
 
         .arsenal-weapon-icon {
-            font-size: 32px;
-            margin-bottom: 8px;
+            font-size: 28px;
+            margin-bottom: 4px;
+            line-height: 1;
         }
 
         .arsenal-weapon-name {
-            font-size: 12px;
+            font-size: 10px;
             color: var(--text-primary);
-            margin-bottom: 5px;
+            margin-bottom: 3px;
+            font-weight: 600;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            max-width: 100%;
+            line-height: 1.2;
         }
 
         .arsenal-weapon-cost {
-            font-size: 10px;
+            font-size: 9px;
             color: var(--accent-gold);
+            font-weight: bold;
         }
 
         .arsenal-weapon-cost.owned {
             color: var(--accent-green);
         }
 
+        /* Equipped indicator */
+        .arsenal-weapon-card.equipped::before {
+            content: 'EQUIPPED';
+            position: absolute;
+            top: 4px;
+            left: 4px;
+            font-size: 7px;
+            color: var(--accent-blue);
+            background: rgba(0, 212, 255, 0.15);
+            padding: 2px 5px;
+            border-radius: 3px;
+            letter-spacing: 0.5px;
+        }
+
         .arsenal-details {
             background: var(--bg-secondary);
             border: 1px solid var(--accent-gold);
             border-radius: 8px;
-            padding: 20px;
+            padding: 15px;
             width: 100%;
-            max-width: 600px;
-            margin-bottom: 20px;
+            max-width: 500px;
+            margin-bottom: 15px;
             text-align: center;
         }
 
         .arsenal-preview {
-            font-size: 64px;
-            margin-bottom: 10px;
+            font-size: 48px;
+            margin-bottom: 8px;
+            line-height: 1;
         }
 
         .arsenal-desc {
             color: var(--text-secondary);
-            font-size: 14px;
-            margin: 10px 0;
-            min-height: 40px;
+            font-size: 13px;
+            margin: 8px 0;
+            min-height: 36px;
+            line-height: 1.4;
         }
 
         .weapon-stats {
             display: grid;
             grid-template-columns: repeat(2, 1fr);
-            gap: 10px;
-            margin: 15px 0;
+            gap: 8px;
+            margin: 12px 0;
         }
 
         .weapon-stat {
             background: var(--bg-tertiary);
-            padding: 10px;
+            padding: 8px 10px;
             border-radius: 4px;
         }
 
         .weapon-stat-label {
-            font-size: 10px;
+            font-size: 9px;
             color: var(--text-muted);
             text-transform: uppercase;
+            letter-spacing: 0.5px;
         }
 
         .weapon-stat-value {
-            font-size: 16px;
+            font-size: 14px;
             color: var(--accent-gold);
             font-weight: bold;
         }
@@ -551,19 +637,29 @@
             display: flex;
             gap: 10px;
             justify-content: center;
-            margin-top: 15px;
+            margin-top: 12px;
         }
 
         .arsenal-actions .menu-btn {
             flex: 1;
-            max-width: 150px;
+            max-width: 140px;
+            padding: 10px 20px;
+            font-size: 14px;
         }
 
+        /* Mobile responsive */
         @media (max-width: 768px) {
             .arsenal-grid {
                 grid-template-columns: repeat(3, 1fr);
-                gap: 10px;
-                padding: 15px;
+                gap: 8px;
+                padding: 12px;
+                max-width: 100%;
+            }
+
+            .arsenal-weapon-card {
+                min-height: 100px;
+                max-height: 110px;
+                padding: 6px;
             }
 
             .arsenal-weapon-icon {
@@ -571,36 +667,105 @@
             }
 
             .arsenal-weapon-name {
-                font-size: 10px;
+                font-size: 9px;
+            }
+
+            .arsenal-weapon-cost {
+                font-size: 8px;
             }
 
             .arsenal-preview {
-                font-size: 48px;
+                font-size: 40px;
+            }
+
+            .arsenal-details {
+                padding: 12px;
             }
 
             .weapon-stats {
-                grid-template-columns: 1fr;
+                grid-template-columns: repeat(2, 1fr);
+                gap: 6px;
+            }
+
+            .weapon-stat-value {
+                font-size: 12px;
             }
         }
 
         @media (max-width: 480px) {
             .arsenal-grid {
                 grid-template-columns: repeat(2, 1fr);
+                gap: 8px;
+                max-height: 240px;
+            }
+
+            .arsenal-weapon-card {
+                min-height: 110px;
+                max-height: 120px;
+            }
+
+            .arsenal-weapon-icon {
+                font-size: 26px;
+            }
+
+            .arsenal-weapon-name {
+                font-size: 10px;
             }
 
             .arsenal-actions {
-                flex-direction: column;
+                flex-direction: row;
+                gap: 8px;
             }
 
             .arsenal-actions .menu-btn {
-                max-width: 100%;
+                max-width: 130px;
+                padding: 8px 16px;
+                font-size: 12px;
+            }
+
+            .arsenal-details {
+                padding: 10px;
+            }
+
+            .arsenal-preview {
+                font-size: 36px;
+            }
+
+            .arsenal-desc {
+                font-size: 12px;
+            }
+        }
+
+        /* Small screens */
+        @media (max-width: 360px) {
+            .arsenal-grid {
+                gap: 6px;
+                padding: 10px;
+            }
+
+            .arsenal-weapon-card {
+                min-height: 95px;
+                max-height: 105px;
+                padding: 5px;
+            }
+
+            .arsenal-weapon-icon {
+                font-size: 22px;
+            }
+
+            .arsenal-weapon-name {
+                font-size: 8px;
+            }
+
+            .arsenal-weapon-cost {
+                font-size: 7px;
             }
         }
 
         /* ============================================
            MOBILE CONTROLS
            ============================================ */
-        
+
         #mobileControls {
             position: absolute;
             bottom: 0;
@@ -610,11 +775,11 @@
             pointer-events: none;
             display: none;
         }
-        
+
         #mobileControls.active {
             display: block;
         }
-        
+
         .mobile-joystick {
             position: absolute;
             bottom: calc(20px * var(--ui-scale));
@@ -626,7 +791,7 @@
             border-radius: 50%;
             pointer-events: auto;
         }
-        
+
         .mobile-joystick-thumb {
             position: absolute;
             top: 50%;
@@ -637,7 +802,7 @@
             border-radius: 50%;
             transform: translate(-50%, -50%);
         }
-        
+
         .mobile-fire-btn {
             position: absolute;
             bottom: calc(30px * var(--ui-scale));
@@ -653,15 +818,15 @@
             align-items: center;
             font-size: calc(24px * var(--ui-scale));
         }
-        
+
         .mobile-fire-btn:active {
             background: rgba(255, 68, 68, 0.6);
         }
-        
+
         /* ============================================
            SETTINGS MENU
            ============================================ */
-        
+
         .settings-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(calc(280px * var(--ui-scale)), 1fr));
@@ -670,14 +835,14 @@
             max-width: calc(800px * var(--ui-scale));
             margin-bottom: calc(30px * var(--ui-scale));
         }
-        
+
         .settings-card {
             background: var(--bg-secondary);
             border: 1px solid var(--accent-gold-dark);
             border-radius: 8px;
             padding: calc(20px * var(--ui-scale));
         }
-        
+
         .settings-title {
             font-size: calc(14px * var(--ui-scale));
             color: var(--accent-gold);
@@ -687,25 +852,25 @@
             border-bottom: 1px solid var(--accent-gold-dark);
             padding-bottom: calc(10px * var(--ui-scale));
         }
-        
+
         .setting-row {
             display: flex;
             justify-content: space-between;
             align-items: center;
             margin-bottom: calc(12px * var(--ui-scale));
         }
-        
+
         .setting-label {
             font-size: calc(12px * var(--ui-scale));
             color: var(--text-secondary);
         }
-        
+
         .setting-control {
             display: flex;
             align-items: center;
             gap: calc(10px * var(--ui-scale));
         }
-        
+
         .toggle-switch {
             width: calc(44px * var(--ui-scale));
             height: calc(24px * var(--ui-scale));
@@ -715,11 +880,11 @@
             cursor: pointer;
             transition: background 0.2s;
         }
-        
+
         .toggle-switch.active {
             background: var(--accent-gold);
         }
-        
+
         .toggle-switch::after {
             content: '';
             position: absolute;
@@ -731,11 +896,11 @@
             border-radius: 50%;
             transition: transform 0.2s;
         }
-        
+
         .toggle-switch.active::after {
             transform: translateX(calc(20px * var(--ui-scale)));
         }
-        
+
         .slider-control {
             width: calc(100px * var(--ui-scale));
             height: calc(6px * var(--ui-scale));
@@ -743,7 +908,7 @@
             border-radius: 3px;
             -webkit-appearance: none;
         }
-        
+
         .slider-control::-webkit-slider-thumb {
             -webkit-appearance: none;
             width: calc(16px * var(--ui-scale));
@@ -752,11 +917,11 @@
             border-radius: 50%;
             cursor: pointer;
         }
-        
+
         /* ============================================
            WAVE ANNOUNCEMENT
            ============================================ */
-        
+
         .wave-announcement {
             position: absolute;
             top: 50%;
@@ -767,29 +932,29 @@
             pointer-events: none;
             transition: opacity 0.5s;
         }
-        
+
         .wave-announcement.active {
             opacity: 1;
         }
-        
+
         .wave-number-display {
             font-size: calc(72px * var(--ui-scale));
             font-weight: bold;
             color: var(--accent-gold);
             text-shadow: 0 0 30px rgba(201, 162, 39, 0.8);
         }
-        
+
         .wave-text {
             font-size: calc(24px * var(--ui-scale));
             color: var(--text-secondary);
             text-transform: uppercase;
             letter-spacing: 4px;
         }
-        
+
         /* ============================================
            COMBO COUNTER
            ============================================ */
-        
+
         .combo-counter {
             position: absolute;
             top: 50%;
@@ -799,27 +964,27 @@
             opacity: 0;
             transition: opacity 0.3s;
         }
-        
+
         .combo-counter.active {
             opacity: 1;
         }
-        
+
         .combo-text {
             font-size: calc(14px * var(--ui-scale));
             color: var(--text-muted);
             text-transform: uppercase;
         }
-        
+
         .combo-value {
             font-size: calc(36px * var(--ui-scale));
             font-weight: bold;
             color: var(--accent-gold);
         }
-        
+
         /* ============================================
            TOOLTIPS
            ============================================ */
-        
+
         .tooltip {
             position: absolute;
             background: var(--bg-secondary);
@@ -832,39 +997,39 @@
             z-index: 1000;
             max-width: calc(200px * var(--ui-scale));
         }
-        
+
         .tooltip-title {
             color: var(--accent-gold);
             font-weight: bold;
             margin-bottom: calc(4px * var(--ui-scale));
         }
-        
+
         /* ============================================
            RESPONSIVE DESIGN
            ============================================ */
-        
+
         @media (max-width: 768px) {
             :root {
                 --ui-scale: 0.85;
             }
-            
+
             .hud-top {
                 flex-wrap: wrap;
                 gap: calc(10px * var(--ui-scale));
             }
-            
+
             .weapon-card {
                 min-width: calc(120px * var(--ui-scale));
             }
-            
+
             .menu-title {
                 font-size: calc(28px * var(--ui-scale));
             }
-            
+
             .game-over-stats {
                 grid-template-columns: 1fr;
             }
-            
+
             #pauseButton {
                 top: 10px;
                 right: 10px;
@@ -872,57 +1037,57 @@
                 height: 44px;
             }
         }
-        
+
         @media (max-width: 480px) {
             :root {
                 --ui-scale: 0.75;
             }
-            
+
             .stat-card {
                 min-width: calc(80px * var(--ui-scale));
             }
-            
+
             .health-bar {
                 width: calc(100px * var(--ui-scale));
             }
-            
+
             #pauseButton {
                 width: 48px;
                 height: 48px;
                 font-size: 26px;
             }
         }
-        
+
         /* ============================================
            ANIMATIONS
            ============================================ */
-        
+
         @keyframes pulse {
             0%, 100% { opacity: 1; }
             50% { opacity: 0.5; }
         }
-        
+
         @keyframes glow {
             0%, 100% { box-shadow: 0 0 5px var(--accent-gold); }
             50% { box-shadow: 0 0 20px var(--accent-gold), 0 0 30px var(--accent-gold); }
         }
-        
+
         .pulsing {
             animation: pulse 2s infinite;
         }
-        
+
         .glowing {
             animation: glow 2s infinite;
         }
-        
+
         /* ============================================
            UTILITY CLASSES
            ============================================ */
-        
+
         .hidden {
             display: none !important;
         }
-        
+
         .sr-only {
             position: absolute;
             width: 1px;
@@ -939,7 +1104,7 @@
 <body>
     <div id="gameContainer">
         <canvas id="gameCanvas"></canvas>
-        
+
         <!-- Game UI (HUD) -->
         <div id="gameUI" class="ui-overlay">
             <div class="hud-top">
@@ -957,12 +1122,12 @@
                         <div class="stat-value" id="killsValue">0</div>
                     </div>
                 </div>
-                
+
                 <div class="wave-info">
                     <div class="wave-number">WAVE</div>
                     <div class="wave-value" id="waveValue">1</div>
                 </div>
-                
+
                 <div class="hud-stats" style="text-align: right;">
                     <div class="stat-card">
                         <div class="stat-label">Fortress Health</div>
@@ -977,12 +1142,12 @@
                     </div>
                 </div>
             </div>
-            
+
             <!-- Pause Button - Positioned absolute to gameUI -->
             <button id="pauseButton" class="pause-btn" onclick="togglePause()" aria-label="Pause Game">
                 ⏸️
             </button>
-            
+
             <div class="weapon-hud">
                 <div class="weapon-card" id="weaponCard">
                     <div class="weapon-icon" id="weaponIcon">🔫</div>
@@ -996,18 +1161,18 @@
                     </div>
                 </div>
             </div>
-            
+
             <div class="combo-counter" id="comboCounter">
                 <div class="combo-text">COMBO</div>
                 <div class="combo-value" id="comboValue">x1.0</div>
             </div>
-            
+
             <div class="wave-announcement" id="waveAnnouncement">
                 <div class="wave-number-display" id="waveNumberDisplay">1</div>
                 <div class="wave-text">WAVE INCOMING</div>
             </div>
         </div>
-        
+
         <!-- Mobile Controls -->
         <div id="mobileControls">
             <div class="mobile-joystick" id="mobileJoystick">
@@ -1015,22 +1180,22 @@
             </div>
             <div class="mobile-fire-btn" id="mobileFireBtn">🔥</div>
         </div>
-        
+
         <!-- Main Menu -->
         <div id="mainMenu" class="menu-screen">
             <h1 class="menu-title">VOID BASTION</h1>
             <p class="menu-subtitle">Defense Command Terminal</p>
             <div class="menu-buttons">
-                <button class="menu-btn primary" onclick="startGame()">⚔️ CAMPAIGN</button>
-                <button class="menu-btn" onclick="startEndless()">♾️ ENDLESS</button>
-                <button class="menu-btn" onclick="showArsenal()">🔫 ARSENAL</button>
-                <button class="menu-btn" onclick="showBastion()">🏰 BASTION</button>
-                <button class="menu-btn" onclick="showSettings()">⚙️ SETTINGS</button>
-                <button class="menu-btn" onclick="showLeaderboard()">🏆 LEADERBOARD</button>
-                <button class="menu-btn" onclick="showHelp()">❓ HELP</button>
+                <button class="menu-btn primary" onclick="debugStartGame(event)">⚔️ CAMPAIGN</button>
+                <button class="menu-btn" onclick="startEndless(event)">♾️ ENDLESS</button>
+                <button class="menu-btn" onclick="showArsenal(event)">🔫 ARSENAL</button>
+                <button class="menu-btn" onclick="showBastion(event)">🏰 BASTION</button>
+                <button class="menu-btn" onclick="showSettings(event)">⚙️ SETTINGS</button>
+                <button class="menu-btn" onclick="showLeaderboard(event)">🏆 LEADERBOARD</button>
+                <button class="menu-btn" onclick="showHelp(event)">❓ HELP</button>
             </div>
         </div>
-        
+
         <!-- Settings Menu -->
         <div id="settingsMenu" class="menu-screen hidden">
             <h2 class="menu-title">SETTINGS</h2>
@@ -1039,60 +1204,60 @@
                     <div class="settings-title">Graphics</div>
                     <div class="setting-row">
                         <span class="setting-label">Particle Effects</span>
-                        <div class="toggle-switch active" id="particlesToggle" onclick="toggleSetting('particles')"></div>
+                        <div class="toggle-switch active" id="particlesToggle" onclick="toggleSetting('particles'); event.stopPropagation();"></div>
                     </div>
                     <div class="setting-row">
                         <span class="setting-label">Screen Shake</span>
-                        <div class="toggle-switch active" id="shakeToggle" onclick="toggleSetting('shake')"></div>
+                        <div class="toggle-switch active" id="shakeToggle" onclick="toggleSetting('shake'); event.stopPropagation();"></div>
                     </div>
                     <div class="setting-row">
                         <span class="setting-label">Show FPS</span>
-                        <div class="toggle-switch" id="fpsToggle" onclick="toggleSetting('fps')"></div>
+                        <div class="toggle-switch" id="fpsToggle" onclick="toggleSetting('fps'); event.stopPropagation();"></div>
                     </div>
                 </div>
-                
+
                 <div class="settings-card">
                     <div class="settings-title">Audio</div>
                     <div class="setting-row">
                         <span class="setting-label">Master Volume</span>
-                        <input type="range" class="slider-control" id="masterVolume" min="0" max="100" value="80" onchange="updateVolume('master', this.value)">
+                        <input type="range" class="slider-control" id="masterVolume" min="0" max="100" value="80" onchange="updateVolume('master', this.value); event.stopPropagation();" onclick="event.stopPropagation();">
                     </div>
                     <div class="setting-row">
                         <span class="setting-label">SFX Volume</span>
-                        <input type="range" class="slider-control" id="sfxVolume" min="0" max="100" value="100" onchange="updateVolume('sfx', this.value)">
+                        <input type="range" class="slider-control" id="sfxVolume" min="0" max="100" value="100" onchange="updateVolume('sfx', this.value); event.stopPropagation();" onclick="event.stopPropagation();">
                     </div>
                     <div class="setting-row">
                         <span class="setting-label">Music Volume</span>
-                        <input type="range" class="slider-control" id="musicVolume" min="0" max="100" value="70" onchange="updateVolume('music', this.value)">
+                        <input type="range" class="slider-control" id="musicVolume" min="0" max="100" value="70" onchange="updateVolume('music', this.value); event.stopPropagation();" onclick="event.stopPropagation();">
                     </div>
                 </div>
-                
+
                 <div class="settings-card">
                     <div class="settings-title">Gameplay</div>
                     <div class="setting-row">
                         <span class="setting-label">Auto-Fire</span>
-                        <div class="toggle-switch" id="autofireToggle" onclick="toggleSetting('autofire')"></div>
+                        <div class="toggle-switch" id="autofireToggle" onclick="toggleSetting('autofire'); event.stopPropagation();"></div>
                     </div>
                     <div class="setting-row">
                         <span class="setting-label">Aim Assist</span>
-                        <div class="toggle-switch active" id="aimassistToggle" onclick="toggleSetting('aimassist')"></div>
+                        <div class="toggle-switch active" id="aimassistToggle" onclick="toggleSetting('aimassist'); event.stopPropagation();"></div>
                     </div>
                     <div class="setting-row">
                         <span class="setting-label">Mobile Controls</span>
-                        <div class="toggle-switch" id="mobileToggle" onclick="toggleSetting('mobile')"></div>
+                        <div class="toggle-switch" id="mobileToggle" onclick="toggleSetting('mobile'); event.stopPropagation();"></div>
                     </div>
                 </div>
             </div>
-            
-            <button class="menu-btn" onclick="showMainMenu()">← BACK</button>
+
+            <button class="menu-btn" onclick="settingsBack(event)">← BACK</button>
         </div>
-        
+
         <!-- Help Screen -->
         <div id="helpMenu" class="menu-screen hidden">
             <h2 class="menu-title">COMBAT MANUAL</h2>
             <div class="settings-grid">
                 <div class="settings-card">
-                    <div class="settings-title">Controls</div>
+                    <div class="settings-title">Desktop Controls</div>
                     <div class="setting-row" style="flex-direction: column; align-items: flex-start; gap: 8px;">
                         <div><strong>Mouse:</strong> Aim weapon</div>
                         <div><strong>Left Click:</strong> Fire weapon</div>
@@ -1101,7 +1266,18 @@
                         <div><strong>P:</strong> Pause game</div>
                     </div>
                 </div>
-                
+
+                <div class="settings-card">
+                    <div class="settings-title">Mobile Controls</div>
+                    <div class="setting-row" style="flex-direction: column; align-items: flex-start; gap: 8px;">
+                        <div><strong>Swipe/Drag:</strong> Aim weapon (no firing)</div>
+                        <div><strong>Quick Tap:</strong> Fire + aim</div>
+                        <div><strong>Press R Button:</strong> Reload</div>
+                        <div><strong>Weapon Icons:</strong> Switch weapons</div>
+                        <div><strong>⏸️ Button:</strong> Pause game</div>
+                    </div>
+                </div>
+
                 <div class="settings-card">
                     <div class="settings-title">Enemies</div>
                     <div class="setting-row" style="flex-direction: column; align-items: flex-start; gap: 8px;">
@@ -1110,7 +1286,7 @@
                         <div><span style="color: #9D00FF">●</span> Chaos - Slow, tanky</div>
                     </div>
                 </div>
-                
+
                 <div class="settings-card">
                     <div class="settings-title">Objectives</div>
                     <div class="setting-row" style="flex-direction: column; align-items: flex-start; gap: 8px;">
@@ -1121,10 +1297,10 @@
                     </div>
                 </div>
             </div>
-            
-            <button class="menu-btn" onclick="showMainMenu()">← BACK</button>
+
+            <button class="menu-btn" onclick="showMainMenu(event)">← BACK</button>
         </div>
-        
+
         <!-- Game Over Screen -->
         <div id="gameOverScreen" class="menu-screen">
             <h2 class="menu-title">FORTRESS BREACHED</h2>
@@ -1133,40 +1309,40 @@
                     <div class="game-over-label">Final Score</div>
                     <div class="game-over-value" id="finalScore">0</div>
                 </div>
-                
+
                 <div class="game-over-stat">
                     <div class="game-over-label">Waves Survived</div>
                     <div class="game-over-value" id="finalWave">0</div>
                 </div>
-                
+
                 <div class="game-over-stat">
                     <div class="game-over-label">Total Kills</div>
                     <div class="game-over-value" id="finalKills">0</div>
                 </div>
-                
+
                 <div class="game-over-stat">
                     <div class="game-over-label">Credits Earned</div>
                     <div class="game-over-value" id="finalCredits">0</div>
                 </div>
             </div>
-            
+
             <div class="menu-buttons">
-                <button class="menu-btn primary" onclick="restartGame()">🔄 RETRY</button>
-                <button class="menu-btn" onclick="showMainMenu()">🏠 MAIN MENU</button>
+                <button class="menu-btn primary" onclick="playClick(); restartGame(event)">🔄 RETRY</button>
+                <button class="menu-btn" onclick="showMainMenu(event)">🏠 MAIN MENU</button>
             </div>
         </div>
-        
+
         <!-- Pause Menu -->
         <div id="pauseMenu" class="menu-screen hidden">
             <h2 class="menu-title">PAUSED</h2>
             <div class="menu-buttons">
-                <button class="menu-btn primary" onclick="resumeGame()">▶ RESUME</button>
-                <button class="menu-btn" onclick="showArsenalFromPause()">🔫 ARSENAL</button>
-                <button class="menu-btn" onclick="showSettings()">⚙️ SETTINGS</button>
-                <button class="menu-btn" onclick="showMainMenu()">🚪 EXIT</button>
+                <button class="menu-btn primary" onclick="resumeGame(event)">▶ RESUME</button>
+                <button class="menu-btn" onclick="showArsenalFromPause(event)">🔫 ARSENAL</button>
+                <button class="menu-btn" onclick="showSettings(event)">⚙️ SETTINGS</button>
+                <button class="menu-btn" onclick="showMainMenu(event)">🚪 EXIT</button>
             </div>
         </div>
-        
+
         <!-- Leaderboard Screen -->
         <div id="leaderboardScreen" class="menu-screen hidden">
             <h2 class="menu-title">LEADERBOARD</h2>
@@ -1175,7 +1351,7 @@
                     <!-- Leaderboard entries will be inserted here -->
                 </div>
             </div>
-            
+
             <button class="menu-btn" onclick="showMainMenu()">← BACK</button>
         </div>
 
@@ -1183,11 +1359,11 @@
         <div id="arsenalScreen" class="menu-screen hidden">
             <h2 class="menu-title">ARSENAL</h2>
             <p class="menu-subtitle">Credits: <span id="arsenalCredits">0</span></p>
-            
+
             <div id="arsenalGrid" class="arsenal-grid">
                 <!-- Weapons will be dynamically inserted here -->
             </div>
-            
+
             <div class="arsenal-details" id="arsenalDetails">
                 <div class="arsenal-preview" id="weaponPreview">🔫</div>
                 <h3 id="weaponDetailName">Select a Weapon</h3>
@@ -1200,8 +1376,8 @@
                     <button class="menu-btn" id="equipWeaponBtn" onclick="equipSelectedWeapon()" disabled>EQUIP</button>
                 </div>
             </div>
-            
-            <button class="menu-btn" id="arsenalBackBtn" onclick="arsenalBack()">← BACK</button>
+
+            <button class="menu-btn" id="arsenalBackBtn" onclick="arsenalBack(event)">← BACK</button>
         </div>
 
         <!-- Bastion Screen (placeholder) -->
@@ -1213,8 +1389,8 @@
                 <p style="color: var(--text-secondary);">Upgrade your fortress defenses, unlock new turrets, and reinforce your position against the horde.</p>
                 <p style="color: var(--accent-gold); margin-top: 20px;">🚧 Under Construction 🚧</p>
             </div>
-            
-            <button class="menu-btn" onclick="showMainMenu()">← BACK</button>
+
+            <button class="menu-btn" onclick="showMainMenu(event)">← BACK</button>
         </div>
 
         <!-- Endless Mode Screen (placeholder) -->
@@ -1229,14 +1405,594 @@
                     <p style="color: var(--text-muted); font-size: 12px;">Enemy strength increases every wave</p>
                 </div>
             </div>
-            
+
             <div class="menu-buttons">
-                <button class="menu-btn primary" onclick="startEndlessGame()">⚔️ START ENDLESS</button>
-                <button class="menu-btn" onclick="showMainMenu()">← BACK</button>
+                <button class="menu-btn primary" onclick="playClick(); startEndlessGame(event)">⚔️ START ENDLESS</button>
+                <button class="menu-btn" onclick="showMainMenu(event)">← BACK</button>
             </div>
         </div>
     </div>
 
+    <!-- PROCEDURAL SOUNDS -->
+    <script src="assets/sounds/procedural-sounds.js"></script>
+    
+    <!-- SOUND MANAGER -->
+    <script>
+        console.log('INLINE SCRIPT READY');
+        // Sound Manager with robust initialization and procedural fallback
+        class SoundManager {
+            constructor() {
+                this.sounds = {};
+                this.masterVolume = 1.0;
+                this.sfxVolume = 1.0;
+                this.muted = false;
+                this.context = null;
+                this.initialized = false;
+                this.loadedSounds = new Set();
+                this.loadErrors = new Set();
+            }
+
+            init() {
+                if (this.initialized) return;
+                this.context = new (window.AudioContext || window.webkitAudioContext)();
+                this.initialized = true;
+                console.log('Sound system initialized');
+            }
+
+            load(name, url) {
+                return new Promise((resolve, reject) => {
+                    const audio = new Audio();
+                    audio.src = url;
+                    audio.preload = 'auto';
+                    this.sounds[name] = audio;
+
+                    console.log(`[SoundManager] Loading sound: ${name} from ${url}`);
+
+                    // Set a timeout in case loading takes too long
+                    const timeout = setTimeout(() => {
+                        console.warn(`[SoundManager] Sound load timeout: ${name}`);
+                        this.loadErrors.add(name);
+                        resolve(name); // Resolve anyway so game can continue
+                    }, 5000);
+
+                    audio.addEventListener('canplaythrough', () => {
+                        clearTimeout(timeout);
+                        this.loadedSounds.add(name);
+                        console.log(`[SoundManager] Successfully loaded: ${name}`);
+                        resolve(name);
+                    });
+
+                    audio.addEventListener('error', (e) => {
+                        clearTimeout(timeout);
+                        const errorCode = audio.error ? audio.error.code : 'unknown';
+                        const errorMsg = audio.error ? audio.error.message : 'no error object';
+                        console.error(`[SoundManager] FAILED to load sound: ${name} from ${url}`);
+                        console.error(`[SoundManager] Error code: ${errorCode}, Message: ${errorMsg}`);
+                        this.loadErrors.add(name);
+                        resolve(name); // Resolve anyway so game can continue
+                    });
+
+                    audio.addEventListener('loadedmetadata', () => {
+                        console.log(`[SoundManager] Metadata loaded for: ${name}`);
+                    });
+                    
+                    // Start loading
+                    audio.load();
+                });
+            }
+
+            play(name, volume = 1.0) {
+                if (this.muted) return;
+                
+                // Check if sound is loaded and playable
+                const sound = this.sounds[name];
+                if (!sound) {
+                    console.log(`Sound not loaded: ${name}`);
+                    return;
+                }
+
+                // Clone the audio element for overlapping sounds
+                const clone = sound.cloneNode();
+                clone.volume = volume * this.masterVolume * this.sfxVolume;
+                
+                // Try to play, handle autoplay policy
+                const playPromise = clone.play();
+                if (playPromise !== undefined) {
+                    playPromise.catch(e => {
+                        // Autoplay was prevented - this is normal before user interaction
+                        if (e.name !== 'NotAllowedError') {
+                            console.warn(`Sound play error (${name}):`, e.message);
+                        }
+                    });
+                }
+            }
+
+            // Check if a sound is ready to play
+            isReady(name) {
+                return this.sounds[name] && this.loadedSounds.has(name);
+            }
+
+            setVolume(vol) {
+                this.masterVolume = Math.max(0, Math.min(1, vol));
+            }
+
+            setSFXVolume(vol) {
+                this.sfxVolume = Math.max(0, Math.min(1, vol));
+            }
+
+            toggleMute() {
+                this.muted = !this.muted;
+                return this.muted;
+            }
+
+            isLoaded(name) {
+                return this.loadedSounds.has(name);
+            }
+        }
+
+        const sounds = new SoundManager();
+
+        // Weapon fire sounds - with fallback to procedural if not loaded
+        function playWeaponSound(weaponType) {
+            if (sounds.muted) return;
+            
+            console.log('fireWeapon called:', weaponType, 'Sound ready:', sounds.isReady(weaponType));
+            
+            const volumeMap = {
+                'rifle': 0.5,
+                'shotgun': 0.7,
+                'plasma': 0.6,
+                'chaingun': 0.5,
+                'flamethrower': 0.6,
+                'railcannon': 1.0
+            };
+            
+            if (sounds.isReady(weaponType)) {
+                sounds.play(weaponType, volumeMap[weaponType] || 0.5);
+            } else {
+                // Procedural fallback for weapon sounds
+                if (typeof ProceduralSounds !== 'undefined') {
+                    ProceduralSounds.init();
+                    // Simple procedural weapon sounds could be added here
+                }
+            }
+        }
+
+        // Impact sounds with organic procedural fallback
+        function enemyHit() { 
+            if (sounds.muted) return;
+            // Use organic creature hit sound - always sounds good!
+            if (typeof ProceduralSounds !== 'undefined') {
+                ProceduralSounds.playCreatureHit();
+            }
+            // Also try to play the loaded sound if available
+            if (sounds.isReady('enemy_hit')) {
+                sounds.play('enemy_hit', 0.4); 
+            }
+        }
+        
+        function enemyDeath() { 
+            if (sounds.muted) return;
+            console.log('enemyDeath called. Loaded:', sounds.isReady('enemy_death'));
+            
+            // Use procedural alien death sound - always sounds good!
+            if (typeof ProceduralSounds !== 'undefined') {
+                ProceduralSounds.playAlienDeath();
+            }
+            // Also try to play the loaded sound if available
+            if (sounds.isReady('enemy_death')) {
+                sounds.play('enemy_death', 0.6);
+            }
+        }
+        
+        function playerHit() { 
+            if (sounds.muted) return;
+            if (sounds.isReady('player_hit')) {
+                sounds.play('player_hit', 0.7); 
+            } else if (typeof ProceduralSounds !== 'undefined') {
+                ProceduralSounds.playPlayerHit();
+            }
+        }
+        
+        function playExplosion() { 
+            if (sounds.muted) return;
+            if (sounds.isReady('explosion')) {
+                sounds.play('explosion', 0.8); 
+            }
+        }
+
+        // UI sounds
+        function playClick() { 
+            if (sounds.muted) return;
+            if (sounds.isReady('click')) {
+                sounds.play('click', 0.3); 
+            }
+        }
+        
+        function playPurchase() { 
+            if (sounds.muted) return;
+            if (sounds.isReady('purchase')) {
+                sounds.play('purchase', 0.5); 
+            }
+        }
+        
+        function playUpgrade() { 
+            if (sounds.muted) return;
+            if (sounds.isReady('upgrade')) {
+                sounds.play('upgrade', 0.6); 
+            }
+        }
+        
+        function playWaveStart() { 
+            // Wave start sound removed per user request
+            return;
+            
+            /* DISABLED - Trumpet sound removed
+            if (sounds.muted) return;
+            console.log('playWaveStart called. Loaded:', sounds.isReady('wave_start'));
+            
+            // Always play procedural trumpet - it's better than the tone!
+            if (typeof ProceduralSounds !== 'undefined') {
+                ProceduralSounds.playWaveStart();
+            }
+            // Also play loaded sound if available
+            if (sounds.isReady('wave_start')) {
+                sounds.play('wave_start', 0.8);
+            }
+            */
+        }
+        
+        function playWaveComplete() { 
+            if (sounds.muted) return;
+            if (sounds.isReady('wave_complete')) {
+                sounds.play('wave_complete', 0.7); 
+            }
+        }
+
+        // Fortress sounds with procedural fallback
+        function playFortressDamage() { 
+            if (sounds.muted) return;
+            console.log('playFortressDamage called. Loaded:', sounds.isReady('fortress_damage'));
+            
+            // Use procedural metal tear sound
+            if (typeof ProceduralSounds !== 'undefined') {
+                ProceduralSounds.playMetalTear();
+            }
+            // Also play loaded sound if available
+            if (sounds.isReady('fortress_damage')) {
+                sounds.play('fortress_damage', 0.7);
+            }
+        }
+        
+        function playTurretFire() { 
+            if (sounds.muted) return;
+            if (sounds.isReady('turret_fire')) {
+                sounds.play('turret_fire', 0.5); 
+            }
+        }
+
+        // Settings integration
+        function initSoundSettings() {
+            const savedVol = localStorage.getItem('soundVolume');
+            const savedSFXVol = localStorage.getItem('sfxVolume');
+            const savedMute = localStorage.getItem('soundMuted');
+
+            if (savedVol !== null) {
+                sounds.setVolume(parseFloat(savedVol));
+                const masterSlider = document.getElementById('masterVolume');
+                if (masterSlider) masterSlider.value = parseFloat(savedVol) * 100;
+            }
+            if (savedSFXVol !== null) {
+                sounds.setSFXVolume(parseFloat(savedSFXVol));
+                const sfxSlider = document.getElementById('sfxVolume');
+                if (sfxSlider) sfxSlider.value = parseFloat(savedSFXVol) * 100;
+            }
+            if (savedMute !== null) {
+                sounds.muted = savedMute === 'true';
+            }
+        }
+
+        function saveSoundSettings() {
+            localStorage.setItem('soundVolume', sounds.masterVolume);
+            localStorage.setItem('sfxVolume', sounds.sfxVolume);
+            localStorage.setItem('soundMuted', sounds.muted);
+        }
+
+        // Initialize sounds when user first interacts
+        let audioInitialized = false;
+        let audioInitPromise = null;
+        
+        function initAudio() {
+            if (audioInitialized) return Promise.resolve();
+            if (audioInitPromise) return audioInitPromise;
+            
+            audioInitPromise = new Promise((resolve) => {
+                console.log('Initializing audio system...');
+                audioInitialized = true;
+
+                // Initialize both sound systems
+                sounds.init();
+                if (typeof ProceduralSounds !== 'undefined') {
+                    ProceduralSounds.init();
+                }
+
+                // Load all sounds
+                const soundFiles = [
+                    ['rifle', 'assets/sounds/weapons/rifle.ogg'],
+                    ['shotgun', 'assets/sounds/weapons/shotgun.ogg'],
+                    ['plasma', 'assets/sounds/weapons/plasma.ogg'],
+                    ['chaingun', 'assets/sounds/weapons/chaingun.ogg'],
+                    ['flamethrower', 'assets/sounds/weapons/flamethrower.ogg'],
+                    ['railcannon', 'assets/sounds/weapons/railcannon.ogg'],
+                    ['enemy_hit', 'assets/sounds/impacts/enemy_hit.ogg'],
+                    ['enemy_death', 'assets/sounds/impacts/enemy_death.ogg'],
+                    ['player_hit', 'assets/sounds/impacts/player_hit.ogg'],
+                    ['explosion', 'assets/sounds/impacts/explosion.ogg'],
+                    ['click', 'assets/sounds/ui/click.ogg'],
+                    ['purchase', 'assets/sounds/ui/purchase.ogg'],
+                    ['upgrade', 'assets/sounds/ui/upgrade.ogg'],
+                    ['wave_start', 'assets/sounds/ui/wave_start.ogg'],
+                    ['wave_complete', 'assets/sounds/ui/wave_complete.ogg'],
+                    ['fortress_damage', 'assets/sounds/fortress/damage.ogg'],
+                    ['turret_fire', 'assets/sounds/fortress/turret_fire.ogg']
+                ];
+
+                // Load sounds with progress tracking
+                let loadedCount = 0;
+                const totalSounds = soundFiles.length;
+                
+                Promise.all(soundFiles.map(([name, url]) => {
+                    return sounds.load(name, url).then(() => {
+                        loadedCount++;
+                        console.log(`Loaded sound ${loadedCount}/${totalSounds}: ${name}`);
+                    });
+                }))
+                    .then(() => {
+                        console.log('All sound loading attempts complete');
+                        console.log('Loaded:', sounds.loadedSounds.size, 'Errors:', sounds.loadErrors.size);
+                    })
+                    .catch(err => {
+                        console.error('Unexpected error during sound loading:', err);
+                    })
+                    .finally(() => {
+                        initSoundSettings();
+                        resolve();
+                    });
+            });
+            
+            return audioInitPromise;
+        }
+
+        // Multiple triggers for audio init - aggressive approach
+        function tryInitAudio() {
+            if (!audioInitialized) {
+                initAudio().then(() => {
+                    console.log('Audio system ready!');
+                });
+            }
+        }
+        
+        document.addEventListener('click', tryInitAudio);
+        document.addEventListener('touchstart', tryInitAudio);
+        document.addEventListener('keydown', tryInitAudio);
+        document.addEventListener('mousemove', tryInitAudio, { once: true });
+        
+        // Also try to initialize when game starts
+        window.addEventListener('load', () => {
+            setTimeout(tryInitAudio, 100);
+        });
+    </script>
+
+    <script>
+        // Prevent iOS double-tap zoom
+        document.addEventListener('dblclick', function(event) {
+            event.preventDefault();
+        }, { passive: false });
+
+        // Game state tracking
+        let wasPausedWhenOpeningSettings = false;
+        let wasPausedWhenOpeningArsenal = false;
+
+        // Toggle pause
+        function togglePause() {
+            if (window.game && typeof window.game.togglePause === 'function') {
+                window.game.togglePause();
+            }
+        }
+
+        // Resume game
+        function resumeGame() {
+            if (window.game && typeof window.game.resume === 'function') {
+                window.game.resume();
+            }
+            document.getElementById('pauseMenu').classList.add('hidden');
+        }
+
+        // Show settings - track if we came from pause
+        function showSettings(e) {
+            if (e) e.stopPropagation();
+
+            // Check if pause menu is currently visible
+            const pauseMenu = document.getElementById('pauseMenu');
+            wasPausedWhenOpeningSettings = !pauseMenu.classList.contains('hidden');
+
+            // Hide all other menus but keep pause visible underneath (option B)
+            document.getElementById('mainMenu').classList.add('hidden');
+            document.getElementById('arsenalScreen').classList.add('hidden');
+            document.getElementById('bastionScreen').classList.add('hidden');
+            document.getElementById('endlessScreen').classList.add('hidden');
+            document.getElementById('helpMenu').classList.add('hidden');
+            document.getElementById('leaderboardScreen').classList.add('hidden');
+
+            // Show settings (appears OVER pause menu due to z-index: 200)
+            document.getElementById('settingsMenu').classList.remove('hidden');
+        }
+
+        // Settings back button - return to pause if we came from there
+        function settingsBack(e) {
+            if (e) e.stopPropagation();
+
+            document.getElementById('settingsMenu').classList.add('hidden');
+
+            // If we were paused, just return (pause menu is still visible underneath)
+            // If we came from main menu, go back there
+            if (!wasPausedWhenOpeningSettings) {
+                document.getElementById('mainMenu').classList.remove('hidden');
+            }
+
+            // Reset the flag
+            wasPausedWhenOpeningSettings = false;
+        }
+
+        // Show main menu
+        function showMainMenu(e) {
+            if (e) e.stopPropagation();
+
+            // Hide all screens
+            document.getElementById('pauseMenu').classList.add('hidden');
+            document.getElementById('settingsMenu').classList.add('hidden');
+            document.getElementById('arsenalScreen').classList.add('hidden');
+            document.getElementById('bastionScreen').classList.add('hidden');
+            document.getElementById('endlessScreen').classList.add('hidden');
+            document.getElementById('helpMenu').classList.add('hidden');
+            document.getElementById('leaderboardScreen').classList.add('hidden');
+            document.getElementById('gameOverScreen').classList.remove('active');
+            document.getElementById('gameUI').classList.remove('active');
+
+            // Show main menu
+            document.getElementById('mainMenu').classList.remove('hidden');
+
+            // Reset flags
+            wasPausedWhenOpeningSettings = false;
+            wasPausedWhenOpeningArsenal = false;
+        }
+
+        // Show arsenal
+        function showArsenal(e) {
+            if (e) e.stopPropagation();
+            document.getElementById('mainMenu').classList.add('hidden');
+            document.getElementById('arsenalScreen').classList.remove('hidden');
+            wasPausedWhenOpeningArsenal = false;
+        }
+
+        // Show arsenal from pause
+        function showArsenalFromPause(e) {
+            if (e) e.stopPropagation();
+            wasPausedWhenOpeningArsenal = true;
+            document.getElementById('arsenalScreen').classList.remove('hidden');
+        }
+
+        // Arsenal back button
+        function arsenalBack(e) {
+            if (e) e.stopPropagation();
+            document.getElementById('arsenalScreen').classList.add('hidden');
+            if (!wasPausedWhenOpeningArsenal) {
+                document.getElementById('mainMenu').classList.remove('hidden');
+            }
+            wasPausedWhenOpeningArsenal = false;
+        }
+
+        // Show bastion
+        function showBastion(e) {
+            if (e) e.stopPropagation();
+            document.getElementById('mainMenu').classList.add('hidden');
+            document.getElementById('bastionScreen').classList.remove('hidden');
+        }
+
+        // Show help
+        function showHelp(e) {
+            if (e) e.stopPropagation();
+            document.getElementById('mainMenu').classList.add('hidden');
+            document.getElementById('helpMenu').classList.remove('hidden');
+        }
+
+        // Show leaderboard
+        function showLeaderboard(e) {
+            if (e) e.stopPropagation();
+            document.getElementById('mainMenu').classList.add('hidden');
+            document.getElementById('leaderboardScreen').classList.remove('hidden');
+        }
+
+        // Show endless screen
+        function startEndless(e) {
+            if (e) e.stopPropagation();
+            document.getElementById('mainMenu').classList.add('hidden');
+            document.getElementById('endlessScreen').classList.remove('hidden');
+        }
+
+        // Note: startGame, restartGame, startEndlessGame are defined in game.js
+
+        // Settings toggle with sound
+        function toggleSetting(key) {
+            const toggle = document.getElementById(key + 'Toggle');
+            if (toggle) {
+                toggle.classList.toggle('active');
+                playClick();
+            }
+        }
+
+        // Volume control
+        function updateVolume(type, value) {
+            const vol = parseInt(value) / 100;
+            if (type === 'master') {
+                sounds.setVolume(vol);
+            } else if (type === 'sfx') {
+                sounds.setSFXVolume(vol);
+            }
+            saveSoundSettings();
+        }
+
+        // Add click sounds to all menu buttons
+        document.addEventListener('DOMContentLoaded', function() {
+            const menuButtons = document.querySelectorAll('.menu-btn');
+            menuButtons.forEach(btn => {
+                btn.addEventListener('click', function() {
+                    playClick();
+                });
+            });
+
+            // Weapon selection in arsenal
+            const weaponCards = document.querySelectorAll('.arsenal-weapon-card');
+            weaponCards.forEach(card => {
+                card.addEventListener('click', function() {
+                    playClick();
+                });
+            });
+        });
+        function buySelectedWeapon() {}
+        function equipSelectedWeapon() {}
+    </script>
+    <script>
+        // DEBUG: Button diagnostic code
+        function debugStartGame(e) {
+            console.log('Button clicked!');
+            console.log('startGame exists?', typeof startGame);
+            console.log('startGame === window.startGame?', typeof startGame !== 'undefined' && startGame === window.startGame);
+            playClick();
+            if (typeof startGame === 'function') {
+                console.log('Calling startGame...');
+                startGame(e);
+            } else {
+                console.error('startGame is NOT a function!');
+                console.log('Window keys:', Object.keys(window).filter(k => k.includes('start')));
+            }
+        }
+
+        window.onerror = function(msg, url, line) {
+            console.error('JS Error:', msg, 'at line', line);
+        };
+
+        document.addEventListener('DOMContentLoaded', () => {
+            console.log('DOM ready');
+            console.log('game.js loaded?', typeof startGame !== 'undefined');
+        });
+
+        window.addEventListener('load', () => {
+            console.log('WINDOW LOADED');
+            console.log('startGame exists:', typeof startGame);
+            console.log('gameCanvas exists:', !!document.getElementById('gameCanvas'));
+        });
+    </script>
     <script src="game.js"></script>
 </body>
 </html>

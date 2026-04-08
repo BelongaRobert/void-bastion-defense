@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sound System Test</title>
+    <style>
+        body {
+            background: #0D0D0D;
+            color: #C9A227;
+            font-family: monospace;
+            padding: 20px;
+            text-align: center;
+        }
+        h1 { color: #C9A227; }
+        .test-btn {
+            display: block;
+            width: 80%;
+            max-width: 400px;
+            margin: 10px auto;
+            padding: 15px;
+            background: #2a2a2a;
+            border: 2px solid #C9A227;
+            color: #C9A227;
+            font-size: 18px;
+            cursor: pointer;
+            border-radius: 5px;
+        }
+        .test-btn:hover {
+            background: #C9A227;
+            color: #0D0D0D;
+        }
+        .status {
+            margin-top: 20px;
+            padding: 10px;
+            background: #1a1a1a;
+            border: 1px solid #444;
+            color: #aaa;
+            font-size: 14px;
+            min-height: 100px;
+        }
+        .success { color: #2ecc71; }
+        .error { color: #FF4444; }
+    </style>
+</head>
+<body>
+    <h1>🔊 Sound System Test</h1>
+    <p>Click any button to initialize audio, then test sounds.</p>
+    
+    <button class="test-btn" onclick="testWeapon('rifle')">🔫 Test Rifle Shot</button>
+    <button class="test-btn" onclick="testWeapon('shotgun')">💥 Test Shotgun</button>
+    <button class="test-btn" onclick="testEnemyDeath()">👹 Test Enemy Death (Alien Grunt)</button>
+    <button class="test-btn" onclick="testFortressDamage()">🏰 Test Fortress Damage (Metal Tear)</button>
+    <button class="test-btn" onclick="testWaveStart()">📯 Test Wave Start (Trumpet)</button>
+    <button class="test-btn" onclick="testEnemyHit()">💢 Test Enemy Hit</button>
+    <button class="test-btn" onclick="testPlayerHit()">🩸 Test Player Hit</button>
+    
+    <div class="status" id="status">
+        Status: Ready to test...
+    </div>
+
+    <script src="assets/sounds/procedural-sounds.js"></script>
+    <script>
+        let audioInitialized = false;
+        const statusEl = document.getElementById('status');
+        
+        function log(msg, isError = false) {
+            const time = new Date().toLocaleTimeString();
+            const className = isError ? 'error' : 'success';
+            statusEl.innerHTML += `<div class="${className}">[${time}] ${msg}</div>`;
+            statusEl.scrollTop = statusEl.scrollHeight;
+        }
+        
+        function initAudio() {
+            if (audioInitialized) return;
+            audioInitialized = true;
+            
+            // Initialize sound manager
+            sounds.init();
+            ProceduralSounds.init();
+            
+            // Load all sounds
+            const soundFiles = [
+                ['rifle', 'assets/sounds/weapons/rifle.mp3'],
+                ['shotgun', 'assets/sounds/weapons/shotgun.mp3'],
+                ['enemy_death', 'assets/sounds/impacts/enemy_death.mp3'],
+                ['enemy_hit', 'assets/sounds/impacts/enemy_hit.mp3'],
+                ['player_hit', 'assets/sounds/impacts/player_hit.mp3'],
+                ['fortress_damage', 'assets/sounds/fortress/damage.mp3'],
+                ['wave_start', 'assets/sounds/ui/wave_start.mp3']
+            ];
+            
+            soundFiles.forEach(([name, url]) => {
+                sounds.load(name, url).then(() => {
+                    log(`Loaded: ${name}`);
+                }).catch(err => {
+                    log(`Failed to load: ${name}`, true);
+                });
+            });
+            
+            log('Audio system initialized!');
+        }
+        
+        // Initialize on first click
+        document.addEventListener('click', initAudio, { once: true });
+        
+        // Sound Manager (same as game)
+        class SoundManager {
+            constructor() {
+                this.sounds = {};
+                this.masterVolume = 1.0;
+                this.sfxVolume = 1.0;
+                this.muted = false;
+                this.context = null;
+                this.initialized = false;
+                this.loadedSounds = new Set();
+            }
+            init() {
+                if (this.initialized) return;
+                this.context = new (window.AudioContext || window.webkitAudioContext)();
+                this.initialized = true;
+            }
+            load(name, url) {
+                return new Promise((resolve, reject) => {
+                    const audio = new Audio();
+                    audio.src = url;
+                    audio.preload = 'auto';
+                    this.sounds[name] = audio;
+                    
+                    audio.addEventListener('canplaythrough', () => {
+                        this.loadedSounds.add(name);
+                        resolve(name);
+                    });
+                    
+                    audio.addEventListener('error', (e) => {
+                        console.warn(`Failed to load sound: ${name}`, e);
+                        resolve(name); // Resolve anyway
+                    });
+                    
+                    audio.load();
+                });
+            }
+            play(name, volume = 1.0) {
+                if (this.muted || !this.sounds[name]) return;
+                const clone = this.sounds[name].cloneNode();
+                clone.volume = volume * this.masterVolume * this.sfxVolume;
+                const playPromise = clone.play();
+                if (playPromise !== undefined) {
+                    playPromise.catch(e => {
+                        log(`Play error: ${e.message}`, true);
+                    });
+                }
+            }
+            isReady(name) {
+                return this.sounds[name] && this.loadedSounds.has(name);
+            }
+        }
+        
+        const sounds = new SoundManager();
+        
+        // Test functions
+        function testWeapon(type) {
+            initAudio();
+            log(`Testing weapon: ${type} - Ready: ${sounds.isReady(type)}`);
+            if (sounds.isReady(type)) {
+                sounds.play(type, 0.5);
+                log(`✅ Played ${type} sound`);
+            } else {
+                log(`⚠️ ${type} not ready yet, will play when loaded`);
+            }
+        }
+        
+        function testEnemyDeath() {
+            initAudio();
+            log('Testing enemy death (procedural alien grunt)');
+            ProceduralSounds.playAlienDeath();
+            log('✅ Alien death sound played!');
+            
+            // Also try to play loaded sound if available
+            if (sounds.isReady('enemy_death')) {
+                sounds.play('enemy_death', 0.6);
+            }
+        }
+        
+        function testFortressDamage() {
+            initAudio();
+            log('Testing fortress damage (procedural metal tear)');
+            ProceduralSounds.playMetalTear();
+            log('✅ Metal tear sound played!');
+            
+            if (sounds.isReady('fortress_damage')) {
+                sounds.play('fortress_damage', 0.7);
+            }
+        }
+        
+        function testWaveStart() {
+            initAudio();
+            log('Testing wave start (procedural trumpet)');
+            ProceduralSounds.playWaveStart();
+            log('✅ Trumpet fanfare played!');
+            
+            if (sounds.isReady('wave_start')) {
+                sounds.play('wave_start', 0.8);
+            }
+        }
+        
+        function testEnemyHit() {
+            initAudio();
+            log('Testing enemy hit');
+            if (sounds.isReady('enemy_hit')) {
+                sounds.play('enemy_hit', 0.4);
+                log('✅ Enemy hit sound played!');
+            } else {
+                ProceduralSounds.playEnemyHit();
+                log('✅ Procedural enemy hit played!');
+            }
+        }
+        
+        function testPlayerHit() {
+            initAudio();
+            log('Testing player hit');
+            if (sounds.isReady('player_hit')) {
+                sounds.play('player_hit', 0.7);
+                log('✅ Player hit sound played!');
+            } else {
+                ProceduralSounds.playPlayerHit();
+                log('✅ Procedural player hit played!');
+            }
+        }
+    </script>
+</body>
+</html>

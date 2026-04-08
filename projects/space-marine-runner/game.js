@@ -1,6 +1,18 @@
 // Void Bastion Defense - Complete Game Code with Animated Sprites
 // The Emperor protects! ⚔️🐙
 
+console.log('GAME.JS LOADING...');
+
+// ============================================
+// MOBILE DETECTION & PERFORMANCE
+// ============================================
+
+function isMobile() {
+    return /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+}
+
+const IS_MOBILE = isMobile();
+
 // ============================================
 // CONFIGURATION & CONSTANTS
 // ============================================
@@ -8,18 +20,18 @@
 const CONFIG = {
     // Performance
     TARGET_FPS: 60,
-    PARTICLE_LIMIT: 200,
-    ENEMY_LIMIT: 150,
+    PARTICLE_LIMIT: IS_MOBILE ? 50 : 200,
+    ENEMY_LIMIT: IS_MOBILE ? 30 : 100,
     BULLET_LIMIT: 100,
     POOL_SIZE: {
-        particles: 300,
-        enemies: 100,
-        bullets: 150
+        particles: IS_MOBILE ? 100 : 300,
+        enemies: IS_MOBILE ? 50 : 100,
+        bullets: IS_MOBILE ? 75 : 150
     },
     // Animation
     ENEMY_FPS: 12,
     EFFECT_FPS: 24,
-    ANIMATION_POOL_SIZE: 100,
+    ANIMATION_POOL_SIZE: IS_MOBILE ? 40 : 100,
     // Gameplay
     BASE_HEALTH: 1000,
     STARTING_CREDITS: 0,
@@ -247,9 +259,13 @@ const SpriteGenerator = {
         const frames = [];
         // Attack windup and strike
         frames.push((ctx) => this.drawEnemy(ctx, type, color, 0, -2, false));
-        frames.push((ctx) => this.drawEnemy(ctx, type, color, 0.3, -4, false));
+        if (!IS_MOBILE) {
+            frames.push((ctx) => this.drawEnemy(ctx, type, color, 0.3, -4, false));
+        }
         frames.push((ctx) => this.drawEnemyLunge(ctx, type, color));
-        frames.push((ctx) => this.drawEnemy(ctx, type, color, 0, 0, true)); // Recoil
+        if (!IS_MOBILE) {
+            frames.push((ctx) => this.drawEnemy(ctx, type, color, 0, 0, true)); // Recoil
+        }
         return frames;
     },
 
@@ -269,19 +285,24 @@ const SpriteGenerator = {
     // Generate muzzle flash animation
     generateMuzzleFlash(weaponColor) {
         const frames = [];
-        // Flash sequence
-        frames.push((ctx) => this.drawMuzzleFlash(ctx, weaponColor, 0.3));
-        frames.push((ctx) => this.drawMuzzleFlash(ctx, weaponColor, 0.8));
-        frames.push((ctx) => this.drawMuzzleFlash(ctx, weaponColor, 1.0));
-        frames.push((ctx) => this.drawMuzzleFlash(ctx, weaponColor, 0.4));
+        // Flash sequence - simplified on mobile
+        if (IS_MOBILE) {
+            frames.push((ctx) => this.drawMuzzleFlash(ctx, weaponColor, 1.0));
+        } else {
+            frames.push((ctx) => this.drawMuzzleFlash(ctx, weaponColor, 0.3));
+            frames.push((ctx) => this.drawMuzzleFlash(ctx, weaponColor, 0.8));
+            frames.push((ctx) => this.drawMuzzleFlash(ctx, weaponColor, 1.0));
+            frames.push((ctx) => this.drawMuzzleFlash(ctx, weaponColor, 0.4));
+        }
         return frames;
     },
 
     // Generate explosion animation
     generateExplosion(color1, color2) {
         const frames = [];
-        for (let i = 0; i < 8; i++) {
-            const progress = i / 7;
+        const frameCount = IS_MOBILE ? 4 : 8; // Reduced frames on mobile
+        for (let i = 0; i < frameCount; i++) {
+            const progress = i / (frameCount - 1);
             const scale = 0.5 + progress * 1.5;
             const alpha = 1 - progress * 0.8;
             frames.push((ctx) => this.drawExplosion(ctx, color1, color2, scale, alpha, i));
@@ -292,9 +313,10 @@ const SpriteGenerator = {
     // Generate blood splatter animation
     generateBloodSplatter() {
         const frames = [];
-        for (let i = 0; i < 5; i++) {
-            const scale = 0.3 + (i / 4) * 0.7;
-            const alpha = 1 - (i / 4) * 0.3;
+        const frameCount = IS_MOBILE ? 3 : 5; // Reduced frames on mobile
+        for (let i = 0; i < frameCount; i++) {
+            const scale = 0.3 + (i / (frameCount - 1)) * 0.7;
+            const alpha = 1 - (i / (frameCount - 1)) * 0.3;
             frames.push((ctx) => this.drawBlood(ctx, scale, alpha, i));
         }
         return frames;
@@ -798,7 +820,10 @@ const AnimationLibrary = {
     effects: {},
     
     init() {
-        // Generate enemy animations
+        // Generate enemy animations - use lower FPS on mobile
+        const fps = IS_MOBILE ? 8 : CONFIG.ENEMY_FPS;
+        const effectFps = IS_MOBILE ? 12 : CONFIG.EFFECT_FPS;
+        
         const enemyTypes = ['grunt', 'runner', 'heavy', 'cultist', 'chaos'];
         const enemyColors = {
             grunt: CONFIG.COLORBLIND_COLORS.ork,
@@ -810,51 +835,53 @@ const AnimationLibrary = {
         
         enemyTypes.forEach(type => {
             this.enemies[type] = {
-                idle: new Animation(SpriteGenerator.generateEnemyIdle(type, enemyColors[type]), CONFIG.ENEMY_FPS, true),
-                walk: new Animation(SpriteGenerator.generateEnemyWalk(type, enemyColors[type]), CONFIG.ENEMY_FPS, true),
-                attack: new Animation(SpriteGenerator.generateEnemyAttack(type, enemyColors[type]), CONFIG.ENEMY_FPS, false),
-                death: new Animation(SpriteGenerator.generateDeathAnimation(type, enemyColors[type]), CONFIG.EFFECT_FPS, false)
+                idle: new Animation(SpriteGenerator.generateEnemyIdle(type, enemyColors[type]), fps, true),
+                walk: new Animation(SpriteGenerator.generateEnemyWalk(type, enemyColors[type]), fps, true),
+                attack: new Animation(SpriteGenerator.generateEnemyAttack(type, enemyColors[type]), fps, false),
+                death: new Animation(SpriteGenerator.generateDeathAnimation(type, enemyColors[type]), effectFps, false)
             };
         });
         
         // Generate weapon animations
+        const weaponFps = IS_MOBILE ? 12 : CONFIG.EFFECT_FPS;
         this.weapons.muzzleFlash = {};
         WEAPONS.forEach(w => {
             this.weapons.muzzleFlash[w.id] = new Animation(
                 SpriteGenerator.generateMuzzleFlash(w.trail),
-                CONFIG.EFFECT_FPS,
+                weaponFps,
                 false
             );
         });
         
         this.weapons.railCharge = new Animation(
             SpriteGenerator.generateRailCharge(),
-            CONFIG.EFFECT_FPS,
+            weaponFps,
             false
         );
         
         this.weapons.overheatSteam = new Animation(
             SpriteGenerator.generateOverheatSteam(),
-            CONFIG.EFFECT_FPS,
+            IS_MOBILE ? 10 : CONFIG.EFFECT_FPS,
             true
         );
         
         // Generate effect animations
+        const effectFps2 = IS_MOBILE ? 10 : CONFIG.EFFECT_FPS;
         this.effects.explosion = new Animation(
             SpriteGenerator.generateExplosion('#FF6B35', '#FFD700'),
-            CONFIG.EFFECT_FPS,
+            effectFps2,
             false
         );
         
         this.effects.blood = new Animation(
             SpriteGenerator.generateBloodSplatter(),
-            CONFIG.EFFECT_FPS,
+            effectFps2,
             false
         );
         
         this.effects.smoke = new Animation(
             SpriteGenerator.generateSmoke(),
-            10,
+            IS_MOBILE ? 8 : 10, // Lower smoke FPS on mobile
             true
         );
     },
@@ -1032,12 +1059,12 @@ let enemiesTotalInWave = 0;
 
 // Settings
 let gameSettings = {
-    particles: true,
-    shake: true,
+    particles: !IS_MOBILE,  // Disable on mobile
+    shake: !IS_MOBILE,      // Disable on mobile
     fps: false,
     autofire: false,
     aimassist: true,
-    mobile: false
+    mobile: IS_MOBILE
 };
 
 // ============================================
@@ -1092,6 +1119,10 @@ class Particle {
     }
 }
 
+// Fortress attack constants
+const FORTRESS_STOP_DISTANCE = 120; // Distance from center to stop
+const FORTRESS_ATTACK_RANGE = 130; // Can attack from this range
+
 class Enemy {
     constructor() { this.reset(); }
     reset() {
@@ -1105,6 +1136,10 @@ class Enemy {
         this.animState = 'idle';
         this.animFlipX = false;
         this.attackCooldown = 0;
+        this.attackTimer = 0;
+        this.attackRate = 60; // Frames between attacks (60 = 1 second at 60fps)
+        this.damage = 10; // Damage per attack
+        this.state = 'moving'; // 'moving' or 'attacking'
     }
     init(type, speed) {
         this.type = type;
@@ -1112,6 +1147,8 @@ class Enemy {
         this.dead = false;
         this.active = true;
         this.outline = false;
+        this.state = 'moving';
+        this.attackTimer = 0;
         
         // Set animation
         this.animState = 'walk';
@@ -1135,11 +1172,15 @@ class Enemy {
             this.health = this.maxHealth = 1;
             this.value = 10;
             this.color = CONFIG.COLORBLIND_COLORS.ork;
+            this.attackRate = 60; // 1 second between attacks
+            this.damage = 10;
         } else if (type === 'cultist') {
             this.radius = 11;
             this.health = this.maxHealth = 1;
             this.value = 15;
             this.color = CONFIG.COLORBLIND_COLORS.cultist;
+            this.attackRate = 45; // Faster attacks
+            this.damage = 8;
         } else if (type === 'chaos') {
             this.radius = 15;
             this.health = this.maxHealth = 3;
@@ -1147,6 +1188,8 @@ class Enemy {
             this.color = CONFIG.COLORBLIND_COLORS.chaos;
             this.vx *= 0.8;
             this.vy *= 0.8;
+            this.attackRate = 90; // Slower but heavier attacks
+            this.damage = 25;
         }
     }
     
@@ -1163,40 +1206,98 @@ class Enemy {
             this.currentAnimation.update(16.67);
         }
         
-        this.x += this.vx;
-        this.y += this.vy;
-        this.angle = Math.atan2(canvas.height / 2 - this.y, canvas.width / 2 - this.x);
-        this.animFlipX = this.vx < 0;
-        
+        // Calculate distance to fortress center
         const dx = canvas.width / 2 - this.x;
         const dy = canvas.height / 2 - this.y;
-        const dist = Math.sqrt(dx * dx + dy * dy);
+        const distToCenter = Math.sqrt(dx * dx + dy * dy);
         
-        const attackRange = 40 + this.radius;
-        if (dist < attackRange) {
-            if (this.attackCooldown <= 0) {
+        // If within attack range, stop and attack
+        if (distToCenter <= FORTRESS_STOP_DISTANCE) {
+            this.state = 'attacking';
+            this.vx = 0;
+            this.vy = 0;
+            
+            // Face the fortress
+            this.angle = Math.atan2(dy, dx);
+            
+            // Attack fortress periodically
+            this.attackTimer++;
+            if (this.attackTimer >= this.attackRate) {
+                this.attackFortress();
+                this.attackTimer = 0;
+            }
+            
+            // Visual feedback - attacking animation
+            if (this.animState !== 'attack') {
                 this.setAnimation('attack');
-                this.attackCooldown = 60;
+            }
+            
+            // Spawn impact effect on fortress periodically
+            if (this.attackTimer % 10 === 0 && animManager) {
+                animManager.spawnBloodSplatter(
+                    canvas.width / 2 + (Math.random() - 0.5) * 40,
+                    canvas.height / 2 + (Math.random() - 0.5) * 40
+                );
             }
         } else {
-            if (this.animState === 'attack' && this.currentAnimation && this.currentAnimation.finished) {
+            // Move toward center
+            this.state = 'moving';
+            this.angle = Math.atan2(dy, dx);
+            this.vx = Math.cos(this.angle) * this.speed;
+            this.vy = Math.sin(this.angle) * this.speed;
+            this.x += this.vx;
+            this.y += this.vy;
+            this.animFlipX = this.vx < 0;
+            
+            if (this.animState !== 'walk') {
                 this.setAnimation('walk');
-            } else if (this.animState !== 'attack') {
-                this.setAnimation('walk');
-            }
-        }
-        
-        if (this.attackCooldown > 0) {
-            this.attackCooldown--;
-            if (this.animState === 'attack' && this.attackCooldown === 30) {
-                baseHealth -= 20;
-                updateBaseHealth();
-                createParticles(this.x, this.y, 15, '#8B0000', 7);
-                if (baseHealth <= 0) gameOver();
             }
         }
         
         return true;
+    }
+    
+    attackFortress() {
+        // Damage the base
+        baseHealth -= this.damage;
+        
+        // Play sound
+        if (typeof playFortressDamage === 'function') {
+            playFortressDamage();
+        }
+        
+        // Visual shake effect
+        if (gameSettings.shake && !IS_MOBILE) {
+            const container = document.getElementById('gameContainer');
+            if (container) {
+                container.style.transform = `translate(${(Math.random()-0.5)*5}px, ${(Math.random()-0.5)*5}px)`;
+                setTimeout(() => container.style.transform = '', 100);
+            }
+        }
+        
+        // Update UI
+        updateBaseHealth();
+        
+        // Spawn particles at fortress
+        createParticles(
+            canvas.width / 2 + (Math.random() - 0.5) * 30,
+            canvas.height / 2 + (Math.random() - 0.5) * 30,
+            8, '#8B0000', 5
+        );
+        
+        // Spawn impact effect
+        if (animManager) {
+            animManager.spawnExplosion(
+                canvas.width / 2 + (Math.random() - 0.5) * 40,
+                canvas.height / 2 + (Math.random() - 0.5) * 40,
+                0.3
+            );
+        }
+        
+        // Check game over
+        if (baseHealth <= 0) {
+            gameOver();
+        }
     }
     
     draw(ctx) {
@@ -1340,10 +1441,61 @@ function setupInputs() {
         player.y = e.clientY - rect.top;
         player.angle = Math.atan2(player.y - canvas.height / 2, player.x - canvas.width / 2);
     });
+
+    // Touch state tracking for swipe-to-aim, tap-to-fire
+    let touchStartPos = { x: 0, y: 0 };
+    let touchStartTime = 0;
+    let hasMoved = false;
+    const TAP_THRESHOLD = 10; // pixels
+    const TAP_TIME_THRESHOLD = 200; // ms
+
+    function updateAimFromTouch(touch) {
+        const rect = canvas.getBoundingClientRect();
+        player.x = touch.clientX - rect.left;
+        player.y = touch.clientY - rect.top;
+        player.angle = Math.atan2(player.y - canvas.height / 2, player.x - canvas.width / 2);
+    }
+
+    // Touch aiming (mobile) - THROTTLED for performance
+    let lastTouch = 0;
+    canvas.addEventListener('touchmove', (e) => {
+        if (!gameRunning || gamePaused) return;
+        e.preventDefault();
+        if (IS_MOBILE && Date.now() - lastTouch < 16) return; // 60fps max
+        lastTouch = Date.now();
+        const touch = e.touches[0];
+        const dist = Math.hypot(touch.clientX - touchStartPos.x, touch.clientY - touchStartPos.y);
+        if (dist > TAP_THRESHOLD) {
+            hasMoved = true;
+        }
+        updateAimFromTouch(touch);
+    }, { passive: false });
     
+    // Mouse controls (desktop)
     canvas.addEventListener('mousedown', (e) => {
         if (!gameRunning || gamePaused) return;
         if (e.button === 0) fireWeapon();
+    });
+
+    // Touch controls (mobile) - swipe to aim, tap to fire
+    canvas.addEventListener('touchstart', (e) => {
+        if (!gameRunning || gamePaused) return;
+        e.preventDefault(); // Prevent scrolling
+        const touch = e.touches[0];
+        touchStartPos = { x: touch.clientX, y: touch.clientY };
+        touchStartTime = Date.now();
+        hasMoved = false;
+        // Update aim immediately
+        updateAimFromTouch(touch);
+    }, { passive: false });
+
+    canvas.addEventListener('touchend', (e) => {
+        if (!gameRunning || gamePaused) return;
+        const touchDuration = Date.now() - touchStartTime;
+        // Fire if it was a tap (no movement, quick release)
+        if (!hasMoved && touchDuration < TAP_TIME_THRESHOLD) {
+            fireWeapon();
+        }
     });
     
     window.addEventListener('keydown', (e) => {
@@ -1411,8 +1563,14 @@ function fireWeapon() {
     shootCooldown = weapon.fireRate / 1000 * 60; // Convert to frames
     gameStats.shotsFired++;
     
-    // Recoil effect
-    if (gameSettings.shake) {
+    // Play weapon fire sound
+    const weaponNames = ['rifle', 'shotgun', 'chaingun', 'plasma', 'flamethrower'];
+    if (typeof playWeaponSound === 'function') {
+        playWeaponSound(weaponNames[weapon.id] || 'rifle');
+    }
+    
+    // Recoil effect - disabled on mobile
+    if (gameSettings.shake && !IS_MOBILE) {
         const container = document.getElementById('gameContainer');
         container.style.transform = `translate(${(Math.random()-0.5)*3}px, ${(Math.random()-0.5)*3}px)`;
         setTimeout(() => container.style.transform = '', 50);
@@ -1466,6 +1624,9 @@ function killEnemy(enemy) {
         enemy.active = false;
     }
     
+    // Play enemy death sound
+    if (typeof enemyDeath === 'function') enemyDeath();
+    
     createParticles(enemy.x, enemy.y, 10, enemy.color, 6);
     
     score += enemy.value * combo;
@@ -1513,6 +1674,8 @@ function checkCollisions() {
                     killEnemy(enemy);
                 } else {
                     createParticles(bullet.x, bullet.y, 3, '#fff', 4);
+                    // Play enemy hit sound
+                    if (typeof enemyHit === 'function') enemyHit();
                 }
                 
                 break;
@@ -1526,6 +1689,9 @@ function startWave() {
     enemiesToSpawn = enemiesTotalInWave;
     enemiesKilledThisWave = 0;
     waveInProgress = true;
+    
+    // Wave start sound removed per user request
+    // if (typeof playWaveStart === 'function') playWaveStart();
     
     // Announce wave
     document.getElementById('waveNumberDisplay').textContent = wave;
@@ -1618,13 +1784,15 @@ function update(dt) {
     const activeEnemies = pools.enemies.filter(e => e.active && !e.dead).length;
     document.getElementById('enemiesValue').textContent = activeEnemies;
     
-    // Check wave completion
-    if (waveInProgress && activeEnemies === 0 && enemiesKilledThisWave >= enemiesTotalInWave) {
+    // Check wave completion - only when ALL enemies are dead (not just off-screen)
+    if (waveInProgress && enemiesToSpawn === 0 && activeEnemies === 0 && enemiesKilledThisWave >= enemiesTotalInWave) {
         waveInProgress = false;
         wave++;
         document.getElementById('waveValue').textContent = wave;
         baseHealth = Math.min(baseHealth + 100, maxBaseHealth);
         updateBaseHealth();
+        // Play wave complete sound
+        if (typeof playWaveComplete === 'function') playWaveComplete();
         setTimeout(startWave, 2000);
     }
     
@@ -1677,7 +1845,18 @@ function draw() {
 let purchasedWeapons = [true, false, false, false, false];
 
 function startGame() {
+    // Hide ALL menu screens first
     document.getElementById('mainMenu').classList.add('hidden');
+    document.getElementById('pauseMenu').classList.add('hidden');
+    document.getElementById('settingsMenu').classList.add('hidden');
+    document.getElementById('helpMenu').classList.add('hidden');
+    document.getElementById('leaderboardScreen').classList.add('hidden');
+    document.getElementById('arsenalScreen').classList.add('hidden');
+    document.getElementById('bastionScreen').classList.add('hidden');
+    document.getElementById('endlessScreen').classList.add('hidden');
+    document.getElementById('gameOverScreen').classList.remove('active');
+    
+    // Show game UI
     document.getElementById('gameUI').classList.add('active');
     
     // Reset game state
@@ -1985,6 +2164,9 @@ function buySelectedWeapon() {
     credits -= weapon.cost;
     weaponOwnership[selectedWeaponId] = true;
     
+    // Play purchase sound
+    if (typeof playPurchase === 'function') playPurchase();
+    
     // Update UI
     document.getElementById('creditsValue').textContent = credits;
     updateArsenalUI();
@@ -2002,15 +2184,6 @@ function equipSelectedWeapon() {
     updateArsenalUI();
 }
 
-// Weapon switching during gameplay
-function switchWeapon(weaponId) {
-    if (!weaponOwnership[weaponId]) return;
-    if (weaponId < 0 || weaponId >= WEAPONS.length) return;
-    
-    equippedWeapon = weaponId;
-    updateWeaponUI();
-}
-
 // ============================================
 // ADDITIONAL MENU FUNCTIONS
 // ============================================
@@ -2026,7 +2199,18 @@ function showEndless() {
 }
 
 function startEndlessGame() {
+    // Hide ALL menu screens first
+    document.getElementById('mainMenu').classList.add('hidden');
+    document.getElementById('pauseMenu').classList.add('hidden');
+    document.getElementById('settingsMenu').classList.add('hidden');
+    document.getElementById('helpMenu').classList.add('hidden');
+    document.getElementById('leaderboardScreen').classList.add('hidden');
+    document.getElementById('arsenalScreen').classList.add('hidden');
+    document.getElementById('bastionScreen').classList.add('hidden');
     document.getElementById('endlessScreen').classList.add('hidden');
+    document.getElementById('gameOverScreen').classList.remove('active');
+    
+    // Show game UI
     document.getElementById('gameUI').classList.add('active');
     
     // Reset game state for endless mode
@@ -2066,3 +2250,5 @@ function startEndlessGame() {
 function startEndless() {
     showEndless();
 }
+
+console.log('GAME.JS LOADED');
