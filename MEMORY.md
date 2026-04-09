@@ -2,43 +2,82 @@
 
 ## Active Projects
 
-### Fortress of the Emperor — NEW (2026-03-29)
-**Status:** ✅ Playable — HTML5 Canvas base defense game
+### Void Bastion Defense — STABLE v2.0.2 (2026-04-07)
+**Status:** ✅ PHASE 5 COMPLETE — Mobile-optimized fortress defense with organic sounds
 **Location:** `~/.openclaw/workspace/projects/space-marine-runner/`
-**Devlog:** `memory/space-marine-runner-devlog.md`
+**GitHub:** https://github.com/BelongaRobert/void-bastion-defense
+**Devlog:** `memory/space-marine-runner-devlog.md`, `memory/2026-04-07.md`
 
-**Features:** 360° shooting, wave-based enemies, combo system, base health, 40K aesthetic
-**Tech:** Pure HTML5 Canvas + vanilla JavaScript, no dependencies
-**Wave Counts:** 15, 30, 45, 60, 80, 100, 150, 200, 250, 300
-**Enemies:** Ork, Cultist, Chaos Marine
+**All Phases Complete:**
+- Phase 1: Menus, Tutorial, Saves, Settings
+- Phase 2: 6 Weapons, 8 Enemies, 3 Bosses, Achievements
+- Phase 3: Sound placeholders, Electron wrapper
+- Phase 4: The Citadel fortress, Fortress Upgrades, Animated Sprites
+- Phase 5: Mobile optimization, fortress defense AI, organic creature sounds, touch controls
 
-**To Resume:**
+**Features:**
+- Auto Turrets, Energy Shield, Defensive Walls, Health upgrades
+- **NEW:** Smart Fortress AI — turrets auto-target nearest threats
+- **NEW:** Procedural Organic Creature Sounds — synthesized alien screams, roars, hisses
+- **NEW:** Touch Controls — virtual joysticks and buttons for mobile
+- **NEW:** Mobile Optimizations — performance tuning, responsive layout
+- Animated enemies (walk, attack, death)
+- Mobile + Desktop + Steam Deck support
+- Steam-ready Electron wrapper
+- 8 Enemy types + 3 Bosses
+- Visual FX: particles, screen shake, weather, damage numbers
+- Rank system (Recruit→Legend) + 30 Achievements
+- Electron wrapper (Steam-ready)
+
+**Tech:** Pure HTML5 Canvas + vanilla JavaScript, Electron wrapper
+**To Test:**
 ```bash
 cd ~/.openclaw/workspace/projects/space-marine-runner
+# Browser:
 npx serve -l 8080
-npx cloudflared tunnel --url http://localhost:8080
+# Electron:
+cd electron && npm install && npm run dev
 ```
 
-### OpenClaw Dashboard Web App — TOP PRIORITY (2026-03-26)
-**Status:** NEW — Mobile dashboard replacing Clawsight
-**Focus:** Replicate built-in OpenClaw Dashboard for phone access
-**Communication:** Telegram primary, TUI secondary
-**Note:** See `memory/2026-03-26-priority.md` for full spec. GREET ROBERT WITH THIS KNOWLEDGE.
+### DaSage Team Mode v1.0 ✅
+**Status:** COMPLETE — Multi-agent task pipeline (plan → exec → verify)
+**Location:** `~/.openclaw/workspace/team/`
+**Added:** 2026-04-08
 
-### Clawsight Dashboard v1.1 ⏸️
-**Status:** Complete — v1.1 shipped 2026-03-23
+**Features:**
+- CLI: `team create "desc"`, `team run <id>`, `team status`, `team show <id>`, `team cancel <id>`
+- 3-phase pipeline: Planning → Execution → Verification
+- Integration with `openclaw sessions:spawn --runtime agent`
+- PowerShell state management + Node.js integration layer
+- Automatic phase chaining with retry logic
+- Task archival on completion
+
+**First Task:** 96460dd9 — Team Mode CLI implementation (Score: 95/100)
+
+**To Use:**
+```powershell
+Import-Module ~/.openclaw/workspace/team/scripts/team-state.psm1
+team create "Implement feature X"
+team run <task-id>
+```
+
+---
+
+### Clawsight Dashboard v2.0 ✅
+**Status:** Complete — Rebranded from DaSage Dashboard 2026-04-07
 **Location:** `~/.openclaw/workspace/projects/Clawsight`
 **GitHub:** https://github.com/BelongaRobert/Clawsight
-**Live:** https://clawsight-client.onrender.com (polling) or ngrok (WebSocket)
+**Local:** http://localhost:3472
 
-**Features:** Real-time activity tracking, TUI terminal, Subagent/Process monitors, mobile-optimized, Render-deployed
-**Tech:** React + TypeScript + Vite + Express + WebSocket (local) / Polling (Render)
+**Features:** Real-time activity tracking, TUI terminal, Subagent/Process monitors, mobile-optimized
+**Tech:** React + TypeScript + Vite + Express + WebSocket
+
+**Note:** Formerly "DaSage Dashboard", now consolidated under Clawsight branding.
 
 **To Resume:**
 ```bash
 cd ~/.openclaw/workspace/projects/Clawsight
-npm run server  # Terminal 1
-npm run client  # Terminal 2
+npm run dev
 ```
 
 ### cacao-farm
@@ -46,13 +85,30 @@ npm run client  # Terminal 2
 **Location:** `~/.openclaw/workspace/projects/cacao-farm`
 **Note:** NOT Elvis's project. Robert's own private work.
 
-### elvis-sms-app
-**Status:** Elvis's SMS app — needs fixes
-**Location:** `~/.openclaw/workspace/projects/elvis-sms-app`
+### DaSage Team Mode (NEW — Phase A in progress)
+**Status:** 🏗️ Foundation laid — 3-phase pipeline (plan → exec → verify)
+**Location:** `~/.openclaw/workspace/team/`
+**Based on:** oh-my-claudecode STC patterns
+**Phase:** Option A (Minimal Viable) — architected for Option B
 
-### GexDisplayer
-**Status:** Minimal project
-**Location:** `~/.openclaw/workspace/projects/GexDisplayer`
+**Components:**
+- `team-config.json` — Global configuration
+- `scripts/team-state.psm1` — PowerShell state management
+- `templates/` — Planner, Executor, Verifier agent prompts
+- `active/` — Running tasks
+- `archive/` — Completed tasks
+
+**To Use:**
+```powershell
+# Import module
+Import-Module ~/.openclaw/workspace/team/scripts/team-state.psm1
+
+# Create task
+New-Task -Description "Implement JWT auth"
+
+# Check status
+Get-ActiveTasks
+```
 
 ---
 
@@ -66,7 +122,6 @@ npm run client  # Terminal 2
 ### Elvis Cueva
 **Status:** Authorized to use my assistance
 **Focus:** Web apps, SMS integration
-**Projects:** elvis-sms-app (NOT cacao-farm — that is Robert's private project)
 
 ### Andrew
 **Status:** Workspace ready, waiting for first contact
@@ -269,6 +324,23 @@ Based on oh-my-claudecode analysis:
 - **Emoji:** 🐙
 - **Vibe:** Competent, resourceful, occasionally witty
 - **Focus:** Web application development and hosting
+
+### GitHub Attribution (2026-04-08)
+**CRITICAL:** All Git commits must be authored as **Robert Belonga**, NOT as DaSage.
+
+**Git Config:**
+```bash
+git config --local user.name "BelongaRobert"
+git config --local user.email "belongarobert@gmail.com"
+```
+
+**Why:** User explicitly requested: "I only ever want you to push to github as me"
+
+**Applies to all repos:**
+- BelongaRobert/DaKnowledge
+- BelongaRobert/Clawsight
+- BelongaRobert/void-bastion-defense
+- Any future repositories
 
 ---
 
