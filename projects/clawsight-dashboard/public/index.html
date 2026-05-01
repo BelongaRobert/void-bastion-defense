@@ -1,0 +1,791 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Clawsight Command Center</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-deep: #0f1117;
+            --bg-surface: #181a21;
+            --bg-elevated: #1f222c;
+            --bg-hover: #252836;
+            --border: #2a2d3a;
+            --text-primary: #e2e4ea;
+            --text-secondary: #8b8f9e;
+            --accent: #6366f1;
+            --accent-glow: rgba(99, 102, 241, 0.3);
+            --success: #22c55e;
+            --warning: #f59e0b;
+            --danger: #ef4444;
+            --info: #3b82f6;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Inter', -apple-system, sans-serif;
+            background: var(--bg-deep);
+            color: var(--text-primary);
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        /* Header */
+        .header {
+            position: fixed;
+            top: 0; left: 0; right: 0;
+            height: 56px;
+            background: rgba(15, 17, 23, 0.95);
+            backdrop-filter: blur(12px);
+            border-bottom: 1px solid var(--border);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 20px;
+            z-index: 100;
+        }
+
+        .brand {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .brand-icon {
+            width: 32px; height: 32px;
+            background: linear-gradient(135deg, var(--accent), #8b5cf6);
+            border-radius: 8px;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 16px;
+        }
+
+        .brand h1 {
+            font-size: 1.1rem;
+            font-weight: 600;
+            letter-spacing: -0.3px;
+        }
+
+        .status-badge {
+            display: flex; align-items: center; gap: 6px;
+            padding: 5px 12px;
+            background: rgba(34, 197, 94, 0.1);
+            border: 1px solid rgba(34, 197, 94, 0.3);
+            border-radius: 20px;
+            font-size: 0.75rem;
+            color: var(--success);
+        }
+
+        .status-dot {
+            width: 6px; height: 6px;
+            background: var(--success);
+            border-radius: 50%;
+            animation: blink 2s infinite;
+        }
+
+        @keyframes blink { 0%,100%{opacity:1} 50%{opacity:.4} }
+
+        /* Tabs */
+        .tab-nav {
+            position: fixed;
+            top: 56px; left: 0; right: 0;
+            height: 48px;
+            background: rgba(15, 17, 23, 0.95);
+            backdrop-filter: blur(12px);
+            border-bottom: 1px solid var(--border);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 6px;
+            padding: 0 16px;
+            z-index: 99;
+            overflow-x: auto;
+            scrollbar-width: none;
+        }
+
+        .tab-nav::-webkit-scrollbar { display: none; }
+
+        .tab-btn {
+            background: transparent;
+            border: none;
+            color: var(--text-secondary);
+            font-size: 0.8rem;
+            font-weight: 500;
+            padding: 7px 14px;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            white-space: nowrap;
+            flex-shrink: 0;
+        }
+
+        .tab-btn:hover { color: var(--text-primary); background: var(--bg-hover); }
+        .tab-btn.active { color: var(--accent); background: rgba(99, 102, 241, 0.12); }
+
+        /* Tab Content */
+        .tab-content {
+            position: fixed;
+            top: 104px; left: 0; right: 0; bottom: 0;
+            overflow-y: auto;
+            padding: 20px;
+            display: none;
+        }
+
+        .tab-content.active { display: block; }
+
+        /* Cards */
+        .card {
+            background: var(--bg-surface);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 16px;
+            transition: all 0.2s ease;
+        }
+
+        .card:hover { border-color: #3f4354; }
+
+        .card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 14px;
+        }
+
+        .card-title {
+            font-size: 0.8rem;
+            font-weight: 500;
+            color: var(--text-secondary);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .card-icon {
+            width: 36px; height: 36px;
+            background: var(--bg-elevated);
+            border-radius: 8px;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 1.1rem;
+        }
+
+        .metric { font-size: 1.8rem; font-weight: 700; margin-bottom: 6px; }
+        .metric-label { font-size: 0.8rem; color: var(--text-secondary); }
+        .trend { display: inline-flex; align-items: center; gap: 4px; padding: 3px 8px; background: rgba(34,197,94,0.1); border-radius: 4px; font-size: 0.7rem; color: var(--success); margin-top: 6px; }
+        .trend.down { background: rgba(239,68,68,0.1); color: var(--danger); }
+        .trend.warn { background: rgba(245,158,11,0.1); color: var(--warning); }
+
+        /* Grid layouts */
+        .grid-4 { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; }
+        .grid-2 { display: grid; grid-template-columns: repeat(2, 1fr); gap: 16px; }
+        .grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
+
+        /* Charts */
+        .chart-container { margin-top: 12px; height: 90px; position: relative; }
+        .sparkline { width: 100%; height: 100%; }
+        .sparkline-path { fill: none; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+        .sparkline-fill { opacity: 0.15; }
+        .chart-labels { display: flex; justify-content: space-between; margin-top: 6px; font-size: 0.65rem; color: var(--text-secondary); }
+
+        /* Disk Bars */
+        .disk-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-top: 12px; }
+        .disk-item { background: var(--bg-deep); border-radius: 10px; padding: 14px; }
+        .disk-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; }
+        .disk-name { font-size: 0.85rem; font-weight: 500; }
+        .disk-percent { font-size: 0.85rem; color: var(--accent); font-weight: 600; }
+        .disk-bar { height: 5px; background: var(--border); border-radius: 3px; overflow: hidden; }
+        .disk-fill { height: 100%; border-radius: 3px; transition: width 0.5s ease; }
+        .disk-fill.c { background: linear-gradient(90deg, var(--accent), #8b5cf6); }
+        .disk-fill.d { background: linear-gradient(90deg, #06b6d4, #22d3ee); }
+
+        /* Activity Feed */
+        .activity-feed { max-height: calc(100vh - 220px); overflow-y: auto; }
+        .activity-item {
+            display: flex; gap: 12px; padding: 14px 0;
+            border-bottom: 1px solid var(--border);
+        }
+        .activity-item:last-child { border-bottom: none; }
+        .activity-icon { width: 32px; height: 32px; background: var(--bg-elevated); border-radius: 8px; display: flex; align-items: center; justify-content: center; font-size: 0.9rem; flex-shrink: 0; }
+        .activity-content { flex: 1; }
+        .activity-text { font-size: 0.9rem; line-height: 1.4; margin-bottom: 3px; }
+        .activity-time { font-size: 0.7rem; color: var(--text-secondary); }
+
+        /* Projects */
+        .projects-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 14px; }
+        .project-card {
+            background: var(--bg-surface); border: 1px solid var(--border);
+            border-radius: 12px; padding: 18px; transition: all 0.2s ease;
+        }
+        .project-card:hover { border-color: var(--accent); transform: translateY(-2px); }
+        .project-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; }
+        .project-status { font-size: 0.7rem; font-weight: 600; padding: 3px 8px; border-radius: 4px; text-transform: uppercase; }
+        .project-status.active { background: rgba(34,197,94,0.12); color: var(--success); }
+        .project-status.stable { background: rgba(59,130,246,0.12); color: var(--info); }
+        .project-status.private { background: rgba(139,92,246,0.12); color: #a78bfa; }
+        .project-name { font-size: 1rem; font-weight: 600; margin-bottom: 6px; }
+        .project-path { font-size: 0.75rem; color: var(--text-secondary); margin-bottom: 10px; }
+        .project-notes { font-size: 0.8rem; color: var(--text-secondary); line-height: 1.4; margin-bottom: 12px; }
+        .project-meta { font-size: 0.7rem; color: var(--text-secondary); }
+        .project-link { font-size: 0.75rem; color: var(--accent); text-decoration: none; }
+        .project-link:hover { text-decoration: underline; }
+
+        /* Tasks */
+        .task-list { display: flex; flex-direction: column; gap: 10px; }
+        .task-item {
+            background: var(--bg-surface); border: 1px solid var(--border);
+            border-radius: 10px; padding: 14px 16px; display: flex; align-items: flex-start; gap: 12px;
+        }
+        .task-status { width: 10px; height: 10px; border-radius: 50%; margin-top: 5px; flex-shrink: 0; }
+        .task-status.pending { background: var(--text-secondary); }
+        .task-status.in_progress { background: var(--accent); box-shadow: 0 0 6px var(--accent-glow); }
+        .task-status.completed { background: var(--success); }
+        .task-status.blocked { background: var(--danger); }
+        .task-content { flex: 1; }
+        .task-title { font-size: 0.95rem; font-weight: 500; margin-bottom: 3px; }
+        .task-desc { font-size: 0.8rem; color: var(--text-secondary); line-height: 1.4; }
+        .task-meta { font-size: 0.7rem; color: var(--text-secondary); margin-top: 6px; }
+        .task-actions { display: flex; gap: 6px; margin-top: 8px; }
+        .task-btn {
+            font-size: 0.7rem; padding: 4px 10px; border-radius: 4px; border: 1px solid var(--border);
+            background: var(--bg-elevated); color: var(--text-secondary); cursor: pointer; transition: all 0.2s;
+        }
+        .task-btn:hover { background: var(--bg-hover); color: var(--text-primary); }
+
+        /* Gateway */
+        .gateway-status { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; padding: 14px; }
+        .gateway-metric { display: flex; flex-direction: column; gap: 4px; }
+        .gateway-label { font-size: 0.7rem; color: var(--text-secondary); text-transform: uppercase; letter-spacing: 0.5px; }
+        .gateway-value { font-size: 1rem; font-weight: 600; }
+        .gateway-value.online { color: var(--success); }
+        .gateway-value.offline { color: var(--danger); }
+        .gateway-value.error { color: var(--warning); }
+
+        /* Monitor */
+        .connections-list { display: flex; flex-direction: column; gap: 8px; padding: 14px; }
+        .connection-item {
+            display: flex; justify-content: space-between; align-items: center;
+            padding: 10px 12px; background: var(--bg-deep); border-radius: 8px;
+        }
+        .connection-info { display: flex; gap: 10px; align-items: center; }
+        .connection-device { font-size: 0.85rem; }
+        .connection-ip { font-size: 0.75rem; color: var(--text-secondary); }
+        .connection-time { font-size: 0.75rem; color: var(--text-secondary); }
+
+        .health-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px; padding: 14px; }
+        .health-item { text-align: center; padding: 14px; background: var(--bg-deep); border-radius: 10px; }
+        .health-label { font-size: 0.7rem; color: var(--text-secondary); margin-bottom: 6px; }
+        .health-value { font-size: 1.3rem; font-weight: 700; }
+
+        /* Terminal */
+        .terminal-controls { display: flex; gap: 6px; flex-wrap: wrap; padding: 14px; border-bottom: 1px solid var(--border); }
+        .terminal-btn {
+            background: var(--bg-elevated); border: 1px solid var(--border);
+            color: var(--text-secondary); font-size: 0.75rem; padding: 5px 10px;
+            border-radius: 5px; cursor: pointer; transition: all 0.2s;
+        }
+        .terminal-btn:hover { background: var(--bg-hover); color: var(--text-primary); }
+        .terminal-btn.active { background: var(--accent); color: #fff; border-color: var(--accent); }
+        .terminal-output {
+            padding: 14px; font-family: 'JetBrains Mono', monospace; font-size: 0.8rem;
+            max-height: 400px; overflow-y: auto; background: var(--bg-deep);
+            border-radius: 8px; margin: 0 14px 14px;
+        }
+        .terminal-line { padding: 6px 0; border-bottom: 1px solid rgba(255,255,255,0.04); display: flex; gap: 8px; align-items: flex-start; }
+        .terminal-line:last-child { border-bottom: none; }
+        .terminal-prompt { color: var(--accent); font-weight: 600; flex-shrink: 0; }
+        .terminal-text { color: var(--text-primary); word-break: break-word; }
+        .terminal-meta { color: var(--text-secondary); font-size: 0.7rem; margin-left: auto; flex-shrink: 0; }
+        .terminal-stats { display: flex; justify-content: space-between; align-items: center; padding: 10px 14px; border-top: 1px solid var(--border); font-size: 0.8rem; color: var(--text-secondary); }
+        .terminal-clear { background: rgba(239,68,68,0.1); border: 1px solid rgba(239,68,68,0.3); color: var(--danger); padding: 5px 10px; border-radius: 5px; cursor: pointer; font-size: 0.75rem; }
+        .terminal-clear:hover { background: rgba(239,68,68,0.2); }
+
+        /* Notifications */
+        .notification-container { position: fixed; top: 70px; right: 16px; z-index: 1000; max-width: 320px; display: flex; flex-direction: column; gap: 8px; }
+        .notification-item {
+            background: var(--bg-surface); border: 1px solid var(--border); border-radius: 10px;
+            padding: 14px; box-shadow: 0 8px 24px rgba(0,0,0,0.4); animation: slideIn 0.25s ease; position: relative;
+        }
+        @keyframes slideIn { from { transform: translateX(100%); opacity: 0; } to { transform: translateX(0); opacity: 1; } }
+        .notification-item.urgent { border-left: 3px solid var(--danger); }
+        .notification-item.high { border-left: 3px solid var(--warning); }
+        .notification-item.normal { border-left: 3px solid var(--info); }
+        .notification-title { font-weight: 600; font-size: 0.85rem; margin-bottom: 3px; }
+        .notification-message { font-size: 0.8rem; color: var(--text-secondary); margin-bottom: 10px; }
+        .notification-close { position: absolute; top: 6px; right: 8px; background: none; border: none; color: var(--text-secondary); cursor: pointer; font-size: 1.1rem; opacity: 0.5; }
+        .notification-close:hover { opacity: 1; }
+
+        /* Predictions */
+        .prediction-item { display: flex; align-items: center; gap: 10px; padding: 10px 14px; border-bottom: 1px solid var(--border); }
+        .prediction-item:last-child { border-bottom: none; }
+        .prediction-text { font-size: 0.85rem; }
+        .prediction-urgent { color: var(--danger); font-weight: 600; }
+        .prediction-warning { color: var(--warning); }
+        .prediction-info { color: var(--text-secondary); }
+
+        /* Scrollbar */
+        ::-webkit-scrollbar { width: 5px; height: 5px; }
+        ::-webkit-scrollbar-track { background: var(--bg-deep); }
+        ::-webkit-scrollbar-thumb { background: var(--border); border-radius: 3px; }
+        ::-webkit-scrollbar-thumb:hover { background: #3f4354; }
+
+        /* Mobile */
+        @media (max-width: 768px) {
+            .grid-4, .grid-3, .grid-2 { grid-template-columns: 1fr; }
+            .disk-grid { grid-template-columns: 1fr; }
+            .projects-grid { grid-template-columns: 1fr; }
+            .gateway-status { grid-template-columns: 1fr; }
+            .health-grid { grid-template-columns: repeat(2, 1fr); }
+            .tab-btn { padding: 6px 10px; font-size: 0.75rem; }
+            .tab-content { padding: 14px; }
+        }
+    </style>
+</head>
+<body>
+    <div class="notification-container" id="notification-container"></div>
+
+    <header class="header">
+        <div class="brand">
+            <div class="brand-icon">◈</div>
+            <h1>Clawsight</h1>
+        </div>
+        <div class="status-badge">
+            <span class="status-dot"></span>
+            <span>Online</span>
+        </div>
+    </header>
+
+    <nav class="tab-nav">
+        <button class="tab-btn active" data-tab="overview">Overview</button>
+        <button class="tab-btn" data-tab="tasks">Tasks</button>
+        <button class="tab-btn" data-tab="projects">Projects</button>
+        <button class="tab-btn" data-tab="system">System</button>
+        <button class="tab-btn" data-tab="activity">Activity</button>
+        <button class="tab-btn" data-tab="monitor">Monitor</button>
+        <button class="tab-btn" data-tab="gateway">Gateway</button>
+        <button class="tab-btn" data-tab="terminal">Terminal</button>
+    </nav>
+
+    <!-- Overview -->
+    <div class="tab-content active" id="tab-overview">
+        <div class="grid-4">
+            <div class="card">
+                <div class="card-header"><span class="card-title">Projects</span><div class="card-icon">🚀</div></div>
+                <div class="metric" id="project-count">--</div>
+                <div class="metric-label">Active projects</div>
+            </div>
+            <div class="card">
+                <div class="card-header"><span class="card-title">System Health</span><div class="card-icon">💻</div></div>
+                <div class="metric" id="system-health">--%</div>
+                <div class="metric-label">All systems</div>
+            </div>
+            <div class="card">
+                <div class="card-header"><span class="card-title">Memory</span><div class="card-icon">🧠</div></div>
+                <div class="metric" id="memory-metric">--%</div>
+                <div class="metric-label">Used</div>
+            </div>
+            <div class="card">
+                <div class="card-header"><span class="card-title">Active</span><div class="card-icon">👥</div></div>
+                <div class="metric" id="active-users">--</div>
+                <div class="metric-label">Connected</div>
+            </div>
+        </div>
+        <div class="card">
+            <div class="card-header"><span class="card-title">Recent Activity</span><div class="card-icon">⚡</div></div>
+            <div class="activity-feed" id="overview-activity"><div class="activity-item"><div class="activity-icon">🚀</div><div class="activity-content"><div class="activity-text">Loading activity...</div></div></div></div>
+        </div>
+        <div class="card">
+            <div class="card-header"><span class="card-title">Predictions</span><div class="card-icon">🔮</div></div>
+            <div id="predictions-content"><div class="prediction-item"><span class="prediction-text">Analyzing trends...</span></div></div>
+        </div>
+    </div>
+
+    <!-- Tasks -->
+    <div class="tab-content" id="tab-tasks">
+        <div class="card">
+            <div class="card-header"><span class="card-title">Active Tasks</span><div class="card-icon">✅</div></div>
+            <div class="task-list" id="task-list">Loading tasks...</div>
+        </div>
+    </div>
+
+    <!-- Projects -->
+    <div class="tab-content" id="tab-projects">
+        <div class="card">
+            <div class="card-header"><span class="card-title">Projects</span><div class="card-icon">🚀</div></div>
+            <div class="projects-grid" id="projects-grid">Loading projects...</div>
+        </div>
+    </div>
+
+    <!-- System -->
+    <div class="tab-content" id="tab-system">
+        <div class="grid-2">
+            <div class="card">
+                <div class="card-header"><span class="card-title">CPU Usage</span><div class="card-icon">📈</div></div>
+                <div class="metric" id="cpu-metric">--%</div>
+                <div class="chart-container"><svg class="sparkline" id="cpu-chart" viewBox="0 0 100 50" preserveAspectRatio="none"><defs><linearGradient id="cpu-grad" x1="0%" y1="0%" x2="0%" y2="100%"><stop offset="0%" style="stop-color:#6366f1;stop-opacity:0.4"/><stop offset="100%" style="stop-color:#6366f1;stop-opacity:0"/></linearGradient></defs><path id="cpu-fill" class="sparkline-fill" fill="url(#cpu-grad)"/><path id="cpu-path" class="sparkline-path" stroke="#6366f1"/></svg></div>
+                <div class="chart-labels"><span>5 min ago</span><span>Now</span></div>
+            </div>
+            <div class="card">
+                <div class="card-header"><span class="card-title">Memory Usage</span><div class="card-icon">🧠</div></div>
+                <div class="metric" id="mem-metric">--%</div>
+                <div class="chart-container"><svg class="sparkline" id="mem-chart" viewBox="0 0 100 50" preserveAspectRatio="none"><defs><linearGradient id="mem-grad" x1="0%" y1="0%" x2="0%" y2="100%"><stop offset="0%" style="stop-color:#8b5cf6;stop-opacity:0.4"/><stop offset="100%" style="stop-color:#8b5cf6;stop-opacity:0"/></linearGradient></defs><path id="mem-fill" class="sparkline-fill" fill="url(#mem-grad)"/><path id="mem-path" class="sparkline-path" stroke="#8b5cf6"/></svg></div>
+                <div class="chart-labels"><span>5 min ago</span><span>Now</span></div>
+            </div>
+        </div>
+        <div class="card">
+            <div class="card-header"><span class="card-title">Disk Usage</span><div class="card-icon">💾</div></div>
+            <div class="disk-grid">
+                <div class="disk-item"><div class="disk-header"><span class="disk-name">C: Drive</span><span class="disk-percent" id="disk-c-percent">--%</span></div><div class="disk-bar"><div class="disk-fill c" id="disk-c-bar" style="width:0%"></div></div></div>
+                <div class="disk-item"><div class="disk-header"><span class="disk-name">D: Drive</span><span class="disk-percent" id="disk-d-percent">--%</span></div><div class="disk-bar"><div class="disk-fill d" id="disk-d-bar" style="width:0%"></div></div></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Activity -->
+    <div class="tab-content" id="tab-activity">
+        <div class="card">
+            <div class="card-header"><span class="card-title">Activity Log</span><div class="card-icon">⚡</div></div>
+            <div class="activity-feed" id="full-activity">Loading...</div>
+        </div>
+    </div>
+
+    <!-- Monitor -->
+    <div class="tab-content" id="tab-monitor">
+        <div class="card">
+            <div class="card-header"><span class="card-title">Active Connections</span><div class="card-icon">🖥️</div></div>
+            <div class="connections-list" id="connections-list"><div class="connection-item"><span class="connection-device">No active connections</span></div></div>
+        </div>
+        <div class="card">
+            <div class="card-header"><span class="card-title">System Health</span><div class="card-icon">🫀</div></div>
+            <div class="health-grid">
+                <div class="health-item"><div class="health-label">CPU</div><div class="health-value" id="monitor-cpu">--%</div></div>
+                <div class="health-item"><div class="health-label">Memory</div><div class="health-value" id="monitor-mem">--%</div></div>
+                <div class="health-item"><div class="health-label">Disk C:</div><div class="health-value" id="monitor-disk-c">--%</div></div>
+                <div class="health-item"><div class="health-label">Disk D:</div><div class="health-value" id="monitor-disk-d">--%</div></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Gateway -->
+    <div class="tab-content" id="tab-gateway">
+        <div class="card">
+            <div class="card-header"><span class="card-title">OpenClaw Gateway</span><div class="card-icon">🔌</div></div>
+            <div class="gateway-status">
+                <div class="gateway-metric"><span class="gateway-label">Status</span><span class="gateway-value" id="gateway-state">Checking...</span></div>
+                <div class="gateway-metric"><span class="gateway-label">Uptime</span><span class="gateway-value" id="gateway-uptime">--</span></div>
+                <div class="gateway-metric"><span class="gateway-label">Version</span><span class="gateway-value" id="gateway-version">--</span></div>
+            </div>
+        </div>
+        <div class="card">
+            <div class="card-header"><span class="card-title">Protected Service</span><div class="card-icon">🔒</div></div>
+            <div style="padding:14px; font-size:0.85rem; color:var(--text-secondary); line-height:1.6;">
+                <p>The OpenClaw Gateway on port <strong>18789</b> is a protected service.</p>
+                <p style="margin-top:8px;">Claude Code must <strong>ask Robert before restarting or changing</strong> this service.</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Terminal -->
+    <div class="tab-content" id="tab-terminal">
+        <div class="card">
+            <div class="card-header"><span class="card-title">Command Terminal</span><div class="card-icon">🖥️</div></div>
+            <div class="terminal-controls">
+                <button class="terminal-btn active" data-filter="all">All</button>
+                <button class="terminal-btn" data-filter="system">System</button>
+                <button class="terminal-btn" data-filter="git">Git</button>
+                <button class="terminal-btn" data-filter="network">Network</button>
+                <button class="terminal-btn" data-filter="error">Errors</button>
+            </div>
+            <div class="terminal-output" id="terminal-output"><div class="terminal-line"><span class="terminal-prompt">$</span><span class="terminal-text">Terminal ready...</span></div></div>
+            <div class="terminal-stats"><span id="terminal-count">0 commands</span><button class="terminal-clear" id="terminal-clear">Clear</button></div>
+        </div>
+    </div>
+
+    <script src="/socket.io/socket.io.js"></script>
+    <script>
+        // Socket.io
+        const socket = io();
+        let historyData = { cpu: [], memory: [], diskC: [], diskD: [] };
+
+        // Tab switching
+        document.querySelectorAll('.tab-btn').forEach(btn => {
+            btn.addEventListener('click', () => {
+                document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+                document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+                btn.classList.add('active');
+                document.getElementById('tab-' + btn.dataset.tab).classList.add('active');
+                socket.emit('tab-change', btn.dataset.tab);
+                sessionStorage.setItem('dashboardActiveTab', btn.dataset.tab);
+            });
+        });
+
+        // Restore tab
+        const savedTab = sessionStorage.getItem('dashboardActiveTab');
+        if (savedTab) {
+            const btn = document.querySelector(`.tab-btn[data-tab="${savedTab}"]`);
+            if (btn) btn.click();
+        }
+
+        // Sparkline renderer
+        function updateSparkline(svgId, data, color) {
+            const svg = document.getElementById(svgId);
+            if (!svg || data.length < 2) return;
+            const width = 100, height = 50, max = Math.max(...data, 100), min = Math.min(...data, 0), range = max - min || 1;
+            const points = data.map((val, i) => `${(i / (data.length - 1)) * width},${height - ((val - min) / range) * height}`).join(' ');
+            const path = svg.querySelector('.sparkline-path');
+            const fill = svg.querySelector('.sparkline-fill');
+            if (path) path.setAttribute('d', `M ${points}`);
+            if (fill) fill.setAttribute('d', `M 0,${height} L ${points} L ${width},${height} Z`);
+        }
+
+        // System updates
+        socket.on('system-update', data => {
+            document.getElementById('cpu-metric').textContent = data.cpu + '%';
+            document.getElementById('mem-metric').textContent = data.memory + '%';
+            document.getElementById('memory-metric').textContent = data.memory + '%';
+            document.getElementById('system-health').textContent = data.health + '%';
+            document.getElementById('active-users').textContent = data.activeUsers;
+            document.getElementById('monitor-cpu').textContent = data.cpu + '%';
+            document.getElementById('monitor-mem').textContent = data.memory + '%';
+            if (data.diskC) {
+                document.getElementById('disk-c-percent').textContent = data.diskC.used + '%';
+                document.getElementById('disk-c-bar').style.width = data.diskC.used + '%';
+                document.getElementById('monitor-disk-c').textContent = data.diskC.used + '%';
+            }
+            if (data.diskD) {
+                document.getElementById('disk-d-percent').textContent = data.diskD.used + '%';
+                document.getElementById('disk-d-bar').style.width = data.diskD.used + '%';
+                document.getElementById('monitor-disk-d').textContent = data.diskD.used + '%';
+            }
+        });
+
+        socket.on('history-update', data => {
+            historyData = data;
+            updateSparkline('cpu-chart', data.cpu, '#6366f1');
+            updateSparkline('mem-chart', data.memory, '#8b5cf6');
+        });
+
+        // Activity
+        socket.on('activity', data => {
+            addActivityToFeed(data, 'overview-activity');
+            addActivityToFeed(data, 'full-activity');
+        });
+
+        socket.on('init-activities', data => {
+            const overview = document.getElementById('overview-activity');
+            const full = document.getElementById('full-activity');
+            if (overview) overview.innerHTML = data.map(a => renderActivityItem(a)).join('');
+            if (full) full.innerHTML = data.map(a => renderActivityItem(a)).join('');
+        });
+
+        function renderActivityItem(a) {
+            const time = a.timestamp ? timeAgo(a.timestamp) : 'Just now';
+            return `<div class="activity-item"><div class="activity-icon">${a.icon || '•'}</div><div class="activity-content"><div class="activity-text">${escapeHtml(a.text)}</div><div class="activity-time">${time}</div></div></div>`;
+        }
+
+        function addActivityToFeed(data, id) {
+            const feed = document.getElementById(id);
+            if (!feed) return;
+            const div = document.createElement('div');
+            div.innerHTML = renderActivityItem(data);
+            feed.insertBefore(div.firstElementChild, feed.firstChild);
+            if (feed.children.length > 50) feed.removeChild(feed.lastChild);
+        }
+
+        function timeAgo(ts) {
+            const s = Math.floor((Date.now() - ts) / 1000);
+            if (s < 60) return 'Just now';
+            if (s < 3600) return Math.floor(s/60) + 'm ago';
+            if (s < 86400) return Math.floor(s/3600) + 'h ago';
+            return Math.floor(s/86400) + 'd ago';
+        }
+
+        function escapeHtml(t) {
+            const d = document.createElement('div');
+            d.textContent = t;
+            return d.innerHTML;
+        }
+
+        // Connections
+        socket.on('connections', data => {
+            const list = document.getElementById('connections-list');
+            if (!list) return;
+            if (data.length === 0) { list.innerHTML = '<div class="connection-item"><span class="connection-device">No active connections</span></div>'; return; }
+            list.innerHTML = data.map(c => `<div class="connection-item"><div class="connection-info"><span class="connection-device">${c.device === 'mobile' ? '📱' : '🖥️'} ${c.browser}</span><span class="connection-ip">${c.ip}</span></div><span class="connection-time">${new Date(c.connectedAt).toLocaleTimeString()}</span></div>`).join('');
+        });
+
+        // Tasks
+        async function loadTasks() {
+            try {
+                const res = await fetch('/api/tasks');
+                const tasks = await res.json();
+                document.getElementById('task-list').innerHTML = tasks.map(t => renderTask(t)).join('') || '<div style="color:var(--text-secondary); padding:10px;">No tasks</div>';
+                const activeCount = tasks.filter(t => t.status === 'in_progress').length;
+                document.getElementById('project-count').textContent = activeCount > 0 ? activeCount + ' active' : tasks.length + ' total';
+            } catch (e) { console.log('Tasks load failed', e); }
+        }
+
+        function renderTask(t) {
+            const statusMap = { pending: 'Pending', in_progress: 'In Progress', completed: 'Completed', blocked: 'Blocked' };
+            const actions = t.status !== 'completed'
+                ? `<button class="task-btn" onclick="updateTaskStatus('${t.id}', 'completed')">Mark Done</button>`
+                : `<button class="task-btn" onclick="updateTaskStatus('${t.id}', 'pending')">Reopen</button>`;
+            const blockedBy = t.blockedBy?.length ? `<span style="color:var(--danger)">Blocked by: ${t.blockedBy.join(', ')}</span>` : '';
+            return `<div class="task-item"><div class="task-status ${t.status}"></div><div class="task-content"><div class="task-title">${escapeHtml(t.title)}</div><div class="task-desc">${escapeHtml(t.description || '')}</div><div class="task-meta">${statusMap[t.status] || t.status} · ${t.project || 'No project'} ${blockedBy}</div><div class="task-actions">${actions}</div></div></div>`;
+        }
+
+        async function updateTaskStatus(id, status) {
+            try {
+                await fetch(`/api/tasks/${id}`, { method: 'PATCH', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ status }) });
+                loadTasks();
+            } catch (e) { console.log('Update failed', e); }
+        }
+        window.updateTaskStatus = updateTaskStatus;
+
+        socket.on('tasks-update', () => loadTasks());
+
+        // Projects
+        async function loadProjects() {
+            try {
+                const res = await fetch('/api/projects');
+                const projects = await res.json();
+                document.getElementById('projects-grid').innerHTML = projects.map(p => renderProject(p)).join('') || '<div style="color:var(--text-secondary); padding:10px;">No projects</div>';
+            } catch (e) { console.log('Projects load failed', e); }
+        }
+
+        function renderProject(p) {
+            const statusClass = p.status === 'active' ? 'active' : p.status === 'stable' ? 'stable' : 'private';
+            const repoLink = p.repo ? `<a href="${p.repo}" class="project-link" target="_blank">View Repo →</a>` : '';
+            return `<div class="project-card"><div class="project-header"><span class="project-status ${statusClass}">${p.status}</span></div><div class="project-name">${escapeHtml(p.name)}</div><div class="project-path">${escapeHtml(p.path)}</div><div class="project-notes">${escapeHtml(p.notes || '')}</div><div class="project-meta">Last active: ${p.lastActivity ? new Date(p.lastActivity).toLocaleDateString() : 'Unknown'}</div>${repoLink}</div>`;
+        }
+
+        socket.on('projects-update', () => loadProjects());
+
+        // Gateway
+        async function loadGateway() {
+            try {
+                const res = await fetch('/api/gateway/status');
+                const data = await res.json();
+                const stateEl = document.getElementById('gateway-state');
+                const uptimeEl = document.getElementById('gateway-uptime');
+                const versionEl = document.getElementById('gateway-version');
+                if (stateEl) { stateEl.textContent = data.status.toUpperCase(); stateEl.className = 'gateway-value ' + (data.status === 'online' ? 'online' : 'offline'); }
+                if (uptimeEl) { const h = Math.floor(data.uptime / 3600); const m = Math.floor((data.uptime % 3600) / 60); uptimeEl.textContent = h + 'h ' + m + 'm'; }
+                if (versionEl) versionEl.textContent = data.version;
+            } catch (e) { console.log('Gateway check failed', e); }
+        }
+        loadGateway();
+        setInterval(loadGateway, 10000);
+
+        // Predictions
+        async function loadPredictions() {
+            try {
+                const res = await fetch('/api/predictions');
+                const data = await res.json();
+                const container = document.getElementById('predictions-content');
+                let html = '';
+                if (data.diskC?.prediction) html += `<div class="prediction-item ${data.diskC.urgency === 'urgent' ? 'prediction-urgent' : data.diskC.urgency === 'warning' ? 'prediction-warning' : 'prediction-info'}"><span>${data.diskC.message}</span></div>`;
+                if (data.diskD?.prediction) html += `<div class="prediction-item ${data.diskD.urgency === 'urgent' ? 'prediction-urgent' : data.diskD.urgency === 'warning' ? 'prediction-warning' : 'prediction-info'}"><span>${data.diskD.message}</span></div>`;
+                if (data.memory) html += `<div class="prediction-item"><span>${data.memory.message}</span></div>`;
+                if (!html) html = '<div class="prediction-item"><span class="prediction-text">Collecting data for predictions...</span></div>';
+                container.innerHTML = html;
+            } catch (e) { console.log('Predictions load failed', e); }
+        }
+        loadPredictions();
+        setInterval(loadPredictions, 300000);
+
+        socket.on('predictions-update', data => {
+            const container = document.getElementById('predictions-content');
+            let html = '';
+            if (data.diskC?.prediction) html += `<div class="prediction-item ${data.diskC.urgency === 'urgent' ? 'prediction-urgent' : data.diskC.urgency === 'warning' ? 'prediction-warning' : 'prediction-info'}"><span>${data.diskC.message}</span></div>`;
+            if (data.diskD?.prediction) html += `<div class="prediction-item ${data.diskD.urgency === 'urgent' ? 'prediction-urgent' : data.diskD.urgency === 'warning' ? 'prediction-warning' : 'prediction-info'}"><span>${data.diskD.message}</span></div>`;
+            if (data.memory) html += `<div class="prediction-item"><span>${data.memory.message}</span></div>`;
+            if (!html) html = '<div class="prediction-item"><span class="prediction-text">Collecting data...</span></div>';
+            container.innerHTML = html;
+        });
+
+        // Terminal
+        let terminalFilter = 'all';
+        const terminalCommands = [];
+
+        async function loadTerminalCommands() {
+            try {
+                const res = await fetch('/api/terminal?limit=50');
+                const data = await res.json();
+                if (data.commands) {
+                    terminalCommands.length = 0;
+                    terminalCommands.push(...data.commands.reverse());
+                    renderTerminal();
+                }
+            } catch (e) { console.log('Terminal load failed', e); }
+        }
+
+        function renderTerminal() {
+            const container = document.getElementById('terminal-output');
+            if (!container) return;
+            let filtered = terminalCommands;
+            if (terminalFilter !== 'all') filtered = terminalCommands.filter(c => terminalFilter === 'error' ? c.status === 'error' : c.category === terminalFilter);
+            if (filtered.length === 0) { container.innerHTML = '<div class="terminal-line"><span class="terminal-prompt">$</span><span class="terminal-text">No commands</span></div>'; }
+            else {
+                container.innerHTML = filtered.map(cmd => {
+                    const icon = cmd.status === 'error' ? '❌' : cmd.status === 'success' ? '✓' : '⏳';
+                    const dur = cmd.duration ? `${cmd.duration}ms` : '';
+                    return `<div class="terminal-line"><span class="terminal-prompt">${icon}</span><span class="terminal-text">${escapeHtml(cmd.command?.substring(0, 80) || '')}${(cmd.command?.length > 80) ? '...' : ''}</span><span class="terminal-meta">${dur}</span></div>`;
+                }).join('');
+            }
+            const countEl = document.getElementById('terminal-count');
+            if (countEl) countEl.textContent = filtered.length + ' command' + (filtered.length !== 1 ? 's' : '');
+        }
+
+        document.querySelectorAll('.terminal-btn').forEach(btn => {
+            btn.addEventListener('click', () => {
+                document.querySelectorAll('.terminal-btn').forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+                terminalFilter = btn.dataset.filter;
+                renderTerminal();
+            });
+        });
+
+        document.getElementById('terminal-clear')?.addEventListener('click', () => {
+            fetch('/api/terminal/clear', { method: 'POST' });
+            terminalCommands.length = 0;
+            renderTerminal();
+        });
+
+        socket.on('terminal-command', cmd => { terminalCommands.push(cmd); if (terminalCommands.length > 50) terminalCommands.shift(); renderTerminal(); });
+        socket.on('terminal-update', cmd => { const idx = terminalCommands.findIndex(c => c.id === cmd.id); if (idx >= 0) { terminalCommands[idx] = cmd; renderTerminal(); } });
+
+        // Smart notifications
+        const notificationContainer = document.getElementById('notification-container');
+        const activeNotifications = new Map();
+
+        socket.on('smart-notification', n => showNotification(n));
+
+        function showNotification(data) {
+            if (!notificationContainer) return;
+            const notif = document.createElement('div');
+            notif.className = `notification-item ${data.priority || 'normal'}`;
+            notif.dataset.id = data.id;
+            notif.innerHTML = `<button class="notification-close">×</button><div class="notification-title">${escapeHtml(data.title)}</div><div class="notification-message">${escapeHtml(data.message)}</div>`;
+            notificationContainer.appendChild(notif);
+            activeNotifications.set(data.id, notif);
+            if (data.priority !== 'urgent') setTimeout(() => closeNotification(data.id), 10000);
+            notif.querySelector('.notification-close').addEventListener('click', () => closeNotification(data.id));
+        }
+
+        function closeNotification(id) {
+            const notif = activeNotifications.get(id);
+            if (notif) { notif.style.opacity = '0'; setTimeout(() => { notif.remove(); activeNotifications.delete(id); }, 250); }
+        }
+
+        // Heartbeat
+        setInterval(() => socket.emit('heartbeat'), 10000);
+        setInterval(() => socket.emit('ping'), 30000);
+
+        // Init
+        loadTasks();
+        loadProjects();
+        loadTerminalCommands();
+    </script>
+</body>
+</html>
