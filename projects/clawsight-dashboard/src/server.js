@@ -80,21 +80,26 @@ async function collectSystemData() {
       if (cpuMatch) cpu = parseInt(cpuMatch[1]);
     } catch {}
 
-    // Disk data
+    // Disk data — query each drive individually to avoid regex cross-contamination
     let diskC = systemData.diskC;
     let diskD = systemData.diskD;
     try {
-      const diskResult = loggedExecSync('wmic logicaldisk get Size,FreeSpace,Name /value', { shell: 'cmd', encoding: 'utf-8', timeout: 3000 });
-      const cMatch = diskResult.match(/Name=C:[\s\S]*?Size=(\d+)[\s\S]*?FreeSpace=(\d+)/);
-      const dMatch = diskResult.match(/Name=D:[\s\S]*?Size=(\d+)[\s\S]*?FreeSpace=(\d+)/);
-      if (cMatch) {
-        const total = parseInt(cMatch[1]);
-        const free = parseInt(cMatch[2]);
+      const cResult = loggedExecSync(`wmic logicaldisk where "Name='C:'" get Size,FreeSpace /value`, { shell: 'cmd', encoding: 'utf-8', timeout: 3000 });
+      const cSize = cResult.match(/Size=(\d+)/);
+      const cFree = cResult.match(/FreeSpace=(\d+)/);
+      if (cSize && cFree) {
+        const total = parseInt(cSize[1]);
+        const free = parseInt(cFree[1]);
         diskC = { used: Math.round(((total - free) / total) * 100), total: Math.round(total / 1e9) };
       }
-      if (dMatch) {
-        const total = parseInt(dMatch[1]);
-        const free = parseInt(dMatch[2]);
+    } catch {}
+    try {
+      const dResult = loggedExecSync(`wmic logicaldisk where "Name='D:'" get Size,FreeSpace /value`, { shell: 'cmd', encoding: 'utf-8', timeout: 3000 });
+      const dSize = dResult.match(/Size=(\d+)/);
+      const dFree = dResult.match(/FreeSpace=(\d+)/);
+      if (dSize && dFree) {
+        const total = parseInt(dSize[1]);
+        const free = parseInt(dFree[1]);
         diskD = { used: Math.round(((total - free) / total) * 100), total: Math.round(total / 1e9) };
       }
     } catch {}
