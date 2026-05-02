@@ -1,17 +1,18 @@
+import 'dotenv/config';
+import { fileURLToPath } from 'url';
+import { dirname, join } from 'path';
+
+const __dirname = dirname(fileURLToPath(import.meta.url));
+
 import express from 'express';
 import { createServer } from 'http';
 import { Server } from 'socket.io';
-import { fileURLToPath } from 'url';
-import { dirname, join } from 'path';
-import dotenv from 'dotenv';
 import { execSync } from 'child_process';
 import { getCommandLog, getLogEmitter, loggedExecSync } from './logger.js';
 import { sendSmartNotification, checkSmartThresholds, setupPresenceTracking, updatePresence, userPresence } from './smart-notify.js';
 import { addHistoryPoint, getAllPredictions, startAnalyticsCollection } from './analytics.js';
-import { getTasks, getProjects, getActivity, logActivity, updateTask, updateProject } from './state.js';
-
-const __dirname = dirname(fileURLToPath(import.meta.url));
-dotenv.config({ path: join(__dirname, '../.env') });
+import { getTasks, getProjects, getActivity, logActivity, updateTask, updateProject, getMessages, addMessage, getRequests, addRequest, updateRequest } from './state.js';
+import { startTelegramBot, sendTelegramMessage, sendApprovalRequest, setResolveRequestHandler } from './telegram-bot.js';
 
 const app = express();
 const httpServer = createServer(app);
@@ -275,6 +276,63 @@ app.post('/api/terminal/clear', async (req, res) => {
 // Notifications
 app.get('/api/notifications', (req, res) => res.json({ notifications: [], unread: 0 }));
 
+// Messages API
+app.get('/api/messages', async (req, res) => {
+  try {
+    const limit = parseInt(req.query.limit) || 100;
+    const since = parseInt(req.query.since) || 0;
+    let messages = await getMessages(limit);
+    if (since) messages = messages.filter(m => m.timestamp > since);
+    res.json(messages);
+  } catch (e) { res.status(500).json({ error: e.message }); }
+});
+
+app.post('/api/messages', async (req, res) => {
+  try {
+    const { from, text, type = 'chat' } = req.body;
+    if (!from || !text) return res.status(400).json({ error: 'from and text required' });
+    const msg = await addMessage({ from, text, type });
+    io.emit('new-message', msg);
+    addActivity('💬', `[${from}] ${text.substring(0, 60)}${text.length > 60 ? '...' : ''}`);
+    res.json(msg);
+  } catch (e) { res.status(500).json({ error: e.message }); }
+});
+
+// Approval Requests API
+app.get('/api/requests', async (req, res) => {
+  try {
+    const requests = await getRequests(req.query.status);
+    res.json(requests);
+  } catch (e) { res.status(500).json({ error: e.message }); }
+});
+
+app.post('/api/requests', async (req, res) => {
+  try {
+    const { title, description } = req.body;
+    if (!title) return res.status(400).json({ error: 'title required' });
+    const reqObj = await addRequest({ title, description });
+    io.emit('new-request', reqObj);
+    addActivity('❓', `Approval requested: ${title}`);
+    await notifyExternal('Approval Request', `${title}\n\n${description || ''}`, 'high');
+    await sendApprovalRequest(title, description, reqObj.id);
+    res.json(reqObj);
+  } catch (e) { res.status(500).json({ error: e.message }); }
+});
+
+app.post('/api/requests/:id/resolve', async (req, res) => {
+  try {
+    const { status, note } = req.body;
+    if (!['approved', 'denied'].includes(status)) return res.status(400).json({ error: 'status must be approved or denied' });
+    const resolved = await updateRequest(req.params.id, { status, resolvedAt: Date.now(), resolution: note || status });
+    if (resolved) {
+      io.emit('request-resolved', resolved);
+      addActivity(status === 'approved' ? '✅' : '❌', `Request ${status}: ${resolved.title}`);
+      await sendTelegramMessage(`Request *${resolved.title}* was ${status}.`);
+      res.json(resolved);
+    } else res.status(404).json({ error: 'Not found' });
+  } catch (e) { res.status(500).json({ error: e.message }); }
+});
+
 // Gateway health (read-only)
 app.get('/api/gateway/status', async (req, res) => {
   try {
@@ -320,6 +378,17 @@ httpServer.listen(PORT, async () => {
   addActivity('🚀', 'Clawsight Dashboard started');
   await notifyExternal('Dashboard Started', `Clawsight Dashboard online\n\nLocal: http://localhost:${PORT}`, 'normal');
 
+  // Wire Telegram bot resolve handler
+  setResolveRequestHandler(async (id, updates) => {
+    const resolved = await updateRequest(id, updates);
+    if (resolved) {
+      io.emit('request-resolved', resolved);
+      addActivity(resolved.status === 'approved' ? '✅' : '❌', `Request ${resolved.status}: ${resolved.title}`);
+    }
+    return resolved;
+  });
+
+  startTelegramBot();
   startAnalyticsCollection(io);
 });
 

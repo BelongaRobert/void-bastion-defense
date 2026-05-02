@@ -252,31 +252,6 @@
         }
         .task-btn:hover { background: var(--bg-hover); color: var(--text-primary); }
 
-        /* Gateway */
-        .gateway-status { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; padding: 14px; }
-        .gateway-metric { display: flex; flex-direction: column; gap: 4px; }
-        .gateway-label { font-size: 0.7rem; color: var(--text-secondary); text-transform: uppercase; letter-spacing: 0.5px; }
-        .gateway-value { font-size: 1rem; font-weight: 600; }
-        .gateway-value.online { color: var(--success); }
-        .gateway-value.offline { color: var(--danger); }
-        .gateway-value.error { color: var(--warning); }
-
-        /* Monitor */
-        .connections-list { display: flex; flex-direction: column; gap: 8px; padding: 14px; }
-        .connection-item {
-            display: flex; justify-content: space-between; align-items: center;
-            padding: 10px 12px; background: var(--bg-deep); border-radius: 8px;
-        }
-        .connection-info { display: flex; gap: 10px; align-items: center; }
-        .connection-device { font-size: 0.85rem; }
-        .connection-ip { font-size: 0.75rem; color: var(--text-secondary); }
-        .connection-time { font-size: 0.75rem; color: var(--text-secondary); }
-
-        .health-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px; padding: 14px; }
-        .health-item { text-align: center; padding: 14px; background: var(--bg-deep); border-radius: 10px; }
-        .health-label { font-size: 0.7rem; color: var(--text-secondary); margin-bottom: 6px; }
-        .health-value { font-size: 1.3rem; font-weight: 700; }
-
         /* Terminal */
         .terminal-controls { display: flex; gap: 6px; flex-wrap: wrap; padding: 14px; border-bottom: 1px solid var(--border); }
         .terminal-btn {
@@ -329,15 +304,46 @@
         ::-webkit-scrollbar-thumb { background: var(--border); border-radius: 3px; }
         ::-webkit-scrollbar-thumb:hover { background: #3f4354; }
 
+        /* Messages */
+        .messages-layout { display: grid; grid-template-columns: 1fr 320px; gap: 16px; }
+        .chat-container { display: flex; flex-direction: column; height: calc(100vh - 180px); min-height: 300px; }
+        .chat-messages { flex: 1; overflow-y: auto; padding: 14px; display: flex; flex-direction: column; gap: 10px; }
+        .chat-bubble { max-width: 80%; padding: 10px 14px; border-radius: 12px; font-size: 0.9rem; line-height: 1.4; word-break: break-word; }
+        .chat-bubble.user { align-self: flex-end; background: var(--accent); color: #fff; border-bottom-right-radius: 4px; }
+        .chat-bubble.claude { align-self: flex-start; background: var(--bg-elevated); color: var(--text-primary); border-bottom-left-radius: 4px; }
+        .chat-meta { font-size: 0.65rem; color: var(--text-secondary); margin-top: 4px; opacity: 0.7; }
+        .chat-input-area { display: flex; gap: 10px; padding: 14px; border-top: 1px solid var(--border); }
+        .chat-input { flex: 1; background: var(--bg-deep); border: 1px solid var(--border); border-radius: 8px; padding: 10px 14px; color: var(--text-primary); font-size: 0.9rem; outline: none; }
+        .chat-input:focus { border-color: var(--accent); }
+        .chat-send { background: var(--accent); border: none; border-radius: 8px; padding: 10px 18px; color: #fff; font-size: 0.85rem; font-weight: 500; cursor: pointer; transition: all 0.2s; }
+        .chat-send:hover { opacity: 0.9; }
+        .pending-panel { display: flex; flex-direction: column; gap: 12px; max-height: calc(100vh - 180px); overflow-y: auto; }
+        .request-card { background: var(--bg-elevated); border: 1px solid var(--border); border-radius: 10px; padding: 14px; }
+        .request-title { font-size: 0.9rem; font-weight: 600; margin-bottom: 6px; }
+        .request-desc { font-size: 0.8rem; color: var(--text-secondary); line-height: 1.4; margin-bottom: 10px; }
+        .request-status { font-size: 0.7rem; font-weight: 600; padding: 3px 8px; border-radius: 4px; display: inline-block; margin-bottom: 10px; text-transform: uppercase; }
+        .request-status.pending { background: rgba(245,158,11,0.12); color: var(--warning); }
+        .request-status.approved { background: rgba(34,197,94,0.12); color: var(--success); }
+        .request-status.denied { background: rgba(239,68,68,0.12); color: var(--danger); }
+        .request-actions { display: flex; gap: 8px; }
+        .request-btn { flex: 1; font-size: 0.75rem; padding: 7px; border-radius: 6px; border: 1px solid var(--border); cursor: pointer; font-weight: 500; transition: all 0.2s; }
+        .request-btn.approve { background: rgba(34,197,94,0.1); color: var(--success); border-color: rgba(34,197,94,0.3); }
+        .request-btn.approve:hover { background: rgba(34,197,94,0.2); }
+        .request-btn.deny { background: rgba(239,68,68,0.1); color: var(--danger); border-color: rgba(239,68,68,0.3); }
+        .request-btn.deny:hover { background: rgba(239,68,68,0.2); }
+        .no-messages { text-align: center; color: var(--text-secondary); padding: 40px 14px; font-size: 0.85rem; }
+
         /* Mobile */
         @media (max-width: 768px) {
             .grid-4, .grid-3, .grid-2 { grid-template-columns: 1fr; }
             .disk-grid { grid-template-columns: 1fr; }
             .projects-grid { grid-template-columns: 1fr; }
             .gateway-status { grid-template-columns: 1fr; }
-            .health-grid { grid-template-columns: repeat(2, 1fr); }
             .tab-btn { padding: 6px 10px; font-size: 0.75rem; }
             .tab-content { padding: 14px; }
+            .messages-layout { grid-template-columns: 1fr; }
+            .chat-container { height: calc(100vh - 220px); }
+            .pending-panel { max-height: 300px; }
         }
     </style>
 </head>
@@ -360,10 +366,8 @@
         <button class="tab-btn" data-tab="tasks">Tasks</button>
         <button class="tab-btn" data-tab="projects">Projects</button>
         <button class="tab-btn" data-tab="system">System</button>
-        <button class="tab-btn" data-tab="activity">Activity</button>
-        <button class="tab-btn" data-tab="monitor">Monitor</button>
-        <button class="tab-btn" data-tab="gateway">Gateway</button>
         <button class="tab-btn" data-tab="terminal">Terminal</button>
+        <button class="tab-btn" data-tab="messages">Messages</button>
     </nav>
 
     <!-- Overview -->
@@ -441,46 +445,20 @@
         </div>
     </div>
 
-    <!-- Activity -->
-    <div class="tab-content" id="tab-activity">
-        <div class="card">
-            <div class="card-header"><span class="card-title">Activity Log</span><div class="card-icon">⚡</div></div>
-            <div class="activity-feed" id="full-activity">Loading...</div>
-        </div>
-    </div>
-
-    <!-- Monitor -->
-    <div class="tab-content" id="tab-monitor">
-        <div class="card">
-            <div class="card-header"><span class="card-title">Active Connections</span><div class="card-icon">🖥️</div></div>
-            <div class="connections-list" id="connections-list"><div class="connection-item"><span class="connection-device">No active connections</span></div></div>
-        </div>
-        <div class="card">
-            <div class="card-header"><span class="card-title">System Health</span><div class="card-icon">🫀</div></div>
-            <div class="health-grid">
-                <div class="health-item"><div class="health-label">CPU</div><div class="health-value" id="monitor-cpu">--%</div></div>
-                <div class="health-item"><div class="health-label">Memory</div><div class="health-value" id="monitor-mem">--%</div></div>
-                <div class="health-item"><div class="health-label">Disk C:</div><div class="health-value" id="monitor-disk-c">--%</div></div>
-                <div class="health-item"><div class="health-label">Disk D:</div><div class="health-value" id="monitor-disk-d">--%</div></div>
+    <!-- Messages -->
+    <div class="tab-content" id="tab-messages">
+        <div class="messages-layout">
+            <div class="card chat-container">
+                <div class="card-header"><span class="card-title">Chat with Claude</span><div class="card-icon">💬</div></div>
+                <div class="chat-messages" id="chat-messages"><div class="no-messages">No messages yet. Say something to Claude.</div></div>
+                <div class="chat-input-area">
+                    <input type="text" class="chat-input" id="chat-input" placeholder="Type a command or message..." autocomplete="off" />
+                    <button class="chat-send" id="chat-send">Send</button>
+                </div>
             </div>
-        </div>
-    </div>
-
-    <!-- Gateway -->
-    <div class="tab-content" id="tab-gateway">
-        <div class="card">
-            <div class="card-header"><span class="card-title">OpenClaw Gateway</span><div class="card-icon">🔌</div></div>
-            <div class="gateway-status">
-                <div class="gateway-metric"><span class="gateway-label">Status</span><span class="gateway-value" id="gateway-state">Checking...</span></div>
-                <div class="gateway-metric"><span class="gateway-label">Uptime</span><span class="gateway-value" id="gateway-uptime">--</span></div>
-                <div class="gateway-metric"><span class="gateway-label">Version</span><span class="gateway-value" id="gateway-version">--</span></div>
-            </div>
-        </div>
-        <div class="card">
-            <div class="card-header"><span class="card-title">Protected Service</span><div class="card-icon">🔒</div></div>
-            <div style="padding:14px; font-size:0.85rem; color:var(--text-secondary); line-height:1.6;">
-                <p>The OpenClaw Gateway on port <strong>18789</b> is a protected service.</p>
-                <p style="margin-top:8px;">Claude Code must <strong>ask Robert before restarting or changing</strong> this service.</p>
+            <div class="card">
+                <div class="card-header"><span class="card-title">Pending Approvals</span><div class="card-icon">❓</div></div>
+                <div class="pending-panel" id="pending-panel"><div class="no-messages">No pending requests.</div></div>
             </div>
         </div>
     </div>
@@ -516,6 +494,11 @@
                 document.getElementById('tab-' + btn.dataset.tab).classList.add('active');
                 socket.emit('tab-change', btn.dataset.tab);
                 sessionStorage.setItem('dashboardActiveTab', btn.dataset.tab);
+                if (btn.dataset.tab === 'messages') {
+                    loadMessages();
+                    loadRequests();
+                    setTimeout(scrollChatToBottom, 100);
+                }
             });
         });
 
@@ -545,17 +528,13 @@
             document.getElementById('memory-metric').textContent = data.memory + '%';
             document.getElementById('system-health').textContent = data.health + '%';
             document.getElementById('active-users').textContent = data.activeUsers;
-            document.getElementById('monitor-cpu').textContent = data.cpu + '%';
-            document.getElementById('monitor-mem').textContent = data.memory + '%';
             if (data.diskC) {
                 document.getElementById('disk-c-percent').textContent = data.diskC.used + '%';
                 document.getElementById('disk-c-bar').style.width = data.diskC.used + '%';
-                document.getElementById('monitor-disk-c').textContent = data.diskC.used + '%';
             }
             if (data.diskD) {
                 document.getElementById('disk-d-percent').textContent = data.diskD.used + '%';
                 document.getElementById('disk-d-bar').style.width = data.diskD.used + '%';
-                document.getElementById('monitor-disk-d').textContent = data.diskD.used + '%';
             }
         });
 
@@ -568,14 +547,11 @@
         // Activity
         socket.on('activity', data => {
             addActivityToFeed(data, 'overview-activity');
-            addActivityToFeed(data, 'full-activity');
         });
 
         socket.on('init-activities', data => {
             const overview = document.getElementById('overview-activity');
-            const full = document.getElementById('full-activity');
             if (overview) overview.innerHTML = data.map(a => renderActivityItem(a)).join('');
-            if (full) full.innerHTML = data.map(a => renderActivityItem(a)).join('');
         });
 
         function renderActivityItem(a) {
@@ -605,14 +581,6 @@
             d.textContent = t;
             return d.innerHTML;
         }
-
-        // Connections
-        socket.on('connections', data => {
-            const list = document.getElementById('connections-list');
-            if (!list) return;
-            if (data.length === 0) { list.innerHTML = '<div class="connection-item"><span class="connection-device">No active connections</span></div>'; return; }
-            list.innerHTML = data.map(c => `<div class="connection-item"><div class="connection-info"><span class="connection-device">${c.device === 'mobile' ? '📱' : '🖥️'} ${c.browser}</span><span class="connection-ip">${c.ip}</span></div><span class="connection-time">${new Date(c.connectedAt).toLocaleTimeString()}</span></div>`).join('');
-        });
 
         // Tasks
         async function loadTasks() {
@@ -660,22 +628,6 @@
         }
 
         socket.on('projects-update', () => loadProjects());
-
-        // Gateway
-        async function loadGateway() {
-            try {
-                const res = await fetch('/api/gateway/status');
-                const data = await res.json();
-                const stateEl = document.getElementById('gateway-state');
-                const uptimeEl = document.getElementById('gateway-uptime');
-                const versionEl = document.getElementById('gateway-version');
-                if (stateEl) { stateEl.textContent = data.status.toUpperCase(); stateEl.className = 'gateway-value ' + (data.status === 'online' ? 'online' : 'offline'); }
-                if (uptimeEl) { const h = Math.floor(data.uptime / 3600); const m = Math.floor((data.uptime % 3600) / 60); uptimeEl.textContent = h + 'h ' + m + 'm'; }
-                if (versionEl) versionEl.textContent = data.version;
-            } catch (e) { console.log('Gateway check failed', e); }
-        }
-        loadGateway();
-        setInterval(loadGateway, 10000);
 
         // Predictions
         async function loadPredictions() {
@@ -755,6 +707,95 @@
         socket.on('terminal-command', cmd => { terminalCommands.push(cmd); if (terminalCommands.length > 50) terminalCommands.shift(); renderTerminal(); });
         socket.on('terminal-update', cmd => { const idx = terminalCommands.findIndex(c => c.id === cmd.id); if (idx >= 0) { terminalCommands[idx] = cmd; renderTerminal(); } });
 
+        // Messages
+        const chatMessages = document.getElementById('chat-messages');
+        const chatInput = document.getElementById('chat-input');
+        const chatSend = document.getElementById('chat-send');
+        const pendingPanel = document.getElementById('pending-panel');
+        let lastMessageTs = 0;
+
+        async function loadMessages() {
+            try {
+                const res = await fetch(`/api/messages?since=${lastMessageTs}`);
+                const messages = await res.json();
+                if (messages.length) {
+                    if (chatMessages.querySelector('.no-messages')) chatMessages.innerHTML = '';
+                    messages.forEach(m => renderMessage(m));
+                    lastMessageTs = Math.max(lastMessageTs, ...messages.map(m => m.timestamp));
+                    scrollChatToBottom();
+                }
+            } catch (e) { console.log('Messages load failed', e); }
+        }
+
+        function renderMessage(msg) {
+            if (!chatMessages) return;
+            const div = document.createElement('div');
+            div.className = `chat-bubble ${msg.from}`;
+            const time = msg.timestamp ? new Date(msg.timestamp).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }) : '';
+            div.innerHTML = `${escapeHtml(msg.text)}<div class="chat-meta">${msg.from === 'claude' ? 'Claude' : 'You'} · ${time}</div>`;
+            chatMessages.appendChild(div);
+        }
+
+        function scrollChatToBottom() {
+            if (chatMessages) chatMessages.scrollTop = chatMessages.scrollHeight;
+        }
+
+        async function sendMessage() {
+            const text = chatInput?.value.trim();
+            if (!text) return;
+            try {
+                await fetch('/api/messages', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ from: 'user', text, type: 'chat' }) });
+                if (chatInput) chatInput.value = '';
+            } catch (e) { console.log('Send failed', e); }
+        }
+
+        chatSend?.addEventListener('click', sendMessage);
+        chatInput?.addEventListener('keydown', e => { if (e.key === 'Enter') sendMessage(); });
+
+        socket.on('new-message', msg => {
+            if (chatMessages.querySelector('.no-messages')) chatMessages.innerHTML = '';
+            renderMessage(msg);
+            lastMessageTs = Math.max(lastMessageTs, msg.timestamp);
+            scrollChatToBottom();
+        });
+
+        // Approval Requests
+        async function loadRequests() {
+            try {
+                const res = await fetch('/api/requests');
+                const requests = await res.json();
+                renderRequests(requests);
+            } catch (e) { console.log('Requests load failed', e); }
+        }
+
+        function renderRequests(requests) {
+            if (!pendingPanel) return;
+            const pending = requests.filter(r => r.status === 'pending');
+            if (!pending.length) { pendingPanel.innerHTML = '<div class="no-messages">No pending requests.</div>'; return; }
+            pendingPanel.innerHTML = pending.map(r => `
+                <div class="request-card" data-id="${r.id}">
+                    <div class="request-title">${escapeHtml(r.title)}</div>
+                    <div class="request-status pending">Pending</div>
+                    ${r.description ? `<div class="request-desc">${escapeHtml(r.description)}</div>` : ''}
+                    <div class="request-actions">
+                        <button class="request-btn approve" onclick="resolveRequest('${r.id}', 'approved')">Approve</button>
+                        <button class="request-btn deny" onclick="resolveRequest('${r.id}', 'denied')">Deny</button>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        async function resolveRequest(id, status) {
+            try {
+                await fetch(`/api/requests/${id}/resolve`, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ status }) });
+                loadRequests();
+            } catch (e) { console.log('Resolve failed', e); }
+        }
+        window.resolveRequest = resolveRequest;
+
+        socket.on('new-request', () => loadRequests());
+        socket.on('request-resolved', () => loadRequests());
+
         // Smart notifications
         const notificationContainer = document.getElementById('notification-container');
         const activeNotifications = new Map();
@@ -786,6 +827,8 @@
         loadTasks();
         loadProjects();
         loadTerminalCommands();
+        loadMessages();
+        loadRequests();
     </script>
 </body>
 </html>

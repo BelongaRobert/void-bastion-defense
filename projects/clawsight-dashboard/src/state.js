@@ -83,4 +83,55 @@ export async function logActivity(record) {
   await appendJsonl('activity.jsonl', record);
 }
 
+// Messages
+export async function getMessages(limit = 100) {
+  const messages = await readJson('messages.json');
+  return messages.slice(-limit);
+}
+export async function addMessage(msg) {
+  const messages = await readJson('messages.json');
+  const newMsg = {
+    id: msg.id || `msg-${Date.now()}-${Math.random().toString(36).slice(2, 7)}`,
+    from: msg.from,
+    text: msg.text,
+    type: msg.type || 'chat',
+    timestamp: Date.now()
+  };
+  messages.push(newMsg);
+  await writeJson('messages.json', messages);
+  return newMsg;
+}
+
+// Approval Requests
+export async function getRequests(status) {
+  const requests = await readJson('requests.json');
+  if (status) return requests.filter(r => r.status === status);
+  return requests;
+}
+export async function addRequest(req) {
+  const requests = await readJson('requests.json');
+  const newReq = {
+    id: req.id || `req-${Date.now()}-${Math.random().toString(36).slice(2, 7)}`,
+    title: req.title,
+    description: req.description,
+    status: 'pending',
+    createdAt: Date.now(),
+    resolvedAt: null,
+    resolution: null
+  };
+  requests.push(newReq);
+  await writeJson('requests.json', requests);
+  return newReq;
+}
+export async function updateRequest(id, updates) {
+  const requests = await readJson('requests.json');
+  const idx = requests.findIndex(r => r.id === id);
+  if (idx >= 0) {
+    requests[idx] = { ...requests[idx], ...updates };
+    await writeJson('requests.json', requests);
+    return requests[idx];
+  }
+  return null;
+}
+
 export { readJson, writeJson, appendJsonl, readJsonl };
