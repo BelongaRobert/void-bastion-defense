@@ -1,0 +1,22 @@
+{
+  "appid": "XXXXXX",
+  "name": "Void Bastion Defense",
+  "executable": "VoidBastionDefense.exe",
+  "arguments": "",
+  "workingdir": "",
+  "icon": "icon.ico",
+  "launch": {
+    "0": {
+      "executable": "VoidBastionDefense.exe",
+      "arguments": "",
+      "workingdir": "",
+      "description": "Play Void Bastion Defense"
+    }
+  },
+  "steam_deck_compatibility": {
+    "category": "2",
+    "test_timestamp": "0",
+    "tested_build_id": "0",
+    "tested_result": "0"
+  }
+}

@@ -1,71 +1,59 @@
-# DaNotify — Centralized Notification Hub
+# Clawsight Command Center
 
-**Version:** 1.0.0  
-**Purpose:** Aggregate all notifications → Telegram
-
----
+**Version:** 2.0.0
+**Purpose:** Visual command center for Claude Code — see everything I'm working on.
 
 ## Quick Start
 
 ```bash
-# Install dependencies
+# Install dashboard dependencies
+cd projects/clawsight-dashboard
 npm install
 
-# Configure environment
-cp .env.example .env
-# Edit .env with your tokens
-
-# Start monitoring
+# Start the dashboard
 npm start
+# Or from root:
+npm run dashboard
 ```
 
----
+Open http://localhost:3472
 
-## Monitors
+## What's Inside
 
-| Monitor | Status | Description |
-|---------|--------|-------------|
-| System | ✅ Active | Disk space, memory usage |
-| GitHub | 🔧 Config | Issues, PRs, mentions |
-| Email | 🔧 Config | Gmail IMAP notifications |
+- **Dashboard** (`projects/clawsight-dashboard/`) — Real-time system metrics, active tasks, project overview, activity feed, terminal logger, gateway health
+- **Void Bastion Defense** (`projects/space-marine-runner/`) — HTML5 Canvas game, v2.0.2
+- **Elvis SMS App** (`projects/elvis-sms-app/`) — Django + React SMS platform
+- **cacao-farm** (`projects/cacao-farm/`) — Robert's private project
+- **Tools** (`tools/`) — Alert system, auto-commit, security audit, backup utilities
 
----
+## Dashboard Panels
+
+| Panel | What It Shows |
+|-------|---------------|
+| Overview | Metric cards, recent activity, predictions |
+| Tasks | Active tasks I'm working on, with status controls |
+| Projects | All project cards with status, notes, links |
+| System | Real-time CPU, memory, disk charts |
+| Activity | Full event log (notifications, task changes, system events) |
+| Monitor | Active connections, system health grid |
+| Gateway | OpenClaw Gateway health (read-only — ask Robert before touching) |
+| Terminal | Logged command history with filtering |
 
 ## Configuration
 
-**Required:**
-- `TELEGRAM_BOT_TOKEN` - Bot token for notifications
-- `TELEGRAM_CHAT_ID` - Your Telegram user ID
+Copy `projects/clawsight-dashboard/.env.example` to `.env` and fill in:
+- `TELEGRAM_BOT_TOKEN` / `TELEGRAM_CHAT_ID` — for external alerts
+- `GITHUB_TOKEN` / `GITHUB_USERNAME` — for GitHub monitoring
+- `EMAIL_USER` / `EMAIL_PASS` — for Gmail IMAP alerts
 
-**Optional:**
-- `GITHUB_TOKEN` - GitHub personal access token
-- `GITHUB_USERNAME` - Your GitHub username
-- `EMAIL_USER` / `EMAIL_PASS` - Gmail credentials
+## PM2 (Production)
 
----
+```bash
+cd projects/clawsight-dashboard
+pm2 start ecosystem.config.cjs
+pm2 save
+```
 
-## Features
+## Claude Code Context
 
-- ✅ System monitoring (disk, memory)
-- 🔧 GitHub integration (issues, PRs)
-- 🔧 Email alerts (important messages)
-- 📅 Daily digest at 8 AM
-- 🚨 Rate-limited urgent alerts
-- 🔕 Duplicate prevention
-
----
-
-## Notifications
-
-All alerts sent to `@Notification_DaSage_Bot` (or your configured bot).
-
-**Priority levels:**
-- 🔴 Urgent: System failures, disk full
-- 📊 Normal: New issues, daily digest
-
----
-
-## Development Status
-
-Phase 1: Core framework ✅  
-Phase 2: Testing (pending credentials)
+See `CLAUDE.md` for operational rules, ports, and constraints.

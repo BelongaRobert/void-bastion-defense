@@ -1,0 +1,54 @@
+{
+  "name": "void-bastion-steam",
+  "version": "1.0.0",
+  "description": "Steam Integration for Void Bastion Defense",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "scripts": {
+    "build": "tsc",
+    "build:watch": "tsc --watch",
+    "lint": "eslint src/**/*.ts",
+    "test": "jest",
+    "package": "npm run build && npm pack"
+  },
+  "keywords": [
+    "steam",
+    "greenworks",
+    "electron",
+    "tower-defense",
+    "achievements",
+    "leaderboards"
+  ],
+  "author": "Ironclad Studios",
+  "license": "MIT",
+  "dependencies": {
+    "greenworks": "^0.14.0"
+  },
+  "devDependencies": {
+    "@types/node": "^20.0.0",
+    "@typescript-eslint/eslint-plugin": "^6.0.0",
+    "@typescript-eslint/parser": "^6.0.0",
+    "electron": "^28.0.0",
+    "eslint": "^8.0.0",
+    "jest": "^29.0.0",
+    "ts-jest": "^29.0.0",
+    "typescript": "^5.0.0"
+  },
+  "peerDependencies": {
+    "electron": "^28.0.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/ironclad/void-bastion-defense.git"
+  },
+  "files": [
+    "dist/",
+    "assets/",
+    "docs/",
+    "config/",
+    "README.md"
+  ],
+  "engines": {
+    "node": ">=18.0.0"
+  }
+}

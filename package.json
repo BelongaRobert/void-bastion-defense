@@ -1,23 +1,18 @@
 {
-  "name": "danotify",
-  "version": "1.0.0",
-  "description": "DaNotify - Centralized notification hub for OpenClaw",
-  "main": "src/index.js",
+  "name": "clawsight",
+  "version": "2.0.0",
+  "description": "Clawsight Command Center — Claude Code workspace for Robert",
+  "private": true,
   "type": "module",
   "scripts": {
-    "start": "node src/index.js",
-    "dev": "node --watch src/index.js",
-    "test": "node --test tests/**/*.test.js"
+    "start": "node projects/clawsight-dashboard/src/server.js",
+    "dev": "node --watch projects/clawsight-dashboard/src/server.js",
+    "dashboard": "cd projects/clawsight-dashboard && npm start"
   },
-  "keywords": ["notifications", "telegram", "monitoring", "openclaw"],
+  "workspaces": [
+    "projects/*"
+  ],
+  "keywords": ["dashboard", "monitoring", "claude-code", "workspace"],
   "author": "Robert Belonga",
-  "license": "MIT",
-  "dependencies": {
-    "dotenv": "^16.4.5",
-    "imap-simple": "^5.1.0",
-    "@octokit/rest": "^20.0.2",
-    "googleapis": "^128.0.0",
-    "node-cron": "^3.0.3",
-    "winston": "^3.11.0"
-  }
+  "license": "MIT"
 }
