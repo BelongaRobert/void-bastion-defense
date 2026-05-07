@@ -1019,6 +1019,7 @@ let animManager;
 let canvas, ctx;
 let gameRunning = false;
 let gamePaused = false;
+let endlessMode = false;
 let lastTime = 0;
 let accumulator = 0;
 const TIME_STEP = 1000 / 60;
@@ -1044,11 +1045,14 @@ let ammo = [];
 let reloadTimer = 0;
 let shootCooldown = 0;
 let isReloading = false;
+let isFiring = false; // For chaingun continuous fire
 let gameStats = {
     shotsFired: 0,
     shotsHit: 0,
     totalKills: 0
 };
+
+let highScore = 0;
 
 // Enemy spawning
 let enemiesToSpawn = 0;
@@ -1067,6 +1071,57 @@ let gameSettings = {
     mobile: IS_MOBILE
 };
 
+let wasPausedWhenOpeningSettings = false;
+let wasPausedWhenOpeningArsenal = false;
+
+// ============================================
+// SAVE / LOAD SYSTEM
+// ============================================
+
+const SAVE_KEY = 'vbd_save';
+
+function loadGame() {
+    try {
+        const raw = localStorage.getItem(SAVE_KEY);
+        if (!raw) return;
+        const data = JSON.parse(raw);
+        if (data.weaponOwnership) weaponOwnership = data.weaponOwnership;
+        if (data.weaponUpgrades) weaponUpgrades = data.weaponUpgrades;
+        if (data.credits !== undefined) credits = data.credits;
+        if (data.highScore !== undefined) highScore = data.highScore;
+        if (data.gameSettings) {
+            Object.assign(gameSettings, data.gameSettings);
+        }
+        if (data.fortressUpgrades) {
+            fortressUpgrades = data.fortressUpgrades;
+            // Migrate old saves that don't have armor upgrade
+            if (!fortressUpgrades.armor) {
+                fortressUpgrades.armor = { level: 0, maxLevel: 5, baseCost: 400, costMultiplier: 1.6 };
+            }
+        }
+        console.log('Game loaded from save');
+    } catch (e) {
+        console.warn('Failed to load save:', e.message);
+    }
+}
+
+function saveGame() {
+    try {
+        const data = {
+            weaponOwnership,
+            weaponUpgrades,
+            credits,
+            highScore,
+            gameSettings,
+            fortressUpgrades,
+            savedAt: Date.now()
+        };
+        localStorage.setItem(SAVE_KEY, JSON.stringify(data));
+    } catch (e) {
+        console.warn('Failed to save game:', e.message);
+    }
+}
+
 // ============================================
 // OBJECT POOLS
 // ============================================
@@ -1074,7 +1129,8 @@ let gameSettings = {
 let pools = {
     particles: [],
     enemies: [],
-    bullets: []
+    bullets: [],
+    enemyProjectiles: []
 };
 
 class Particle {
@@ -1122,6 +1178,8 @@ class Particle {
 // Fortress attack constants
 const FORTRESS_STOP_DISTANCE = 120; // Distance from center to stop
 const FORTRESS_ATTACK_RANGE = 130; // Can attack from this range
+const RANGED_STOP_DISTANCE = 220; // Ranged enemies stop further out
+const RANGED_ATTACK_RANGE = 240;
 
 class Enemy {
     constructor() { this.reset(); }
@@ -1190,6 +1248,13 @@ class Enemy {
             this.vy *= 0.8;
             this.attackRate = 90; // Slower but heavier attacks
             this.damage = 25;
+        } else if (type === 'ranged') {
+            this.radius = 10;
+            this.health = this.maxHealth = 2;
+            this.value = 25;
+            this.color = '#00D4FF'; // Cyan glow
+            this.attackRate = 80; // Moderate fire rate
+            this.damage = 15;
         }
     }
     
@@ -1211,29 +1276,35 @@ class Enemy {
         const dy = canvas.height / 2 - this.y;
         const distToCenter = Math.sqrt(dx * dx + dy * dy);
         
-        // If within attack range, stop and attack
-        if (distToCenter <= FORTRESS_STOP_DISTANCE) {
+        // Determine stop distance based on enemy type
+        const stopDist = this.type === 'ranged' ? RANGED_STOP_DISTANCE : FORTRESS_STOP_DISTANCE;
+
+        if (distToCenter <= stopDist) {
             this.state = 'attacking';
             this.vx = 0;
             this.vy = 0;
-            
+
             // Face the fortress
             this.angle = Math.atan2(dy, dx);
-            
+
             // Attack fortress periodically
             this.attackTimer++;
             if (this.attackTimer >= this.attackRate) {
-                this.attackFortress();
+                if (this.type === 'ranged') {
+                    this.fireRangedAttack();
+                } else {
+                    this.attackFortress();
+                }
                 this.attackTimer = 0;
             }
-            
+
             // Visual feedback - attacking animation
             if (this.animState !== 'attack') {
                 this.setAnimation('attack');
             }
-            
-            // Spawn impact effect on fortress periodically
-            if (this.attackTimer % 10 === 0 && animManager) {
+
+            // Spawn impact effect on fortress periodically (melee only)
+            if (this.type !== 'ranged' && this.attackTimer % 10 === 0 && animManager) {
                 animManager.spawnBloodSplatter(
                     canvas.width / 2 + (Math.random() - 0.5) * 40,
                     canvas.height / 2 + (Math.random() - 0.5) * 40
@@ -1248,18 +1319,28 @@ class Enemy {
             this.x += this.vx;
             this.y += this.vy;
             this.animFlipX = this.vx < 0;
-            
+
             if (this.animState !== 'walk') {
                 this.setAnimation('walk');
             }
         }
-        
+
         return true;
+    }
+
+    fireRangedAttack() {
+        const proj = getEnemyProjectile();
+        if (!proj) return;
+        const angle = Math.atan2(
+            canvas.height / 2 - this.y,
+            canvas.width / 2 - this.x
+        );
+        proj.init(this.x, this.y, angle, this.damage);
     }
     
     attackFortress() {
         // Damage the base
-        baseHealth -= this.damage;
+        applyFortressDamage(this.damage);
         
         // Play sound
         if (typeof playFortressDamage === 'function') {
@@ -1314,7 +1395,29 @@ class Enemy {
             ctx.stroke();
         }
         
-        if (this.currentAnimation && this.animState !== 'death') {
+        if (this.type === 'ranged') {
+            // Ranged enemy - floating orb with glow
+            ctx.fillStyle = this.color;
+            ctx.shadowColor = this.color;
+            ctx.shadowBlur = 10;
+            ctx.beginPath();
+            ctx.arc(0, 0, this.radius, 0, Math.PI * 2);
+            ctx.fill();
+            ctx.shadowBlur = 0;
+
+            // Inner core
+            ctx.fillStyle = '#fff';
+            ctx.beginPath();
+            ctx.arc(0, 0, this.radius * 0.4, 0, Math.PI * 2);
+            ctx.fill();
+
+            // Floating ring
+            ctx.strokeStyle = this.color;
+            ctx.lineWidth = 2;
+            ctx.beginPath();
+            ctx.arc(0, 0, this.radius + 4 + Math.sin(Date.now() * 0.005) * 2, 0, Math.PI * 2);
+            ctx.stroke();
+        } else if (this.currentAnimation && this.animState !== 'death') {
             ctx.save();
             ctx.scale(this.animFlipX ? -1 : 1, 1);
             const frame = this.currentAnimation.current;
@@ -1386,6 +1489,72 @@ class Bullet {
     }
 }
 
+class EnemyProjectile {
+    constructor() { this.reset(); }
+    reset() {
+        this.x = this.y = this.vx = this.vy = 0;
+        this.damage = 0;
+        this.speed = 0;
+        this.active = false;
+    }
+    init(x, y, angle, damage) {
+        this.x = x;
+        this.y = y;
+        this.speed = 4;
+        this.vx = Math.cos(angle) * this.speed;
+        this.vy = Math.sin(angle) * this.speed;
+        this.damage = damage;
+        this.active = true;
+    }
+    update() {
+        if (!this.active) return false;
+        this.x += this.vx;
+        this.y += this.vy;
+
+        // Despawn if off-screen
+        if (this.x < -50 || this.x > canvas.width + 50 ||
+            this.y < -50 || this.y > canvas.height + 50) {
+            this.active = false;
+            return false;
+        }
+
+        // Hit fortress
+        const dx = this.x - canvas.width / 2;
+        const dy = this.y - canvas.height / 2;
+        const dist = Math.sqrt(dx * dx + dy * dy);
+        if (dist < 45) {
+            applyFortressDamage(this.damage);
+            if (typeof playFortressDamage === 'function') playFortressDamage();
+            if (gameSettings.shake && !IS_MOBILE) {
+                const container = document.getElementById('gameContainer');
+                if (container) {
+                    container.style.transform = `translate(${(Math.random()-0.5)*4}px, ${(Math.random()-0.5)*4}px)`;
+                    setTimeout(() => container.style.transform = '', 80);
+                }
+            }
+            updateBaseHealth();
+            this.active = false;
+            if (animManager) animManager.spawnExplosion(this.x, this.y, 0.3);
+            if (baseHealth <= 0) gameOver();
+            return false;
+        }
+
+        return true;
+    }
+    draw(ctx) {
+        if (!this.active) return;
+        ctx.save();
+        ctx.fillStyle = '#FF4444';
+        ctx.shadowColor = '#FF4444';
+        ctx.shadowBlur = 8;
+        ctx.beginPath();
+        ctx.arc(this.x, this.y, 5, 0, Math.PI * 2);
+        ctx.fill();
+        ctx.shadowBlur = 0;
+        ctx.restore();
+    }
+}
+
 // ============================================
 // CORE FUNCTIONS
 // ============================================
@@ -1394,6 +1563,7 @@ function initPools() {
     for (let i = 0; i < CONFIG.POOL_SIZE.particles; i++) pools.particles.push(new Particle());
     for (let i = 0; i < CONFIG.POOL_SIZE.enemies; i++) pools.enemies.push(new Enemy());
     for (let i = 0; i < CONFIG.POOL_SIZE.bullets; i++) pools.bullets.push(new Bullet());
+    for (let i = 0; i < 50; i++) pools.enemyProjectiles.push(new EnemyProjectile());
 }
 
 function getParticle() {
@@ -1405,12 +1575,16 @@ function getEnemy() {
 function getBullet() {
     return pools.bullets.find(b => !b.active) || new Bullet();
 }
+function getEnemyProjectile() {
+    return pools.enemyProjectiles.find(p => !p.active) || new EnemyProjectile();
+}
 
 function init() {
     canvas = document.getElementById('gameCanvas');
     ctx = canvas.getContext('2d', { alpha: false });
-    
+
     initPools();
+    loadGame();
     resizeCanvas();
     
     // Initialize animation system
@@ -1474,7 +1648,18 @@ function setupInputs() {
     // Mouse controls (desktop)
     canvas.addEventListener('mousedown', (e) => {
         if (!gameRunning || gamePaused) return;
-        if (e.button === 0) fireWeapon();
+        if (e.button === 0) {
+            isFiring = true;
+            fireWeapon();
+        }
+    });
+
+    canvas.addEventListener('mouseup', () => {
+        isFiring = false;
+    });
+
+    canvas.addEventListener('mouseleave', () => {
+        isFiring = false;
     });
 
     // Touch controls (mobile) - swipe to aim, tap to fire
@@ -1485,12 +1670,14 @@ function setupInputs() {
         touchStartPos = { x: touch.clientX, y: touch.clientY };
         touchStartTime = Date.now();
         hasMoved = false;
+        isFiring = true;
         // Update aim immediately
         updateAimFromTouch(touch);
     }, { passive: false });
 
     canvas.addEventListener('touchend', (e) => {
         if (!gameRunning || gamePaused) return;
+        isFiring = false;
         const touchDuration = Date.now() - touchStartTime;
         // Fire if it was a tap (no movement, quick release)
         if (!hasMoved && touchDuration < TAP_TIME_THRESHOLD) {
@@ -1530,7 +1717,7 @@ function createParticles(x, y, count, color, speed) {
 }
 
 function fireWeapon() {
-    if (isReloading || shootCooldown > 0 || isReloading) return;
+    if (isReloading || shootCooldown > 0) return;
     
     const weapon = WEAPONS[equippedWeapon];
     
@@ -1588,7 +1775,7 @@ function reloadWeapon() {
 
 function switchWeapon(index) {
     if (index < 0 || index >= WEAPONS.length) return;
-    if (index > 0 && !purchasedWeapons[index]) return;
+    if (index > 0 && !weaponOwnership[index]) return;
     equippedWeapon = index;
     updateWeaponUI();
 }
@@ -1684,15 +1871,33 @@ function checkCollisions() {
     }
 }
 
+function checkEnemyProjectileCollisions() {
+    const activeBullets = pools.bullets.filter(b => b.active);
+    const activeProjectiles = pools.enemyProjectiles.filter(p => p.active);
+
+    for (const bullet of activeBullets) {
+        for (const proj of activeProjectiles) {
+            const dx = bullet.x - proj.x;
+            const dy = bullet.y - proj.y;
+            const dist = Math.sqrt(dx * dx + dy * dy);
+
+            if (dist < 12) {
+                proj.active = false;
+                bullet.active = false;
+                createParticles(proj.x, proj.y, 5, '#FF4444', 4);
+                if (typeof playExplosion === 'function') playExplosion();
+                break;
+            }
+        }
+    }
+}
+
 function startWave() {
     enemiesTotalInWave = 10 + (wave - 1) * 5;
     enemiesToSpawn = enemiesTotalInWave;
     enemiesKilledThisWave = 0;
     waveInProgress = true;
-    
-    // Wave start sound removed per user request
-    // if (typeof playWaveStart === 'function') playWaveStart();
-    
+
     // Announce wave
     document.getElementById('waveNumberDisplay').textContent = wave;
     document.getElementById('waveAnnouncement').classList.add('active');
@@ -1703,14 +1908,45 @@ function startWave() {
 
 function spawnEnemy() {
     if (enemiesToSpawn <= 0) return;
-    
-    const enemyType = Math.random() < 0.7 ? (Math.random() < 0.6 ? 'ork' : 'cultist') : 'chaos';
+
+    // Spawn in bursts of 2-5, faster on higher waves
+    const burstSize = Math.min(
+        enemiesToSpawn,
+        2 + Math.floor(Math.random() * 3) + Math.floor(wave / 5)
+    );
     const baseSpeed = 1 + (wave * 0.1);
-    
-    const enemy = getEnemy();
-    enemy.init(enemyType, baseSpeed * (enemyType === 'ork' ? 1.2 : enemyType === 'chaos' ? 0.6 : 1));
-    
-    enemiesToSpawn--;
+
+    for (let i = 0; i < burstSize; i++) {
+        if (enemiesToSpawn <= 0) break;
+
+        // 65% ork, 20% cultist, 10% chaos, 5% ranged (waves 3+)
+        let roll = Math.random();
+        let enemyType;
+        if (roll < 0.65) {
+            enemyType = 'ork';
+        } else if (roll < 0.85) {
+            enemyType = 'cultist';
+        } else if (roll < 0.95 || wave < 3) {
+            enemyType = 'chaos';
+        } else {
+            enemyType = 'ranged';
+        }
+
+        const enemy = getEnemy();
+        enemy.init(enemyType, baseSpeed * (enemyType === 'ork' ? 1.2 : enemyType === 'chaos' ? 0.6 : 1));
+
+        // Stagger burst spawns slightly so they don't overlap perfectly
+        enemy.x += (Math.random() - 0.5) * 30;
+        enemy.y += (Math.random() - 0.5) * 30;
+        enemy.angle = Math.atan2(
+            canvas.height / 2 - enemy.y,
+            canvas.width / 2 - enemy.x
+        );
+        enemy.vx = Math.cos(enemy.angle) * enemy.speed;
+        enemy.vy = Math.sin(enemy.angle) * enemy.speed;
+
+        enemiesToSpawn--;
+    }
 }
 
 // ============================================
@@ -1740,7 +1976,12 @@ function update(dt) {
     
     // Update player
     if (shootCooldown > 0) shootCooldown--;
-    
+
+    // Chaingun continuous fire while holding mouse/touch
+    if (isFiring && equippedWeapon === 2 && !gamePaused) {
+        fireWeapon();
+    }
+
     if (isReloading) {
         reloadTimer--;
         if (reloadTimer <= 0) {
@@ -1764,32 +2005,75 @@ function update(dt) {
         spawnTimer--;
         if (spawnTimer <= 0) {
             spawnEnemy();
-            spawnTimer = 60; // Spawn every second
+            spawnTimer = Math.max(20, 50 - wave * 2); // Faster bursts on higher waves
         }
     }
     
     // Update bullets
     pools.bullets.forEach(b => b.update());
-    
+
     // Update enemies
     pools.enemies.forEach(e => e.update());
-    
+
+    // Update enemy projectiles
+    pools.enemyProjectiles.forEach(p => p.update());
+
     // Update particles
     pools.particles.forEach(p => p.update());
-    
+
     // Check collisions
     checkCollisions();
-    
+    checkEnemyProjectileCollisions();
+
+    // Auto-turret logic
+    if (fortressUpgrades.autoTurret.level > 0) {
+        turretCooldown--;
+        if (turretCooldown <= 0) {
+            const activeEnemiesList = pools.enemies.filter(e => e.active && !e.dead);
+            if (activeEnemiesList.length > 0) {
+                // Target nearest enemy
+                let nearest = activeEnemiesList[0];
+                let nearestDist = Infinity;
+                for (const e of activeEnemiesList) {
+                    const dx = e.x - canvas.width / 2;
+                    const dy = e.y - canvas.height / 2;
+                    const d = Math.sqrt(dx * dx + dy * dy);
+                    if (d < nearestDist) {
+                        nearestDist = d;
+                        nearest = e;
+                    }
+                }
+                const angle = Math.atan2(nearest.y - canvas.height / 2, nearest.x - canvas.width / 2);
+                const bullet = getBullet();
+                const turretDamage = 15 * fortressUpgrades.autoTurret.level;
+                bullet.init(
+                    canvas.width / 2 + Math.cos(angle) * 45,
+                    canvas.height / 2 + Math.sin(angle) * 45,
+                    angle,
+                    12,
+                    turretDamage,
+                    'turret'
+                );
+                if (typeof playTurretFire === 'function') playTurretFire();
+            }
+            // Cooldown scales with level: faster at higher levels
+            turretCooldown = Math.max(30, 90 - fortressUpgrades.autoTurret.level * 15);
+        }
+    }
+
     // Update enemy count
     const activeEnemies = pools.enemies.filter(e => e.active && !e.dead).length;
     document.getElementById('enemiesValue').textContent = activeEnemies;
-    
+
     // Check wave completion - only when ALL enemies are dead (not just off-screen)
     if (waveInProgress && enemiesToSpawn === 0 && activeEnemies === 0 && enemiesKilledThisWave >= enemiesTotalInWave) {
         waveInProgress = false;
         wave++;
         document.getElementById('waveValue').textContent = wave;
-        baseHealth = Math.min(baseHealth + 100, maxBaseHealth);
+
+        // Wave heal upgrade
+        const healAmount = 100 + (fortressUpgrades.waveHeal.level * 50);
+        baseHealth = Math.min(baseHealth + healAmount, maxBaseHealth);
         updateBaseHealth();
         // Play wave complete sound
         if (typeof playWaveComplete === 'function') playWaveComplete();
@@ -1801,16 +2085,162 @@ function update(dt) {
     }
 }
 
+function drawFortress(ctx) {
+    const cx = canvas.width / 2;
+    const cy = canvas.height / 2;
+    const healthPct = baseHealth / maxBaseHealth;
+
+    // Outer shield glow when health is high
+    if (healthPct > 0.6) {
+        const glowIntensity = (healthPct - 0.6) / 0.4;
+        ctx.save();
+        ctx.globalAlpha = glowIntensity * 0.3;
+        ctx.fillStyle = '#C9A227';
+        ctx.beginPath();
+        ctx.arc(cx, cy, 55 + Math.sin(Date.now() * 0.003) * 3, 0, Math.PI * 2);
+        ctx.fill();
+        ctx.restore();
+    }
+
+    // Health ring
+    ctx.save();
+    ctx.strokeStyle = '#1a1a1a';
+    ctx.lineWidth = 6;
+    ctx.beginPath();
+    ctx.arc(cx, cy, 48, 0, Math.PI * 2);
+    ctx.stroke();
+
+    // Health fill ring
+    ctx.strokeStyle = healthPct > 0.5 ? '#2ecc71' : healthPct > 0.25 ? '#FFA500' : '#FF4444';
+    ctx.lineWidth = 6;
+    ctx.beginPath();
+    ctx.arc(cx, cy, 48, -Math.PI / 2, -Math.PI / 2 + (Math.PI * 2 * healthPct));
+    ctx.stroke();
+    ctx.restore();
+
+    // Main fortress body - octagonal shape
+    ctx.save();
+    ctx.translate(cx, cy);
+
+    // Structural layers from Reinforced Walls upgrade
+    const healthLayers = fortressUpgrades.maxHealth.level;
+    for (let i = healthLayers; i >= 0; i--) {
+        const r = 42 + i * 4;
+        ctx.fillStyle = i === 0 ? '#2a2a2a' : '#3a3a3a';
+        ctx.strokeStyle = '#C9A227';
+        ctx.lineWidth = 2;
+        ctx.beginPath();
+        for (let j = 0; j < 8; j++) {
+            const angle = (j / 8) * Math.PI * 2 - Math.PI / 8;
+            const px = Math.cos(angle) * r;
+            const py = Math.sin(angle) * r;
+            if (j === 0) ctx.moveTo(px, py);
+            else ctx.lineTo(px, py);
+        }
+        ctx.closePath();
+        ctx.fill();
+        if (i === 0) ctx.stroke();
+    }
+
+    // Ablative armor plating overlay
+    const armorLevel = fortressUpgrades.armor.level;
+    if (armorLevel > 0) {
+        ctx.strokeStyle = '#00D4FF';
+        ctx.lineWidth = 2 + armorLevel;
+        ctx.globalAlpha = 0.3 + armorLevel * 0.1;
+        const r = 44;
+        ctx.beginPath();
+        for (let j = 0; j < 8; j++) {
+            const angle = (j / 8) * Math.PI * 2 - Math.PI / 8;
+            const px = Math.cos(angle) * r;
+            const py = Math.sin(angle) * r;
+            if (j === 0) ctx.moveTo(px, py);
+            else ctx.lineTo(px, py);
+        }
+        ctx.closePath();
+        ctx.stroke();
+        ctx.globalAlpha = 1;
+    }
+
+    // Inner core
+    ctx.fillStyle = '#1a1a1a';
+    ctx.beginPath();
+    ctx.arc(0, 0, 25, 0, Math.PI * 2);
+    ctx.fill();
+
+    // Core glow pulse
+    ctx.fillStyle = healthPct > 0.3 ? '#C9A227' : '#FF4444';
+    ctx.globalAlpha = 0.6 + Math.sin(Date.now() * 0.005) * 0.2;
+    ctx.beginPath();
+    ctx.arc(0, 0, 15, 0, Math.PI * 2);
+    ctx.fill();
+    ctx.globalAlpha = 1;
+
+    // Damage cracks when health is low
+    if (healthPct < 0.4) {
+        ctx.strokeStyle = '#FF4444';
+        ctx.lineWidth = 2;
+        const crackCount = Math.floor((1 - healthPct / 0.4) * 5);
+        for (let i = 0; i < crackCount; i++) {
+            const angle = (i / 5) * Math.PI * 2 + 0.3;
+            ctx.beginPath();
+            ctx.moveTo(Math.cos(angle) * 15, Math.sin(angle) * 15);
+            ctx.lineTo(Math.cos(angle + 0.2) * 35, Math.sin(angle + 0.2) * 35);
+            ctx.stroke();
+        }
+    }
+
+    ctx.restore();
+
+    // Auto-turrets
+    const turretCount = fortressUpgrades.autoTurret.level;
+    if (turretCount > 0) {
+        const turretAngles = [0, Math.PI / 2, Math.PI, -Math.PI / 2].slice(0, turretCount);
+        for (const ta of turretAngles) {
+            const tx = cx + Math.cos(ta) * 50;
+            const ty = cy + Math.sin(ta) * 50;
+
+            // Turret base
+            ctx.fillStyle = '#555';
+            ctx.beginPath();
+            ctx.arc(tx, ty, 8, 0, Math.PI * 2);
+            ctx.fill();
+
+            // Turret barrel - points toward nearest enemy, or rotates slowly
+            let barrelAngle = ta;
+            const activeEnemies = pools.enemies.filter(e => e.active && !e.dead);
+            if (activeEnemies.length > 0) {
+                let nearest = activeEnemies[0];
+                let nearestDist = Infinity;
+                for (const e of activeEnemies) {
+                    const dx = e.x - tx;
+                    const dy = e.y - ty;
+                    const d = Math.sqrt(dx * dx + dy * dy);
+                    if (d < nearestDist) {
+                        nearestDist = d;
+                        nearest = e;
+                    }
+                }
+                barrelAngle = Math.atan2(nearest.y - ty, nearest.x - tx);
+            }
+
+            ctx.save();
+            ctx.translate(tx, ty);
+            ctx.rotate(barrelAngle);
+            ctx.fillStyle = '#C9A227';
+            ctx.fillRect(0, -2, 14, 4);
+            ctx.restore();
+        }
+    }
+}
+
 function draw() {
     // Clear canvas
     ctx.fillStyle = '#0D0D0D';
     ctx.fillRect(0, 0, canvas.width, canvas.height);
-    
-    // Draw base
-    ctx.fillStyle = '#333';
-    ctx.beginPath();
-    ctx.arc(canvas.width / 2, canvas.height / 2, 40, 0, Math.PI * 2);
-    ctx.fill();
+
+    // Draw fortress
+    drawFortress(ctx);
     
     // Draw aim line
     ctx.strokeStyle = 'rgba(201, 162, 39, 0.3)';
@@ -1827,13 +2257,16 @@ function draw() {
     
     // Draw bullets
     pools.bullets.forEach(b => b.draw(ctx));
-    
+
+    // Draw enemy projectiles
+    pools.enemyProjectiles.forEach(p => p.draw(ctx));
+
     // Draw enemies
     pools.enemies.forEach(e => e.draw(ctx));
-    
+
     // Draw particles
     pools.particles.forEach(p => p.draw(ctx));
-    
+
     // Draw animations on top
     if (animManager) animManager.draw(ctx);
 }
@@ -1841,8 +2274,6 @@ function draw() {
 // ============================================
 // UI FUNCTIONS
 // ============================================
-
-let purchasedWeapons = [true, false, false, false, false];
 
 function startGame() {
     // Hide ALL menu screens first
@@ -1861,10 +2292,17 @@ function startGame() {
     
     // Reset game state
     score = 0;
-    credits = 0;
     wave = 1;
-    baseHealth = 1000;
-    maxBaseHealth = 1000;
+    combo = 1;
+    comboTimer = 0;
+    equippedWeapon = 0;
+    gameStats = { shotsFired: 0, shotsHit: 0, totalKills: 0 };
+    enemiesKilledThisWave = 0;
+    enemiesTotalInWave = 0;
+
+    // Apply fortress upgrades
+    maxBaseHealth = 1000 + (fortressUpgrades.maxHealth.level * 200);
+    baseHealth = maxBaseHealth;
     combo = 1;
     comboTimer = 0;
     equippedWeapon = 0;
@@ -1902,19 +2340,29 @@ function restartGame() {
 
 function gameOver() {
     gameRunning = false;
+    isFiring = false;
     document.getElementById('gameUI').classList.remove('active');
     document.getElementById('gameOverScreen').classList.add('active');
-    
+
+    // Update high score
+    if (score > highScore) {
+        highScore = Math.floor(score);
+    }
+
     // Update final stats
     document.getElementById('finalScore').textContent = Math.floor(score);
     document.getElementById('finalWave').textContent = wave - 1;
     document.getElementById('finalKills').textContent = gameStats.totalKills;
     document.getElementById('finalCredits').textContent = credits;
+
+    // Persist progression
+    saveGame();
 }
 
 function togglePause() {
     gamePaused = !gamePaused;
     if (gamePaused) {
+        isFiring = false;
         document.getElementById('pauseMenu').classList.remove('hidden');
     } else {
         document.getElementById('pauseMenu').classList.add('hidden');
@@ -1926,7 +2374,8 @@ function resumeGame() {
     document.getElementById('pauseMenu').classList.add('hidden');
 }
 
-function showMainMenu() {
+function showMainMenu(e) {
+    if (e) e.stopPropagation();
     gameRunning = false;
     gamePaused = false;
     document.getElementById('gameUI').classList.remove('active');
@@ -1939,17 +2388,53 @@ function showMainMenu() {
     document.getElementById('bastionScreen').classList.add('hidden');
     document.getElementById('endlessScreen').classList.add('hidden');
     document.getElementById('mainMenu').classList.remove('hidden');
+    wasPausedWhenOpeningSettings = false;
+    wasPausedWhenOpeningArsenal = false;
 }
 
-function showSettings() {
+function showSettings(e) {
+    if (e) e.stopPropagation();
+
+    // Check if pause menu is currently visible
+    const pauseMenu = document.getElementById('pauseMenu');
+    wasPausedWhenOpeningSettings = !pauseMenu.classList.contains('hidden');
+
+    // Hide all other menus but keep pause visible underneath (option B)
+    document.getElementById('mainMenu').classList.add('hidden');
+    document.getElementById('arsenalScreen').classList.add('hidden');
+    document.getElementById('bastionScreen').classList.add('hidden');
+    document.getElementById('endlessScreen').classList.add('hidden');
+    document.getElementById('helpMenu').classList.add('hidden');
+    document.getElementById('leaderboardScreen').classList.add('hidden');
+
+    // Show settings (appears OVER pause menu due to z-index: 200)
     document.getElementById('settingsMenu').classList.remove('hidden');
 }
 
-function showHelp() {
+function settingsBack(e) {
+    if (e) e.stopPropagation();
+
+    document.getElementById('settingsMenu').classList.add('hidden');
+
+    // If we were paused, just return (pause menu is still visible underneath)
+    // If we came from main menu, go back there
+    if (!wasPausedWhenOpeningSettings) {
+        document.getElementById('mainMenu').classList.remove('hidden');
+    }
+
+    // Reset the flag
+    wasPausedWhenOpeningSettings = false;
+}
+
+function showHelp(e) {
+    if (e) e.stopPropagation();
+    document.getElementById('mainMenu').classList.add('hidden');
     document.getElementById('helpMenu').classList.remove('hidden');
 }
 
-function showLeaderboard() {
+function showLeaderboard(e) {
+    if (e) e.stopPropagation();
+    document.getElementById('mainMenu').classList.add('hidden');
     document.getElementById('leaderboardScreen').classList.remove('hidden');
     const list = document.getElementById('leaderboardList');
     list.innerHTML = '<div style="text-align: center; padding: 40px; color: #666;">Leaderboard coming soon!</div>';
@@ -1961,10 +2446,17 @@ function toggleSetting(setting) {
     if (toggle) {
         toggle.classList.toggle('active', gameSettings[setting]);
     }
+    if (typeof playClick === 'function') playClick();
 }
 
 function updateVolume(type, value) {
-    // Volume control implementation
+    const vol = parseInt(value) / 100;
+    if (type === 'master') {
+        sounds.setVolume(vol);
+    } else if (type === 'sfx') {
+        sounds.setSFXVolume(vol);
+    }
+    if (typeof saveSoundSettings === 'function') saveSoundSettings();
 }
 
 // ============================================
@@ -1996,10 +2488,40 @@ function setupPauseButton() {
     });
 }
 
+// Prevent iOS double-tap zoom
+document.addEventListener('dblclick', function(event) {
+    event.preventDefault();
+}, { passive: false });
+
+// Global error handler
+window.onerror = function(msg, url, line) {
+    console.error('JS Error:', msg, 'at line', line);
+};
+
 // Initialize when DOM is ready
 document.addEventListener('DOMContentLoaded', () => {
     init();
     setupPauseButton();
+
+    // Add click sounds to all menu buttons
+    const menuButtons = document.querySelectorAll('.menu-btn');
+    menuButtons.forEach(btn => {
+        btn.addEventListener('click', function() {
+            if (typeof playClick === 'function') playClick();
+        });
+    });
+
+    // Enter key for cheat code input
+    const cheatInput = document.getElementById('cheatCodeInput');
+    if (cheatInput) {
+        cheatInput.addEventListener('keydown', (e) => {
+            if (e.key === 'Enter') {
+                submitCheatCode();
+            }
+        });
+    }
+
+    console.log('DOM ready');
 });
 
 // ============================================
@@ -2022,10 +2544,29 @@ let weaponUpgrades = [
     { damageLevel: 1, fireRateLevel: 1, magazineLevel: 1 }
 ];
 
+// Fortress upgrades
+let fortressUpgrades = {
+    maxHealth: { level: 0, maxLevel: 5, baseCost: 300, costMultiplier: 1.5 },
+    autoTurret: { level: 0, maxLevel: 3, baseCost: 500, costMultiplier: 2.0 },
+    waveHeal: { level: 0, maxLevel: 5, baseCost: 200, costMultiplier: 1.4 },
+    armor: { level: 0, maxLevel: 5, baseCost: 400, costMultiplier: 1.6 }
+};
+
+let turretCooldown = 0;
+
+function applyFortressDamage(rawDamage) {
+    const armorLevel = fortressUpgrades.armor.level;
+    const reduction = armorLevel * 0.08; // 8% per level, max 40%
+    const actualDamage = Math.max(1, Math.floor(rawDamage * (1 - reduction)));
+    baseHealth -= actualDamage;
+    return actualDamage;
+}
+
 function showArsenal() {
     arsenalPreviousScreen = 'mainMenu';
     document.getElementById('mainMenu').classList.add('hidden');
     document.getElementById('arsenalScreen').classList.remove('hidden');
+    showArsenalTab('weapons');
     updateArsenalUI();
 }
 
@@ -2033,6 +2574,7 @@ function showArsenalFromPause() {
     arsenalPreviousScreen = 'pauseMenu';
     document.getElementById('pauseMenu').classList.add('hidden');
     document.getElementById('arsenalScreen').classList.remove('hidden');
+    showArsenalTab('weapons');
     updateArsenalUI();
 }
 
@@ -2040,6 +2582,7 @@ function showArsenalFromGame() {
     arsenalPreviousScreen = 'game';
     document.getElementById('gameUI').classList.remove('active');
     document.getElementById('arsenalScreen').classList.remove('hidden');
+    showArsenalTab('weapons');
     updateArsenalUI();
 }
 
@@ -2052,6 +2595,57 @@ function arsenalBack() {
         document.getElementById('gameUI').classList.add('active');
     } else {
         document.getElementById('mainMenu').classList.remove('hidden');
+    }
+}
+
+function showArsenalTab(tabName) {
+    const weaponsPanel = document.getElementById('weaponsPanel');
+    const cheatsPanel = document.getElementById('cheatsPanel');
+    const weaponsTabBtn = document.getElementById('weaponsTabBtn');
+    const cheatsTabBtn = document.getElementById('cheatsTabBtn');
+    const cheatMessage = document.getElementById('cheatMessage');
+
+    if (tabName === 'weapons') {
+        weaponsPanel.classList.remove('hidden');
+        cheatsPanel.classList.add('hidden');
+        weaponsTabBtn.classList.add('active');
+        cheatsTabBtn.classList.remove('active');
+    } else {
+        weaponsPanel.classList.add('hidden');
+        cheatsPanel.classList.remove('hidden');
+        weaponsTabBtn.classList.remove('active');
+        cheatsTabBtn.classList.add('active');
+    }
+
+    if (cheatMessage) {
+        cheatMessage.textContent = '';
+        cheatMessage.className = 'cheat-message';
+    }
+}
+
+function submitCheatCode() {
+    const input = document.getElementById('cheatCodeInput');
+    const message = document.getElementById('cheatMessage');
+    const code = input.value.trim();
+
+    if (!code) {
+        message.textContent = 'Please enter a code.';
+        message.className = 'cheat-message error';
+        return;
+    }
+
+    if (code === 'HailTheEmperor') {
+        credits += 50000;
+        message.textContent = 'Code accepted! +50,000 Credits granted.';
+        message.className = 'cheat-message success';
+        input.value = '';
+        saveGame();
+        updateArsenalUI();
+        updateBastionUI();
+        playPurchase();
+    } else {
+        message.textContent = 'Invalid code. Try again.';
+        message.className = 'cheat-message error';
     }
 }
 
@@ -2170,6 +2764,7 @@ function buySelectedWeapon() {
     // Update UI
     document.getElementById('creditsValue').textContent = credits;
     updateArsenalUI();
+    saveGame();
 }
 
 function equipSelectedWeapon() {
@@ -2182,15 +2777,100 @@ function equipSelectedWeapon() {
     
     // Update arsenal UI
     updateArsenalUI();
+    saveGame();
 }
 
 // ============================================
 // ADDITIONAL MENU FUNCTIONS
 // ============================================
 
-function showBastion() {
+function showBastion(e) {
+    if (e) e.stopPropagation();
     document.getElementById('mainMenu').classList.add('hidden');
     document.getElementById('bastionScreen').classList.remove('hidden');
+    updateBastionUI();
+}
+
+function updateBastionUI() {
+    document.getElementById('bastionCredits').textContent = credits;
+    const grid = document.getElementById('bastionGrid');
+    grid.innerHTML = '';
+
+    const upgrades = [
+        {
+            key: 'maxHealth',
+            name: 'Reinforced Walls',
+            icon: '🛡️',
+            desc: 'Increase maximum fortress health.',
+            effect: lvl => `+${lvl * 200} Max HP`
+        },
+        {
+            key: 'armor',
+            name: 'Ablative Plating',
+            icon: '🔲',
+            desc: 'Reduce all incoming damage to the fortress.',
+            effect: lvl => lvl > 0 ? `-${(lvl * 8)}% Damage Taken` : 'No protection'
+        },
+        {
+            key: 'autoTurret',
+            name: 'Auto-Turret',
+            icon: '🔫',
+            desc: 'Automated turret that fires at nearby enemies.',
+            effect: lvl => lvl > 0 ? `Level ${lvl} — ${(90 - lvl * 15) / 60}s cooldown` : 'Not installed'
+        },
+        {
+            key: 'waveHeal',
+            name: 'Repair Drones',
+            icon: '🔧',
+            desc: 'Restore health after each surviving wave.',
+            effect: lvl => `+${100 + lvl * 50} HP per wave`
+        }
+    ];
+
+    for (const up of upgrades) {
+        const data = fortressUpgrades[up.key];
+        const cost = Math.floor(data.baseCost * Math.pow(data.costMultiplier, data.level));
+        const maxed = data.level >= data.maxLevel;
+        const canAfford = credits >= cost;
+
+        const card = document.createElement('div');
+        card.className = 'settings-card';
+        card.style.textAlign = 'center';
+        card.innerHTML = `
+            <div style="font-size: 36px; margin-bottom: 8px;">${up.icon}</div>
+            <div style="font-size: 16px; color: var(--accent-gold); font-weight: bold; margin-bottom: 4px;">${up.name}</div>
+            <div style="font-size: 12px; color: var(--text-secondary); margin-bottom: 8px;">${up.desc}</div>
+            <div style="font-size: 13px; color: var(--accent-gold-light); margin-bottom: 8px;">${up.effect(data.level)}</div>
+            <div style="font-size: 12px; color: var(--text-muted); margin-bottom: 8px;">Level ${data.level} / ${data.maxLevel}</div>
+            <button class="menu-btn ${maxed ? '' : (canAfford ? 'primary' : '')}" style="padding: 8px 16px; font-size: 13px;" onclick="buyFortressUpgrade('${up.key}')" ${maxed || !canAfford ? 'disabled' : ''}>
+                ${maxed ? 'MAXED' : (canAfford ? `UPGRADE (${cost} CR)` : `NEED ${cost} CR`)}
+            </button>
+        `;
+        grid.appendChild(card);
+    }
+}
+
+function buyFortressUpgrade(type) {
+    const data = fortressUpgrades[type];
+    if (!data || data.level >= data.maxLevel) return;
+
+    const cost = Math.floor(data.baseCost * Math.pow(data.costMultiplier, data.level));
+    if (credits < cost) return;
+
+    credits -= cost;
+    data.level++;
+
+    // Apply immediate effects
+    if (type === 'maxHealth') {
+        maxBaseHealth += 200;
+        baseHealth += 200;
+        updateBaseHealth();
+    }
+
+    document.getElementById('creditsValue').textContent = credits;
+    if (typeof playPurchase === 'function') playPurchase();
+    updateBastionUI();
+    saveGame();
 }
 
 function showEndless() {
@@ -2215,15 +2895,16 @@ function startEndlessGame() {
     
     // Reset game state for endless mode
     score = 0;
-    credits = 0;
     wave = 1;
-    baseHealth = 1000;
-    maxBaseHealth = 1000;
     combo = 1;
     comboTimer = 0;
     gameStats = { shotsFired: 0, shotsHit: 0, totalKills: 0 };
     enemiesKilledThisWave = 0;
     enemiesTotalInWave = 0;
+
+    // Apply fortress upgrades
+    maxBaseHealth = 1000 + (fortressUpgrades.maxHealth.level * 200);
+    baseHealth = maxBaseHealth;
     
     // Reset ammo
     WEAPONS.forEach(w => {
