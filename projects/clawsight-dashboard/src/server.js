@@ -12,7 +12,7 @@ import { getCommandLog, getLogEmitter, loggedExecSync } from './logger.js';
 import { sendSmartNotification, checkSmartThresholds, setupPresenceTracking, updatePresence, userPresence } from './smart-notify.js';
 import { addHistoryPoint, getAllPredictions, startAnalyticsCollection } from './analytics.js';
 import { getTasks, getProjects, getActivity, logActivity, updateTask, updateProject, getMessages, addMessage, getRequests, addRequest, updateRequest } from './state.js';
-import { startTelegramBot, sendTelegramMessage, sendApprovalRequest, setResolveRequestHandler } from './telegram-bot.js';
+import { sendTelegramMessage, sendApprovalRequest, setResolveRequestHandler } from './telegram-bot.js';
 
 const app = express();
 const httpServer = createServer(app);
@@ -388,7 +388,6 @@ httpServer.listen(PORT, async () => {
     return resolved;
   });
 
-  startTelegramBot();
   startAnalyticsCollection(io);
 });
 
