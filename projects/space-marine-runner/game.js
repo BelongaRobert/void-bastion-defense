@@ -35,8 +35,8 @@ const CONFIG = {
     // Gameplay
     BASE_HEALTH: 1000,
     STARTING_CREDITS: 0,
-    MAX_COMBO: 50,
-    COMBO_TIMEOUT: 180,
+    MAX_COMBO: 10,
+    COMBO_TIMEOUT: 300,
     // Accessibility
     COLORBLIND_COLORS: {
         ork: '#4a7c4e',
@@ -52,11 +52,11 @@ const CONFIG = {
 
 // Weapon definitions
 const WEAPONS = [
-    { id: 0, name: 'Lasgun', icon: '🔫', damage: 20, fireRate: 200, reloadTime: 1500, magazine: 30, color: '#FF4444', trail: '#FF6B35', cost: 0, description: 'Standard issue laser rifle. Reliable and accurate.' },
-    { id: 1, name: 'Bolt Pistol', icon: '🔫', damage: 35, fireRate: 350, reloadTime: 1800, magazine: 15, color: '#FFA500', trail: '#FFD700', cost: 500, description: 'Heavy recoil but devastating damage. Slow fire rate.' },
-    { id: 2, name: 'Chaingun', icon: '🔫', damage: 8, fireRate: 50, reloadTime: 2500, magazine: 100, color: '#FF8C00', trail: '#FFA500', cost: 1000, description: 'Rapid-fire suppression weapon. Watch the heat!' },
-    { id: 3, name: 'Plasma Gun', icon: '🔫', damage: 60, fireRate: 600, reloadTime: 2000, magazine: 20, color: '#00D4FF', trail: '#87CEEB', cost: 2000, description: 'Energy weapon with splash damage. Pierces armor.' },
-    { id: 4, name: 'Heavy Bolter', icon: '🔫', damage: 100, fireRate: 1200, reloadTime: 3000, magazine: 10, color: '#9D00FF', trail: '#DDA0DD', cost: 5000, description: 'Massive damage, slow reload. Devastating power.' }
+    { id: 0, name: 'Lasgun', icon: '🔫', damage: 25, fireRate: 180, reloadTime: 1400, magazine: 35, color: '#FF4444', trail: '#FF6B35', cost: 0, description: 'Standard issue laser rifle. Reliable all-rounder with steady fire rate.' },
+    { id: 1, name: 'Bolt Pistol', icon: '🔫', damage: 70, fireRate: 400, reloadTime: 1600, magazine: 12, color: '#FFA500', trail: '#FFD700', cost: 500, description: 'Heavy recoil but devastating per-shot damage. Two-taps most foes.' },
+    { id: 2, name: 'Chaingun', icon: '🔫', damage: 12, fireRate: 55, reloadTime: 2800, magazine: 120, color: '#FF8C00', trail: '#FFA500', cost: 1000, description: 'Rapid-fire suppression weapon. Melts hordes but overheats fast.' },
+    { id: 3, name: 'Plasma Gun', icon: '🔫', damage: 90, fireRate: 550, reloadTime: 2200, magazine: 18, color: '#00D4FF', trail: '#87CEEB', cost: 2000, description: 'Energy weapon that pierces through multiple targets. Anti-armor.' },
+    { id: 4, name: 'Heavy Bolter', icon: '🔫', damage: 300, fireRate: 1400, reloadTime: 3500, magazine: 8, color: '#9D00FF', trail: '#DDA0DD', cost: 5000, description: 'Devastating cannon. One-shots grunts, obliterates chaos marines.' }
 ];
 
 // ============================================
@@ -905,30 +905,45 @@ const AnimationLibrary = {
     }
 };
 
-// Animation Manager
+// Animation Manager — optimized with swap-and-pop + free-list
 class AnimationManager {
     constructor() {
         this.instances = [];
         this.pool = [];
-        
+        this.freeList = []; // indices of inactive pool entries
+        this.activeCount = 0;
+
         // Initialize pool
         for (let i = 0; i < CONFIG.ANIMATION_POOL_SIZE; i++) {
             this.pool.push(new AnimationInstance());
+            this.freeList.push(i);
         }
     }
-    
-    spawn(x, y, animation, type, options = {}) {
-        let instance = this.pool.find(i => !i.active);
-        if (!instance) {
-            instance = new AnimationInstance();
-            this.pool.push(instance);
+
+    _acquire() {
+        if (this.freeList.length > 0) {
+            const idx = this.freeList.pop();
+            return this.pool[idx];
         }
-        
+        const inst = new AnimationInstance();
+        this.pool.push(inst);
+        return inst;
+    }
+
+    _release(instance) {
+        instance.reset();
+        const idx = this.pool.indexOf(instance);
+        if (idx !== -1) this.freeList.push(idx);
+    }
+
+    spawn(x, y, animation, type, options = {}) {
+        const instance = this._acquire();
         instance.init(x, y, animation, type, options);
         this.instances.push(instance);
+        this.activeCount++;
         return instance;
     }
-    
+
     spawnMuzzleFlash(x, y, weaponId, angle) {
         const anim = AnimationLibrary.getMuzzleFlash(weaponId);
         if (anim) {
@@ -939,14 +954,14 @@ class AnimationManager {
         }
         return null;
     }
-    
+
     spawnExplosion(x, y, scale = 1) {
         const anim = AnimationLibrary.effects.explosion;
         return this.spawn(x, y, new Animation(anim.frames, anim.fps, anim.loop), 'explosion', {
             scale: scale
         });
     }
-    
+
     spawnBloodSplatter(x, y) {
         const anim = AnimationLibrary.effects.blood;
         return this.spawn(x, y, new Animation(anim.frames, anim.fps, anim.loop), 'blood', {
@@ -954,58 +969,68 @@ class AnimationManager {
             angle: Math.random() * Math.PI * 2
         });
     }
-    
+
     spawnSmoke(x, y) {
         const anim = AnimationLibrary.effects.smoke;
         return this.spawn(x, y, new Animation(anim.frames, anim.fps, anim.loop), 'smoke', {
             scale: 0.6 + Math.random() * 0.4
         });
     }
-    
+
     spawnDeathAnimation(x, y, enemyType) {
         const anim = AnimationLibrary.getEnemyAnimation(enemyType, 'death');
         if (anim) {
             return this.spawn(x, y, anim, 'death', {
                 onComplete: () => {
-                    // Spawn explosion at end
                     this.spawnExplosion(x, y, 0.5);
                 }
             });
         }
         return null;
     }
-    
+
     spawnRailCharge(x, y) {
         const anim = AnimationLibrary.weapons.railCharge;
         return this.spawn(x, y, new Animation(anim.frames, anim.fps, anim.loop), 'railCharge', {
             scale: 1.5
         });
     }
-    
+
     spawnOverheatSteam(x, y) {
         const anim = AnimationLibrary.weapons.overheatSteam;
         return this.spawn(x, y, new Animation(anim.frames, anim.fps, anim.loop), 'steam', {
             scale: 0.8 + Math.random() * 0.4
         });
     }
-    
+
     update(dt) {
-        this.instances = this.instances.filter(instance => {
+        // Swap-and-pop removal instead of filter() to avoid array churn
+        let write = 0;
+        for (let read = 0; read < this.instances.length; read++) {
+            const instance = this.instances[read];
             const active = instance.update(dt);
-            if (!active) {
-                instance.reset();
+            if (active) {
+                this.instances[write++] = instance;
+            } else {
+                this._release(instance);
             }
-            return active;
-        });
+        }
+        this.instances.length = write;
+        this.activeCount = write;
     }
-    
+
     draw(ctx) {
-        this.instances.forEach(instance => instance.draw(ctx));
+        for (let i = 0; i < this.instances.length; i++) {
+            this.instances[i].draw(ctx);
+        }
     }
-    
+
     clear() {
-        this.instances.forEach(i => i.reset());
-        this.instances = [];
+        for (let i = 0; i < this.instances.length; i++) {
+            this._release(this.instances[i]);
+        }
+        this.instances.length = 0;
+        this.activeCount = 0;
     }
 }
 
@@ -1053,6 +1078,8 @@ let gameStats = {
 };
 
 let highScore = 0;
+let stars = [];
+let _cachedActiveEnemyCount = 0; // computed once per frame in update()
 
 // Enemy spawning
 let enemiesToSpawn = 0;
@@ -1225,36 +1252,37 @@ class Enemy {
         this.vy = (dy / dist) * this.speed;
         this.angle = Math.atan2(dy, dx);
         
+        const waveScale = Math.max(1, wave);
         if (type === 'ork') {
             this.radius = 12;
-            this.health = this.maxHealth = 1;
-            this.value = 10;
+            this.health = this.maxHealth = Math.floor(3 + waveScale * 1.5);
+            this.value = 10 + waveScale;
             this.color = CONFIG.COLORBLIND_COLORS.ork;
-            this.attackRate = 60; // 1 second between attacks
-            this.damage = 10;
+            this.attackRate = Math.max(40, 65 - waveScale);
+            this.damage = Math.floor(5 + waveScale * 0.5);
         } else if (type === 'cultist') {
             this.radius = 11;
-            this.health = this.maxHealth = 1;
-            this.value = 15;
+            this.health = this.maxHealth = Math.floor(2 + waveScale * 1.2);
+            this.value = 15 + waveScale;
             this.color = CONFIG.COLORBLIND_COLORS.cultist;
-            this.attackRate = 45; // Faster attacks
-            this.damage = 8;
+            this.attackRate = Math.max(35, 50 - waveScale * 0.5);
+            this.damage = Math.floor(4 + waveScale * 0.4);
         } else if (type === 'chaos') {
             this.radius = 15;
-            this.health = this.maxHealth = 3;
-            this.value = 40;
+            this.health = this.maxHealth = Math.floor(8 + waveScale * 3);
+            this.value = 40 + waveScale * 3;
             this.color = CONFIG.COLORBLIND_COLORS.chaos;
-            this.vx *= 0.8;
-            this.vy *= 0.8;
-            this.attackRate = 90; // Slower but heavier attacks
-            this.damage = 25;
+            this.vx *= 0.7;
+            this.vy *= 0.7;
+            this.attackRate = Math.max(55, 100 - waveScale * 0.8);
+            this.damage = Math.floor(12 + waveScale * 1.0);
         } else if (type === 'ranged') {
             this.radius = 10;
-            this.health = this.maxHealth = 2;
-            this.value = 25;
-            this.color = '#00D4FF'; // Cyan glow
-            this.attackRate = 80; // Moderate fire rate
-            this.damage = 15;
+            this.health = this.maxHealth = Math.floor(2 + waveScale);
+            this.value = 25 + waveScale * 2;
+            this.color = '#00D4FF';
+            this.attackRate = Math.max(45, 90 - waveScale * 0.6);
+            this.damage = Math.floor(8 + waveScale * 0.6);
         }
     }
     
@@ -1482,10 +1510,40 @@ class Bullet {
     }
     draw(ctx) {
         if (!this.active) return;
-        ctx.fillStyle = '#fff';
-        ctx.beginPath();
-        ctx.arc(this.x, this.y, 3, 0, Math.PI * 2);
-        ctx.fill();
+        if (this.type === 'plasma') {
+            ctx.save();
+            ctx.shadowColor = '#00D4FF';
+            ctx.shadowBlur = 10;
+            ctx.fillStyle = '#87CEEB';
+            ctx.beginPath();
+            ctx.arc(this.x, this.y, 5, 0, Math.PI * 2);
+            ctx.fill();
+            ctx.fillStyle = '#fff';
+            ctx.beginPath();
+            ctx.arc(this.x, this.y, 2, 0, Math.PI * 2);
+            ctx.fill();
+            ctx.shadowBlur = 0;
+            ctx.restore();
+        } else if (this.type === 'heavy') {
+            ctx.save();
+            ctx.shadowColor = '#9D00FF';
+            ctx.shadowBlur = 12;
+            ctx.fillStyle = '#DDA0DD';
+            ctx.beginPath();
+            ctx.arc(this.x, this.y, 7, 0, Math.PI * 2);
+            ctx.fill();
+            ctx.fillStyle = '#fff';
+            ctx.beginPath();
+            ctx.arc(this.x, this.y, 3, 0, Math.PI * 2);
+            ctx.fill();
+            ctx.shadowBlur = 0;
+            ctx.restore();
+        } else {
+            ctx.fillStyle = '#fff';
+            ctx.beginPath();
+            ctx.arc(this.x, this.y, 3, 0, Math.PI * 2);
+            ctx.fill();
+        }
     }
 }
 
@@ -1579,6 +1637,32 @@ function getEnemyProjectile() {
     return pools.enemyProjectiles.find(p => !p.active) || new EnemyProjectile();
 }
 
+function generateStars() {
+    stars = [];
+    const count = IS_MOBILE ? 80 : 200;
+    for (let i = 0; i < count; i++) {
+        stars.push({
+            x: Math.random() * canvas.width,
+            y: Math.random() * canvas.height,
+            size: Math.random() * 2 + 0.5,
+            brightness: Math.random() * 0.6 + 0.2,
+            twinkleSpeed: Math.random() * 0.003 + 0.001
+        });
+    }
+}
+
+function drawStars(ctx) {
+    const time = Date.now();
+    for (const star of stars) {
+        const twinkle = Math.sin(time * star.twinkleSpeed) * 0.2 + 0.8;
+        const alpha = star.brightness * twinkle;
+        ctx.fillStyle = `rgba(220, 210, 180, ${alpha})`;
+        ctx.beginPath();
+        ctx.arc(star.x, star.y, star.size, 0, Math.PI * 2);
+        ctx.fill();
+    }
+}
+
 function init() {
     canvas = document.getElementById('gameCanvas');
     ctx = canvas.getContext('2d', { alpha: false });
@@ -1586,6 +1670,7 @@ function init() {
     initPools();
     loadGame();
     resizeCanvas();
+    generateStars();
     
     // Initialize animation system
     AnimationLibrary.init();
@@ -1605,6 +1690,7 @@ function init() {
 function resizeCanvas() {
     canvas.width = window.innerWidth;
     canvas.height = window.innerHeight;
+    generateStars();
 }
 
 function setupInputs() {
@@ -1687,7 +1773,7 @@ function setupInputs() {
     
     window.addEventListener('keydown', (e) => {
         if (!gameRunning) return;
-        
+
         switch(e.key) {
             case 'p':
             case 'P':
@@ -1706,6 +1792,109 @@ function setupInputs() {
                 break;
         }
     });
+
+    // Mobile joystick setup
+    setupMobileControls();
+}
+
+function setupMobileControls() {
+    const joystick = document.getElementById('mobileJoystick');
+    const thumb = document.getElementById('joystickThumb');
+    const fireBtn = document.getElementById('mobileFireBtn');
+    const mobileControls = document.getElementById('mobileControls');
+
+    if (!joystick || !thumb || !fireBtn) return;
+
+    let joystickActive = false;
+    let joystickCenter = { x: 0, y: 0 };
+    const maxDist = 35;
+
+    function updateJoystickVisual(dx, dy) {
+        const dist = Math.min(Math.hypot(dx, dy), maxDist);
+        const angle = Math.atan2(dy, dx);
+        thumb.style.transform = `translate(calc(-50% + ${Math.cos(angle) * dist}px), calc(-50% + ${Math.sin(angle) * dist}px))`;
+    }
+
+    joystick.addEventListener('touchstart', (e) => {
+        if (!gameRunning || gamePaused) return;
+        e.preventDefault();
+        const touch = e.touches[0];
+        const rect = joystick.getBoundingClientRect();
+        joystickCenter = { x: rect.left + rect.width / 2, y: rect.top + rect.height / 2 };
+        joystickActive = true;
+        const dx = touch.clientX - joystickCenter.x;
+        const dy = touch.clientY - joystickCenter.y;
+        updateJoystickVisual(dx, dy);
+        player.angle = Math.atan2(dy, dx);
+    }, { passive: false });
+
+    joystick.addEventListener('touchmove', (e) => {
+        if (!joystickActive) return;
+        e.preventDefault();
+        const touch = e.touches[0];
+        const dx = touch.clientX - joystickCenter.x;
+        const dy = touch.clientY - joystickCenter.y;
+        updateJoystickVisual(dx, dy);
+        player.angle = Math.atan2(dy, dx);
+    }, { passive: false });
+
+    joystick.addEventListener('touchend', (e) => {
+        e.preventDefault();
+        joystickActive = false;
+        thumb.style.transform = 'translate(-50%, -50%)';
+    }, { passive: false });
+
+    joystick.addEventListener('touchcancel', (e) => {
+        e.preventDefault();
+        joystickActive = false;
+        thumb.style.transform = 'translate(-50%, -50%)';
+    }, { passive: false });
+
+    // Fire button
+    fireBtn.addEventListener('touchstart', (e) => {
+        if (!gameRunning || gamePaused) return;
+        e.preventDefault();
+        e.stopPropagation();
+        isFiring = true;
+        fireBtn.style.transform = 'scale(0.9)';
+        if (equippedWeapon !== 2) fireWeapon();
+    }, { passive: false });
+
+    fireBtn.addEventListener('touchend', (e) => {
+        e.preventDefault();
+        e.stopPropagation();
+        isFiring = false;
+        fireBtn.style.transform = 'scale(1)';
+    }, { passive: false });
+
+    // Show/hide mobile controls based on setting
+    function updateMobileVisibility() {
+        if (gameSettings.mobile || IS_MOBILE) {
+            mobileControls.classList.add('active');
+        } else {
+            mobileControls.classList.remove('active');
+        }
+    }
+
+    // Hook into toggleSetting
+    const originalToggle = toggleSetting;
+    toggleSetting = function(setting) {
+        originalToggle(setting);
+        if (setting === 'mobile') updateMobileVisibility();
+    };
+
+    // Also update when game starts
+    const originalStartGame = startGame;
+    startGame = function() {
+        originalStartGame();
+        updateMobileVisibility();
+    };
+
+    const originalStartEndlessGame = startEndlessGame;
+    startEndlessGame = function() {
+        originalStartEndlessGame();
+        updateMobileVisibility();
+    };
 }
 
 function createParticles(x, y, count, color, speed) {
@@ -1716,17 +1905,46 @@ function createParticles(x, y, count, color, speed) {
     }
 }
 
+function applyAimAssist() {
+    if (!gameSettings.aimassist) return player.angle;
+    const assistRadius = 120;
+    let nearest = null;
+    let nearestDist = Infinity;
+    const cx = canvas.width / 2;
+    const cy = canvas.height / 2;
+
+    for (let i = 0; i < pools.enemies.length; i++) {
+        const e = pools.enemies[i];
+        if (!e.active || e.dead) continue;
+        const ex = e.x - cx;
+        const ey = e.y - cy;
+        const dist = Math.hypot(ex, ey);
+        if (dist < nearestDist && dist > 40) {
+            nearestDist = dist;
+            nearest = e;
+        }
+    }
+    if (!nearest || nearestDist > assistRadius) return player.angle;
+
+    const targetAngle = Math.atan2(nearest.y - cy, nearest.x - cx);
+    let diff = targetAngle - player.angle;
+    while (diff > Math.PI) diff -= Math.PI * 2;
+    while (diff < -Math.PI) diff += Math.PI * 2;
+    const assistStrength = 0.35;
+    return player.angle + diff * assistStrength;
+}
+
 function fireWeapon() {
     if (isReloading || shootCooldown > 0) return;
-    
+
     const weapon = WEAPONS[equippedWeapon];
-    
+
     if (ammo[equippedWeapon] <= 0) {
         reloadWeapon();
         return;
     }
-    
-    const angle = player.angle + (Math.random() - 0.5) * 0.05;
+
+    const angle = applyAimAssist() + (Math.random() - 0.5) * 0.05;
     
     // Spawn muzzle flash animation
     if (animManager) {
@@ -1735,15 +1953,17 @@ function fireWeapon() {
         animManager.spawnMuzzleFlash(muzzleX, muzzleY, weapon.id, angle);
     }
     
+    const bulletSpeeds = [16, 15, 14, 11, 9];
+    const bulletPierce = [0, 0, 0, 5, 2];
     const bullet = getBullet();
     bullet.init(
         canvas.width / 2 + Math.cos(angle) * 40,
         canvas.height / 2 + Math.sin(angle) * 40,
         angle,
-        weapon.id === 3 ? 12 : weapon.id === 4 ? 6 : 15,
+        bulletSpeeds[weapon.id],
         weapon.damage,
-        'normal',
-        weapon.id === 3 ? 3 : 0
+        weapon.id === 4 ? 'heavy' : weapon.id === 3 ? 'plasma' : 'normal',
+        bulletPierce[weapon.id]
     );
     
     ammo[equippedWeapon]--;
@@ -1816,39 +2036,46 @@ function killEnemy(enemy) {
     
     createParticles(enemy.x, enemy.y, 10, enemy.color, 6);
     
+    const creditReward = Math.floor(enemy.value / 2 + combo);
     score += enemy.value * combo;
-    credits += Math.floor(enemy.value / 5);
+    credits += creditReward;
     
     enemiesKilledThisWave++;
     gameStats.totalKills++;
     
-    combo = Math.min(combo + 0.1, CONFIG.MAX_COMBO);
+    combo = Math.min(combo + 0.2, CONFIG.MAX_COMBO);
     comboTimer = CONFIG.COMBO_TIMEOUT;
     
     document.getElementById('scoreValue').textContent = Math.floor(score);
     document.getElementById('creditsValue').textContent = credits;
     document.getElementById('killsValue').textContent = gameStats.totalKills;
-    document.getElementById('enemiesValue').textContent = pools.enemies.filter(e => e.active && !e.dead).length;
-    
+    // _cachedActiveEnemyCount is updated in update() each frame
+    document.getElementById('enemiesValue').textContent = _cachedActiveEnemyCount;
+
     updateCombo();
 }
 
 function checkCollisions() {
-    const activeBullets = pools.bullets.filter(b => b.active);
-    const activeEnemies = pools.enemies.filter(e => e.active && !e.dead);
-    
-    for (const bullet of activeBullets) {
-        for (const enemy of activeEnemies) {
+    // Direct iteration over pools — no array allocations
+    for (let b = 0; b < pools.bullets.length; b++) {
+        const bullet = pools.bullets[b];
+        if (!bullet.active) continue;
+
+        for (let e = 0; e < pools.enemies.length; e++) {
+            const enemy = pools.enemies[e];
+            if (!enemy.active || enemy.dead) continue;
             if (bullet.pierced.includes(enemy)) continue;
-            
+
             const dx = bullet.x - enemy.x;
             const dy = bullet.y - enemy.y;
-            const dist = Math.sqrt(dx * dx + dy * dy);
-            
-            if (dist < enemy.radius + 5) {
+            const dist = dx * dx + dy * dy; // squared, skip sqrt
+
+            const bulletRadius = bullet.type === 'heavy' ? 8 : bullet.type === 'plasma' ? 6 : 4;
+            const hitDist = enemy.radius + bulletRadius;
+            if (dist < hitDist * hitDist) {
                 enemy.health -= bullet.damage;
                 gameStats.shotsHit++;
-                
+
                 if (bullet.pierce > 0) {
                     bullet.pierced.push(enemy);
                     bullet.damage *= 0.7;
@@ -1856,15 +2083,14 @@ function checkCollisions() {
                 } else {
                     bullet.active = false;
                 }
-                
+
                 if (enemy.health <= 0) {
                     killEnemy(enemy);
                 } else {
                     createParticles(bullet.x, bullet.y, 3, '#fff', 4);
-                    // Play enemy hit sound
                     if (typeof enemyHit === 'function') enemyHit();
                 }
-                
+
                 break;
             }
         }
@@ -1872,16 +2098,19 @@ function checkCollisions() {
 }
 
 function checkEnemyProjectileCollisions() {
-    const activeBullets = pools.bullets.filter(b => b.active);
-    const activeProjectiles = pools.enemyProjectiles.filter(p => p.active);
+    for (let b = 0; b < pools.bullets.length; b++) {
+        const bullet = pools.bullets[b];
+        if (!bullet.active) continue;
 
-    for (const bullet of activeBullets) {
-        for (const proj of activeProjectiles) {
+        for (let p = 0; p < pools.enemyProjectiles.length; p++) {
+            const proj = pools.enemyProjectiles[p];
+            if (!proj.active) continue;
+
             const dx = bullet.x - proj.x;
             const dy = bullet.y - proj.y;
-            const dist = Math.sqrt(dx * dx + dy * dy);
+            const dist = dx * dx + dy * dy;
 
-            if (dist < 12) {
+            if (dist < 144) { // 12^2
                 proj.active = false;
                 bullet.active = false;
                 createParticles(proj.x, proj.y, 5, '#FF4444', 4);
@@ -1893,13 +2122,16 @@ function checkEnemyProjectileCollisions() {
 }
 
 function startWave() {
-    enemiesTotalInWave = 10 + (wave - 1) * 5;
+    const waveMult = endlessMode ? 1.5 : 1.0;
+    enemiesTotalInWave = Math.floor((8 + (wave - 1) * 4 + Math.floor((wave - 1) / 3) * 3) * waveMult);
     enemiesToSpawn = enemiesTotalInWave;
     enemiesKilledThisWave = 0;
     waveInProgress = true;
 
     // Announce wave
     document.getElementById('waveNumberDisplay').textContent = wave;
+    const waveText = document.querySelector('.wave-text');
+    if (waveText) waveText.textContent = endlessMode ? 'ENDLESS WAVE' : 'WAVE INCOMING';
     document.getElementById('waveAnnouncement').classList.add('active');
     setTimeout(() => {
         document.getElementById('waveAnnouncement').classList.remove('active');
@@ -1909,35 +2141,43 @@ function startWave() {
 function spawnEnemy() {
     if (enemiesToSpawn <= 0) return;
 
-    // Spawn in bursts of 2-5, faster on higher waves
+    const endlessMult = endlessMode ? 1.3 : 1.0;
     const burstSize = Math.min(
         enemiesToSpawn,
-        2 + Math.floor(Math.random() * 3) + Math.floor(wave / 5)
+        2 + Math.floor(Math.random() * 3) + Math.floor(wave / 4)
     );
-    const baseSpeed = 1 + (wave * 0.1);
+    const baseSpeed = (1 + (wave * 0.12)) * endlessMult;
 
     for (let i = 0; i < burstSize; i++) {
         if (enemiesToSpawn <= 0) break;
 
-        // 65% ork, 20% cultist, 10% chaos, 5% ranged (waves 3+)
+        // Composition shifts with waves: early = mostly orks, late = more chaos/ranged
+        const orkChance = Math.max(0.35, 0.70 - wave * 0.03);
+        const cultistChance = Math.max(0.20, 0.20 + wave * 0.01);
+        const chaosChance = Math.min(0.25, 0.05 + wave * 0.015);
+        const rangedChance = wave >= 3 ? Math.min(0.20, 0.05 + (wave - 3) * 0.012) : 0;
+
         let roll = Math.random();
         let enemyType;
-        if (roll < 0.65) {
+        if (roll < orkChance) {
             enemyType = 'ork';
-        } else if (roll < 0.85) {
+        } else if (roll < orkChance + cultistChance) {
             enemyType = 'cultist';
-        } else if (roll < 0.95 || wave < 3) {
+        } else if (roll < orkChance + cultistChance + chaosChance) {
             enemyType = 'chaos';
-        } else {
+        } else if (roll < orkChance + cultistChance + chaosChance + rangedChance) {
             enemyType = 'ranged';
+        } else {
+            enemyType = 'ork';
         }
 
         const enemy = getEnemy();
-        enemy.init(enemyType, baseSpeed * (enemyType === 'ork' ? 1.2 : enemyType === 'chaos' ? 0.6 : 1));
+        const speedMult = enemyType === 'ork' ? 1.3 : enemyType === 'cultist' ? 1.1 : enemyType === 'ranged' ? 0.9 : 0.65;
+        enemy.init(enemyType, baseSpeed * speedMult);
 
-        // Stagger burst spawns slightly so they don't overlap perfectly
-        enemy.x += (Math.random() - 0.5) * 30;
-        enemy.y += (Math.random() - 0.5) * 30;
+        // Stagger burst spawns
+        enemy.x += (Math.random() - 0.5) * 40;
+        enemy.y += (Math.random() - 0.5) * 40;
         enemy.angle = Math.atan2(
             canvas.height / 2 - enemy.y,
             canvas.width / 2 - enemy.x
@@ -1977,8 +2217,8 @@ function update(dt) {
     // Update player
     if (shootCooldown > 0) shootCooldown--;
 
-    // Chaingun continuous fire while holding mouse/touch
-    if (isFiring && equippedWeapon === 2 && !gamePaused) {
+    // Continuous fire while holding mouse/touch (chaingun always, others with auto-fire setting)
+    if (isFiring && !gamePaused && (equippedWeapon === 2 || gameSettings.autofire)) {
         fireWeapon();
     }
 
@@ -2005,7 +2245,8 @@ function update(dt) {
         spawnTimer--;
         if (spawnTimer <= 0) {
             spawnEnemy();
-            spawnTimer = Math.max(20, 50 - wave * 2); // Faster bursts on higher waves
+            const endlessSpawnMult = endlessMode ? 0.6 : 1.0;
+            spawnTimer = Math.max(12, (45 - wave * 2) * endlessSpawnMult); // Faster bursts on higher waves
         }
     }
     
@@ -2021,49 +2262,53 @@ function update(dt) {
     // Update particles
     pools.particles.forEach(p => p.update());
 
+    // Cache active enemy count once for the frame
+    let activeEnemies = 0;
+    let nearestTurretTarget = null;
+    let nearestTurretDist = Infinity;
+    for (let i = 0; i < pools.enemies.length; i++) {
+        const e = pools.enemies[i];
+        if (e.active && !e.dead) {
+            activeEnemies++;
+            // Simultaneously find nearest enemy for turret targeting
+            const dx = e.x - canvas.width / 2;
+            const dy = e.y - canvas.height / 2;
+            const d = dx * dx + dy * dy; // squared distance
+            if (d < nearestTurretDist) {
+                nearestTurretDist = d;
+                nearestTurretTarget = e;
+            }
+        }
+    }
+    _cachedActiveEnemyCount = activeEnemies;
+    document.getElementById('enemiesValue').textContent = activeEnemies;
+
     // Check collisions
     checkCollisions();
     checkEnemyProjectileCollisions();
 
-    // Auto-turret logic
+    // Auto-turret logic — uses the nearest target we just found
     if (fortressUpgrades.autoTurret.level > 0) {
         turretCooldown--;
-        if (turretCooldown <= 0) {
-            const activeEnemiesList = pools.enemies.filter(e => e.active && !e.dead);
-            if (activeEnemiesList.length > 0) {
-                // Target nearest enemy
-                let nearest = activeEnemiesList[0];
-                let nearestDist = Infinity;
-                for (const e of activeEnemiesList) {
-                    const dx = e.x - canvas.width / 2;
-                    const dy = e.y - canvas.height / 2;
-                    const d = Math.sqrt(dx * dx + dy * dy);
-                    if (d < nearestDist) {
-                        nearestDist = d;
-                        nearest = e;
-                    }
-                }
-                const angle = Math.atan2(nearest.y - canvas.height / 2, nearest.x - canvas.width / 2);
-                const bullet = getBullet();
-                const turretDamage = 15 * fortressUpgrades.autoTurret.level;
-                bullet.init(
-                    canvas.width / 2 + Math.cos(angle) * 45,
-                    canvas.height / 2 + Math.sin(angle) * 45,
-                    angle,
-                    12,
-                    turretDamage,
-                    'turret'
-                );
-                if (typeof playTurretFire === 'function') playTurretFire();
-            }
-            // Cooldown scales with level: faster at higher levels
-            turretCooldown = Math.max(30, 90 - fortressUpgrades.autoTurret.level * 15);
+        if (turretCooldown <= 0 && nearestTurretTarget) {
+            const angle = Math.atan2(
+                nearestTurretTarget.y - canvas.height / 2,
+                nearestTurretTarget.x - canvas.width / 2
+            );
+            const bullet = getBullet();
+            const turretDamage = 30 * fortressUpgrades.autoTurret.level;
+            bullet.init(
+                canvas.width / 2 + Math.cos(angle) * 45,
+                canvas.height / 2 + Math.sin(angle) * 45,
+                angle,
+                12,
+                turretDamage,
+                'turret'
+            );
+            if (typeof playTurretFire === 'function') playTurretFire();
+            turretCooldown = Math.max(20, 80 - fortressUpgrades.autoTurret.level * 18);
         }
     }
-
-    // Update enemy count
-    const activeEnemies = pools.enemies.filter(e => e.active && !e.dead).length;
-    document.getElementById('enemiesValue').textContent = activeEnemies;
 
     // Check wave completion - only when ALL enemies are dead (not just off-screen)
     if (waveInProgress && enemiesToSpawn === 0 && activeEnemies === 0 && enemiesKilledThisWave >= enemiesTotalInWave) {
@@ -2075,14 +2320,21 @@ function update(dt) {
         const healAmount = 100 + (fortressUpgrades.waveHeal.level * 50);
         baseHealth = Math.min(baseHealth + healAmount, maxBaseHealth);
         updateBaseHealth();
+
+        // Endless mode bonus every 5 waves
+        if (endlessMode && (wave - 1) % 5 === 0) {
+            const bonus = 100 + (wave - 1) * 15;
+            credits += bonus;
+            document.getElementById('creditsValue').textContent = credits;
+            saveGame();
+        }
+
         // Play wave complete sound
         if (typeof playWaveComplete === 'function') playWaveComplete();
         setTimeout(startWave, 2000);
     }
     
-    if (!waveInProgress && activeEnemies === 0 && wave === 1) {
-        setTimeout(startWave, 1000);
-    }
+    // Wave auto-start logic removed — startGame/startEndlessGame already schedule startWave
 }
 
 function drawFortress(ctx) {
@@ -2206,22 +2458,23 @@ function drawFortress(ctx) {
             ctx.arc(tx, ty, 8, 0, Math.PI * 2);
             ctx.fill();
 
-            // Turret barrel - points toward nearest enemy, or rotates slowly
+            // Turret barrel — points toward nearest enemy via direct iteration (no filter)
             let barrelAngle = ta;
-            const activeEnemies = pools.enemies.filter(e => e.active && !e.dead);
-            if (activeEnemies.length > 0) {
-                let nearest = activeEnemies[0];
-                let nearestDist = Infinity;
-                for (const e of activeEnemies) {
-                    const dx = e.x - tx;
-                    const dy = e.y - ty;
-                    const d = Math.sqrt(dx * dx + dy * dy);
-                    if (d < nearestDist) {
-                        nearestDist = d;
-                        nearest = e;
-                    }
+            let nearestTurretEnemy = null;
+            let nearestTurretEnemyDist = Infinity;
+            for (let i = 0; i < pools.enemies.length; i++) {
+                const e = pools.enemies[i];
+                if (!e.active || e.dead) continue;
+                const dx = e.x - tx;
+                const dy = e.y - ty;
+                const d = dx * dx + dy * dy;
+                if (d < nearestTurretEnemyDist) {
+                    nearestTurretEnemyDist = d;
+                    nearestTurretEnemy = e;
                 }
-                barrelAngle = Math.atan2(nearest.y - ty, nearest.x - tx);
+            }
+            if (nearestTurretEnemy) {
+                barrelAngle = Math.atan2(nearestTurretEnemy.y - ty, nearestTurretEnemy.x - tx);
             }
 
             ctx.save();
@@ -2234,13 +2487,102 @@ function drawFortress(ctx) {
     }
 }
 
+function drawPlayer(ctx) {
+    const cx = canvas.width / 2;
+    const cy = canvas.height / 2;
+    const angle = player.angle;
+
+    ctx.save();
+    ctx.translate(cx, cy);
+    ctx.rotate(angle);
+
+    // Backpack / power pack
+    ctx.fillStyle = '#444';
+    ctx.fillRect(-10, -18, 20, 8);
+    ctx.fillStyle = '#C9A227';
+    ctx.fillRect(-6, -16, 4, 4);
+
+    // Body armor
+    ctx.fillStyle = '#3a3a3a';
+    ctx.beginPath();
+    ctx.moveTo(-12, -8);
+    ctx.lineTo(12, -8);
+    ctx.lineTo(10, 14);
+    ctx.lineTo(-10, 14);
+    ctx.closePath();
+    ctx.fill();
+    ctx.strokeStyle = '#555';
+    ctx.lineWidth = 1;
+    ctx.stroke();
+
+    // Chest aquila / insignia
+    ctx.fillStyle = '#C9A227';
+    ctx.beginPath();
+    ctx.moveTo(0, -2);
+    ctx.lineTo(-4, 6);
+    ctx.lineTo(4, 6);
+    ctx.closePath();
+    ctx.fill();
+
+    // Shoulder pads
+    ctx.fillStyle = '#2a2a2a';
+    ctx.beginPath();
+    ctx.arc(-14, -4, 6, 0, Math.PI * 2);
+    ctx.fill();
+    ctx.beginPath();
+    ctx.arc(14, -4, 6, 0, Math.PI * 2);
+    ctx.fill();
+
+    // Helmet
+    ctx.fillStyle = '#2a2a2a';
+    ctx.beginPath();
+    ctx.arc(0, -14, 10, 0, Math.PI * 2);
+    ctx.fill();
+
+    // Eye lenses (glowing red)
+    ctx.fillStyle = '#FF4444';
+    ctx.shadowColor = '#FF4444';
+    ctx.shadowBlur = 6;
+    ctx.fillRect(-5, -16, 4, 3);
+    ctx.fillRect(1, -16, 4, 3);
+    ctx.shadowBlur = 0;
+
+    // Weapon held in hands, pointing forward (right = forward in rotated space)
+    const weapon = WEAPONS[equippedWeapon];
+    ctx.fillStyle = '#666';
+    ctx.fillRect(12, -3, 22, 6); // barrel
+    ctx.fillStyle = '#555';
+    ctx.fillRect(8, -5, 8, 10); // body
+
+    // Muzzle glow when firing
+    if (isFiring || shootCooldown > weapon.fireRate / 1000 * 60 - 3) {
+        ctx.fillStyle = weapon.color;
+        ctx.shadowColor = weapon.color;
+        ctx.shadowBlur = 10;
+        ctx.beginPath();
+        ctx.arc(36, 0, 5, 0, Math.PI * 2);
+        ctx.fill();
+        ctx.shadowBlur = 0;
+    }
+
+    ctx.restore();
+}
+
 function draw() {
     // Clear canvas
     ctx.fillStyle = '#0D0D0D';
     ctx.fillRect(0, 0, canvas.width, canvas.height);
 
+    // Draw stars
+    drawStars(ctx);
+
     // Draw fortress
     drawFortress(ctx);
+
+    // Draw player marine
+    if (gameRunning) {
+        drawPlayer(ctx);
+    }
     
     // Draw aim line
     ctx.strokeStyle = 'rgba(201, 162, 39, 0.3)';
@@ -2323,9 +2665,10 @@ function startGame() {
     // Clear animations
     if (animManager) animManager.clear();
     
+    endlessMode = false;
     gameRunning = true;
     gamePaused = false;
-    
+
     updateBaseHealth();
     updateWeaponUI();
     
@@ -2559,6 +2902,12 @@ function applyFortressDamage(rawDamage) {
     const reduction = armorLevel * 0.08; // 8% per level, max 40%
     const actualDamage = Math.max(1, Math.floor(rawDamage * (1 - reduction)));
     baseHealth -= actualDamage;
+    // Combo breaks when fortress is hit
+    if (combo > 1) {
+        combo = 1;
+        comboTimer = 0;
+        updateCombo();
+    }
     return actualDamage;
 }
 
@@ -2895,7 +3244,7 @@ function startEndlessGame() {
     
     // Reset game state for endless mode
     score = 0;
-    wave = 1;
+    wave = 3; // Endless starts harder
     combo = 1;
     comboTimer = 0;
     gameStats = { shotsFired: 0, shotsHit: 0, totalKills: 0 };
