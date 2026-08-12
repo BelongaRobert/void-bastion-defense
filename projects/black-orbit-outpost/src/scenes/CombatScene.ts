@@ -1,5 +1,5 @@
 import Phaser from 'phaser';
-import { ACT1_MAX_WAVE, ACT1_WAVES, SHOP_AFTER_WAVES } from '../content/waves';
+import { ACT_MAX_WAVE, getCurrentWaveDef, SHOP_AFTER_WAVES } from '../content/waves';
 import { InputMap } from '../input/InputMap';
 import { metaState, runState } from '../state/RunState';
 import { saveService } from '../state/SaveService';
@@ -97,7 +97,7 @@ export class CombatScene extends Phaser.Scene {
     }
 
     this.director = new EnemyDirector();
-    const wave = ACT1_WAVES[runState.wave - 1];
+    const wave = getCurrentWaveDef(runState.act, runState.wave);
     if (!wave) {
       this.scene.start('Menu');
       return;
@@ -210,10 +210,10 @@ export class CombatScene extends Phaser.Scene {
   private onWaveCleared(): void {
     if (this.failed) return;
     runState.salvage += 20 + runState.wave * 6;
-    metaState.bestAct1Wave = Math.max(metaState.bestAct1Wave, runState.wave);
+    this.trackBestWave();
     saveService.saveRun();
 
-    if (runState.wave >= ACT1_MAX_WAVE) {
+    if (runState.wave >= ACT_MAX_WAVE) {
       this.cleanup();
       this.scene.start('Results');
       return;
@@ -226,7 +226,7 @@ export class CombatScene extends Phaser.Scene {
 
   private failRun(): void {
     this.failed = true;
-    metaState.bestAct1Wave = Math.max(metaState.bestAct1Wave, runState.wave);
+    this.trackBestWave();
     saveService.clearRun();
     saveService.saveMetaOnly();
     this.hud.flash('OUTPOST LOST', this, '#ff3b5c');
@@ -234,6 +234,14 @@ export class CombatScene extends Phaser.Scene {
       this.cleanup();
       this.scene.start('Menu');
     });
+  }
+
+  private trackBestWave(): void {
+    if (runState.act === 2) {
+      metaState.bestAct2Wave = Math.max(metaState.bestAct2Wave, runState.wave);
+    } else {
+      metaState.bestAct1Wave = Math.max(metaState.bestAct1Wave, runState.wave);
+    }
   }
 
   private cleanup(): void {
@@ -244,20 +252,37 @@ export class CombatScene extends Phaser.Scene {
 
   private drawArena(): void {
     const g = this.add.graphics();
-    g.fillStyle(0x0a101a, 1);
-    g.fillRect(0, 0, GAME_WIDTH, GAME_HEIGHT);
-    g.lineStyle(1, 0x1a2838, 0.7);
-    for (let x = 0; x < GAME_WIDTH; x += 64) g.lineBetween(x, 0, x, GAME_HEIGHT);
-    for (let y = 0; y < GAME_HEIGHT; y += 64) g.lineBetween(0, y, GAME_WIDTH, y);
-    g.lineStyle(2, Colors.steelDark, 0.8);
-    g.strokeRect(16, 16, GAME_WIDTH - 32, GAME_HEIGHT - 32);
-    g.fillStyle(0x121c2a, 1);
-    g.fillRect(80, 80, 120, 40);
-    g.fillRect(GAME_WIDTH - 220, GAME_HEIGHT - 140, 140, 60);
-    g.fillRect(GAME_WIDTH - 160, 90, 60, 160);
-    // Dockyard crane silhouette
-    g.fillStyle(0x152030, 1);
-    g.fillRect(200, 40, 16, 160);
-    g.fillRect(200, 40, 90, 12);
+    if (runState.act === 2) {
+      g.fillStyle(0x081018, 1);
+      g.fillRect(0, 0, GAME_WIDTH, GAME_HEIGHT);
+      g.lineStyle(1, 0x1a3048, 0.55);
+      for (let x = 0; x < GAME_WIDTH; x += 64) g.lineBetween(x, 0, x, GAME_HEIGHT);
+      for (let y = 0; y < GAME_HEIGHT; y += 64) g.lineBetween(0, y, GAME_WIDTH, y);
+      g.lineStyle(2, 0x3a6080, 0.7);
+      g.strokeRect(16, 16, GAME_WIDTH - 32, GAME_HEIGHT - 32);
+      // Freezer racks
+      g.fillStyle(0x102030, 1);
+      g.fillRect(60, 100, 40, 220);
+      g.fillRect(120, 100, 40, 220);
+      g.fillRect(GAME_WIDTH - 160, 80, 50, 280);
+      g.fillRect(GAME_WIDTH - 100, 80, 50, 280);
+      g.fillStyle(0x7eb6ff, 0.08);
+      g.fillCircle(GAME_WIDTH / 2, 120, 180);
+    } else {
+      g.fillStyle(0x0a101a, 1);
+      g.fillRect(0, 0, GAME_WIDTH, GAME_HEIGHT);
+      g.lineStyle(1, 0x1a2838, 0.7);
+      for (let x = 0; x < GAME_WIDTH; x += 64) g.lineBetween(x, 0, x, GAME_HEIGHT);
+      for (let y = 0; y < GAME_HEIGHT; y += 64) g.lineBetween(0, y, GAME_WIDTH, y);
+      g.lineStyle(2, Colors.steelDark, 0.8);
+      g.strokeRect(16, 16, GAME_WIDTH - 32, GAME_HEIGHT - 32);
+      g.fillStyle(0x121c2a, 1);
+      g.fillRect(80, 80, 120, 40);
+      g.fillRect(GAME_WIDTH - 220, GAME_HEIGHT - 140, 140, 60);
+      g.fillRect(GAME_WIDTH - 160, 90, 60, 160);
+      g.fillStyle(0x152030, 1);
+      g.fillRect(200, 40, 16, 160);
+      g.fillRect(200, 40, 90, 12);
+    }
   }
 }

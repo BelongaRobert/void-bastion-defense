@@ -29,7 +29,7 @@ export class RestScene extends Phaser.Scene {
     this.add.rectangle(0, 0, GAME_WIDTH, GAME_HEIGHT, 0x0f1826, 1).setOrigin(0);
 
     this.add
-      .text(GAME_WIDTH / 2, 60, 'REST — DOCKYARD BAY', {
+      .text(GAME_WIDTH / 2, 60, runState.act === 2 ? 'REST — COLD STORAGE' : 'REST — DOCKYARD BAY', {
         fontFamily: 'Orbitron, sans-serif',
         fontSize: '28px',
         color: '#e8f0f7',
@@ -78,7 +78,7 @@ export class RestScene extends Phaser.Scene {
     this.placing = false;
     this.readyForCombat = false;
 
-    const beatId = storyDirector.restBeatForWave(this.clearedWave);
+    const beatId = storyDirector.restBeatForWave(runState.act, this.clearedWave);
     if (beatId) {
       const beat = storyDirector.getBeat(beatId);
       if (beat) this.dialogue.play(beat);

@@ -10,17 +10,35 @@ export interface RunState {
   maxHardpoints: number;
   hasAutogunNest: boolean;
   autogunNestPos: { x: number; y: number } | null;
-  /** Run-only shop buffs */
   damageBonus: number;
   nestDamageBonus: number;
   ammoReserveBonus: number;
+  /** Active challenge modifier id for this run */
+  challengeId: string | null;
+  /** Challenge: enemy HP multiplier */
+  enemyHpMult: number;
+  /** Challenge: enemy speed multiplier */
+  enemySpeedMult: number;
+  /** Challenge: core starts damaged */
+  coreBleed: boolean;
 }
+
+export type UnlockId =
+  | 'core_plating'
+  | 'medbay'
+  | 'hardpoint_slot'
+  | 'hollow_tips'
+  | 'nest_firmware'
+  | 'starting_salvage';
 
 export interface MetaState {
   orbitMarks: number;
   act1Cleared: boolean;
+  act2Cleared: boolean;
   runsStarted: number;
   bestAct1Wave: number;
+  bestAct2Wave: number;
+  unlocked: UnlockId[];
 }
 
 export function createInitialRun(): RunState {
@@ -39,6 +57,10 @@ export function createInitialRun(): RunState {
     damageBonus: 0,
     nestDamageBonus: 0,
     ammoReserveBonus: 0,
+    challengeId: null,
+    enemyHpMult: 1,
+    enemySpeedMult: 1,
+    coreBleed: false,
   };
 }
 
@@ -46,8 +68,11 @@ export function createInitialMeta(): MetaState {
   return {
     orbitMarks: 0,
     act1Cleared: false,
+    act2Cleared: false,
     runsStarted: 0,
     bestAct1Wave: 0,
+    bestAct2Wave: 0,
+    unlocked: [],
   };
 }
 
@@ -59,9 +84,45 @@ export function resetRun(): void {
 }
 
 export function applyMeta(data: MetaState): void {
-  Object.assign(metaState, data);
+  Object.assign(metaState, {
+    ...createInitialMeta(),
+    ...data,
+    unlocked: data.unlocked ? [...data.unlocked] : [],
+  });
 }
 
 export function applyRun(data: RunState): void {
-  Object.assign(runState, data);
+  Object.assign(runState, {
+    ...createInitialRun(),
+    ...data,
+    autogunNestPos: data.autogunNestPos ? { ...data.autogunNestPos } : null,
+  });
+}
+
+/** Apply purchased meta unlocks into a fresh run (call after resetRun + set act). */
+export function applyMetaUnlocksToRun(): void {
+  const u = new Set(metaState.unlocked);
+  if (u.has('core_plating')) {
+    runState.coreMaxHp += 200;
+    runState.coreHp = runState.coreMaxHp;
+  }
+  if (u.has('medbay')) {
+    runState.playerMaxHp += 25;
+    runState.playerHp = runState.playerMaxHp;
+  }
+  if (u.has('hardpoint_slot')) {
+    runState.maxHardpoints = 3;
+  }
+  if (u.has('hollow_tips')) {
+    runState.damageBonus += 2;
+  }
+  if (u.has('nest_firmware')) {
+    runState.nestDamageBonus += 3;
+  }
+  if (u.has('starting_salvage')) {
+    runState.salvage += 40;
+  }
+  if (runState.coreBleed) {
+    runState.coreHp = Math.floor(runState.coreMaxHp * 0.7);
+  }
 }

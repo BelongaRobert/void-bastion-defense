@@ -12,6 +12,9 @@ export interface StoryBeat {
   lines: DialogueLine[];
 }
 
+/** Antagonist identity locked: Nyx — the voice that woke the orbit. */
+export const ANTAGONIST_NAME = 'NYX';
+
 export const ACT1_INTRO: StoryBeat = {
   id: 'act1_intro',
   lines: [
@@ -29,8 +32,8 @@ export const ACT1_INTRO: StoryBeat = {
     },
     {
       speaker: 'antagonist',
-      name: '???',
-      text: 'Hold all you like. The orbit already woke. Your outpost is just… meat in a can.',
+      name: ANTAGONIST_NAME,
+      text: 'Hold all you like. I already woke the orbit. Your outpost is just… meat in a can.',
       portrait: 'villain',
     },
     {
@@ -47,14 +50,14 @@ export const ACT1_REST1: StoryBeat = {
   lines: [
     {
       speaker: 'antagonist',
-      name: '???',
+      name: ANTAGONIST_NAME,
       text: 'Pretty gunfire. The Dockmaster will enjoy chewing through it.',
       portrait: 'villain',
     },
     {
       speaker: 'protagonist',
       name: 'DEFENDER',
-      text: "Keep talking. I'm planting steel between you and my core.",
+      text: "Keep talking, Nyx. I'm planting steel between you and my core.",
       portrait: 'hero',
     },
   ],
@@ -77,7 +80,7 @@ export const ACT1_MID: StoryBeat = {
     },
     {
       speaker: 'antagonist',
-      name: '???',
+      name: ANTAGONIST_NAME,
       text: 'He used to run this yard. Now he runs you. Smile when he arrives.',
       portrait: 'villain',
     },
@@ -89,7 +92,7 @@ export const ACT1_PRE_ELITE: StoryBeat = {
   lines: [
     {
       speaker: 'antagonist',
-      name: '???',
+      name: ANTAGONIST_NAME,
       text: 'Dockmaster — open the bay. Show them what the orbit feeds.',
       portrait: 'villain',
     },
@@ -119,14 +122,104 @@ export const ACT1_CLEAR: StoryBeat = {
     },
     {
       speaker: 'antagonist',
-      name: '???',
+      name: ANTAGONIST_NAME,
       text: 'One carcass. Cold Storage still sleeps hungry. Keep walking, little can of meat.',
       portrait: 'villain',
     },
     {
       speaker: 'system',
       name: 'ORBIT RELAY',
-      text: 'Act 1 complete. Orbit Marks awarded. Act 2 — Cold Storage — sealed pending unlock.',
+      text: 'Act 1 complete. Orbit Marks awarded. Cold Storage seal unlocked.',
+      portrait: 'radio',
+    },
+  ],
+};
+
+export const ACT2_INTRO: StoryBeat = {
+  id: 'act2_intro',
+  lines: [
+    {
+      speaker: 'system',
+      name: 'ORBIT RELAY',
+      text: 'Cold Storage online. Freezer fog. Reflections that move wrong. Core transferred to vault node.',
+      portrait: 'radio',
+    },
+    {
+      speaker: 'protagonist',
+      name: 'DEFENDER',
+      text: "Temperature's dropping. Breath fogs. Something's watching from the ice.",
+      portrait: 'hero',
+    },
+    {
+      speaker: 'antagonist',
+      name: ANTAGONIST_NAME,
+      text: 'Welcome to my pantry. The Cold Vault keeps the best cuts. Try not to spoil.',
+      portrait: 'villain',
+    },
+  ],
+};
+
+export const ACT2_MID: StoryBeat = {
+  id: 'act2_mid',
+  lines: [
+    {
+      speaker: 'antagonist',
+      name: ANTAGONIST_NAME,
+      text: 'Hear the compressors? That is the Vault dreaming. It dreams in teeth.',
+      portrait: 'villain',
+    },
+    {
+      speaker: 'protagonist',
+      name: 'DEFENDER',
+      text: "Then I'll wake it with hot lead. Stay on the line, Relay.",
+      portrait: 'hero',
+    },
+  ],
+};
+
+export const ACT2_PRE_ELITE: StoryBeat = {
+  id: 'act2_pre_elite',
+  lines: [
+    {
+      speaker: 'system',
+      name: 'ORBIT RELAY',
+      text: 'Massive cold signature — Chapter Elite: Cold Vault. Ambush packs likely.',
+      portrait: 'radio',
+    },
+    {
+      speaker: 'antagonist',
+      name: ANTAGONIST_NAME,
+      text: 'Open wide, Vault. Dinner is still warm.',
+      portrait: 'villain',
+    },
+    {
+      speaker: 'protagonist',
+      name: 'DEFENDER',
+      text: "Nyx — when this thing falls, I'm coming for your frequency next.",
+      portrait: 'hero',
+    },
+  ],
+};
+
+export const ACT2_CLEAR: StoryBeat = {
+  id: 'act2_clear',
+  lines: [
+    {
+      speaker: 'protagonist',
+      name: 'DEFENDER',
+      text: 'Vault is ice and ruin. Fog clearing. Two acts. Still standing.',
+      portrait: 'hero',
+    },
+    {
+      speaker: 'antagonist',
+      name: ANTAGONIST_NAME,
+      text: 'Cute. Black Orbit still waits outside the plates. The Waker has your name.',
+      portrait: 'villain',
+    },
+    {
+      speaker: 'system',
+      name: 'ORBIT RELAY',
+      text: 'Act 2 complete. Act 3 — Black Orbit — sealed for M4.',
       portrait: 'radio',
     },
   ],

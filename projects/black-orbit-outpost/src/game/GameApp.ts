@@ -2,6 +2,8 @@ import Phaser from 'phaser';
 import { GAME_HEIGHT, GAME_WIDTH, Colors } from '../theme';
 import { BootScene } from '../scenes/BootScene';
 import { MenuScene } from '../scenes/MenuScene';
+import { ActSelectScene } from '../scenes/ActSelectScene';
+import { MetaScene } from '../scenes/MetaScene';
 import { CombatScene } from '../scenes/CombatScene';
 import { RestScene } from '../scenes/RestScene';
 import { ShopScene } from '../scenes/ShopScene';
@@ -29,6 +31,15 @@ export function createGame(parent: string): Phaser.Game {
       mode: Phaser.Scale.FIT,
       autoCenter: Phaser.Scale.CENTER_BOTH,
     },
-    scene: [BootScene, MenuScene, CombatScene, RestScene, ShopScene, ResultsScene],
+    scene: [
+      BootScene,
+      MenuScene,
+      ActSelectScene,
+      MetaScene,
+      CombatScene,
+      RestScene,
+      ShopScene,
+      ResultsScene,
+    ],
   });
 }

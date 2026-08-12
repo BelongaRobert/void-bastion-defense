@@ -1,0 +1,147 @@
+import Phaser from 'phaser';
+import { getAvailableChallenges, type ChallengeDef } from '../content/challenges';
+import { InputMap } from '../input/InputMap';
+import {
+  applyMetaUnlocksToRun,
+  metaState,
+  resetRun,
+  runState,
+} from '../state/RunState';
+import { saveService } from '../state/SaveService';
+import { DialogueBox } from '../story/DialogueBox';
+import { storyDirector } from '../story/StoryDirector';
+import { Colors, GAME_HEIGHT, GAME_WIDTH } from '../theme';
+
+export class ActSelectScene extends Phaser.Scene {
+  private inputMap!: InputMap;
+  private dialogue!: DialogueBox;
+  private starting = false;
+  private selectedChallenge: ChallengeDef | null = null;
+  private status!: Phaser.GameObjects.Text;
+
+  constructor() {
+    super('ActSelect');
+  }
+
+  create(): void {
+    this.cameras.main.setBackgroundColor(Colors.voidNavy);
+    this.add.rectangle(0, 0, GAME_WIDTH, GAME_HEIGHT, 0x0c1420, 1).setOrigin(0);
+
+    this.add
+      .text(GAME_WIDTH / 2, 50, 'SELECT ACT', {
+        fontFamily: 'Orbitron, sans-serif',
+        fontSize: '32px',
+        color: '#e8f0f7',
+      })
+      .setOrigin(0.5);
+
+    this.add
+      .text(
+        GAME_WIDTH / 2,
+        120,
+        [
+          '[1] Act 1 — Dockyard Dark' + (metaState.act1Cleared ? '  ✓' : ''),
+          metaState.act1Cleared
+            ? '[2] Act 2 — Cold Storage' + (metaState.act2Cleared ? '  ✓' : '')
+            : '[2] Act 2 — Cold Storage  (locked)',
+          '',
+          'Challenges (optional — press letter):',
+          ...getAvailableChallenges(metaState.act1Cleared).map(
+            (c, i) =>
+              `[${String.fromCharCode(65 + i)}] ${c.name} — ${c.description} (×${c.marksMult} marks)`,
+          ),
+          '[0] Clear challenge',
+          '',
+          '[M] Meta unlocks   [ESC] Menu',
+        ].join('\n'),
+        {
+          fontFamily: '"Share Tech Mono", monospace',
+          fontSize: '16px',
+          color: '#e8f0f7',
+          align: 'center',
+          lineSpacing: 6,
+        },
+      )
+      .setOrigin(0.5, 0);
+
+    this.status = this.add
+      .text(GAME_WIDTH / 2, GAME_HEIGHT - 70, '', {
+        fontFamily: '"Share Tech Mono", monospace',
+        fontSize: '14px',
+        color: '#e8b84a',
+      })
+      .setOrigin(0.5);
+
+    this.inputMap = new InputMap(this);
+    this.dialogue = new DialogueBox(this);
+    this.starting = false;
+    this.selectedChallenge = null;
+    this.refreshStatus();
+
+    this.input.keyboard?.on('keydown-ONE', () => this.startAct(1));
+    this.input.keyboard?.on('keydown-TWO', () => this.startAct(2));
+    this.input.keyboard?.on('keydown-ZERO', () => {
+      this.selectedChallenge = null;
+      this.refreshStatus();
+    });
+    this.input.keyboard?.on('keydown-M', () => this.scene.start('Meta'));
+    this.input.keyboard?.on('keydown-ESC', () => this.scene.start('Menu'));
+
+    const available = getAvailableChallenges(metaState.act1Cleared);
+    available.forEach((c, i) => {
+      const key = String.fromCharCode(65 + i); // A B C
+      this.input.keyboard?.on(`keydown-${key}`, () => {
+        this.selectedChallenge = c;
+        this.refreshStatus();
+      });
+    });
+  }
+
+  update(): void {
+    if (this.dialogue.isOpen()) {
+      if (this.inputMap.justConfirmed()) this.dialogue.tryAdvance();
+    }
+  }
+
+  private refreshStatus(): void {
+    const ch = this.selectedChallenge
+      ? `Challenge: ${this.selectedChallenge.name}`
+      : 'Challenge: none';
+    this.status.setText(
+      `Orbit Marks ${metaState.orbitMarks}  ·  ${ch}  ·  Unlocks ${metaState.unlocked.length}`,
+    );
+  }
+
+  private startAct(act: number): void {
+    if (this.starting || this.dialogue.isOpen()) return;
+    if (act === 2 && !metaState.act1Cleared) {
+      this.status.setText('Clear Act 1 first');
+      return;
+    }
+    this.starting = true;
+    resetRun();
+    runState.act = act;
+    runState.wave = 1;
+    this.applyChallenge();
+    applyMetaUnlocksToRun();
+    metaState.runsStarted += 1;
+    saveService.saveRun();
+
+    const introId = storyDirector.introForAct(act);
+    const beat = storyDirector.getBeat(introId);
+    if (beat) {
+      this.dialogue.play(beat, () => this.scene.start('Combat'));
+    } else {
+      this.scene.start('Combat');
+    }
+  }
+
+  private applyChallenge(): void {
+    const c = this.selectedChallenge;
+    if (!c) return;
+    runState.challengeId = c.id;
+    runState.enemyHpMult = c.enemyHpMult ?? 1;
+    runState.enemySpeedMult = c.enemySpeedMult ?? 1;
+    runState.coreBleed = !!c.coreBleed;
+  }
+}

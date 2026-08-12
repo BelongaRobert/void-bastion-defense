@@ -2,13 +2,14 @@
 
 Premium act-based outpost defense for Steam (Windows + Deck). Movable defender, cosmic dread, zombies & gore. Chapter Elites fight *with* the finale wave. PS2-style portrait dialogue story.
 
-**Developer:** Belongarobert
+**Developer:** Belongarobert  
+**Antagonist:** Nyx
 
 See [PLAN.md](./PLAN.md) and [ART_BIBLE.md](./ART_BIBLE.md).
 
 ## Status
 
-**M2 complete:** Full Act 1 (8 waves), Chapter Elite — The Dockmaster + wave, shop, save/continue, Act 1 dialogue pass, art direction locked to stylized 2D (A).
+**M3 complete:** Meta unlock tree (Orbit Marks), Act 2 Cold Storage + Chapter Elite Cold Vault, challenges (Fog / Double Runners / Core Bleed), Nyx story beats.
 
 ## Run
 
@@ -18,16 +19,9 @@ npm install
 npm run dev
 ```
 
-Open http://127.0.0.1:5173
-
-```bash
-npm run typecheck
-npm run build
-```
-
 ## Controls
 
-- **WASD** move · **Mouse** aim · **Click** fire
-- **1 / 2** SMG / Shotgun · **R** reload · **Shift** dash
-- Menu: **1** new run · **2** continue · **8** dev jump to wave 7
-- Rest/Shop: number keys to buy · **Space** continue
+- **WASD** move · **Mouse** aim · **Click** fire · **1/2** weapons · **R** reload · **Shift** dash
+- Menu: **1** act select · **2** continue · **3** meta · **9** Act2 Elite
+- Act select: **1/2** act · **A/B/C** challenges · **M** meta
+- Combat dev: **K** clear · **N** skip wave

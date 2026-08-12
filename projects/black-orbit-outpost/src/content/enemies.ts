@@ -1,4 +1,13 @@
-export type EnemyId = 'shambler' | 'runner' | 'spitter' | 'bloater' | 'dockmaster';
+export type EnemyId =
+  | 'shambler'
+  | 'runner'
+  | 'spitter'
+  | 'bloater'
+  | 'dockmaster'
+  | 'armored'
+  | 'stalker'
+  | 'burster'
+  | 'coldvault';
 
 export interface EnemyDef {
   id: EnemyId;
@@ -14,7 +23,6 @@ export interface EnemyDef {
   projectileSpeed?: number;
   preferCore?: boolean;
   isElite?: boolean;
-  /** Summon trash while alive (Chapter Elite) */
   summonIntervalMs?: number;
   summonType?: EnemyId;
 }
@@ -84,5 +92,56 @@ export const ENEMIES: Record<EnemyId, EnemyDef> = {
     isElite: true,
     summonIntervalMs: 4500,
     summonType: 'shambler',
+  },
+  armored: {
+    id: 'armored',
+    name: 'Armored Dead',
+    hp: 95,
+    speed: 42,
+    radius: 18,
+    damage: 12,
+    attackRateMs: 950,
+    color: 0x6a7a8a,
+    salvage: 10,
+    preferCore: true,
+  },
+  stalker: {
+    id: 'stalker',
+    name: 'Stalker',
+    hp: 28,
+    speed: 145,
+    radius: 13,
+    damage: 11,
+    attackRateMs: 650,
+    color: 0xb0d4ff,
+    salvage: 9,
+    preferCore: false,
+  },
+  burster: {
+    id: 'burster',
+    name: 'Burster',
+    hp: 40,
+    speed: 85,
+    radius: 15,
+    damage: 16,
+    attackRateMs: 1200,
+    color: 0xd4a017,
+    salvage: 11,
+    preferCore: true,
+  },
+  coldvault: {
+    id: 'coldvault',
+    name: 'Cold Vault',
+    hp: 1100,
+    speed: 40,
+    radius: 40,
+    damage: 26,
+    attackRateMs: 900,
+    color: 0x7eb6ff,
+    salvage: 150,
+    preferCore: true,
+    isElite: true,
+    summonIntervalMs: 4000,
+    summonType: 'stalker',
   },
 };

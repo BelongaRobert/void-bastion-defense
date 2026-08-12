@@ -1,6 +1,7 @@
 import Phaser from 'phaser';
 import { ENEMIES, type EnemyDef, type EnemyId } from '../content/enemies';
 import { Colors, DEPTH } from '../theme';
+import { runState } from '../state/RunState';
 import type { OutpostCore } from './OutpostCore';
 import type { Player } from './Player';
 import type { GoreFX } from './GoreFX';
@@ -34,6 +35,7 @@ export class Enemy extends Phaser.Physics.Arcade.Sprite {
   private attackCd = 0;
   private summonCd = 0;
   private pulse = 0;
+  private moveSpeed = 0;
   private onSummon: ((type: EnemyId, x: number, y: number) => void) | null = null;
   private eliteRing: Phaser.GameObjects.Arc | null = null;
 
@@ -48,8 +50,9 @@ export class Enemy extends Phaser.Physics.Arcade.Sprite {
 
   spawn(type: EnemyId, x: number, y: number): void {
     this.def = ENEMIES[type];
-    this.hp = this.def.hp;
-    this.maxHp = this.def.hp;
+    this.hp = Math.floor(this.def.hp * runState.enemyHpMult);
+    this.maxHp = this.hp;
+    this.moveSpeed = this.def.speed * runState.enemySpeedMult;
     this.enableBody(true, x, y, true, true);
     this.setTint(this.def.color);
     this.setDisplaySize(this.def.radius * 2, this.def.radius * 2);
@@ -70,7 +73,7 @@ export class Enemy extends Phaser.Physics.Arcade.Sprite {
       this.setDepth(DEPTH.enemy + 2);
       this.eliteRing = this.scene.add
         .circle(x, y, this.def.radius + 10, Colors.antagonist, 0)
-        .setStrokeStyle(3, Colors.antagonist, 0.9)
+        .setStrokeStyle(3, this.def.color, 0.9)
         .setDepth(DEPTH.enemy + 1);
     }
   }
@@ -115,7 +118,7 @@ export class Enemy extends Phaser.Physics.Arcade.Sprite {
     const ty = preferPlayer ? player.y : core.y;
     const angle = Phaser.Math.Angle.Between(this.x, this.y, tx, ty);
     const body = this.body as Phaser.Physics.Arcade.Body;
-    body.setVelocity(Math.cos(angle) * this.def.speed, Math.sin(angle) * this.def.speed);
+    body.setVelocity(Math.cos(angle) * this.moveSpeed, Math.sin(angle) * this.moveSpeed);
     this.setScale(1 + Math.sin(this.pulse * 0.01) * 0.05);
 
     if (this.def.isElite && this.def.summonIntervalMs && this.def.summonType) {

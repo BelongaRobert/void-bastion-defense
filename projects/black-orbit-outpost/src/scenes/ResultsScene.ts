@@ -1,4 +1,5 @@
 import Phaser from 'phaser';
+import { CHALLENGES } from '../content/challenges';
 import { InputMap } from '../input/InputMap';
 import { metaState, resetRun, runState } from '../state/RunState';
 import { saveService } from '../state/SaveService';
@@ -19,15 +20,33 @@ export class ResultsScene extends Phaser.Scene {
     this.cameras.main.setBackgroundColor(Colors.voidNavy);
     this.add.rectangle(0, 0, GAME_WIDTH, GAME_HEIGHT, 0x0a101a, 1).setOrigin(0);
 
-    const marks = 25 + Math.floor(runState.salvage / 20);
-    metaState.act1Cleared = true;
+    const act = runState.act;
+    const challenge = CHALLENGES.find((c) => c.id === runState.challengeId);
+    const marksMult = challenge?.marksMult ?? 1;
+    const baseMarks = 25 + Math.floor(runState.salvage / 20) + (act === 2 ? 15 : 0);
+    const marks = Math.floor(baseMarks * marksMult);
+
+    if (act === 1) {
+      metaState.act1Cleared = true;
+      metaState.bestAct1Wave = Math.max(metaState.bestAct1Wave, 8);
+    } else {
+      metaState.act2Cleared = true;
+      metaState.bestAct2Wave = Math.max(metaState.bestAct2Wave, 8);
+    }
     metaState.orbitMarks += marks;
-    metaState.bestAct1Wave = Math.max(metaState.bestAct1Wave, 8);
     saveService.clearRun();
     saveService.saveMetaOnly();
 
+    const eliteName = act === 2 ? 'Cold Vault' : 'The Dockmaster';
+    const actTitle = act === 2 ? 'ACT 2 COMPLETE' : 'ACT 1 COMPLETE';
+    const zone = act === 2 ? 'Cold Storage — secured' : 'Dockyard Dark — secured';
+    const next =
+      act === 1
+        ? 'Act 2 — Cold Storage — unlocked'
+        : 'Act 3 — Black Orbit — coming in M4';
+
     this.add
-      .text(GAME_WIDTH / 2, 100, 'ACT 1 COMPLETE', {
+      .text(GAME_WIDTH / 2, 90, actTitle, {
         fontFamily: 'Orbitron, sans-serif',
         fontSize: '40px',
         color: '#7dffb3',
@@ -37,14 +56,15 @@ export class ResultsScene extends Phaser.Scene {
     this.add
       .text(
         GAME_WIDTH / 2,
-        180,
+        170,
         [
-          'Dockyard Dark — secured',
-          `Chapter Elite defeated: The Dockmaster`,
-          `Salvage banked this run: ${runState.salvage}`,
+          zone,
+          `Chapter Elite defeated: ${eliteName}`,
+          `Salvage banked: ${runState.salvage}`,
+          challenge ? `Challenge: ${challenge.name} (×${challenge.marksMult})` : 'Challenge: none',
           `Orbit Marks earned: +${marks}  (total ${metaState.orbitMarks})`,
           '',
-          'Act 2 — Cold Storage — coming in M3',
+          next,
         ].join('\n'),
         {
           fontFamily: '"Share Tech Mono", monospace',
@@ -68,7 +88,7 @@ export class ResultsScene extends Phaser.Scene {
     this.dialogue = new DialogueBox(this);
     this.done = false;
 
-    const beat = storyDirector.getBeat('act1_clear');
+    const beat = storyDirector.getBeat(storyDirector.clearForAct(act));
     if (beat) this.dialogue.play(beat);
   }
 

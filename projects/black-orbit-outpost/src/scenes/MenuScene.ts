@@ -1,15 +1,9 @@
 import Phaser from 'phaser';
 import { Colors, GAME_HEIGHT, GAME_WIDTH } from '../theme';
-import { metaState, resetRun, runState } from '../state/RunState';
+import { metaState, resetRun, runState, applyMetaUnlocksToRun } from '../state/RunState';
 import { saveService } from '../state/SaveService';
-import { DialogueBox } from '../story/DialogueBox';
-import { storyDirector } from '../story/StoryDirector';
-import { InputMap } from '../input/InputMap';
 
 export class MenuScene extends Phaser.Scene {
-  private dialogue!: DialogueBox;
-  private inputMap!: InputMap;
-  private starting = false;
   private canContinue = false;
 
   constructor() {
@@ -23,7 +17,7 @@ export class MenuScene extends Phaser.Scene {
     this.drawBackdrop();
 
     this.add
-      .text(GAME_WIDTH / 2, 140, 'BLACK ORBIT OUTPOST', {
+      .text(GAME_WIDTH / 2, 120, 'BLACK ORBIT OUTPOST', {
         fontFamily: 'Orbitron, sans-serif',
         fontSize: '42px',
         color: '#e8f0f7',
@@ -31,15 +25,15 @@ export class MenuScene extends Phaser.Scene {
       .setOrigin(0.5);
 
     this.add
-      .text(GAME_WIDTH / 2, 200, 'Hold the core. Survive the dark.', {
+      .text(GAME_WIDTH / 2, 175, 'Hold the core. Survive the dark. — Nyx is listening.', {
         fontFamily: '"Share Tech Mono", monospace',
-        fontSize: '18px',
+        fontSize: '16px',
         color: '#7dffb3',
       })
       .setOrigin(0.5);
 
     this.add
-      .text(GAME_WIDTH / 2, 280, '[1] NEW ACT 1 RUN', {
+      .text(GAME_WIDTH / 2, 250, '[1] NEW RUN (Act Select)', {
         fontFamily: 'Orbitron, sans-serif',
         fontSize: '20px',
         color: '#e8b84a',
@@ -49,7 +43,7 @@ export class MenuScene extends Phaser.Scene {
     this.add
       .text(
         GAME_WIDTH / 2,
-        320,
+        295,
         this.canContinue ? '[2] CONTINUE RUN' : '[2] CONTINUE (no save)',
         {
           fontFamily: 'Orbitron, sans-serif',
@@ -60,9 +54,17 @@ export class MenuScene extends Phaser.Scene {
       .setOrigin(0.5);
 
     this.add
-      .text(GAME_WIDTH / 2, 360, '[8] DEV: Wave 7   [9] DEV: Wave 8 Elite', {
+      .text(GAME_WIDTH / 2, 340, '[3] META UNLOCKS', {
+        fontFamily: 'Orbitron, sans-serif',
+        fontSize: '18px',
+        color: '#e8f0f7',
+      })
+      .setOrigin(0.5);
+
+    this.add
+      .text(GAME_WIDTH / 2, 390, '[8] DEV Act1 W8   [9] DEV Act2 W8 Elite', {
         fontFamily: '"Share Tech Mono", monospace',
-        fontSize: '14px',
+        fontSize: '13px',
         color: '#556270',
       })
       .setOrigin(0.5);
@@ -70,8 +72,8 @@ export class MenuScene extends Phaser.Scene {
     this.add
       .text(
         GAME_WIDTH / 2,
-        430,
-        `Orbit Marks ${metaState.orbitMarks}  ·  Act 1 ${metaState.act1Cleared ? 'CLEARED' : 'OPEN'}  ·  Best wave ${metaState.bestAct1Wave}`,
+        450,
+        `Marks ${metaState.orbitMarks}  ·  A1 ${metaState.act1Cleared ? '✓' : '—'}  ·  A2 ${metaState.act2Cleared ? '✓' : '—'}  ·  Best ${metaState.bestAct1Wave}/${metaState.bestAct2Wave}`,
         {
           fontFamily: '"Share Tech Mono", monospace',
           fontSize: '14px',
@@ -81,63 +83,39 @@ export class MenuScene extends Phaser.Scene {
       .setOrigin(0.5);
 
     this.add
-      .text(GAME_WIDTH / 2, GAME_HEIGHT - 48, 'A Belongarobert game  ·  M2 Act 1 Complete', {
+      .text(GAME_WIDTH / 2, GAME_HEIGHT - 48, 'A Belongarobert game  ·  M3 Meta + Act 2', {
         fontFamily: '"Share Tech Mono", monospace',
         fontSize: '14px',
         color: '#8fa3b8',
       })
       .setOrigin(0.5);
 
-    this.dialogue = new DialogueBox(this);
-    this.inputMap = new InputMap(this);
-    this.starting = false;
-
-    this.input.keyboard?.on('keydown-ONE', () => this.beginNew());
+    this.input.keyboard?.on('keydown-ONE', () => this.scene.start('ActSelect'));
     this.input.keyboard?.on('keydown-TWO', () => this.beginContinue());
-    this.input.keyboard?.on('keydown-EIGHT', () => this.beginDevWave(7));
-    this.input.keyboard?.on('keydown-NINE', () => this.beginDevWave(8));
-  }
-
-  update(): void {
-    if (this.dialogue.isOpen()) {
-      if (this.inputMap.justConfirmed()) this.dialogue.tryAdvance();
-    }
-  }
-
-  private beginNew(): void {
-    if (this.starting || this.dialogue.isOpen()) return;
-    this.starting = true;
-    resetRun();
-    metaState.runsStarted += 1;
-    saveService.saveRun();
-    const beat = storyDirector.getBeat('act1_intro');
-    if (beat) {
-      this.dialogue.play(beat, () => this.scene.start('Combat'));
-    } else {
-      this.scene.start('Combat');
-    }
+    this.input.keyboard?.on('keydown-THREE', () => this.scene.start('Meta'));
+    this.input.keyboard?.on('keydown-EIGHT', () => this.beginDev(1, 8));
+    this.input.keyboard?.on('keydown-NINE', () => this.beginDev(2, 8));
   }
 
   private beginContinue(): void {
-    if (this.starting || this.dialogue.isOpen()) return;
     if (!this.canContinue) return;
-    this.starting = true;
     saveService.load();
     this.scene.start('Combat');
   }
 
-  private beginDevWave(wave: number): void {
-    if (this.starting || this.dialogue.isOpen()) return;
-    this.starting = true;
+  private beginDev(act: number, wave: number): void {
     resetRun();
+    runState.act = act;
     runState.wave = wave;
-    runState.salvage = 160;
+    runState.salvage = 180;
     runState.hasAutogunNest = true;
     runState.autogunNestPos = { x: 900, y: 400 };
     runState.hardpointsPlaced = 1;
-    runState.damageBonus = 4;
+    runState.damageBonus = 5;
     runState.nestDamageBonus = 4;
-    runState.ammoReserveBonus = 10;
+    runState.ammoReserveBonus = 12;
+    if (act === 2) metaState.act1Cleared = true;
+    applyMetaUnlocksToRun();
     metaState.runsStarted += 1;
     saveService.saveRun();
     this.scene.start('Combat');
