@@ -3,6 +3,8 @@ export interface SettingsState {
   screenShake: boolean;
   aimAssist: boolean;
   dialogueSpeed: 'slow' | 'normal' | 'fast';
+  /** Deck / couch readability */
+  uiScale: 'normal' | 'large';
   /** 0–1 master SFX placeholder */
   sfxVolume: number;
 }
@@ -13,8 +15,14 @@ export function createDefaultSettings(): SettingsState {
     screenShake: true,
     aimAssist: true,
     dialogueSpeed: 'normal',
+    uiScale: 'normal',
     sfxVolume: 0.8,
   };
+}
+
+/** Multiplier for HUD / menu type when Deck UI scale is Large. */
+export function uiFontScale(): number {
+  return settingsState.uiScale === 'large' ? 1.15 : 1;
 }
 
 export const settingsState: SettingsState = createDefaultSettings();

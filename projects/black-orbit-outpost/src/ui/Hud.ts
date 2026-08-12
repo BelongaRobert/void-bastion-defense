@@ -2,40 +2,47 @@ import Phaser from 'phaser';
 import { WEAPONS } from '../content/weapons';
 import type { Player } from '../combat/Player';
 import type { Enemy } from '../combat/Enemy';
+import { combatControlHints } from '../input/ControlHints';
 import { Colors, DEPTH, GAME_WIDTH } from '../theme';
 import { runState } from '../state/RunState';
+import { uiFontScale } from '../state/SettingsState';
 
 export class Hud {
+  private scene: Phaser.Scene;
   private waveText: Phaser.GameObjects.Text;
   private coreText: Phaser.GameObjects.Text;
   private hpText: Phaser.GameObjects.Text;
   private weaponText: Phaser.GameObjects.Text;
   private salvageText: Phaser.GameObjects.Text;
+  private hintsText: Phaser.GameObjects.Text;
   private eliteRoot: Phaser.GameObjects.Container;
   private eliteLabel: Phaser.GameObjects.Text;
   private eliteBarBg: Phaser.GameObjects.Rectangle;
   private eliteBarFill: Phaser.GameObjects.Rectangle;
+  private lastHints = '';
 
   constructor(scene: Phaser.Scene) {
+    this.scene = scene;
+    const s = uiFontScale();
     this.waveText = scene.add.text(24, 16, '', {
       fontFamily: 'Orbitron, sans-serif',
-      fontSize: '16px',
+      fontSize: `${Math.round(16 * s)}px`,
       color: '#e8b84a',
     });
     this.coreText = scene.add.text(24, 42, '', {
       fontFamily: '"Share Tech Mono", monospace',
-      fontSize: '14px',
+      fontSize: `${Math.round(14 * s)}px`,
       color: '#7dffb3',
     });
     this.hpText = scene.add.text(24, 64, '', {
       fontFamily: '"Share Tech Mono", monospace',
-      fontSize: '14px',
+      fontSize: `${Math.round(14 * s)}px`,
       color: '#e8f0f7',
     });
     this.weaponText = scene.add
       .text(GAME_WIDTH - 24, 16, '', {
         fontFamily: '"Share Tech Mono", monospace',
-        fontSize: '14px',
+        fontSize: `${Math.round(14 * s)}px`,
         color: '#e8f0f7',
         align: 'right',
       })
@@ -43,23 +50,18 @@ export class Hud {
     this.salvageText = scene.add
       .text(GAME_WIDTH - 24, 42, '', {
         fontFamily: '"Share Tech Mono", monospace',
-        fontSize: '14px',
+        fontSize: `${Math.round(14 * s)}px`,
         color: '#e8b84a',
         align: 'right',
       })
       .setOrigin(1, 0);
 
-    scene.add
-      .text(
-        GAME_WIDTH / 2,
-        16,
-        'WASD move · Mouse aim · Click fire · 1/2 weapons · R reload · Shift dash',
-        {
-          fontFamily: '"Share Tech Mono", monospace',
-          fontSize: '11px',
-          color: '#8fa3b8',
-        },
-      )
+    this.hintsText = scene.add
+      .text(GAME_WIDTH / 2, 16, combatControlHints(scene), {
+        fontFamily: '"Share Tech Mono", monospace',
+        fontSize: `${Math.round(11 * s)}px`,
+        color: '#8fa3b8',
+      })
       .setOrigin(0.5, 0)
       .setScrollFactor(0)
       .setDepth(DEPTH.hud);
@@ -110,6 +112,12 @@ export class Hud {
     this.salvageText.setText(`SALVAGE ${runState.salvage} · HOSTILES ${enemiesAlive}+${remaining}`);
     this.coreText.setColor(runState.coreHp / runState.coreMaxHp < 0.35 ? '#ff3b5c' : '#7dffb3');
     this.hpText.setColor(runState.playerHp / runState.playerMaxHp < 0.35 ? '#ff3b5c' : '#e8f0f7');
+
+    const hints = combatControlHints(this.scene);
+    if (hints !== this.lastHints) {
+      this.lastHints = hints;
+      this.hintsText.setText(hints);
+    }
 
     if (elite && elite.active) {
       this.eliteRoot.setVisible(true);

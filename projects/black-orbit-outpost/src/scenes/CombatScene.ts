@@ -5,6 +5,7 @@ import { metaState, runState } from '../state/RunState';
 import { saveService } from '../state/SaveService';
 import { settingsState } from '../state/SettingsState';
 import { achievementService } from '../meta/Achievements';
+import { setRichPresence } from '../platform/DesktopBridge';
 import { Colors, GAME_HEIGHT, GAME_WIDTH } from '../theme';
 import { Bullet, BulletGroup } from '../combat/Bullet';
 import { Enemy, EnemyGroup, EnemyProjectile } from '../combat/Enemy';
@@ -115,6 +116,7 @@ export class CombatScene extends Phaser.Scene {
     }
     this.director.begin(wave);
     this.hud.flash(wave.label, this, wave.elite ? '#c9a0ff' : '#e8b84a');
+    setRichPresence(`Act ${runState.act} · Wave ${runState.wave}`);
     this.waveClearing = false;
     this.failed = false;
     this.eliteAnnounced = false;

@@ -1,7 +1,9 @@
 import Phaser from 'phaser';
 import { Colors, GAME_HEIGHT, GAME_WIDTH } from '../theme';
+import { isDeckLikely, setRichPresence } from '../platform/DesktopBridge';
 import { metaState, resetRun, runState, applyMetaUnlocksToRun } from '../state/RunState';
 import { saveService } from '../state/SaveService';
+import { settingsState } from '../state/SettingsState';
 
 export class MenuScene extends Phaser.Scene {
   private canContinue = false;
@@ -13,6 +15,13 @@ export class MenuScene extends Phaser.Scene {
   create(): void {
     saveService.load();
     this.canContinue = saveService.hasContinue();
+    // First Deck boot defaults UI scale large once (user can toggle in Options).
+    if (isDeckLikely() && !localStorage.getItem('boo_deck_ui_init')) {
+      settingsState.uiScale = 'large';
+      localStorage.setItem('boo_deck_ui_init', '1');
+      saveService.saveMetaOnly();
+    }
+    setRichPresence('In menus');
     this.cameras.main.setBackgroundColor(Colors.voidNavy);
     this.drawBackdrop();
 
@@ -63,7 +72,7 @@ export class MenuScene extends Phaser.Scene {
       .setOrigin(0.5);
 
     this.add
-      .text(GAME_WIDTH / 2, GAME_HEIGHT - 48, 'A Belongarobert game  ·  M4 Campaign Complete', {
+      .text(GAME_WIDTH / 2, GAME_HEIGHT - 48, 'A Belongarobert game  ·  M5 Steam packaging', {
         fontFamily: '"Share Tech Mono", monospace',
         fontSize: '14px',
         color: '#8fa3b8',

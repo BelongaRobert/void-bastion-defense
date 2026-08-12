@@ -1,4 +1,5 @@
 import Phaser from 'phaser';
+import { isDeckLikely } from '../platform/DesktopBridge';
 import { GAME_HEIGHT, GAME_WIDTH, Colors } from '../theme';
 import { BootScene } from '../scenes/BootScene';
 import { MenuScene } from '../scenes/MenuScene';
@@ -11,6 +12,8 @@ import { ShopScene } from '../scenes/ShopScene';
 import { ResultsScene } from '../scenes/ResultsScene';
 
 export function createGame(parent: string): Phaser.Game {
+  // Deck 1280×800 letterboxes 720p cleanly with FIT; ENVELOP if we ever need edge bleed.
+  const deck = isDeckLikely();
   return new Phaser.Game({
     type: Phaser.AUTO,
     parent,
@@ -31,6 +34,8 @@ export function createGame(parent: string): Phaser.Game {
     scale: {
       mode: Phaser.Scale.FIT,
       autoCenter: Phaser.Scale.CENTER_BOTH,
+      expandParent: true,
+      ...(deck ? { fullscreenTarget: parent } : {}),
     },
     scene: [
       BootScene,

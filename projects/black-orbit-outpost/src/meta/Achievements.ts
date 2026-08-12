@@ -25,16 +25,7 @@ export const ACHIEVEMENTS: AchievementDef[] = [
   { id: 'perfect_core', name: 'Untouched Core', description: 'Clear an act with core above 80%' },
 ];
 
-type SteamBridge = {
-  unlockAchievement?: (id: string) => Promise<void> | void;
-};
-
-declare global {
-  interface Window {
-    steamAPI?: SteamBridge;
-    booDesktop?: { isElectron?: boolean };
-  }
-}
+import '../platform/DesktopBridge';
 
 export class AchievementService {
   private unlocked = new Set<AchievementId>();

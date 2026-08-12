@@ -78,9 +78,9 @@ export class InputMap {
       case 'reload':
         return Phaser.Input.Keyboard.JustDown(this.keys.r) || this.padJust(pad, 3);
       case 'weapon1':
-        return Phaser.Input.Keyboard.JustDown(this.keys.one);
+        return Phaser.Input.Keyboard.JustDown(this.keys.one) || this.padJust(pad, 4);
       case 'weapon2':
-        return Phaser.Input.Keyboard.JustDown(this.keys.two);
+        return Phaser.Input.Keyboard.JustDown(this.keys.two) || this.padJust(pad, 5);
       case 'dash':
         return Phaser.Input.Keyboard.JustDown(this.keys.shift) || this.padJust(pad, 0);
       case 'interact':

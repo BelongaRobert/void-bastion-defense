@@ -42,6 +42,7 @@ export class OptionsScene extends Phaser.Scene {
     this.input.keyboard?.on('keydown-TWO', () => this.toggle('screenShake'));
     this.input.keyboard?.on('keydown-THREE', () => this.toggle('aimAssist'));
     this.input.keyboard?.on('keydown-FOUR', () => this.cycleDialogue());
+    this.input.keyboard?.on('keydown-FIVE', () => this.toggleUiScale());
     this.input.keyboard?.on('keydown-ESC', () => this.back());
   }
 
@@ -63,6 +64,12 @@ export class OptionsScene extends Phaser.Scene {
     this.refresh();
   }
 
+  private toggleUiScale(): void {
+    settingsState.uiScale = settingsState.uiScale === 'normal' ? 'large' : 'normal';
+    saveService.saveMetaOnly();
+    this.refresh();
+  }
+
   private refresh(): void {
     const unlocked = achievementService.listUnlocked();
     this.body.setText(
@@ -71,6 +78,7 @@ export class OptionsScene extends Phaser.Scene {
         `[2] Screen shake: ${settingsState.screenShake ? 'ON' : 'OFF'}`,
         `[3] Aim assist: ${settingsState.aimAssist ? 'ON' : 'OFF'}`,
         `[4] Dialogue speed: ${settingsState.dialogueSpeed.toUpperCase()}`,
+        `[5] Deck UI scale: ${settingsState.uiScale.toUpperCase()}`,
         '',
         `Achievements ${unlocked.length}/${ACHIEVEMENTS.length}`,
         ...ACHIEVEMENTS.map(
