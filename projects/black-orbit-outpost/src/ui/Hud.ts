@@ -1,5 +1,5 @@
 import Phaser from 'phaser';
-import { WEAPONS } from '../data/weapons';
+import { WEAPONS } from '../content/weapons';
 import type { Player } from '../combat/Player';
 import { DEPTH, GAME_WIDTH } from '../theme';
 import { runState } from '../state/RunState';

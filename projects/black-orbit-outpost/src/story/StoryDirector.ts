@@ -1,5 +1,5 @@
-import type { StoryBeat } from '../data/story/act1';
-import { ACT1_INTRO, ACT1_WAVE2_REST } from '../data/story/act1';
+import type { StoryBeat } from '../content/story/act1';
+import { ACT1_INTRO, ACT1_WAVE2_REST } from '../content/story/act1';
 
 /** Maps trigger ids → story beats (expand per act later). */
 export class StoryDirector {

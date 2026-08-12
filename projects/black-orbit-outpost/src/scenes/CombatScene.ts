@@ -1,5 +1,5 @@
 import Phaser from 'phaser';
-import { ACT1_WAVES, M1_MAX_WAVE } from '../data/waves';
+import { ACT1_WAVES, M1_MAX_WAVE } from '../content/waves';
 import { InputMap } from '../input/InputMap';
 import { runState } from '../state/RunState';
 import { Colors, GAME_HEIGHT, GAME_WIDTH } from '../theme';

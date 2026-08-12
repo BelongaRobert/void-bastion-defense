@@ -1,5 +1,5 @@
 import Phaser from 'phaser';
-import { WEAPONS, type WeaponId } from '../data/weapons';
+import { WEAPONS, type WeaponId } from '../content/weapons';
 import type { InputMap } from '../input/InputMap';
 import { Colors, DEPTH } from '../theme';
 import { runState } from '../state/RunState';

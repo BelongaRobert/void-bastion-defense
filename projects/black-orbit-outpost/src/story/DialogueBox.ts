@@ -1,5 +1,5 @@
 import Phaser from 'phaser';
-import type { DialogueLine, StoryBeat } from '../data/story/act1';
+import type { DialogueLine, StoryBeat } from '../content/story/act1';
 import { Colors, DEPTH, GAME_HEIGHT, GAME_WIDTH } from '../theme';
 
 const PORTRAIT_TINT: Record<DialogueLine['portrait'], number> = {

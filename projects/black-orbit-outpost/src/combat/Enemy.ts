@@ -1,5 +1,5 @@
 import Phaser from 'phaser';
-import { ENEMIES, type EnemyDef, type EnemyId } from '../data/enemies';
+import { ENEMIES, type EnemyDef, type EnemyId } from '../content/enemies';
 import { Colors, DEPTH } from '../theme';
 import type { OutpostCore } from './OutpostCore';
 import type { Player } from './Player';

@@ -1,5 +1,5 @@
-import type { WaveDef, WaveSpawn } from '../data/waves';
-import type { EnemyId } from '../data/enemies';
+import type { WaveDef, WaveSpawn } from '../content/waves';
+import type { EnemyId } from '../content/enemies';
 import { GAME_HEIGHT, GAME_WIDTH } from '../theme';
 import type { EnemyGroup } from './Enemy';
 
