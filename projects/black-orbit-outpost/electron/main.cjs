@@ -85,6 +85,14 @@ function registerSteamStubs() {
     console.info('[Steam stub] rich presence', key, value);
     return true;
   });
+
+  const cloud = new Map();
+  ipcMain.handle('steam:writeCloud', async (_e, name, data) => {
+    cloud.set(String(name), String(data));
+    console.info('[Steam stub] cloud write', name, String(data).length, 'bytes');
+    return true;
+  });
+  ipcMain.handle('steam:readCloud', async (_e, name) => cloud.get(String(name)) ?? null);
 }
 
 app.whenReady().then(() => {

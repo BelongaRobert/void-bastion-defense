@@ -1,6 +1,7 @@
 import Phaser from 'phaser';
 import { ACT_MAX_WAVE, getCurrentWaveDef, SHOP_AFTER_WAVES } from '../content/waves';
 import { InputMap } from '../input/InputMap';
+import { prefersTouchControls, TouchControls } from '../input/TouchControls';
 import { metaState, runState } from '../state/RunState';
 import { saveService } from '../state/SaveService';
 import { settingsState } from '../state/SettingsState';
@@ -28,6 +29,7 @@ export class CombatScene extends Phaser.Scene {
   private gore!: GoreFX;
   private hud!: Hud;
   private dialogue!: DialogueBox;
+  private touch!: TouchControls;
   private nest: AutogunNest | null = null;
   private waveClearing = false;
   private failed = false;
@@ -42,6 +44,10 @@ export class CombatScene extends Phaser.Scene {
     this.drawArena();
 
     this.inputMap = new InputMap(this);
+    this.touch = new TouchControls(this);
+    const touchOn = settingsState.touchControls || prefersTouchControls();
+    this.touch.setEnabled(touchOn);
+    this.inputMap.attachTouch(this.touch);
     this.gore = new GoreFX(this);
     this.hud = new Hud(this);
     this.dialogue = new DialogueBox(this);
@@ -275,6 +281,8 @@ export class CombatScene extends Phaser.Scene {
   private cleanup(): void {
     this.player.destroyVisuals();
     this.nest?.destroyNest();
+    this.touch.destroy();
+    this.inputMap.attachTouch(null);
     this.dialogue.destroy();
   }
 

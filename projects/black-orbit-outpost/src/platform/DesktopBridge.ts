@@ -3,6 +3,8 @@
 export type SteamBridge = {
   unlockAchievement?: (id: string) => Promise<void> | void;
   setRichPresence?: (key: string, value: string) => Promise<void> | void;
+  writeCloud?: (name: string, data: string) => Promise<void> | void;
+  readCloud?: (name: string) => Promise<string | null> | string | null;
   isSteam?: boolean;
   appId?: number | null;
 };

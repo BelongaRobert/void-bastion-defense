@@ -2,7 +2,7 @@
 
 **Developer / credit:** Belongarobert  
 **Working title:** Black Orbit Outpost  
-**Status:** M5 Steam packaging — Electron dist + store kit; App ID pending  
+**Status:** M6 soft-launch readiness — a11y + touch spike + cloud stub; App ID still pending  
 **Target:** Steam (Windows + Steam Deck), mobile port later  
 **Price:** List **$9.99**, permanent/launch **50% → $4.99** (never sell above effective $5 without explicit change)
 

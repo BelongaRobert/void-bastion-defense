@@ -2,9 +2,23 @@ import Phaser from 'phaser';
 import { ENEMIES, type EnemyDef, type EnemyId } from '../content/enemies';
 import { Colors, DEPTH } from '../theme';
 import { runState } from '../state/RunState';
+import { settingsState } from '../state/SettingsState';
 import type { OutpostCore } from './OutpostCore';
 import type { Player } from './Player';
 import type { GoreFX } from './GoreFX';
+
+/** Shape tells for colorblind mode — role readable without hue. */
+type TellKind = 'fast' | 'ranged' | 'tank' | 'burst' | 'elite';
+
+function tellKindFor(def: EnemyDef): TellKind {
+  if (def.isElite) return 'elite';
+  if (def.id === 'burster') return 'burst';
+  if (def.ranged) return 'ranged';
+  if (def.speed >= 120 || def.id === 'voidmite' || def.id === 'stalker' || def.id === 'runner') {
+    return 'fast';
+  }
+  return 'tank';
+}
 
 export class EnemyProjectile extends Phaser.Physics.Arcade.Image {
   damage = 0;
@@ -38,6 +52,7 @@ export class Enemy extends Phaser.Physics.Arcade.Sprite {
   private moveSpeed = 0;
   private onSummon: ((type: EnemyId, x: number, y: number) => void) | null = null;
   private eliteRing: Phaser.GameObjects.Arc | null = null;
+  private tellMark: Phaser.GameObjects.Graphics | null = null;
 
   constructor(scene: Phaser.Scene, x = 0, y = 0) {
     super(scene, x, y, 'enemy_blob');
@@ -69,12 +84,55 @@ export class Enemy extends Phaser.Physics.Arcade.Sprite {
     this.pulse = 0;
     this.eliteRing?.destroy();
     this.eliteRing = null;
+    this.tellMark?.destroy();
+    this.tellMark = null;
     if (this.def.isElite) {
       this.setDepth(DEPTH.enemy + 2);
       this.eliteRing = this.scene.add
         .circle(x, y, this.def.radius + 10, Colors.antagonist, 0)
         .setStrokeStyle(3, this.def.color, 0.9)
         .setDepth(DEPTH.enemy + 1);
+    }
+    if (settingsState.colorblindTells) {
+      this.tellMark = this.scene.add.graphics().setDepth(DEPTH.enemy + 3);
+      this.drawTell(tellKindFor(this.def));
+    }
+  }
+
+  private drawTell(kind: TellKind): void {
+    if (!this.tellMark) return;
+    this.tellMark.clear();
+    this.tellMark.lineStyle(2, 0xffffff, 0.95);
+    this.tellMark.fillStyle(0x070b12, 0.55);
+    const r = Math.max(8, this.def.radius * 0.45);
+    switch (kind) {
+      case 'fast':
+        // Chevron / arrow
+        this.tellMark.fillTriangle(0, -r, -r * 0.7, r * 0.6, r * 0.7, r * 0.6);
+        this.tellMark.strokeTriangle(0, -r, -r * 0.7, r * 0.6, r * 0.7, r * 0.6);
+        break;
+      case 'ranged':
+        this.tellMark.beginPath();
+        this.tellMark.moveTo(0, -r);
+        this.tellMark.lineTo(r, 0);
+        this.tellMark.lineTo(0, r);
+        this.tellMark.lineTo(-r, 0);
+        this.tellMark.closePath();
+        this.tellMark.fillPath();
+        this.tellMark.strokePath();
+        break;
+      case 'burst':
+        this.tellMark.lineBetween(-r, -r, r, r);
+        this.tellMark.lineBetween(-r, r, r, -r);
+        break;
+      case 'elite':
+        this.tellMark.strokeCircle(0, 0, r * 1.1);
+        this.tellMark.strokeCircle(0, 0, r * 0.55);
+        break;
+      default:
+        this.tellMark.fillRect(-r * 0.7, -r * 0.7, r * 1.4, r * 1.4);
+        this.tellMark.strokeRect(-r * 0.7, -r * 0.7, r * 1.4, r * 1.4);
+        break;
     }
   }
 
@@ -96,6 +154,8 @@ export class Enemy extends Phaser.Physics.Arcade.Sprite {
   kill(): void {
     this.eliteRing?.destroy();
     this.eliteRing = null;
+    this.tellMark?.destroy();
+    this.tellMark = null;
     this.disableBody(true, true);
   }
 
@@ -111,6 +171,9 @@ export class Enemy extends Phaser.Physics.Arcade.Sprite {
     if (this.eliteRing) {
       this.eliteRing.setPosition(this.x, this.y);
       this.eliteRing.setScale(1 + Math.sin(this.pulse * 0.008) * 0.08);
+    }
+    if (this.tellMark) {
+      this.tellMark.setPosition(this.x, this.y - this.def.radius - 6);
     }
 
     const preferPlayer = !this.def.preferCore || this.def.id === 'runner';

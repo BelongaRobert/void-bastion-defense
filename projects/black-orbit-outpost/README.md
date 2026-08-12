@@ -10,7 +10,7 @@ See [PLAN.md](./PLAN.md), [ART_BIBLE.md](./ART_BIBLE.md), and [steam/STORE_PAGE.
 
 ## Status
 
-**M5 in progress / packaging ready:** Campaign Acts 1–3 complete; Electron production build scripts; controller glyph HUD; Deck UI scale; Steam achievement/rich-presence stubs; store capsules/trailer checklists. Paste Steam App ID into `steam/steam_appid.txt` when available.
+**M6 soft-launch ready (code):** Campaign Acts 1–3; Electron dist; store kit; colorblind enemy shape tells; dialogue text scale; touch stick+fire spike; Steam cloud save stub. Paste Steam App ID into `steam/steam_appid.txt` when available.
 
 ## Run (browser)
 

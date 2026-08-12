@@ -1,7 +1,11 @@
 import Phaser from 'phaser';
 import type { DialogueLine, StoryBeat } from '../content/story/act1';
 import { Colors, DEPTH, GAME_HEIGHT, GAME_WIDTH } from '../theme';
-import { dialogueAdvanceMs, dialogueOpenLockMs } from '../state/SettingsState';
+import {
+  dialogueAdvanceMs,
+  dialogueFontPx,
+  dialogueOpenLockMs,
+} from '../state/SettingsState';
 
 const PORTRAIT_TINT: Record<DialogueLine['portrait'], number> = {
   hero: 0x4de1c1,
@@ -57,7 +61,7 @@ export class DialogueBox {
     this.bodyText = scene.add
       .text(130, 48, '', {
         fontFamily: '"Share Tech Mono", monospace',
-        fontSize: '18px',
+        fontSize: `${dialogueFontPx()}px`,
         color: '#e8f0f7',
         wordWrap: { width: boxW - 160 },
         lineSpacing: 6,
@@ -124,6 +128,7 @@ export class DialogueBox {
   private renderLine(): void {
     const line = this.lines[this.index];
     this.nameText.setText(line.name);
+    this.bodyText.setFontSize(dialogueFontPx());
     this.bodyText.setText(line.text);
     const tint = PORTRAIT_TINT[line.portrait];
     this.portraitBg.setStrokeStyle(2, tint);

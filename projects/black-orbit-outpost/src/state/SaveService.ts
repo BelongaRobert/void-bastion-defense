@@ -10,6 +10,7 @@ import {
 } from './RunState';
 import { applySettings, settingsState } from './SettingsState';
 import { achievementService } from '../meta/Achievements';
+import { cloudSave } from '../meta/CloudSave';
 
 const SAVE_KEY = 'boo_save_v1';
 
@@ -76,6 +77,7 @@ export class SaveService {
       updatedAt: Date.now(),
     };
     localStorage.setItem(SAVE_KEY, JSON.stringify(blob));
+    void cloudSave.push(blob);
   }
 
   saveMetaOnly(): void {
@@ -93,6 +95,7 @@ export class SaveService {
       updatedAt: Date.now(),
     };
     localStorage.setItem(SAVE_KEY, JSON.stringify(blob));
+    void cloudSave.push(blob);
   }
 
   clearRun(): void {
@@ -109,6 +112,7 @@ export class SaveService {
       updatedAt: Date.now(),
     };
     localStorage.setItem(SAVE_KEY, JSON.stringify(blob));
+    void cloudSave.push(blob);
   }
 
   private readRaw(): SaveBlob | null {

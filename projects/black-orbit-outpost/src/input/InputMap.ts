@@ -1,4 +1,5 @@
 import Phaser from 'phaser';
+import type { TouchControls } from './TouchControls';
 
 export type Action =
   | 'fire'
@@ -10,8 +11,7 @@ export type Action =
   | 'pause';
 
 /**
- * Keyboard + mouse + gamepad stub.
- * Mobile adapters can plug into the same Action surface later.
+ * Keyboard + mouse + gamepad + optional touch spike.
  */
 export class InputMap {
   private cursors!: Phaser.Types.Input.Keyboard.CursorKeys;
@@ -20,6 +20,7 @@ export class InputMap {
   private confirmPulse = false;
   private padPrev: boolean[] = [];
   private scene: Phaser.Scene;
+  private touch: TouchControls | null = null;
 
   constructor(scene: Phaser.Scene) {
     this.scene = scene;
@@ -51,6 +52,14 @@ export class InputMap {
     });
   }
 
+  attachTouch(touch: TouchControls | null): void {
+    this.touch = touch;
+  }
+
+  isTouchActive(): boolean {
+    return !!this.touch?.isEnabled();
+  }
+
   getMoveVector(): Phaser.Math.Vector2 {
     const v = new Phaser.Math.Vector2(0, 0);
     if (this.cursors.left?.isDown || this.keys.a.isDown) v.x -= 1;
@@ -66,6 +75,14 @@ export class InputMap {
       if (Math.abs(ay) > 0.2) v.y += ay;
     }
 
+    if (this.touch?.isEnabled()) {
+      const tm = this.touch.getMove();
+      if (tm.lengthSq() > 0.02) {
+        v.x += tm.x;
+        v.y += tm.y;
+      }
+    }
+
     if (v.lengthSq() > 1) v.normalize();
     return v;
   }
@@ -74,7 +91,11 @@ export class InputMap {
     const pad = this.getPad();
     switch (action) {
       case 'fire':
-        return this.pointerHeld || this.padPressed(pad, 7);
+        return (
+          (!this.touch?.isEnabled() && this.pointerHeld) ||
+          this.padPressed(pad, 7) ||
+          (!!this.touch?.isEnabled() && this.touch.isFiring())
+        );
       case 'reload':
         return Phaser.Input.Keyboard.JustDown(this.keys.r) || this.padJust(pad, 3);
       case 'weapon1':

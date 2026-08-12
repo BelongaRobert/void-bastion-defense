@@ -89,6 +89,17 @@ export class Player extends Phaser.Physics.Arcade.Image {
     const stick = input.getGamepadAimDir();
     if (stick) {
       this.aimAngle = Math.atan2(stick.y, stick.x);
+    } else if (input.isTouchActive()) {
+      if (nearestEnemy) {
+        this.aimAngle = Phaser.Math.Angle.Between(
+          this.x,
+          this.y,
+          nearestEnemy.x,
+          nearestEnemy.y,
+        );
+      } else if (move.lengthSq() > 0.05) {
+        this.aimAngle = Math.atan2(move.y, move.x);
+      }
     } else {
       const aim = input.getAimWorld();
       let targetX = aim.x;

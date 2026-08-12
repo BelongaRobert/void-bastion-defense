@@ -5,6 +5,12 @@ export interface SettingsState {
   dialogueSpeed: 'slow' | 'normal' | 'fast';
   /** Deck / couch readability */
   uiScale: 'normal' | 'large';
+  /** Shape markers on enemies (not color-only) */
+  colorblindTells: boolean;
+  /** Dialogue body type size */
+  dialogueTextScale: 'normal' | 'large';
+  /** Force on-screen stick + fire (mobile spike) */
+  touchControls: boolean;
   /** 0–1 master SFX placeholder */
   sfxVolume: number;
 }
@@ -16,6 +22,9 @@ export function createDefaultSettings(): SettingsState {
     aimAssist: true,
     dialogueSpeed: 'normal',
     uiScale: 'normal',
+    colorblindTells: false,
+    dialogueTextScale: 'normal',
+    touchControls: false,
     sfxVolume: 0.8,
   };
 }
@@ -23,6 +32,11 @@ export function createDefaultSettings(): SettingsState {
 /** Multiplier for HUD / menu type when Deck UI scale is Large. */
 export function uiFontScale(): number {
   return settingsState.uiScale === 'large' ? 1.15 : 1;
+}
+
+export function dialogueFontPx(): number {
+  const base = settingsState.dialogueTextScale === 'large' ? 22 : 18;
+  return Math.round(base * uiFontScale());
 }
 
 export const settingsState: SettingsState = createDefaultSettings();

@@ -72,7 +72,7 @@ export class MenuScene extends Phaser.Scene {
       .setOrigin(0.5);
 
     this.add
-      .text(GAME_WIDTH / 2, GAME_HEIGHT - 48, 'A Belongarobert game  ·  M5 Steam packaging', {
+      .text(GAME_WIDTH / 2, GAME_HEIGHT - 48, 'A Belongarobert game  ·  M6 soft-launch ready', {
         fontFamily: '"Share Tech Mono", monospace',
         fontSize: '14px',
         color: '#8fa3b8',

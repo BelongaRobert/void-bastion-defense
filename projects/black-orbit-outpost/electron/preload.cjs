@@ -19,4 +19,6 @@ contextBridge.exposeInMainWorld('steamAPI', {
   unlockAchievement: (id) => ipcRenderer.invoke('steam:unlockAchievement', id),
   setRichPresence: (key, value) => ipcRenderer.invoke('steam:setRichPresence', key, value),
   getStatus: () => ipcRenderer.invoke('steam:getStatus'),
+  writeCloud: (name, data) => ipcRenderer.invoke('steam:writeCloud', name, data),
+  readCloud: (name) => ipcRenderer.invoke('steam:readCloud', name),
 });
