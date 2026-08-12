@@ -1,7 +1,8 @@
 import Phaser from 'phaser';
-import { ACT1_WAVES, M1_MAX_WAVE } from '../content/waves';
+import { ACT1_MAX_WAVE, ACT1_WAVES, SHOP_AFTER_WAVES } from '../content/waves';
 import { InputMap } from '../input/InputMap';
-import { runState } from '../state/RunState';
+import { metaState, runState } from '../state/RunState';
+import { saveService } from '../state/SaveService';
 import { Colors, GAME_HEIGHT, GAME_WIDTH } from '../theme';
 import { Bullet, BulletGroup } from '../combat/Bullet';
 import { Enemy, EnemyGroup, EnemyProjectile } from '../combat/Enemy';
@@ -27,6 +28,7 @@ export class CombatScene extends Phaser.Scene {
   private nest: AutogunNest | null = null;
   private waveClearing = false;
   private failed = false;
+  private eliteAnnounced = false;
 
   constructor() {
     super('Combat');
@@ -49,30 +51,39 @@ export class CombatScene extends Phaser.Scene {
     this.enemies = new EnemyGroup(this);
     this.spit = this.physics.add.group({
       classType: EnemyProjectile,
-      maxSize: 40,
+      maxSize: 50,
       runChildUpdate: false,
     });
 
     this.physics.add.overlap(this.bullets, this.enemies, (b, e) => {
       const bullet = b as Bullet;
       const enemy = e as Enemy;
-      if (!bullet.active || !enemy.active) return;
+      if (!bullet?.active || !enemy?.active) return;
+      if (typeof bullet.kill !== 'function') return;
+      const wasElite = !!enemy.def?.isElite;
       const dead = enemy.takeDamage(bullet.damage, this.gore);
       bullet.kill();
-      if (dead) runState.salvage += enemy.def.salvage;
+      if (dead) {
+        runState.salvage += enemy.def.salvage;
+        if (wasElite) {
+          this.director.notifyEliteDied();
+          this.hud.flash('CHAPTER ELITE DOWN', this, '#c9a0ff');
+          this.cameras.main.shake(200, 0.01);
+        }
+      }
     });
 
-    this.physics.add.overlap(this.spit, this.core, (p) => {
-      const proj = p as EnemyProjectile;
-      if (!proj.active) return;
+    this.physics.add.overlap(this.spit, this.core, (a, b) => {
+      const proj = this.asSpit(a, b);
+      if (!proj) return;
       this.core.damage(proj.damage);
       this.gore.burst(this.core.x, this.core.y, Colors.biolume, 6);
       proj.kill();
     });
 
-    this.physics.add.overlap(this.spit, this.player, (p) => {
-      const proj = p as EnemyProjectile;
-      if (!proj.active) return;
+    this.physics.add.overlap(this.spit, this.player, (a, b) => {
+      const proj = this.asSpit(a, b);
+      if (!proj) return;
       this.player.damage(proj.damage);
       proj.kill();
     });
@@ -87,10 +98,49 @@ export class CombatScene extends Phaser.Scene {
 
     this.director = new EnemyDirector();
     const wave = ACT1_WAVES[runState.wave - 1];
+    if (!wave) {
+      this.scene.start('Menu');
+      return;
+    }
     this.director.begin(wave);
-    this.hud.flash(wave.label, this);
+    this.hud.flash(wave.label, this, wave.elite ? '#c9a0ff' : '#e8b84a');
     this.waveClearing = false;
     this.failed = false;
+    this.eliteAnnounced = false;
+    saveService.saveRun();
+
+    this.input.keyboard?.on('keydown-K', () => this.devClearHostiles());
+    this.input.keyboard?.on('keydown-N', () => this.devSkipWave());
+  }
+
+  private asSpit(a: unknown, b: unknown): EnemyProjectile | null {
+    for (const c of [a, b]) {
+      const p = c as EnemyProjectile;
+      if (p && typeof p.kill === 'function' && p.active) return p;
+    }
+    return null;
+  }
+
+  /** Dev: wipe living enemies (does not auto-complete until spawns finish) */
+  private devClearHostiles(): void {
+    for (const child of this.enemies.getChildren()) {
+      const e = child as Enemy;
+      if (!e.active) continue;
+      const wasElite = !!e.def?.isElite;
+      e.kill();
+      if (wasElite) this.director.notifyEliteDied();
+    }
+    this.hud.flash('DEV CLEAR', this);
+  }
+
+  /** Dev: force wave clear */
+  private devSkipWave(): void {
+    if (this.waveClearing || this.failed) return;
+    this.devClearHostiles();
+    this.director.forceFinish();
+    this.waveClearing = true;
+    this.hud.flash('DEV SKIP WAVE', this);
+    this.time.delayedCall(200, () => this.onWaveCleared());
   }
 
   update(_time: number, delta: number): void {
@@ -109,7 +159,11 @@ export class CombatScene extends Phaser.Scene {
 
     for (const child of this.enemies.getChildren()) {
       const e = child as Enemy;
-      if (e.active) e.updateEnemy(delta, this.core, this.player, this.spit);
+      if (!e.active) continue;
+      e.setSummonHandler((type, x, y) => {
+        this.enemies.spawnAt(type, x, y);
+      });
+      e.updateEnemy(delta, this.core, this.player, this.spit);
     }
 
     if (this.nest) {
@@ -118,11 +172,19 @@ export class CombatScene extends Phaser.Scene {
       });
     }
 
+    const elite = this.enemies.getElite();
+    if (elite && !this.eliteAnnounced) {
+      this.eliteAnnounced = true;
+      this.hud.flash('CHAPTER ELITE INBOUND', this, '#c9a0ff');
+      this.cameras.main.flash(250, 80, 40, 120);
+    }
+
     this.hud.update(
       this.player,
       this.director.getLabel(),
       this.enemies.countActiveLiving(),
       this.director.remainingToSpawn(),
+      elite,
     );
 
     if (this.core.isDead() || runState.playerHp <= 0) {
@@ -130,10 +192,15 @@ export class CombatScene extends Phaser.Scene {
       return;
     }
 
+    const eliteCleared =
+      !this.director.isEliteWave() ||
+      (this.director.wasEliteSpawned() && !this.director.isEliteAlive() && !elite);
+
     if (
       !this.waveClearing &&
       this.director.isFinishedSpawning() &&
-      this.enemies.countActiveLiving() === 0
+      this.enemies.countActiveLiving() === 0 &&
+      eliteCleared
     ) {
       this.waveClearing = true;
       this.time.delayedCall(600, () => this.onWaveCleared());
@@ -142,22 +209,27 @@ export class CombatScene extends Phaser.Scene {
 
   private onWaveCleared(): void {
     if (this.failed) return;
-    runState.salvage += 15 + runState.wave * 5;
-    if (runState.wave >= M1_MAX_WAVE) {
-      this.hud.flash('ACT 1 SLICE COMPLETE', this);
-      this.time.delayedCall(1400, () => {
-        this.cleanup();
-        this.scene.start('Menu');
-      });
+    runState.salvage += 20 + runState.wave * 6;
+    metaState.bestAct1Wave = Math.max(metaState.bestAct1Wave, runState.wave);
+    saveService.saveRun();
+
+    if (runState.wave >= ACT1_MAX_WAVE) {
+      this.cleanup();
+      this.scene.start('Results');
       return;
     }
+
+    const nextIsShop = SHOP_AFTER_WAVES.has(runState.wave);
     this.cleanup();
-    this.scene.start('Rest');
+    this.scene.start(nextIsShop ? 'Shop' : 'Rest');
   }
 
   private failRun(): void {
     this.failed = true;
-    this.hud.flash('OUTPOST LOST', this);
+    metaState.bestAct1Wave = Math.max(metaState.bestAct1Wave, runState.wave);
+    saveService.clearRun();
+    saveService.saveMetaOnly();
+    this.hud.flash('OUTPOST LOST', this, '#ff3b5c');
     this.time.delayedCall(1600, () => {
       this.cleanup();
       this.scene.start('Menu');
@@ -179,10 +251,13 @@ export class CombatScene extends Phaser.Scene {
     for (let y = 0; y < GAME_HEIGHT; y += 64) g.lineBetween(0, y, GAME_WIDTH, y);
     g.lineStyle(2, Colors.steelDark, 0.8);
     g.strokeRect(16, 16, GAME_WIDTH - 32, GAME_HEIGHT - 32);
-    // Dockyard silhouette props
     g.fillStyle(0x121c2a, 1);
     g.fillRect(80, 80, 120, 40);
     g.fillRect(GAME_WIDTH - 220, GAME_HEIGHT - 140, 140, 60);
     g.fillRect(GAME_WIDTH - 160, 90, 60, 160);
+    // Dockyard crane silhouette
+    g.fillStyle(0x152030, 1);
+    g.fillRect(200, 40, 16, 160);
+    g.fillRect(200, 40, 90, 12);
   }
 }

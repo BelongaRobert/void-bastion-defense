@@ -31,6 +31,11 @@ export class Player extends Phaser.Physics.Arcade.Image {
 
     this.bodyRing = scene.add.circle(x, y, 18, Colors.biolume, 0).setStrokeStyle(2, Colors.steel);
     this.muzzle = scene.add.rectangle(x, y, 10, 4, Colors.warning).setDepth(DEPTH.player + 1);
+
+    // Apply magazine bonuses from shop
+    (Object.keys(WEAPONS) as WeaponId[]).forEach((id) => {
+      this.ammo[id] = WEAPONS[id].magazine + runState.ammoReserveBonus;
+    });
   }
 
   get isReloading(): boolean {
@@ -97,13 +102,17 @@ export class Player extends Phaser.Physics.Arcade.Image {
     if (input.isDown('fire')) this.tryFire(bullets);
   }
 
+  private magSize(id: WeaponId): number {
+    return WEAPONS[id].magazine + runState.ammoReserveBonus;
+  }
+
   private startReload(): void {
     const w = WEAPONS[this.weaponId];
     if (this.reloadLeft > 0) return;
-    if (this.ammo[this.weaponId] >= w.magazine) return;
+    if (this.ammo[this.weaponId] >= this.magSize(this.weaponId)) return;
     this.reloadLeft = w.reloadMs;
     this.scene.time.delayedCall(w.reloadMs, () => {
-      this.ammo[this.weaponId] = w.magazine;
+      this.ammo[this.weaponId] = this.magSize(this.weaponId);
     });
   }
 
@@ -117,6 +126,7 @@ export class Player extends Phaser.Physics.Arcade.Image {
 
     this.fireCd = w.fireRateMs;
     this.ammo[this.weaponId] -= 1;
+    const dmg = w.damage + runState.damageBonus;
 
     for (let i = 0; i < w.pellets; i++) {
       const spread = Phaser.Math.DegToRad((Math.random() - 0.5) * w.spreadDeg);
@@ -126,7 +136,7 @@ export class Player extends Phaser.Physics.Arcade.Image {
         this.y + Math.sin(ang) * 20,
         ang,
         w.bulletSpeed,
-        w.damage,
+        dmg,
         w.color,
       );
     }

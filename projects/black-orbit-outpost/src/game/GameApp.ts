@@ -4,6 +4,8 @@ import { BootScene } from '../scenes/BootScene';
 import { MenuScene } from '../scenes/MenuScene';
 import { CombatScene } from '../scenes/CombatScene';
 import { RestScene } from '../scenes/RestScene';
+import { ShopScene } from '../scenes/ShopScene';
+import { ResultsScene } from '../scenes/ResultsScene';
 
 export function createGame(parent: string): Phaser.Game {
   return new Phaser.Game({
@@ -27,6 +29,6 @@ export function createGame(parent: string): Phaser.Game {
       mode: Phaser.Scale.FIT,
       autoCenter: Phaser.Scale.CENTER_BOTH,
     },
-    scene: [BootScene, MenuScene, CombatScene, RestScene],
+    scene: [BootScene, MenuScene, CombatScene, RestScene, ShopScene, ResultsScene],
   });
 }

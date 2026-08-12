@@ -1,7 +1,8 @@
 import Phaser from 'phaser';
 import { WEAPONS } from '../content/weapons';
 import type { Player } from '../combat/Player';
-import { DEPTH, GAME_WIDTH } from '../theme';
+import type { Enemy } from '../combat/Enemy';
+import { Colors, DEPTH, GAME_WIDTH } from '../theme';
 import { runState } from '../state/RunState';
 
 export class Hud {
@@ -10,6 +11,10 @@ export class Hud {
   private hpText: Phaser.GameObjects.Text;
   private weaponText: Phaser.GameObjects.Text;
   private salvageText: Phaser.GameObjects.Text;
+  private eliteRoot: Phaser.GameObjects.Container;
+  private eliteLabel: Phaser.GameObjects.Text;
+  private eliteBarBg: Phaser.GameObjects.Rectangle;
+  private eliteBarFill: Phaser.GameObjects.Rectangle;
 
   constructor(scene: Phaser.Scene) {
     this.waveText = scene.add.text(24, 16, '', {
@@ -59,6 +64,22 @@ export class Hud {
       .setScrollFactor(0)
       .setDepth(DEPTH.hud);
 
+    const barW = 420;
+    this.eliteBarBg = scene.add.rectangle(0, 0, barW, 14, 0x1a1020).setStrokeStyle(2, Colors.antagonist);
+    this.eliteBarFill = scene.add.rectangle(-barW / 2, 0, barW, 10, Colors.antagonist).setOrigin(0, 0.5);
+    this.eliteLabel = scene.add
+      .text(0, -22, 'CHAPTER ELITE', {
+        fontFamily: 'Orbitron, sans-serif',
+        fontSize: '14px',
+        color: '#c9a0ff',
+      })
+      .setOrigin(0.5);
+    this.eliteRoot = scene.add
+      .container(GAME_WIDTH / 2, 70, [this.eliteBarBg, this.eliteBarFill, this.eliteLabel])
+      .setScrollFactor(0)
+      .setDepth(DEPTH.hud)
+      .setVisible(false);
+
     for (const t of [
       this.waveText,
       this.coreText,
@@ -70,26 +91,42 @@ export class Hud {
     }
   }
 
-  update(player: Player, waveLabel: string, enemiesAlive: number, remaining: number): void {
+  update(
+    player: Player,
+    waveLabel: string,
+    enemiesAlive: number,
+    remaining: number,
+    elite: Enemy | null,
+  ): void {
     const w = WEAPONS[player.weaponId];
     this.waveText.setText(waveLabel);
     this.coreText.setText(`CORE ${runState.coreHp}/${runState.coreMaxHp}`);
     this.hpText.setText(`HP ${runState.playerHp}/${runState.playerMaxHp}`);
     const reload = player.isReloading ? ' [RELOAD]' : '';
+    const mag = w.magazine + runState.ammoReserveBonus;
     this.weaponText.setText(
-      `${w.name}  ${player.ammo[player.weaponId]}/${w.magazine}${reload}`,
+      `${w.name}  ${player.ammo[player.weaponId]}/${mag}${reload}`,
     );
     this.salvageText.setText(`SALVAGE ${runState.salvage} · HOSTILES ${enemiesAlive}+${remaining}`);
     this.coreText.setColor(runState.coreHp / runState.coreMaxHp < 0.35 ? '#ff3b5c' : '#7dffb3');
     this.hpText.setColor(runState.playerHp / runState.playerMaxHp < 0.35 ? '#ff3b5c' : '#e8f0f7');
+
+    if (elite && elite.active) {
+      this.eliteRoot.setVisible(true);
+      const pct = Math.max(0, elite.hp / elite.maxHp);
+      this.eliteBarFill.width = 420 * pct;
+      this.eliteLabel.setText(`CHAPTER ELITE — ${elite.def.name}`);
+    } else {
+      this.eliteRoot.setVisible(false);
+    }
   }
 
-  flash(message: string, scene: Phaser.Scene): void {
+  flash(message: string, scene: Phaser.Scene, color = '#e8b84a'): void {
     const t = scene.add
       .text(GAME_WIDTH / 2, 120, message, {
         fontFamily: 'Orbitron, sans-serif',
         fontSize: '28px',
-        color: '#e8b84a',
+        color,
       })
       .setOrigin(0.5)
       .setDepth(DEPTH.hud + 1)
@@ -101,7 +138,7 @@ export class Hud {
       y: 100,
       duration: 250,
       yoyo: true,
-      hold: 900,
+      hold: 1100,
       onComplete: () => t.destroy(),
     });
   }

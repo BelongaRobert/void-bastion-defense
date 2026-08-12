@@ -1,5 +1,6 @@
 import Phaser from 'phaser';
 import { Colors, DEPTH } from '../theme';
+import { runState } from '../state/RunState';
 import type { EnemyGroup } from './Enemy';
 
 export class AutogunNest extends Phaser.Physics.Arcade.Image {
@@ -47,7 +48,7 @@ export class AutogunNest extends Phaser.Physics.Arcade.Image {
   }
 
   getDamage(): number {
-    return this.damage;
+    return this.damage + runState.nestDamageBonus;
   }
 
   destroyNest(): void {

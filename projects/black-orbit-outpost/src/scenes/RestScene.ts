@@ -1,6 +1,7 @@
 import Phaser from 'phaser';
 import { InputMap } from '../input/InputMap';
 import { runState } from '../state/RunState';
+import { saveService } from '../state/SaveService';
 import { storyDirector } from '../story/StoryDirector';
 import { DialogueBox } from '../story/DialogueBox';
 import { Colors, GAME_HEIGHT, GAME_WIDTH } from '../theme';
@@ -16,16 +17,16 @@ export class RestScene extends Phaser.Scene {
   private placing = false;
   private marker!: Phaser.GameObjects.Arc;
   private readyForCombat = false;
+  private clearedWave = 0;
 
   constructor() {
     super('Rest');
   }
 
   create(): void {
+    this.clearedWave = runState.wave;
     this.cameras.main.setBackgroundColor(Colors.voidNavy);
-    this.add
-      .rectangle(0, 0, GAME_WIDTH, GAME_HEIGHT, 0x0f1826, 1)
-      .setOrigin(0);
+    this.add.rectangle(0, 0, GAME_WIDTH, GAME_HEIGHT, 0x0f1826, 1).setOrigin(0);
 
     this.add
       .text(GAME_WIDTH / 2, 60, 'REST — DOCKYARD BAY', {
@@ -47,11 +48,13 @@ export class RestScene extends Phaser.Scene {
     this.add
       .text(
         GAME_WIDTH / 2,
-        200,
+        190,
         [
-          '[1] Heal self  (−' + HEAL_COST + ' salvage, +35 HP)',
-          '[2] Repair core (−' + CORE_REPAIR_COST + ' salvage, +120 core)',
-          '[3] Place Autogun Nest (−' + NEST_COST + ' salvage)  then click map',
+          `Wave ${this.clearedWave} cleared · Next: Wave ${this.clearedWave + 1}`,
+          '',
+          `[1] Heal self  (−${HEAL_COST} salvage, +35 HP)`,
+          `[2] Repair core (−${CORE_REPAIR_COST} salvage, +120 core)`,
+          `[3] Place Autogun Nest (−${NEST_COST} salvage)  then click map`,
           '[SPACE] Continue to next wave',
         ].join('\n'),
         {
@@ -59,12 +62,15 @@ export class RestScene extends Phaser.Scene {
           fontSize: '18px',
           color: '#e8f0f7',
           align: 'center',
-          lineSpacing: 10,
+          lineSpacing: 8,
         },
       )
       .setOrigin(0.5, 0);
 
-    this.marker = this.add.circle(0, 0, 20, Colors.warning, 0.25).setStrokeStyle(2, Colors.warning).setVisible(false);
+    this.marker = this.add
+      .circle(0, 0, 20, Colors.warning, 0.25)
+      .setStrokeStyle(2, Colors.warning)
+      .setVisible(false);
 
     this.inputMap = new InputMap(this);
     this.dialogue = new DialogueBox(this);
@@ -72,9 +78,9 @@ export class RestScene extends Phaser.Scene {
     this.placing = false;
     this.readyForCombat = false;
 
-    // Story beat after wave 1 rest
-    if (runState.wave === 1) {
-      const beat = storyDirector.getBeat('act1_rest1');
+    const beatId = storyDirector.restBeatForWave(this.clearedWave);
+    if (beatId) {
+      const beat = storyDirector.getBeat(beatId);
       if (beat) this.dialogue.play(beat);
     }
 
@@ -87,6 +93,8 @@ export class RestScene extends Phaser.Scene {
       if (!this.placing) return;
       this.placeNest(p.worldX, p.worldY);
     });
+
+    saveService.saveRun();
   }
 
   update(): void {
@@ -105,6 +113,7 @@ export class RestScene extends Phaser.Scene {
     if (this.inputMap.justConfirmed()) {
       this.readyForCombat = true;
       runState.wave += 1;
+      saveService.saveRun();
       this.dialogue.destroy();
       this.scene.start('Combat');
     }
@@ -112,10 +121,7 @@ export class RestScene extends Phaser.Scene {
 
   private tryHeal(): void {
     if (this.dialogue.isOpen() || this.placing) return;
-    if (runState.salvage < HEAL_COST) {
-      this.flash('Not enough salvage');
-      return;
-    }
+    if (runState.salvage < HEAL_COST) return this.flash('Not enough salvage');
     runState.salvage -= HEAL_COST;
     runState.playerHp = Math.min(runState.playerMaxHp, runState.playerHp + 35);
     this.refreshStatus();
@@ -123,10 +129,7 @@ export class RestScene extends Phaser.Scene {
 
   private tryRepair(): void {
     if (this.dialogue.isOpen() || this.placing) return;
-    if (runState.salvage < CORE_REPAIR_COST) {
-      this.flash('Not enough salvage');
-      return;
-    }
+    if (runState.salvage < CORE_REPAIR_COST) return this.flash('Not enough salvage');
     runState.salvage -= CORE_REPAIR_COST;
     runState.coreHp = Math.min(runState.coreMaxHp, runState.coreHp + 120);
     this.refreshStatus();
@@ -134,18 +137,9 @@ export class RestScene extends Phaser.Scene {
 
   private beginPlaceNest(): void {
     if (this.dialogue.isOpen()) return;
-    if (runState.hasAutogunNest) {
-      this.flash('Nest already placed');
-      return;
-    }
-    if (runState.hardpointsPlaced >= runState.maxHardpoints) {
-      this.flash('Hardpoint slots full');
-      return;
-    }
-    if (runState.salvage < NEST_COST) {
-      this.flash('Not enough salvage');
-      return;
-    }
+    if (runState.hasAutogunNest) return this.flash('Nest already placed');
+    if (runState.hardpointsPlaced >= runState.maxHardpoints) return this.flash('Hardpoint slots full');
+    if (runState.salvage < NEST_COST) return this.flash('Not enough salvage');
     this.placing = true;
     this.flash('Click to place Autogun Nest');
   }
@@ -159,6 +153,7 @@ export class RestScene extends Phaser.Scene {
     this.marker.setVisible(false);
     this.refreshStatus();
     this.flash('Autogun Nest armed');
+    saveService.saveRun();
   }
 
   private refreshStatus(): void {
