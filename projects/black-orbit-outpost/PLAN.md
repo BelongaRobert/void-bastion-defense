@@ -2,7 +2,7 @@
 
 **Developer / credit:** Belongarobert  
 **Working title:** Black Orbit Outpost  
-**Status:** Plan locked — awaiting implementation kickoff  
+**Status:** M0 + M1 vertical slice implemented — awaiting playtest / M2  
 **Target:** Steam (Windows + Steam Deck), mobile port later  
 **Price:** List **$9.99**, permanent/launch **50% → $4.99** (never sell above effective $5 without explicit change)
 

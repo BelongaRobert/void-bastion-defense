@@ -1,0 +1,32 @@
+import Phaser from 'phaser';
+import { GAME_HEIGHT, GAME_WIDTH, Colors } from '../theme';
+import { BootScene } from '../scenes/BootScene';
+import { MenuScene } from '../scenes/MenuScene';
+import { CombatScene } from '../scenes/CombatScene';
+import { RestScene } from '../scenes/RestScene';
+
+export function createGame(parent: string): Phaser.Game {
+  return new Phaser.Game({
+    type: Phaser.AUTO,
+    parent,
+    width: GAME_WIDTH,
+    height: GAME_HEIGHT,
+    backgroundColor: Colors.voidNavy,
+    pixelArt: false,
+    physics: {
+      default: 'arcade',
+      arcade: {
+        gravity: { x: 0, y: 0 },
+        debug: false,
+      },
+    },
+    input: {
+      gamepad: true,
+    },
+    scale: {
+      mode: Phaser.Scale.FIT,
+      autoCenter: Phaser.Scale.CENTER_BOTH,
+    },
+    scene: [BootScene, MenuScene, CombatScene, RestScene],
+  });
+}

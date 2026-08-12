@@ -1,0 +1,27 @@
+{
+  "name": "black-orbit-outpost",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Black Orbit Outpost — act-based outpost defense by Belongarobert",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "tsc --noEmit && vite build",
+    "typecheck": "tsc --noEmit",
+    "preview": "vite preview",
+    "electron": "npm run build && electron electron/main.cjs",
+    "electron:dev": "concurrently -k \"vite --port 5173\" \"wait-on http://127.0.0.1:5173 && electron electron/main.cjs --dev\""
+  },
+  "author": "Belongarobert",
+  "license": "UNLICENSED",
+  "dependencies": {
+    "phaser": "^3.87.0"
+  },
+  "devDependencies": {
+    "concurrently": "^9.1.2",
+    "electron": "^33.2.1",
+    "typescript": "^5.7.2",
+    "vite": "^6.0.3",
+    "wait-on": "^8.0.1"
+  }
+}
