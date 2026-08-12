@@ -7,7 +7,11 @@ export type EnemyId =
   | 'armored'
   | 'stalker'
   | 'burster'
-  | 'coldvault';
+  | 'coldvault'
+  | 'voidmite'
+  | 'siegebrute'
+  | 'mirrorwraith'
+  | 'orbitwaker';
 
 export interface EnemyDef {
   id: EnemyId;
@@ -143,5 +147,58 @@ export const ENEMIES: Record<EnemyId, EnemyDef> = {
     isElite: true,
     summonIntervalMs: 4000,
     summonType: 'stalker',
+  },
+  voidmite: {
+    id: 'voidmite',
+    name: 'Void Mite',
+    hp: 12,
+    speed: 160,
+    radius: 9,
+    damage: 5,
+    attackRateMs: 500,
+    color: 0xc9a0ff,
+    salvage: 3,
+    preferCore: true,
+  },
+  siegebrute: {
+    id: 'siegebrute',
+    name: 'Siege Brute',
+    hp: 140,
+    speed: 38,
+    radius: 24,
+    damage: 20,
+    attackRateMs: 1000,
+    color: 0x5c4060,
+    salvage: 16,
+    preferCore: true,
+  },
+  mirrorwraith: {
+    id: 'mirrorwraith',
+    name: 'Mirror Wraith',
+    hp: 45,
+    speed: 100,
+    radius: 15,
+    damage: 14,
+    attackRateMs: 1100,
+    color: 0xe8f0f7,
+    salvage: 14,
+    ranged: true,
+    projectileSpeed: 300,
+    preferCore: true,
+  },
+  orbitwaker: {
+    id: 'orbitwaker',
+    name: 'Orbit Waker',
+    hp: 1400,
+    speed: 36,
+    radius: 46,
+    damage: 30,
+    attackRateMs: 800,
+    color: 0xff3b5c,
+    salvage: 200,
+    preferCore: true,
+    isElite: true,
+    summonIntervalMs: 3500,
+    summonType: 'voidmite',
   },
 };

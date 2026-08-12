@@ -219,8 +219,104 @@ export const ACT2_CLEAR: StoryBeat = {
     {
       speaker: 'system',
       name: 'ORBIT RELAY',
-      text: 'Act 2 complete. Act 3 — Black Orbit — sealed for M4.',
+      text: 'Act 2 complete. Exterior plates unlocked. Proceed to Black Orbit when ready.',
       portrait: 'radio',
+    },
+  ],
+};
+
+export const ACT3_INTRO: StoryBeat = {
+  id: 'act3_intro',
+  lines: [
+    {
+      speaker: 'system',
+      name: 'ORBIT RELAY',
+      text: 'Black Orbit — exterior plates. Hard vacuum. No backup. Core exposed to the dark.',
+      portrait: 'radio',
+    },
+    {
+      speaker: 'protagonist',
+      name: 'DEFENDER',
+      text: "Stars look wrong out here. Like they're leaning in.",
+      portrait: 'hero',
+    },
+    {
+      speaker: 'antagonist',
+      name: ANTAGONIST_NAME,
+      text: 'This is where I woke. This is where you end. Meet the Orbit Waker.',
+      portrait: 'villain',
+    },
+  ],
+};
+
+export const ACT3_MID: StoryBeat = {
+  id: 'act3_mid',
+  lines: [
+    {
+      speaker: 'antagonist',
+      name: ANTAGONIST_NAME,
+      text: 'Mites. Brutes. Mirrors. All of them are me, split thin across the void.',
+      portrait: 'villain',
+    },
+    {
+      speaker: 'protagonist',
+      name: 'DEFENDER',
+      text: "Then I'll put holes in every piece until the signal dies.",
+      portrait: 'hero',
+    },
+  ],
+};
+
+export const ACT3_PRE_ELITE: StoryBeat = {
+  id: 'act3_pre_elite',
+  lines: [
+    {
+      speaker: 'system',
+      name: 'ORBIT RELAY',
+      text: 'CRITICAL: Orbit Waker mass on approach. Densest hostile swarm recorded.',
+      portrait: 'radio',
+    },
+    {
+      speaker: 'antagonist',
+      name: ANTAGONIST_NAME,
+      text: 'Wake. Feed. Open the can.',
+      portrait: 'villain',
+    },
+    {
+      speaker: 'protagonist',
+      name: 'DEFENDER',
+      text: "Nyx — this is the last frequency. I'm cutting you off.",
+      portrait: 'hero',
+    },
+  ],
+};
+
+export const ACT3_CLEAR: StoryBeat = {
+  id: 'act3_clear',
+  lines: [
+    {
+      speaker: 'protagonist',
+      name: 'DEFENDER',
+      text: 'Waker down. Swarm thinning. Core still warm. I… I held.',
+      portrait: 'hero',
+    },
+    {
+      speaker: 'antagonist',
+      name: ANTAGONIST_NAME,
+      text: 'Held? Adorable. Signals echo. Somewhere colder, something else is learning your name.',
+      portrait: 'villain',
+    },
+    {
+      speaker: 'system',
+      name: 'ORBIT RELAY',
+      text: 'Campaign complete. Outpost secure — for now. Endless / deeper threats: future update.',
+      portrait: 'radio',
+    },
+    {
+      speaker: 'protagonist',
+      name: 'DEFENDER',
+      text: "Then I'll be here. Lights on. Guns loaded. Belongarobert's outpost doesn't fall today.",
+      portrait: 'hero',
     },
   ],
 };

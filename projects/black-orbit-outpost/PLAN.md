@@ -2,7 +2,7 @@
 
 **Developer / credit:** Belongarobert  
 **Working title:** Black Orbit Outpost  
-**Status:** M3 Meta + Act 2 implemented — playtest / M4 next  
+**Status:** M4 campaign complete (Acts 1–3) — Steam polish / M5 next  
 **Target:** Steam (Windows + Steam Deck), mobile port later  
 **Price:** List **$9.99**, permanent/launch **50% → $4.99** (never sell above effective $5 without explicit change)
 

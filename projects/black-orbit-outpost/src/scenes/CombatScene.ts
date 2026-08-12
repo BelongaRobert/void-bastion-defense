@@ -3,6 +3,8 @@ import { ACT_MAX_WAVE, getCurrentWaveDef, SHOP_AFTER_WAVES } from '../content/wa
 import { InputMap } from '../input/InputMap';
 import { metaState, runState } from '../state/RunState';
 import { saveService } from '../state/SaveService';
+import { settingsState } from '../state/SettingsState';
+import { achievementService } from '../meta/Achievements';
 import { Colors, GAME_HEIGHT, GAME_WIDTH } from '../theme';
 import { Bullet, BulletGroup } from '../combat/Bullet';
 import { Enemy, EnemyGroup, EnemyProjectile } from '../combat/Enemy';
@@ -65,10 +67,19 @@ export class CombatScene extends Phaser.Scene {
       bullet.kill();
       if (dead) {
         runState.salvage += enemy.def.salvage;
+        if (!runState.gotFirstKill) {
+          runState.gotFirstKill = true;
+          achievementService.unlock('first_blood');
+          saveService.saveMetaOnly();
+        }
         if (wasElite) {
           this.director.notifyEliteDied();
           this.hud.flash('CHAPTER ELITE DOWN', this, '#c9a0ff');
-          this.cameras.main.shake(200, 0.01);
+          if (settingsState.screenShake) this.cameras.main.shake(200, 0.01);
+          if (enemy.def.id === 'dockmaster') achievementService.unlock('dockmaster_down');
+          if (enemy.def.id === 'coldvault') achievementService.unlock('cold_vault_down');
+          if (enemy.def.id === 'orbitwaker') achievementService.unlock('orbit_waker_down');
+          saveService.saveMetaOnly();
         }
       }
     });
@@ -154,7 +165,20 @@ export class CombatScene extends Phaser.Scene {
 
     this.director.update(this.enemies);
     this.bullets.tick(delta);
-    this.player.updatePlayer(delta, this.inputMap, this.bullets, false);
+
+    let nearest: { x: number; y: number } | null = null;
+    let best = 9999;
+    for (const child of this.enemies.getChildren()) {
+      const e = child as Enemy;
+      if (!e.active) continue;
+      const d = Phaser.Math.Distance.Between(this.player.x, this.player.y, e.x, e.y);
+      if (d < best) {
+        best = d;
+        nearest = { x: e.x, y: e.y };
+      }
+    }
+
+    this.player.updatePlayer(delta, this.inputMap, this.bullets, false, nearest);
     this.core.updateVisual(delta);
 
     for (const child of this.enemies.getChildren()) {
@@ -237,7 +261,9 @@ export class CombatScene extends Phaser.Scene {
   }
 
   private trackBestWave(): void {
-    if (runState.act === 2) {
+    if (runState.act === 3) {
+      metaState.bestAct3Wave = Math.max(metaState.bestAct3Wave, runState.wave);
+    } else if (runState.act === 2) {
       metaState.bestAct2Wave = Math.max(metaState.bestAct2Wave, runState.wave);
     } else {
       metaState.bestAct1Wave = Math.max(metaState.bestAct1Wave, runState.wave);
@@ -252,7 +278,21 @@ export class CombatScene extends Phaser.Scene {
 
   private drawArena(): void {
     const g = this.add.graphics();
-    if (runState.act === 2) {
+    if (runState.act === 3) {
+      g.fillStyle(0x05060c, 1);
+      g.fillRect(0, 0, GAME_WIDTH, GAME_HEIGHT);
+      for (let i = 0; i < 80; i++) {
+        g.fillStyle(0xffffff, 0.08 + Math.random() * 0.15);
+        g.fillCircle(Math.random() * GAME_WIDTH, Math.random() * GAME_HEIGHT, 1);
+      }
+      g.lineStyle(2, 0x402030, 0.8);
+      g.strokeRect(16, 16, GAME_WIDTH - 32, GAME_HEIGHT - 32);
+      g.fillStyle(0x120818, 1);
+      g.fillTriangle(100, 80, 180, 200, 40, 200);
+      g.fillTriangle(GAME_WIDTH - 80, 100, GAME_WIDTH - 40, 260, GAME_WIDTH - 160, 240);
+      g.fillStyle(0xff3b5c, 0.06);
+      g.fillCircle(GAME_WIDTH / 2, GAME_HEIGHT / 2, 220);
+    } else if (runState.act === 2) {
       g.fillStyle(0x081018, 1);
       g.fillRect(0, 0, GAME_WIDTH, GAME_HEIGHT);
       g.lineStyle(1, 0x1a3048, 0.55);
@@ -260,7 +300,6 @@ export class CombatScene extends Phaser.Scene {
       for (let y = 0; y < GAME_HEIGHT; y += 64) g.lineBetween(0, y, GAME_WIDTH, y);
       g.lineStyle(2, 0x3a6080, 0.7);
       g.strokeRect(16, 16, GAME_WIDTH - 32, GAME_HEIGHT - 32);
-      // Freezer racks
       g.fillStyle(0x102030, 1);
       g.fillRect(60, 100, 40, 220);
       g.fillRect(120, 100, 40, 220);

@@ -31,11 +31,20 @@ export class ShopScene extends Phaser.Scene {
     this.add.rectangle(0, 0, GAME_WIDTH, GAME_HEIGHT, 0x0c1420, 1).setOrigin(0);
 
     this.add
-      .text(GAME_WIDTH / 2, 50, runState.act === 2 ? 'COLD LOCKER SHOP' : 'DOCKYARD SHOP', {
-        fontFamily: 'Orbitron, sans-serif',
-        fontSize: '30px',
-        color: '#e8b84a',
-      })
+      .text(
+        GAME_WIDTH / 2,
+        50,
+        runState.act === 3
+          ? 'VOID SCAVENGER SHOP'
+          : runState.act === 2
+            ? 'COLD LOCKER SHOP'
+            : 'DOCKYARD SHOP',
+        {
+          fontFamily: 'Orbitron, sans-serif',
+          fontSize: '30px',
+          color: '#e8b84a',
+        },
+      )
       .setOrigin(0.5);
 
     this.status = this.add

@@ -4,6 +4,7 @@ import { BootScene } from '../scenes/BootScene';
 import { MenuScene } from '../scenes/MenuScene';
 import { ActSelectScene } from '../scenes/ActSelectScene';
 import { MetaScene } from '../scenes/MetaScene';
+import { OptionsScene } from '../scenes/OptionsScene';
 import { CombatScene } from '../scenes/CombatScene';
 import { RestScene } from '../scenes/RestScene';
 import { ShopScene } from '../scenes/ShopScene';
@@ -36,6 +37,7 @@ export function createGame(parent: string): Phaser.Game {
       MenuScene,
       ActSelectScene,
       MetaScene,
+      OptionsScene,
       CombatScene,
       RestScene,
       ShopScene,

@@ -1,11 +1,12 @@
 import Phaser from 'phaser';
 import { Colors, DEPTH } from '../theme';
+import { settingsState } from '../state/SettingsState';
 
 export class GoreFX {
   private scene: Phaser.Scene;
   private bloodGroup: Phaser.GameObjects.Group;
   private decalCount = 0;
-  private readonly maxDecals = 80;
+  private readonly maxDecals = 60;
 
   constructor(scene: Phaser.Scene) {
     this.scene = scene;
@@ -13,7 +14,13 @@ export class GoreFX {
   }
 
   burst(x: number, y: number, color: number = Colors.arterial, amount = 14): void {
-    for (let i = 0; i < amount; i++) {
+    if (!settingsState.gore) {
+      // Minimal spark when gore off
+      amount = Math.min(3, amount);
+      color = Colors.steel;
+    }
+    const capped = Math.min(amount, settingsState.gore ? 18 : 3);
+    for (let i = 0; i < capped; i++) {
       const angle = Math.random() * Math.PI * 2;
       const speed = 60 + Math.random() * 180;
       const r = 2 + Math.random() * 4;
@@ -27,7 +34,9 @@ export class GoreFX {
         duration: 280 + Math.random() * 220,
         onComplete: () => {
           drop.destroy();
-          this.stampDecal(x + Math.cos(angle) * 18, y + Math.sin(angle) * 12, color);
+          if (settingsState.gore) {
+            this.stampDecal(x + Math.cos(angle) * 18, y + Math.sin(angle) * 12, color);
+          }
         },
       });
     }

@@ -8,6 +8,8 @@ import {
   type MetaState,
   type RunState,
 } from './RunState';
+import { applySettings, settingsState } from './SettingsState';
+import { achievementService } from '../meta/Achievements';
 
 const SAVE_KEY = 'boo_save_v1';
 
@@ -33,6 +35,8 @@ export class SaveService {
       const parsed = JSON.parse(raw) as SaveBlob;
       if (parsed.version !== 1) throw new Error('bad version');
       applyMeta({ ...createInitialMeta(), ...parsed.meta });
+      applySettings(metaState.settings);
+      achievementService.load(metaState.achievements);
       if (parsed.run) applyRun({ ...createInitialRun(), ...parsed.run });
       return parsed;
     } catch {
@@ -50,21 +54,41 @@ export class SaveService {
     return !!blob?.run && (blob.run.coreHp ?? 0) > 0 && (blob.run.playerHp ?? 0) > 0;
   }
 
+  syncMetaExtras(): void {
+    metaState.settings = { ...settingsState };
+    metaState.achievements = achievementService.listUnlocked();
+  }
+
   saveRun(): void {
+    this.syncMetaExtras();
     const blob: SaveBlob = {
       version: 1,
-      meta: { ...metaState },
-      run: { ...runState, autogunNestPos: runState.autogunNestPos ? { ...runState.autogunNestPos } : null },
+      meta: {
+        ...metaState,
+        unlocked: [...metaState.unlocked],
+        achievements: [...metaState.achievements],
+        settings: { ...metaState.settings },
+      },
+      run: {
+        ...runState,
+        autogunNestPos: runState.autogunNestPos ? { ...runState.autogunNestPos } : null,
+      },
       updatedAt: Date.now(),
     };
     localStorage.setItem(SAVE_KEY, JSON.stringify(blob));
   }
 
   saveMetaOnly(): void {
+    this.syncMetaExtras();
     const existing = this.readRaw();
     const blob: SaveBlob = {
       version: 1,
-      meta: { ...metaState },
+      meta: {
+        ...metaState,
+        unlocked: [...metaState.unlocked],
+        achievements: [...metaState.achievements],
+        settings: { ...metaState.settings },
+      },
       run: existing?.run ?? null,
       updatedAt: Date.now(),
     };
@@ -72,9 +96,15 @@ export class SaveService {
   }
 
   clearRun(): void {
+    this.syncMetaExtras();
     const blob: SaveBlob = {
       version: 1,
-      meta: { ...metaState },
+      meta: {
+        ...metaState,
+        unlocked: [...metaState.unlocked],
+        achievements: [...metaState.achievements],
+        settings: { ...metaState.settings },
+      },
       run: null,
       updatedAt: Date.now(),
     };

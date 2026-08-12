@@ -1,6 +1,7 @@
 import Phaser from 'phaser';
 import type { DialogueLine, StoryBeat } from '../content/story/act1';
 import { Colors, DEPTH, GAME_HEIGHT, GAME_WIDTH } from '../theme';
+import { dialogueAdvanceMs, dialogueOpenLockMs } from '../state/SettingsState';
 
 const PORTRAIT_TINT: Record<DialogueLine['portrait'], number> = {
   hero: 0x4de1c1,
@@ -94,7 +95,7 @@ export class DialogueBox {
     this.index = 0;
     this.active = true;
     this.onComplete = onComplete ?? null;
-    this.advanceLock = this.scene.time.now + 250;
+    this.advanceLock = this.scene.time.now + dialogueOpenLockMs();
     this.root.setVisible(true);
     this.renderLine();
   }
@@ -108,7 +109,7 @@ export class DialogueBox {
       this.close();
       return;
     }
-    this.advanceLock = this.scene.time.now + 180;
+    this.advanceLock = this.scene.time.now + dialogueAdvanceMs();
     this.renderLine();
   }
 

@@ -17,7 +17,7 @@ export class MenuScene extends Phaser.Scene {
     this.drawBackdrop();
 
     this.add
-      .text(GAME_WIDTH / 2, 120, 'BLACK ORBIT OUTPOST', {
+      .text(GAME_WIDTH / 2, 110, 'BLACK ORBIT OUTPOST', {
         fontFamily: 'Orbitron, sans-serif',
         fontSize: '42px',
         color: '#e8f0f7',
@@ -25,65 +25,45 @@ export class MenuScene extends Phaser.Scene {
       .setOrigin(0.5);
 
     this.add
-      .text(GAME_WIDTH / 2, 175, 'Hold the core. Survive the dark. — Nyx is listening.', {
+      .text(GAME_WIDTH / 2, 165, 'Hold the core. Survive the dark. — Nyx is listening.', {
         fontFamily: '"Share Tech Mono", monospace',
         fontSize: '16px',
         color: '#7dffb3',
       })
       .setOrigin(0.5);
 
+    const lines = [
+      '[1] NEW RUN (Act Select)',
+      this.canContinue ? '[2] CONTINUE RUN' : '[2] CONTINUE (no save)',
+      '[3] META UNLOCKS',
+      '[4] OPTIONS / ACHIEVEMENTS',
+      '[0] DEV Act3 W8 Orbit Waker',
+    ];
     this.add
-      .text(GAME_WIDTH / 2, 250, '[1] NEW RUN (Act Select)', {
-        fontFamily: 'Orbitron, sans-serif',
-        fontSize: '20px',
-        color: '#e8b84a',
-      })
-      .setOrigin(0.5);
-
-    this.add
-      .text(
-        GAME_WIDTH / 2,
-        295,
-        this.canContinue ? '[2] CONTINUE RUN' : '[2] CONTINUE (no save)',
-        {
-          fontFamily: 'Orbitron, sans-serif',
-          fontSize: '18px',
-          color: this.canContinue ? '#e8f0f7' : '#556270',
-        },
-      )
-      .setOrigin(0.5);
-
-    this.add
-      .text(GAME_WIDTH / 2, 340, '[3] META UNLOCKS', {
+      .text(GAME_WIDTH / 2, 240, lines.join('\n'), {
         fontFamily: 'Orbitron, sans-serif',
         fontSize: '18px',
-        color: '#e8f0f7',
+        color: '#e8b84a',
+        align: 'center',
+        lineSpacing: 10,
       })
-      .setOrigin(0.5);
-
-    this.add
-      .text(GAME_WIDTH / 2, 390, '[8] DEV Act1 W8   [9] DEV Act2 W8 Elite', {
-        fontFamily: '"Share Tech Mono", monospace',
-        fontSize: '13px',
-        color: '#556270',
-      })
-      .setOrigin(0.5);
+      .setOrigin(0.5, 0);
 
     this.add
       .text(
         GAME_WIDTH / 2,
-        450,
-        `Marks ${metaState.orbitMarks}  ·  A1 ${metaState.act1Cleared ? '✓' : '—'}  ·  A2 ${metaState.act2Cleared ? '✓' : '—'}  ·  Best ${metaState.bestAct1Wave}/${metaState.bestAct2Wave}`,
+        430,
+        `Marks ${metaState.orbitMarks}  ·  A1 ${metaState.act1Cleared ? '✓' : '—'} A2 ${metaState.act2Cleared ? '✓' : '—'} A3 ${metaState.act3Cleared ? '✓' : '—'}  ·  Ach ${metaState.achievements.length}`,
         {
           fontFamily: '"Share Tech Mono", monospace',
-          fontSize: '14px',
+          fontSize: '13px',
           color: '#8fa3b8',
         },
       )
       .setOrigin(0.5);
 
     this.add
-      .text(GAME_WIDTH / 2, GAME_HEIGHT - 48, 'A Belongarobert game  ·  M3 Meta + Act 2', {
+      .text(GAME_WIDTH / 2, GAME_HEIGHT - 48, 'A Belongarobert game  ·  M4 Campaign Complete', {
         fontFamily: '"Share Tech Mono", monospace',
         fontSize: '14px',
         color: '#8fa3b8',
@@ -91,30 +71,29 @@ export class MenuScene extends Phaser.Scene {
       .setOrigin(0.5);
 
     this.input.keyboard?.on('keydown-ONE', () => this.scene.start('ActSelect'));
-    this.input.keyboard?.on('keydown-TWO', () => this.beginContinue());
+    this.input.keyboard?.on('keydown-TWO', () => {
+      if (!this.canContinue) return;
+      saveService.load();
+      this.scene.start('Combat');
+    });
     this.input.keyboard?.on('keydown-THREE', () => this.scene.start('Meta'));
-    this.input.keyboard?.on('keydown-EIGHT', () => this.beginDev(1, 8));
-    this.input.keyboard?.on('keydown-NINE', () => this.beginDev(2, 8));
-  }
-
-  private beginContinue(): void {
-    if (!this.canContinue) return;
-    saveService.load();
-    this.scene.start('Combat');
+    this.input.keyboard?.on('keydown-FOUR', () => this.scene.start('Options'));
+    this.input.keyboard?.on('keydown-ZERO', () => this.beginDev(3, 8));
   }
 
   private beginDev(act: number, wave: number): void {
     resetRun();
     runState.act = act;
     runState.wave = wave;
-    runState.salvage = 180;
+    runState.salvage = 200;
     runState.hasAutogunNest = true;
     runState.autogunNestPos = { x: 900, y: 400 };
     runState.hardpointsPlaced = 1;
-    runState.damageBonus = 5;
-    runState.nestDamageBonus = 4;
-    runState.ammoReserveBonus = 12;
-    if (act === 2) metaState.act1Cleared = true;
+    runState.damageBonus = 6;
+    runState.nestDamageBonus = 5;
+    runState.ammoReserveBonus = 14;
+    metaState.act1Cleared = true;
+    metaState.act2Cleared = true;
     applyMetaUnlocksToRun();
     metaState.runsStarted += 1;
     saveService.saveRun();

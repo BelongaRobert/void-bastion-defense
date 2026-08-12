@@ -1,3 +1,7 @@
+import type { AchievementId } from '../meta/Achievements';
+import type { SettingsState } from './SettingsState';
+import { createDefaultSettings } from './SettingsState';
+
 export interface RunState {
   act: number;
   wave: number;
@@ -13,14 +17,14 @@ export interface RunState {
   damageBonus: number;
   nestDamageBonus: number;
   ammoReserveBonus: number;
-  /** Active challenge modifier id for this run */
   challengeId: string | null;
-  /** Challenge: enemy HP multiplier */
   enemyHpMult: number;
-  /** Challenge: enemy speed multiplier */
   enemySpeedMult: number;
-  /** Challenge: core starts damaged */
   coreBleed: boolean;
+  /** Track if any kill happened this run (achievements) */
+  gotFirstKill: boolean;
+  /** Core HP ratio at act end for perfect_core */
+  startCoreMax: number;
 }
 
 export type UnlockId =
@@ -35,10 +39,14 @@ export interface MetaState {
   orbitMarks: number;
   act1Cleared: boolean;
   act2Cleared: boolean;
+  act3Cleared: boolean;
   runsStarted: number;
   bestAct1Wave: number;
   bestAct2Wave: number;
+  bestAct3Wave: number;
   unlocked: UnlockId[];
+  achievements: AchievementId[];
+  settings: SettingsState;
 }
 
 export function createInitialRun(): RunState {
@@ -61,6 +69,8 @@ export function createInitialRun(): RunState {
     enemyHpMult: 1,
     enemySpeedMult: 1,
     coreBleed: false,
+    gotFirstKill: false,
+    startCoreMax: 1000,
   };
 }
 
@@ -69,10 +79,14 @@ export function createInitialMeta(): MetaState {
     orbitMarks: 0,
     act1Cleared: false,
     act2Cleared: false,
+    act3Cleared: false,
     runsStarted: 0,
     bestAct1Wave: 0,
     bestAct2Wave: 0,
+    bestAct3Wave: 0,
     unlocked: [],
+    achievements: [],
+    settings: createDefaultSettings(),
   };
 }
 
@@ -88,6 +102,8 @@ export function applyMeta(data: MetaState): void {
     ...createInitialMeta(),
     ...data,
     unlocked: data.unlocked ? [...data.unlocked] : [],
+    achievements: data.achievements ? [...data.achievements] : [],
+    settings: { ...createDefaultSettings(), ...(data.settings ?? {}) },
   });
 }
 
@@ -99,7 +115,6 @@ export function applyRun(data: RunState): void {
   });
 }
 
-/** Apply purchased meta unlocks into a fresh run (call after resetRun + set act). */
 export function applyMetaUnlocksToRun(): void {
   const u = new Set(metaState.unlocked);
   if (u.has('core_plating')) {
@@ -125,4 +140,5 @@ export function applyMetaUnlocksToRun(): void {
   if (runState.coreBleed) {
     runState.coreHp = Math.floor(runState.coreMaxHp * 0.7);
   }
+  runState.startCoreMax = runState.coreMaxHp;
 }

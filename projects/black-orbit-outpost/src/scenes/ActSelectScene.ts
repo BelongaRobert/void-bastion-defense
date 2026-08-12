@@ -28,22 +28,28 @@ export class ActSelectScene extends Phaser.Scene {
     this.add.rectangle(0, 0, GAME_WIDTH, GAME_HEIGHT, 0x0c1420, 1).setOrigin(0);
 
     this.add
-      .text(GAME_WIDTH / 2, 50, 'SELECT ACT', {
+      .text(GAME_WIDTH / 2, 40, 'SELECT ACT', {
         fontFamily: 'Orbitron, sans-serif',
         fontSize: '32px',
         color: '#e8f0f7',
       })
       .setOrigin(0.5);
 
+    const act2Line = metaState.act1Cleared
+      ? '[2] Act 2 — Cold Storage' + (metaState.act2Cleared ? '  ✓' : '')
+      : '[2] Act 2 — Cold Storage  (locked)';
+    const act3Line = metaState.act2Cleared
+      ? '[3] Act 3 — Black Orbit' + (metaState.act3Cleared ? '  ✓' : '')
+      : '[3] Act 3 — Black Orbit  (locked)';
+
     this.add
       .text(
         GAME_WIDTH / 2,
-        120,
+        100,
         [
           '[1] Act 1 — Dockyard Dark' + (metaState.act1Cleared ? '  ✓' : ''),
-          metaState.act1Cleared
-            ? '[2] Act 2 — Cold Storage' + (metaState.act2Cleared ? '  ✓' : '')
-            : '[2] Act 2 — Cold Storage  (locked)',
+          act2Line,
+          act3Line,
           '',
           'Challenges (optional — press letter):',
           ...getAvailableChallenges(metaState.act1Cleared).map(
@@ -52,20 +58,20 @@ export class ActSelectScene extends Phaser.Scene {
           ),
           '[0] Clear challenge',
           '',
-          '[M] Meta unlocks   [ESC] Menu',
+          '[M] Meta   [O] Options   [ESC] Menu',
         ].join('\n'),
         {
           fontFamily: '"Share Tech Mono", monospace',
-          fontSize: '16px',
+          fontSize: '15px',
           color: '#e8f0f7',
           align: 'center',
-          lineSpacing: 6,
+          lineSpacing: 5,
         },
       )
       .setOrigin(0.5, 0);
 
     this.status = this.add
-      .text(GAME_WIDTH / 2, GAME_HEIGHT - 70, '', {
+      .text(GAME_WIDTH / 2, GAME_HEIGHT - 60, '', {
         fontFamily: '"Share Tech Mono", monospace',
         fontSize: '14px',
         color: '#e8b84a',
@@ -80,16 +86,17 @@ export class ActSelectScene extends Phaser.Scene {
 
     this.input.keyboard?.on('keydown-ONE', () => this.startAct(1));
     this.input.keyboard?.on('keydown-TWO', () => this.startAct(2));
+    this.input.keyboard?.on('keydown-THREE', () => this.startAct(3));
     this.input.keyboard?.on('keydown-ZERO', () => {
       this.selectedChallenge = null;
       this.refreshStatus();
     });
     this.input.keyboard?.on('keydown-M', () => this.scene.start('Meta'));
+    this.input.keyboard?.on('keydown-O', () => this.scene.start('Options'));
     this.input.keyboard?.on('keydown-ESC', () => this.scene.start('Menu'));
 
-    const available = getAvailableChallenges(metaState.act1Cleared);
-    available.forEach((c, i) => {
-      const key = String.fromCharCode(65 + i); // A B C
+    getAvailableChallenges(metaState.act1Cleared).forEach((c, i) => {
+      const key = String.fromCharCode(65 + i);
       this.input.keyboard?.on(`keydown-${key}`, () => {
         this.selectedChallenge = c;
         this.refreshStatus();
@@ -108,7 +115,7 @@ export class ActSelectScene extends Phaser.Scene {
       ? `Challenge: ${this.selectedChallenge.name}`
       : 'Challenge: none';
     this.status.setText(
-      `Orbit Marks ${metaState.orbitMarks}  ·  ${ch}  ·  Unlocks ${metaState.unlocked.length}`,
+      `Orbit Marks ${metaState.orbitMarks}  ·  ${ch}  ·  Achievements ${metaState.achievements.length}`,
     );
   }
 
@@ -116,6 +123,10 @@ export class ActSelectScene extends Phaser.Scene {
     if (this.starting || this.dialogue.isOpen()) return;
     if (act === 2 && !metaState.act1Cleared) {
       this.status.setText('Clear Act 1 first');
+      return;
+    }
+    if (act === 3 && !metaState.act2Cleared) {
+      this.status.setText('Clear Act 2 first');
       return;
     }
     this.starting = true;
@@ -127,8 +138,7 @@ export class ActSelectScene extends Phaser.Scene {
     metaState.runsStarted += 1;
     saveService.saveRun();
 
-    const introId = storyDirector.introForAct(act);
-    const beat = storyDirector.getBeat(introId);
+    const beat = storyDirector.getBeat(storyDirector.introForAct(act));
     if (beat) {
       this.dialogue.play(beat, () => this.scene.start('Combat'));
     } else {

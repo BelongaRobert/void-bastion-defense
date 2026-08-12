@@ -1,6 +1,7 @@
 import Phaser from 'phaser';
 import { Colors, DEPTH, GAME_HEIGHT, GAME_WIDTH } from '../theme';
 import { runState } from '../state/RunState';
+import { settingsState } from '../state/SettingsState';
 
 export class OutpostCore extends Phaser.Physics.Arcade.Image {
   radius = 36;
@@ -40,7 +41,7 @@ export class OutpostCore extends Phaser.Physics.Arcade.Image {
   damage(amount: number): void {
     runState.coreHp = Math.max(0, runState.coreHp - amount);
     this.refreshHp();
-    this.scene.cameras.main.shake(80, 0.004);
+    if (settingsState.screenShake) this.scene.cameras.main.shake(80, 0.004);
     this.setTint(Colors.arterial);
     this.scene.time.delayedCall(80, () => this.setTint(Colors.core));
   }

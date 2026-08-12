@@ -3,6 +3,7 @@ import { CHALLENGES } from '../content/challenges';
 import { InputMap } from '../input/InputMap';
 import { metaState, resetRun, runState } from '../state/RunState';
 import { saveService } from '../state/SaveService';
+import { achievementService } from '../meta/Achievements';
 import { DialogueBox } from '../story/DialogueBox';
 import { storyDirector } from '../story/StoryDirector';
 import { Colors, GAME_HEIGHT, GAME_WIDTH } from '../theme';
@@ -23,30 +24,51 @@ export class ResultsScene extends Phaser.Scene {
     const act = runState.act;
     const challenge = CHALLENGES.find((c) => c.id === runState.challengeId);
     const marksMult = challenge?.marksMult ?? 1;
-    const baseMarks = 25 + Math.floor(runState.salvage / 20) + (act === 2 ? 15 : 0);
+    const baseMarks =
+      25 + Math.floor(runState.salvage / 20) + (act === 2 ? 15 : 0) + (act === 3 ? 30 : 0);
     const marks = Math.floor(baseMarks * marksMult);
 
     if (act === 1) {
       metaState.act1Cleared = true;
       metaState.bestAct1Wave = Math.max(metaState.bestAct1Wave, 8);
-    } else {
+    } else if (act === 2) {
       metaState.act2Cleared = true;
       metaState.bestAct2Wave = Math.max(metaState.bestAct2Wave, 8);
+    } else {
+      metaState.act3Cleared = true;
+      metaState.bestAct3Wave = Math.max(metaState.bestAct3Wave, 8);
+      achievementService.unlock('campaign_clear');
     }
+
     metaState.orbitMarks += marks;
+    if (metaState.orbitMarks >= 100) achievementService.unlock('marks_100');
+    if (runState.challengeId) achievementService.unlock('challenge_clear');
+    if (runState.coreHp / runState.startCoreMax >= 0.8) {
+      achievementService.unlock('perfect_core');
+    }
+
     saveService.clearRun();
     saveService.saveMetaOnly();
 
-    const eliteName = act === 2 ? 'Cold Vault' : 'The Dockmaster';
-    const actTitle = act === 2 ? 'ACT 2 COMPLETE' : 'ACT 1 COMPLETE';
-    const zone = act === 2 ? 'Cold Storage — secured' : 'Dockyard Dark — secured';
+    const eliteName =
+      act === 3 ? 'Orbit Waker' : act === 2 ? 'Cold Vault' : 'The Dockmaster';
+    const actTitle =
+      act === 3 ? 'ACT 3 COMPLETE' : act === 2 ? 'ACT 2 COMPLETE' : 'ACT 1 COMPLETE';
+    const zone =
+      act === 3
+        ? 'Black Orbit — secured'
+        : act === 2
+          ? 'Cold Storage — secured'
+          : 'Dockyard Dark — secured';
     const next =
       act === 1
         ? 'Act 2 — Cold Storage — unlocked'
-        : 'Act 3 — Black Orbit — coming in M4';
+        : act === 2
+          ? 'Act 3 — Black Orbit — unlocked'
+          : 'Campaign clear. Nyx is quiet… for now.';
 
     this.add
-      .text(GAME_WIDTH / 2, 90, actTitle, {
+      .text(GAME_WIDTH / 2, 80, actTitle, {
         fontFamily: 'Orbitron, sans-serif',
         fontSize: '40px',
         color: '#7dffb3',
@@ -56,7 +78,7 @@ export class ResultsScene extends Phaser.Scene {
     this.add
       .text(
         GAME_WIDTH / 2,
-        170,
+        155,
         [
           zone,
           `Chapter Elite defeated: ${eliteName}`,
@@ -68,10 +90,10 @@ export class ResultsScene extends Phaser.Scene {
         ].join('\n'),
         {
           fontFamily: '"Share Tech Mono", monospace',
-          fontSize: '18px',
+          fontSize: '17px',
           color: '#e8f0f7',
           align: 'center',
-          lineSpacing: 8,
+          lineSpacing: 7,
         },
       )
       .setOrigin(0.5, 0);

@@ -3,6 +3,7 @@ import { WEAPONS, type WeaponId } from '../content/weapons';
 import type { InputMap } from '../input/InputMap';
 import { Colors, DEPTH } from '../theme';
 import { runState } from '../state/RunState';
+import { settingsState } from '../state/SettingsState';
 import type { BulletGroup } from './Bullet';
 
 export class Player extends Phaser.Physics.Arcade.Image {
@@ -32,7 +33,6 @@ export class Player extends Phaser.Physics.Arcade.Image {
     this.bodyRing = scene.add.circle(x, y, 18, Colors.biolume, 0).setStrokeStyle(2, Colors.steel);
     this.muzzle = scene.add.rectangle(x, y, 10, 4, Colors.warning).setDepth(DEPTH.player + 1);
 
-    // Apply magazine bonuses from shop
     (Object.keys(WEAPONS) as WeaponId[]).forEach((id) => {
       this.ammo[id] = WEAPONS[id].magazine + runState.ammoReserveBonus;
     });
@@ -47,7 +47,7 @@ export class Player extends Phaser.Physics.Arcade.Image {
     runState.playerHp = Math.max(0, runState.playerHp - amount);
     this.invuln = 450;
     this.setTint(Colors.arterial);
-    this.scene.cameras.main.shake(60, 0.003);
+    if (settingsState.screenShake) this.scene.cameras.main.shake(60, 0.003);
     this.scene.time.delayedCall(100, () => {
       if (this.active) this.setTint(Colors.biolume);
     });
@@ -57,7 +57,13 @@ export class Player extends Phaser.Physics.Arcade.Image {
     runState.playerHp = Math.min(runState.playerMaxHp, runState.playerHp + amount);
   }
 
-  updatePlayer(delta: number, input: InputMap, bullets: BulletGroup, frozen: boolean): void {
+  updatePlayer(
+    delta: number,
+    input: InputMap,
+    bullets: BulletGroup,
+    frozen: boolean,
+    nearestEnemy: { x: number; y: number } | null = null,
+  ): void {
     this.fireCd = Math.max(0, this.fireCd - delta);
     this.reloadLeft = Math.max(0, this.reloadLeft - delta);
     this.dashCd = Math.max(0, this.dashCd - delta);
@@ -85,12 +91,21 @@ export class Player extends Phaser.Physics.Arcade.Image {
       this.aimAngle = Math.atan2(stick.y, stick.x);
     } else {
       const aim = input.getAimWorld();
-      this.aimAngle = Phaser.Math.Angle.Between(this.x, this.y, aim.x, aim.y);
+      let targetX = aim.x;
+      let targetY = aim.y;
+      if (settingsState.aimAssist && nearestEnemy) {
+        const dist = Phaser.Math.Distance.Between(this.x, this.y, nearestEnemy.x, nearestEnemy.y);
+        const cursorDist = Phaser.Math.Distance.Between(aim.x, aim.y, nearestEnemy.x, nearestEnemy.y);
+        if (dist < 320 && cursorDist < 90) {
+          targetX = nearestEnemy.x;
+          targetY = nearestEnemy.y;
+        }
+      }
+      this.aimAngle = Phaser.Math.Angle.Between(this.x, this.y, targetX, targetY);
     }
 
     if (input.isDown('weapon1')) this.weaponId = 'smg';
     if (input.isDown('weapon2')) this.weaponId = 'shotgun';
-
     if (input.isDown('reload')) this.startReload();
 
     if (input.isDown('dash') && this.dashCd <= 0 && move.lengthSq() > 0) {

@@ -9,6 +9,10 @@ import {
   ACT2_INTRO,
   ACT2_MID,
   ACT2_PRE_ELITE,
+  ACT3_CLEAR,
+  ACT3_INTRO,
+  ACT3_MID,
+  ACT3_PRE_ELITE,
 } from '../content/story/act1';
 
 /** Maps trigger ids → story beats. */
@@ -24,6 +28,10 @@ export class StoryDirector {
       act2_mid: ACT2_MID,
       act2_pre_elite: ACT2_PRE_ELITE,
       act2_clear: ACT2_CLEAR,
+      act3_intro: ACT3_INTRO,
+      act3_mid: ACT3_MID,
+      act3_pre_elite: ACT3_PRE_ELITE,
+      act3_clear: ACT3_CLEAR,
     };
     return map[triggerId] ?? null;
   }
@@ -38,15 +46,23 @@ export class StoryDirector {
       if (waveJustCleared === 4) return 'act2_mid';
       if (waveJustCleared === 7) return 'act2_pre_elite';
     }
+    if (act === 3) {
+      if (waveJustCleared === 4) return 'act3_mid';
+      if (waveJustCleared === 7) return 'act3_pre_elite';
+    }
     return null;
   }
 
   introForAct(act: number): string {
-    return act === 2 ? 'act2_intro' : 'act1_intro';
+    if (act === 3) return 'act3_intro';
+    if (act === 2) return 'act2_intro';
+    return 'act1_intro';
   }
 
   clearForAct(act: number): string {
-    return act === 2 ? 'act2_clear' : 'act1_clear';
+    if (act === 3) return 'act3_clear';
+    if (act === 2) return 'act2_clear';
+    return 'act1_clear';
   }
 }
 

@@ -217,11 +217,117 @@ export const ACT2_WAVES: WaveDef[] = [
   },
 ];
 
+/** Act 3 — Black Orbit (densest pressure) */
+export const ACT3_WAVES: WaveDef[] = [
+  {
+    id: 'a3w1',
+    act: 3,
+    wave: 1,
+    label: 'Black Orbit — Wave 1',
+    spawns: [
+      { type: 'voidmite', count: 16, intervalMs: 280 },
+      { type: 'runner', count: 6, delayMs: 2500, intervalMs: 500 },
+    ],
+  },
+  {
+    id: 'a3w2',
+    act: 3,
+    wave: 2,
+    label: 'Black Orbit — Wave 2',
+    spawns: [
+      { type: 'voidmite', count: 18, intervalMs: 250 },
+      { type: 'siegebrute', count: 3, delayMs: 3000, intervalMs: 1400 },
+      { type: 'mirrorwraith', count: 3, delayMs: 4500, intervalMs: 1000 },
+    ],
+  },
+  {
+    id: 'a3w3',
+    act: 3,
+    wave: 3,
+    label: 'Black Orbit — Wave 3',
+    spawns: [
+      { type: 'voidmite', count: 20, intervalMs: 220 },
+      { type: 'armored', count: 6, delayMs: 1500, intervalMs: 600 },
+      { type: 'stalker', count: 8, delayMs: 2500, intervalMs: 400 },
+      { type: 'mirrorwraith', count: 4, delayMs: 5000, intervalMs: 900 },
+    ],
+  },
+  {
+    id: 'a3w4',
+    act: 3,
+    wave: 4,
+    label: 'Black Orbit — Wave 4',
+    spawns: [
+      { type: 'siegebrute', count: 5, intervalMs: 900 },
+      { type: 'voidmite', count: 22, delayMs: 1000, intervalMs: 200 },
+      { type: 'burster', count: 6, delayMs: 3500, intervalMs: 700 },
+      { type: 'mirrorwraith', count: 5, delayMs: 5500, intervalMs: 800 },
+    ],
+  },
+  {
+    id: 'a3w5',
+    act: 3,
+    wave: 5,
+    label: 'Black Orbit — Wave 5',
+    spawns: [
+      { type: 'voidmite', count: 24, intervalMs: 180 },
+      { type: 'stalker', count: 10, delayMs: 800, intervalMs: 350 },
+      { type: 'siegebrute', count: 5, delayMs: 3000, intervalMs: 1000 },
+      { type: 'mirrorwraith', count: 6, delayMs: 4500, intervalMs: 750 },
+    ],
+  },
+  {
+    id: 'a3w6',
+    act: 3,
+    wave: 6,
+    label: 'Black Orbit — Wave 6',
+    spawns: [
+      { type: 'siegebrute', count: 6, intervalMs: 800 },
+      { type: 'voidmite', count: 28, delayMs: 500, intervalMs: 160 },
+      { type: 'armored', count: 8, delayMs: 2000, intervalMs: 500 },
+      { type: 'mirrorwraith', count: 6, delayMs: 4000, intervalMs: 700 },
+      { type: 'burster', count: 5, delayMs: 7000, intervalMs: 800 },
+    ],
+  },
+  {
+    id: 'a3w7',
+    act: 3,
+    wave: 7,
+    label: 'Black Orbit — Wave 7',
+    spawns: [
+      { type: 'voidmite', count: 30, intervalMs: 150 },
+      { type: 'stalker', count: 12, delayMs: 600, intervalMs: 320 },
+      { type: 'siegebrute', count: 7, delayMs: 2500, intervalMs: 850 },
+      { type: 'mirrorwraith', count: 7, delayMs: 4000, intervalMs: 650 },
+      { type: 'bloater', count: 4, delayMs: 8000, intervalMs: 1200 },
+    ],
+  },
+  {
+    id: 'a3w8',
+    act: 3,
+    wave: 8,
+    label: 'CHAPTER ELITE — Orbit Waker',
+    elite: 'orbitwaker',
+    eliteDelayMs: 1800,
+    spawns: [
+      { type: 'voidmite', count: 24, intervalMs: 160 },
+      { type: 'siegebrute', count: 6, delayMs: 1000, intervalMs: 900 },
+      { type: 'mirrorwraith', count: 6, delayMs: 2500, intervalMs: 700 },
+      { type: 'stalker', count: 10, delayMs: 3500, intervalMs: 400 },
+      { type: 'voidmite', count: 20, delayMs: 12000, intervalMs: 140 },
+      { type: 'siegebrute', count: 5, delayMs: 14000, intervalMs: 800 },
+      { type: 'mirrorwraith', count: 5, delayMs: 16000, intervalMs: 650 },
+    ],
+  },
+];
+
 export const ACT_MAX_WAVE = 8;
 export const SHOP_AFTER_WAVES = new Set([3, 6]);
 
 export function getWavesForAct(act: number): WaveDef[] {
-  return act === 2 ? ACT2_WAVES : ACT1_WAVES;
+  if (act === 3) return ACT3_WAVES;
+  if (act === 2) return ACT2_WAVES;
+  return ACT1_WAVES;
 }
 
 export function getCurrentWaveDef(act: number, wave: number): WaveDef | undefined {
