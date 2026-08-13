@@ -11,6 +11,8 @@ import { saveService } from '../state/SaveService';
 import { DialogueBox } from '../story/DialogueBox';
 import { storyDirector } from '../story/StoryDirector';
 import { Colors, GAME_HEIGHT, GAME_WIDTH } from '../theme';
+import { Atmosphere } from '../fx/Atmosphere';
+import { audioBus } from '../audio/AudioBus';
 
 export class ActSelectScene extends Phaser.Scene {
   private inputMap!: InputMap;
@@ -25,7 +27,9 @@ export class ActSelectScene extends Phaser.Scene {
 
   create(): void {
     this.cameras.main.setBackgroundColor(Colors.voidNavy);
-    this.add.rectangle(0, 0, GAME_WIDTH, GAME_HEIGHT, 0x0c1420, 1).setOrigin(0);
+    new Atmosphere(this, { mode: 'overlay', dust: true, coreGlow: false });
+    this.add.rectangle(0, 0, GAME_WIDTH, GAME_HEIGHT, 0x0c1420, 0.55).setOrigin(0);
+    this.cameras.main.fadeIn(300, 7, 11, 18);
 
     this.add
       .text(GAME_WIDTH / 2, 40, 'SELECT ACT', {
@@ -130,6 +134,7 @@ export class ActSelectScene extends Phaser.Scene {
       return;
     }
     this.starting = true;
+    audioBus.ui();
     resetRun();
     runState.act = act;
     runState.wave = 1;
@@ -137,6 +142,7 @@ export class ActSelectScene extends Phaser.Scene {
     applyMetaUnlocksToRun();
     metaState.runsStarted += 1;
     saveService.saveRun();
+    audioBus.startAmbient('combat');
 
     const beat = storyDirector.getBeat(storyDirector.introForAct(act));
     if (beat) {
