@@ -6,6 +6,8 @@ import { metaState, runState } from '../state/RunState';
 import { saveService } from '../state/SaveService';
 import { settingsState } from '../state/SettingsState';
 import { achievementService } from '../meta/Achievements';
+import { audioBus } from '../audio/AudioBus';
+import { isDevBuild } from '../platform/BuildFlags';
 import { setRichPresence } from '../platform/DesktopBridge';
 import { Colors, GAME_HEIGHT, GAME_WIDTH } from '../theme';
 import { Bullet, BulletGroup } from '../combat/Bullet';
@@ -74,6 +76,7 @@ export class CombatScene extends Phaser.Scene {
       bullet.kill();
       if (dead) {
         runState.salvage += enemy.def.salvage;
+        audioBus.hit();
         if (!runState.gotFirstKill) {
           runState.gotFirstKill = true;
           achievementService.unlock('first_blood');
@@ -128,8 +131,10 @@ export class CombatScene extends Phaser.Scene {
     this.eliteAnnounced = false;
     saveService.saveRun();
 
-    this.input.keyboard?.on('keydown-K', () => this.devClearHostiles());
-    this.input.keyboard?.on('keydown-N', () => this.devSkipWave());
+    if (isDevBuild()) {
+      this.input.keyboard?.on('keydown-K', () => this.devClearHostiles());
+      this.input.keyboard?.on('keydown-N', () => this.devSkipWave());
+    }
   }
 
   private asSpit(a: unknown, b: unknown): EnemyProjectile | null {
@@ -208,6 +213,7 @@ export class CombatScene extends Phaser.Scene {
     if (elite && !this.eliteAnnounced) {
       this.eliteAnnounced = true;
       this.hud.flash('CHAPTER ELITE INBOUND', this, '#c9a0ff');
+      audioBus.eliteStinger();
       this.cameras.main.flash(250, 80, 40, 120);
     }
 
@@ -241,6 +247,7 @@ export class CombatScene extends Phaser.Scene {
 
   private onWaveCleared(): void {
     if (this.failed) return;
+    audioBus.waveClear();
     runState.salvage += 20 + runState.wave * 6;
     this.trackBestWave();
     saveService.saveRun();

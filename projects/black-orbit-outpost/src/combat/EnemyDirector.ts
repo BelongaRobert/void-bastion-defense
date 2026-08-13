@@ -1,6 +1,7 @@
 import type { WaveDef, WaveSpawn } from '../content/waves';
 import type { EnemyId } from '../content/enemies';
 import { GAME_HEIGHT, GAME_WIDTH } from '../theme';
+import { runState } from '../state/RunState';
 import type { EnemyGroup } from './Enemy';
 
 interface PendingSpawn {
@@ -42,7 +43,8 @@ export class EnemyDirector {
   private enqueueGroup(group: WaveSpawn, now: number): void {
     const base = now + (group.delayMs ?? 0);
     const interval = group.intervalMs ?? 800;
-    for (let i = 0; i < group.count; i++) {
+    const count = Math.max(1, Math.round(group.count * (runState.spawnMult || 1)));
+    for (let i = 0; i < count; i++) {
       this.queue.push({ type: group.type, at: base + i * interval });
     }
   }

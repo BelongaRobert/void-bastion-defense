@@ -4,6 +4,7 @@ import type { InputMap } from '../input/InputMap';
 import { Colors, DEPTH } from '../theme';
 import { runState } from '../state/RunState';
 import { settingsState } from '../state/SettingsState';
+import { audioBus } from '../audio/AudioBus';
 import type { BulletGroup } from './Bullet';
 
 export class Player extends Phaser.Physics.Arcade.Image {
@@ -16,13 +17,16 @@ export class Player extends Phaser.Physics.Arcade.Image {
   private aimAngle = 0;
   private muzzle: Phaser.GameObjects.Rectangle;
   private bodyRing: Phaser.GameObjects.Arc;
+  private flash: Phaser.GameObjects.Image;
+  private emptyClickCd = 0;
+  private kick = 0;
 
   constructor(scene: Phaser.Scene, x: number, y: number) {
     super(scene, x, y, 'player');
     scene.add.existing(this);
     scene.physics.add.existing(this);
     this.setDepth(DEPTH.player);
-    this.setDisplaySize(28, 28);
+    this.setDisplaySize(30, 30);
     this.setTint(Colors.biolume);
 
     const body = this.body as Phaser.Physics.Arcade.Body;
@@ -32,6 +36,11 @@ export class Player extends Phaser.Physics.Arcade.Image {
 
     this.bodyRing = scene.add.circle(x, y, 18, Colors.biolume, 0).setStrokeStyle(2, Colors.steel);
     this.muzzle = scene.add.rectangle(x, y, 10, 4, Colors.warning).setDepth(DEPTH.player + 1);
+    this.flash = scene.add
+      .image(x, y, 'muzzle_flash')
+      .setDepth(DEPTH.player + 2)
+      .setVisible(false)
+      .setTint(Colors.warning);
 
     (Object.keys(WEAPONS) as WeaponId[]).forEach((id) => {
       this.ammo[id] = WEAPONS[id].magazine + runState.ammoReserveBonus;
@@ -47,6 +56,7 @@ export class Player extends Phaser.Physics.Arcade.Image {
     runState.playerHp = Math.max(0, runState.playerHp - amount);
     this.invuln = 450;
     this.setTint(Colors.arterial);
+    audioBus.hit();
     if (settingsState.screenShake) this.scene.cameras.main.shake(60, 0.003);
     this.scene.time.delayedCall(100, () => {
       if (this.active) this.setTint(Colors.biolume);
@@ -68,13 +78,21 @@ export class Player extends Phaser.Physics.Arcade.Image {
     this.reloadLeft = Math.max(0, this.reloadLeft - delta);
     this.dashCd = Math.max(0, this.dashCd - delta);
     this.invuln = Math.max(0, this.invuln - delta);
+    this.emptyClickCd = Math.max(0, this.emptyClickCd - delta);
+    this.kick = Math.max(0, this.kick - delta * 0.08);
 
+    const muzzleDist = 18 + this.kick;
     this.bodyRing.setPosition(this.x, this.y);
     this.muzzle.setPosition(
-      this.x + Math.cos(this.aimAngle) * 18,
-      this.y + Math.sin(this.aimAngle) * 18,
+      this.x + Math.cos(this.aimAngle) * muzzleDist,
+      this.y + Math.sin(this.aimAngle) * muzzleDist,
     );
     this.muzzle.setRotation(this.aimAngle);
+    this.flash.setPosition(
+      this.x + Math.cos(this.aimAngle) * (muzzleDist + 10),
+      this.y + Math.sin(this.aimAngle) * (muzzleDist + 10),
+    );
+    this.flash.setRotation(this.aimAngle);
 
     if (frozen) {
       (this.body as Phaser.Physics.Arcade.Body).setVelocity(0, 0);
@@ -123,6 +141,7 @@ export class Player extends Phaser.Physics.Arcade.Image {
       this.dashCd = 900;
       body.setVelocity(move.x * 520, move.y * 520);
       this.invuln = Math.max(this.invuln, 180);
+      audioBus.dash();
     }
 
     if (input.isDown('fire')) this.tryFire(bullets);
@@ -137,6 +156,7 @@ export class Player extends Phaser.Physics.Arcade.Image {
     if (this.reloadLeft > 0) return;
     if (this.ammo[this.weaponId] >= this.magSize(this.weaponId)) return;
     this.reloadLeft = w.reloadMs;
+    audioBus.reload();
     this.scene.time.delayedCall(w.reloadMs, () => {
       this.ammo[this.weaponId] = this.magSize(this.weaponId);
     });
@@ -146,6 +166,10 @@ export class Player extends Phaser.Physics.Arcade.Image {
     const w = WEAPONS[this.weaponId];
     if (this.reloadLeft > 0 || this.fireCd > 0) return;
     if (this.ammo[this.weaponId] <= 0) {
+      if (this.emptyClickCd <= 0) {
+        audioBus.emptyClick();
+        this.emptyClickCd = 220;
+      }
       this.startReload();
       return;
     }
@@ -153,6 +177,24 @@ export class Player extends Phaser.Physics.Arcade.Image {
     this.fireCd = w.fireRateMs;
     this.ammo[this.weaponId] -= 1;
     const dmg = w.damage + runState.damageBonus;
+    this.kick = w.id === 'shotgun' ? 10 : 4;
+
+    audioBus.shoot(w.id);
+    this.flash.setVisible(true).setAlpha(1).setScale(w.id === 'shotgun' ? 1.4 : 0.9);
+    this.scene.tweens.add({
+      targets: this.flash,
+      alpha: 0,
+      duration: w.id === 'shotgun' ? 70 : 40,
+      onComplete: () => this.flash.setVisible(false),
+    });
+    if (settingsState.screenShake) {
+      this.scene.cameras.main.shake(w.id === 'shotgun' ? 50 : 18, w.id === 'shotgun' ? 0.004 : 0.0015);
+    }
+
+    // Slight positional recoil
+    const body = this.body as Phaser.Physics.Arcade.Body;
+    body.velocity.x -= Math.cos(this.aimAngle) * (w.id === 'shotgun' ? 90 : 25);
+    body.velocity.y -= Math.sin(this.aimAngle) * (w.id === 'shotgun' ? 90 : 25);
 
     for (let i = 0; i < w.pellets; i++) {
       const spread = Phaser.Math.DegToRad((Math.random() - 0.5) * w.spreadDeg);
@@ -173,5 +215,6 @@ export class Player extends Phaser.Physics.Arcade.Image {
   destroyVisuals(): void {
     this.bodyRing.destroy();
     this.muzzle.destroy();
+    this.flash.destroy();
   }
 }

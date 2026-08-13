@@ -152,6 +152,7 @@ export class ActSelectScene extends Phaser.Scene {
     runState.challengeId = c.id;
     runState.enemyHpMult = c.enemyHpMult ?? 1;
     runState.enemySpeedMult = c.enemySpeedMult ?? 1;
+    runState.spawnMult = c.spawnMult ?? 1;
     runState.coreBleed = !!c.coreBleed;
   }
 }

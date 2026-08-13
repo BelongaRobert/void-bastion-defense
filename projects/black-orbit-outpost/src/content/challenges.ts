@@ -6,6 +6,8 @@ export interface ChallengeDef {
   marksMult: number;
   enemyHpMult?: number;
   enemySpeedMult?: number;
+  /** Multiply spawn counts (e.g. Double Runners) */
+  spawnMult?: number;
   coreBleed?: boolean;
   /** Requires act 1 cleared to appear */
   requiresAct1?: boolean;
@@ -22,9 +24,9 @@ export const CHALLENGES: ChallengeDef[] = [
   {
     id: 'double_runners',
     name: 'Double Runners',
-    description: 'Enemy HP +20%. More pressure to the core.',
-    marksMult: 1.35,
-    enemyHpMult: 1.2,
+    description: 'Spawn counts ×1.5 — denser pressure waves.',
+    marksMult: 1.4,
+    spawnMult: 1.5,
   },
   {
     id: 'core_bleed',

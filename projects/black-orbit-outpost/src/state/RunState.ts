@@ -20,6 +20,7 @@ export interface RunState {
   challengeId: string | null;
   enemyHpMult: number;
   enemySpeedMult: number;
+  spawnMult: number;
   coreBleed: boolean;
   /** Track if any kill happened this run (achievements) */
   gotFirstKill: boolean;
@@ -68,6 +69,7 @@ export function createInitialRun(): RunState {
     challengeId: null,
     enemyHpMult: 1,
     enemySpeedMult: 1,
+    spawnMult: 1,
     coreBleed: false,
     gotFirstKill: false,
     startCoreMax: 1000,

@@ -1,49 +1,79 @@
 import Phaser from 'phaser';
 import { Colors } from '../theme';
+import { audioBus } from '../audio/AudioBus';
 
-/** Generate placeholder textures so M1 runs without external art. */
+/** Generate stylized procedural textures (no external art pack). */
 export class BootScene extends Phaser.Scene {
   constructor() {
     super('Boot');
   }
 
   preload(): void {
-    // Fonts load via CSS; nothing else required for M1 placeholders.
+    // Local fonts via CSS (@font-face in index.html).
   }
 
   create(): void {
-    this.makeTexture('player', 32, 32, (g) => {
+    audioBus.unlock();
+
+    this.makeTexture('player', 48, 48, (g) => {
+      // Armored defender silhouette
       g.fillStyle(0xffffff, 1);
-      g.fillCircle(16, 16, 14);
+      g.fillRoundedRect(10, 8, 28, 32, 6);
+      g.fillCircle(24, 14, 10);
       g.fillStyle(0x070b12, 1);
-      g.fillCircle(16, 16, 5);
-    });
-    this.makeTexture('enemy_blob', 32, 32, (g) => {
+      g.fillRect(18, 20, 12, 6);
       g.fillStyle(0xffffff, 1);
-      g.fillCircle(16, 16, 15);
+      g.fillTriangle(38, 22, 46, 24, 38, 28); // muzzle stub
     });
-    this.makeTexture('core', 64, 64, (g) => {
+
+    this.makeTexture('enemy_blob', 40, 40, (g) => {
       g.fillStyle(0xffffff, 1);
-      g.fillCircle(32, 32, 28);
-      g.lineStyle(3, 0x070b12, 1);
-      g.strokeCircle(32, 32, 18);
+      g.fillCircle(20, 22, 16);
+      g.fillCircle(12, 14, 8);
+      g.fillCircle(28, 14, 8);
       g.fillStyle(0x070b12, 1);
-      g.fillCircle(32, 32, 6);
+      g.fillCircle(14, 16, 2);
+      g.fillCircle(26, 16, 2);
     });
-    this.makeTexture('bullet', 8, 8, (g) => {
+
+    this.makeTexture('core', 80, 80, (g) => {
       g.fillStyle(0xffffff, 1);
-      g.fillCircle(4, 4, 3);
-    });
-    this.makeTexture('spit', 10, 10, (g) => {
-      g.fillStyle(0xffffff, 1);
-      g.fillCircle(5, 5, 4);
-    });
-    this.makeTexture('turret', 40, 40, (g) => {
-      g.fillStyle(0xffffff, 1);
-      g.fillRoundedRect(4, 4, 32, 32, 4);
+      g.fillCircle(40, 40, 34);
+      g.lineStyle(4, 0x070b12, 1);
+      g.strokeCircle(40, 40, 26);
+      g.strokeCircle(40, 40, 16);
       g.fillStyle(0x070b12, 1);
-      g.fillCircle(20, 20, 6);
+      g.fillCircle(40, 40, 7);
+      g.lineStyle(2, 0x070b12, 0.8);
+      g.strokeRect(28, 28, 24, 24);
     });
+
+    this.makeTexture('bullet', 10, 6, (g) => {
+      g.fillStyle(0xffffff, 1);
+      g.fillRoundedRect(0, 1, 10, 4, 2);
+    });
+
+    this.makeTexture('spit', 12, 12, (g) => {
+      g.fillStyle(0xffffff, 1);
+      g.fillCircle(6, 6, 5);
+      g.fillCircle(3, 4, 2);
+    });
+
+    this.makeTexture('turret', 48, 48, (g) => {
+      g.fillStyle(0xffffff, 1);
+      g.fillRoundedRect(6, 10, 36, 28, 4);
+      g.fillCircle(24, 24, 10);
+      g.fillRect(24, 18, 20, 12);
+      g.fillStyle(0x070b12, 1);
+      g.fillCircle(24, 24, 4);
+    });
+
+    this.makeTexture('muzzle_flash', 24, 24, (g) => {
+      g.fillStyle(0xffffff, 1);
+      g.fillTriangle(2, 12, 22, 4, 22, 20);
+      g.fillCircle(8, 12, 5);
+    });
+
     this.makeTexture('floor_dot', 4, 4, (g) => {
       g.fillStyle(Colors.steelDark, 1);
       g.fillRect(0, 0, 4, 4);

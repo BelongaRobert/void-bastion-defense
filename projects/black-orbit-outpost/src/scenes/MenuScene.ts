@@ -4,6 +4,8 @@ import { isDeckLikely, setRichPresence } from '../platform/DesktopBridge';
 import { metaState, resetRun, runState, applyMetaUnlocksToRun } from '../state/RunState';
 import { saveService } from '../state/SaveService';
 import { settingsState } from '../state/SettingsState';
+import { audioBus } from '../audio/AudioBus';
+import { isDevBuild } from '../platform/BuildFlags';
 
 export class MenuScene extends Phaser.Scene {
   private canContinue = false;
@@ -15,6 +17,7 @@ export class MenuScene extends Phaser.Scene {
   create(): void {
     saveService.load();
     this.canContinue = saveService.hasContinue();
+    audioBus.unlock();
     // First Deck boot defaults UI scale large once (user can toggle in Options).
     if (isDeckLikely() && !localStorage.getItem('boo_deck_ui_init')) {
       settingsState.uiScale = 'large';
@@ -46,8 +49,9 @@ export class MenuScene extends Phaser.Scene {
       this.canContinue ? '[2] CONTINUE RUN' : '[2] CONTINUE (no save)',
       '[3] META UNLOCKS',
       '[4] OPTIONS / ACHIEVEMENTS',
-      '[0] DEV Act3 W8 Orbit Waker',
     ];
+    if (isDevBuild()) lines.push('[0] DEV Act3 W8 Orbit Waker');
+
     this.add
       .text(GAME_WIDTH / 2, 240, lines.join('\n'), {
         fontFamily: 'Orbitron, sans-serif',
@@ -72,22 +76,34 @@ export class MenuScene extends Phaser.Scene {
       .setOrigin(0.5);
 
     this.add
-      .text(GAME_WIDTH / 2, GAME_HEIGHT - 48, 'A Belongarobert game  ·  M6 soft-launch ready', {
+      .text(GAME_WIDTH / 2, GAME_HEIGHT - 48, 'A Belongarobert game  ·  M7 polish', {
         fontFamily: '"Share Tech Mono", monospace',
         fontSize: '14px',
         color: '#8fa3b8',
       })
       .setOrigin(0.5);
 
-    this.input.keyboard?.on('keydown-ONE', () => this.scene.start('ActSelect'));
+    this.input.keyboard?.on('keydown-ONE', () => {
+      audioBus.ui();
+      this.scene.start('ActSelect');
+    });
     this.input.keyboard?.on('keydown-TWO', () => {
       if (!this.canContinue) return;
+      audioBus.ui();
       saveService.load();
       this.scene.start('Combat');
     });
-    this.input.keyboard?.on('keydown-THREE', () => this.scene.start('Meta'));
-    this.input.keyboard?.on('keydown-FOUR', () => this.scene.start('Options'));
-    this.input.keyboard?.on('keydown-ZERO', () => this.beginDev(3, 8));
+    this.input.keyboard?.on('keydown-THREE', () => {
+      audioBus.ui();
+      this.scene.start('Meta');
+    });
+    this.input.keyboard?.on('keydown-FOUR', () => {
+      audioBus.ui();
+      this.scene.start('Options');
+    });
+    if (isDevBuild()) {
+      this.input.keyboard?.on('keydown-ZERO', () => this.beginDev(3, 8));
+    }
   }
 
   private beginDev(act: number, wave: number): void {

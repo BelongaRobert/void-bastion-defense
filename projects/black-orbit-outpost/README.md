@@ -10,7 +10,7 @@ See [PLAN.md](./PLAN.md), [ART_BIBLE.md](./ART_BIBLE.md), and [steam/STORE_PAGE.
 
 ## Status
 
-**M6 soft-launch ready (code):** Campaign Acts 1–3; Electron dist; store kit; colorblind enemy shape tells; dialogue text scale; touch stick+fire spike; Steam cloud save stub. Paste Steam App ID into `steam/steam_appid.txt` when available.
+**M7 polish:** Campaign Acts 1–3; procedural SFX + volume; gunfeel (muzzle/recoil); DEV cheats gated; Act 3 balance pass; Double Runners fixed; offline fonts; Windows icon. Steam App ID still deferred (no $100 fee yet).
 
 ## Run (browser)
 
@@ -27,7 +27,7 @@ http://127.0.0.1:5173
 ```bash
 npm run electron:dev   # Vite + Electron
 npm run dist           # unpacked dir under release/
-npm run dist:win       # NSIS + portable (needs Wine/CI on Linux hosts)
+npm run dist:win       # NSIS + portable (Windows host / CI)
 npm run dist:portable
 ```
 
@@ -35,8 +35,8 @@ npm run dist:portable
 
 - **WASD** move · **Mouse** aim · **Click** fire · **1/2** weapons · **R** reload · **Shift** dash
 - **Gamepad:** LS move · RS aim · RT fire · Y reload · A dash · LB/RB weapons
-- Menu: **1** act select · **2** continue · **3** meta · **4** options · **0** Act3 W8 (dev)
-- Combat dev: **K** clear hostiles · **N** skip wave
+- Menu: **1** act select · **2** continue · **3** meta · **4** options
+- Dev-only (`npm run dev`): menu **0** Act3 W8 · combat **K**/**N**
 
 ## Steam kit
 

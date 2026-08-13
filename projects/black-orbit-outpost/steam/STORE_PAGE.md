@@ -45,12 +45,15 @@ Between waves: rest to heal and place hardpoints, shop salvage upgrades, and pus
 - Portrait dialogue story (protagonist vs Nyx)
 - Local achievements (Steam achievements when App ID lands)
 - Options: gore, screen shake, aim assist, dialogue speed, Deck UI scale
+- Optional touch controls (mobile spike — left stick + fire)
+- Procedural SFX (volume in Options)
 
 ### Honest scope (do not claim on store until true)
 
-- Touch / mobile controls — later
+- Full polished illustrated art pack — in progress (procedural stylized for now)
 - Cloud saves / leaderboards — stubbed until App ID
 - Trading cards / rich Steam cosmetics — post-1.0
+- Native mobile App Store release — later (touch spike is in desktop build for testing)
 
 ## Tags (suggested)
 
