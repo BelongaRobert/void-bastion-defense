@@ -19,6 +19,7 @@ const PORTRAIT_TINT: Record<DialogueLine['portrait'], number> = {
  */
 export class DialogueBox {
   private root: Phaser.GameObjects.Container;
+  private panel: Phaser.GameObjects.Rectangle;
   private portraitBg: Phaser.GameObjects.Rectangle;
   private portraitFace: Phaser.GameObjects.Container;
   private nameText: Phaser.GameObjects.Text;
@@ -30,25 +31,29 @@ export class DialogueBox {
   private onComplete: (() => void) | null = null;
   private scene: Phaser.Scene;
   private advanceLock = 0;
+  private fullText = '';
+  private typed = 0;
+  private typeTimer: Phaser.Time.TimerEvent | null = null;
+  private baseY = 0;
 
   constructor(scene: Phaser.Scene) {
     this.scene = scene;
     const boxW = GAME_WIDTH - 80;
-    const boxH = 150;
+    const boxH = 158;
     const x = 40;
-    const y = GAME_HEIGHT - boxH - 28;
+    this.baseY = GAME_HEIGHT - boxH - 24;
 
-    const panel = scene.add
-      .rectangle(0, 0, boxW, boxH, Colors.voidNavyMid, 0.94)
+    this.panel = scene.add
+      .rectangle(0, 0, boxW, boxH, Colors.voidNavyMid, 0.92)
       .setOrigin(0)
-      .setStrokeStyle(3, Colors.steel);
+      .setStrokeStyle(2, Colors.biolumeDim);
 
     this.portraitBg = scene.add
-      .rectangle(16, 16, 100, 118, 0x121a28)
+      .rectangle(16, 16, 100, 126, 0x121a28)
       .setOrigin(0)
       .setStrokeStyle(2, Colors.biolume);
 
-    this.portraitFace = scene.add.container(66, 75);
+    this.portraitFace = scene.add.container(66, 78);
 
     this.nameText = scene.add
       .text(130, 18, '', {
@@ -77,8 +82,8 @@ export class DialogueBox {
       .setOrigin(1, 1);
 
     this.root = scene.add
-      .container(x, y, [
-        panel,
+      .container(x, this.baseY, [
+        this.panel,
         this.portraitBg,
         this.portraitFace,
         this.nameText,
@@ -87,7 +92,8 @@ export class DialogueBox {
       ])
       .setDepth(DEPTH.dialogue)
       .setScrollFactor(0)
-      .setVisible(false);
+      .setVisible(false)
+      .setAlpha(0);
   }
 
   isOpen(): boolean {
@@ -100,7 +106,14 @@ export class DialogueBox {
     this.active = true;
     this.onComplete = onComplete ?? null;
     this.advanceLock = this.scene.time.now + dialogueOpenLockMs();
-    this.root.setVisible(true);
+    this.root.setVisible(true).setAlpha(0).setY(this.baseY + 24);
+    this.scene.tweens.add({
+      targets: this.root,
+      alpha: 1,
+      y: this.baseY,
+      duration: 280,
+      ease: 'Cubic.easeOut',
+    });
     this.renderLine();
   }
 
@@ -108,6 +121,10 @@ export class DialogueBox {
   tryAdvance(): void {
     if (!this.active) return;
     if (this.scene.time.now < this.advanceLock) return;
+    if (this.typed < this.fullText.length) {
+      this.finishType();
+      return;
+    }
     this.index += 1;
     if (this.index >= this.lines.length) {
       this.close();
@@ -118,24 +135,59 @@ export class DialogueBox {
   }
 
   private close(): void {
+    this.stopType();
     this.active = false;
-    this.root.setVisible(false);
-    const cb = this.onComplete;
-    this.onComplete = null;
-    cb?.();
+    this.scene.tweens.add({
+      targets: this.root,
+      alpha: 0,
+      duration: 180,
+      onComplete: () => {
+        this.root.setVisible(false);
+        const cb = this.onComplete;
+        this.onComplete = null;
+        cb?.();
+      },
+    });
   }
 
   private renderLine(): void {
     const line = this.lines[this.index];
     this.nameText.setText(line.name);
     this.bodyText.setFontSize(dialogueFontPx());
-    this.bodyText.setText(line.text);
+    this.fullText = line.text;
+    this.typed = 0;
+    this.bodyText.setText('');
     const tint = PORTRAIT_TINT[line.portrait];
     this.portraitBg.setStrokeStyle(2, tint);
+    this.panel.setStrokeStyle(
+      2,
+      line.portrait === 'villain' ? Colors.antagonist : Colors.biolumeDim,
+    );
     this.nameText.setColor(
       line.portrait === 'villain' ? '#c9a0ff' : line.portrait === 'radio' ? '#8fa3b8' : '#7dffb3',
     );
     this.buildFace(line.portrait, tint);
+    this.stopType();
+    this.typeTimer = this.scene.time.addEvent({
+      delay: 16,
+      loop: true,
+      callback: () => {
+        this.typed = Math.min(this.fullText.length, this.typed + 2);
+        this.bodyText.setText(this.fullText.slice(0, this.typed));
+        if (this.typed >= this.fullText.length) this.stopType();
+      },
+    });
+  }
+
+  private finishType(): void {
+    this.typed = this.fullText.length;
+    this.bodyText.setText(this.fullText);
+    this.stopType();
+  }
+
+  private stopType(): void {
+    this.typeTimer?.remove(false);
+    this.typeTimer = null;
   }
 
   private buildFace(kind: DialogueLine['portrait'], tint: number): void {
@@ -164,6 +216,7 @@ export class DialogueBox {
   }
 
   destroy(): void {
+    this.stopType();
     this.root.destroy(true);
   }
 }

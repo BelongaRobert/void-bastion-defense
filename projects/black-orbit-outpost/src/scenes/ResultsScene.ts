@@ -7,6 +7,8 @@ import { achievementService } from '../meta/Achievements';
 import { DialogueBox } from '../story/DialogueBox';
 import { storyDirector } from '../story/StoryDirector';
 import { Colors, GAME_HEIGHT, GAME_WIDTH } from '../theme';
+import { Atmosphere, revealText } from '../fx/Atmosphere';
+import { audioBus } from '../audio/AudioBus';
 
 export class ResultsScene extends Phaser.Scene {
   private inputMap!: InputMap;
@@ -19,7 +21,10 @@ export class ResultsScene extends Phaser.Scene {
 
   create(): void {
     this.cameras.main.setBackgroundColor(Colors.voidNavy);
-    this.add.rectangle(0, 0, GAME_WIDTH, GAME_HEIGHT, 0x0a101a, 1).setOrigin(0);
+    new Atmosphere(this, { dense: true, coreGlow: true, dust: true });
+    audioBus.startAmbient('menu');
+    audioBus.waveClear();
+    this.cameras.main.fadeIn(500, 7, 11, 18);
 
     const act = runState.act;
     const challenge = CHALLENGES.find((c) => c.id === runState.challengeId);
@@ -67,15 +72,16 @@ export class ResultsScene extends Phaser.Scene {
           ? 'Act 3 — Black Orbit — unlocked'
           : 'Campaign clear. Nyx is quiet… for now.';
 
-    this.add
+    const title = this.add
       .text(GAME_WIDTH / 2, 80, actTitle, {
         fontFamily: 'Orbitron, sans-serif',
         fontSize: '40px',
         color: '#7dffb3',
       })
       .setOrigin(0.5);
+    revealText(this, title, 100, 16);
 
-    this.add
+    const body = this.add
       .text(
         GAME_WIDTH / 2,
         155,
@@ -97,14 +103,16 @@ export class ResultsScene extends Phaser.Scene {
         },
       )
       .setOrigin(0.5, 0);
+    revealText(this, body, 320, 12);
 
-    this.add
+    const hint = this.add
       .text(GAME_WIDTH / 2, GAME_HEIGHT - 80, '[ SPACE — RETURN TO MENU ]', {
         fontFamily: 'Orbitron, sans-serif',
         fontSize: '18px',
         color: '#e8b84a',
       })
       .setOrigin(0.5);
+    revealText(this, hint, 600, 8);
 
     this.inputMap = new InputMap(this);
     this.dialogue = new DialogueBox(this);

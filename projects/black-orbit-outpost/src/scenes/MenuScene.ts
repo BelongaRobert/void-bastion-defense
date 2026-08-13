@@ -6,9 +6,11 @@ import { saveService } from '../state/SaveService';
 import { settingsState } from '../state/SettingsState';
 import { audioBus } from '../audio/AudioBus';
 import { isDevBuild } from '../platform/BuildFlags';
+import { Atmosphere, revealText } from '../fx/Atmosphere';
 
 export class MenuScene extends Phaser.Scene {
   private canContinue = false;
+  private atmosphere!: Atmosphere;
 
   constructor() {
     super('Menu');
@@ -18,7 +20,7 @@ export class MenuScene extends Phaser.Scene {
     saveService.load();
     this.canContinue = saveService.hasContinue();
     audioBus.unlock();
-    // First Deck boot defaults UI scale large once (user can toggle in Options).
+    audioBus.startAmbient('menu');
     if (isDeckLikely() && !localStorage.getItem('boo_deck_ui_init')) {
       settingsState.uiScale = 'large';
       localStorage.setItem('boo_deck_ui_init', '1');
@@ -26,84 +28,112 @@ export class MenuScene extends Phaser.Scene {
     }
     setRichPresence('In menus');
     this.cameras.main.setBackgroundColor(Colors.voidNavy);
-    this.drawBackdrop();
+    this.atmosphere = new Atmosphere(this, { dense: true, coreGlow: true, dust: true });
 
-    this.add
-      .text(GAME_WIDTH / 2, 110, 'BLACK ORBIT OUTPOST', {
+    // Hero Core — brand-forward visual plane
+    const core = this.add.image(GAME_WIDTH / 2, GAME_HEIGHT * 0.42, 'core').setDisplaySize(140, 140);
+    core.setTint(Colors.core).setAlpha(0.95).setDepth(5);
+    this.tweens.add({
+      targets: core,
+      scale: { from: 1, to: 1.06 },
+      duration: 2800,
+      yoyo: true,
+      repeat: -1,
+      ease: 'Sine.easeInOut',
+    });
+    const ring = this.add
+      .circle(GAME_WIDTH / 2, GAME_HEIGHT * 0.42, 95, Colors.biolume, 0)
+      .setStrokeStyle(2, Colors.biolume, 0.45)
+      .setDepth(4);
+    this.tweens.add({
+      targets: ring,
+      scale: { from: 0.92, to: 1.15 },
+      alpha: { from: 0.55, to: 0.15 },
+      duration: 2400,
+      yoyo: true,
+      repeat: -1,
+    });
+
+    const brand = this.add
+      .text(GAME_WIDTH / 2, 72, 'BLACK ORBIT OUTPOST', {
         fontFamily: 'Orbitron, sans-serif',
-        fontSize: '42px',
+        fontSize: '46px',
         color: '#e8f0f7',
       })
-      .setOrigin(0.5);
+      .setOrigin(0.5)
+      .setDepth(20);
+    revealText(this, brand, 80, 18);
 
-    this.add
-      .text(GAME_WIDTH / 2, 165, 'Hold the core. Survive the dark. — Nyx is listening.', {
+    const tag = this.add
+      .text(GAME_WIDTH / 2, 122, 'Hold the core. Survive the dark.', {
         fontFamily: '"Share Tech Mono", monospace',
-        fontSize: '16px',
+        fontSize: '17px',
         color: '#7dffb3',
       })
-      .setOrigin(0.5);
+      .setOrigin(0.5)
+      .setDepth(20);
+    revealText(this, tag, 280, 10);
 
     const lines = [
-      '[1] NEW RUN (Act Select)',
-      this.canContinue ? '[2] CONTINUE RUN' : '[2] CONTINUE (no save)',
-      '[3] META UNLOCKS',
-      '[4] OPTIONS / ACHIEVEMENTS',
+      '[1]  NEW RUN',
+      this.canContinue ? '[2]  CONTINUE' : '[2]  CONTINUE  —  no save',
+      '[3]  META',
+      '[4]  OPTIONS',
     ];
-    if (isDevBuild()) lines.push('[0] DEV Act3 W8 Orbit Waker');
+    if (isDevBuild()) lines.push('[0]  DEV · Act3 Elite');
 
-    this.add
-      .text(GAME_WIDTH / 2, 240, lines.join('\n'), {
+    const menu = this.add
+      .text(GAME_WIDTH / 2, GAME_HEIGHT - 210, lines.join('\n'), {
         fontFamily: 'Orbitron, sans-serif',
         fontSize: '18px',
         color: '#e8b84a',
         align: 'center',
-        lineSpacing: 10,
+        lineSpacing: 12,
       })
-      .setOrigin(0.5, 0);
+      .setOrigin(0.5, 0)
+      .setDepth(20);
+    revealText(this, menu, 480, 16);
 
-    this.add
+    const meta = this.add
       .text(
         GAME_WIDTH / 2,
-        430,
-        `Marks ${metaState.orbitMarks}  ·  A1 ${metaState.act1Cleared ? '✓' : '—'} A2 ${metaState.act2Cleared ? '✓' : '—'} A3 ${metaState.act3Cleared ? '✓' : '—'}  ·  Ach ${metaState.achievements.length}`,
+        GAME_HEIGHT - 72,
+        `Orbit Marks ${metaState.orbitMarks}   ·   Acts ${metaState.act1Cleared ? 'I' : '·'}${metaState.act2Cleared ? ' II' : ''}${metaState.act3Cleared ? ' III' : ''}   ·   A Belongarobert game`,
         {
           fontFamily: '"Share Tech Mono", monospace',
           fontSize: '13px',
           color: '#8fa3b8',
         },
       )
-      .setOrigin(0.5);
+      .setOrigin(0.5)
+      .setDepth(20);
+    revealText(this, meta, 700, 8);
 
-    this.add
-      .text(GAME_WIDTH / 2, GAME_HEIGHT - 48, 'A Belongarobert game  ·  M7 polish', {
-        fontFamily: '"Share Tech Mono", monospace',
-        fontSize: '14px',
-        color: '#8fa3b8',
-      })
-      .setOrigin(0.5);
+    this.cameras.main.fadeIn(600, 7, 11, 18);
 
-    this.input.keyboard?.on('keydown-ONE', () => {
-      audioBus.ui();
-      this.scene.start('ActSelect');
-    });
+    this.input.keyboard?.on('keydown-ONE', () => this.go('ActSelect'));
     this.input.keyboard?.on('keydown-TWO', () => {
       if (!this.canContinue) return;
       audioBus.ui();
       saveService.load();
+      audioBus.startAmbient('combat');
       this.scene.start('Combat');
     });
-    this.input.keyboard?.on('keydown-THREE', () => {
-      audioBus.ui();
-      this.scene.start('Meta');
-    });
-    this.input.keyboard?.on('keydown-FOUR', () => {
-      audioBus.ui();
-      this.scene.start('Options');
-    });
+    this.input.keyboard?.on('keydown-THREE', () => this.go('Meta'));
+    this.input.keyboard?.on('keydown-FOUR', () => this.go('Options'));
     if (isDevBuild()) {
       this.input.keyboard?.on('keydown-ZERO', () => this.beginDev(3, 8));
     }
+  }
+
+  update(_t: number, _d: number): void {
+    this.atmosphere?.update(this.time.now);
+  }
+
+  private go(scene: string): void {
+    audioBus.ui();
+    this.atmosphere?.destroy();
+    this.scene.start(scene);
   }
 
   private beginDev(act: number, wave: number): void {
@@ -122,18 +152,8 @@ export class MenuScene extends Phaser.Scene {
     applyMetaUnlocksToRun();
     metaState.runsStarted += 1;
     saveService.saveRun();
+    audioBus.startAmbient('elite');
+    this.atmosphere?.destroy();
     this.scene.start('Combat');
-  }
-
-  private drawBackdrop(): void {
-    const g = this.add.graphics();
-    g.fillStyle(0x0f1826, 1);
-    g.fillRect(0, 0, GAME_WIDTH, GAME_HEIGHT);
-    for (let i = 0; i < 60; i++) {
-      g.fillStyle(0x7dffb3, 0.08 + Math.random() * 0.12);
-      g.fillCircle(Math.random() * GAME_WIDTH, Math.random() * GAME_HEIGHT, 1 + Math.random() * 2);
-    }
-    g.lineStyle(2, Colors.steelDark, 0.5);
-    g.strokeRect(40, 40, GAME_WIDTH - 80, GAME_HEIGHT - 80);
   }
 }

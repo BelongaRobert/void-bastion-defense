@@ -2,7 +2,7 @@
 
 **Developer / credit:** Belongarobert  
 **Working title:** Black Orbit Outpost  
-**Status:** M7 polish — audio, gunfeel, cheat gating, balance; App ID still deferred  
+**Status:** Wonder polish — cinematic menus, ambient drone, bullet trails, typewriter dialogue; ready for Robert's pre-launch playtest  
 **Target:** Steam (Windows + Steam Deck), mobile port later  
 **Price:** List **$9.99**, permanent/launch **50% → $4.99** (never sell above effective $5 without explicit change)
 

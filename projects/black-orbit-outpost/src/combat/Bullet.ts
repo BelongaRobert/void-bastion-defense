@@ -4,6 +4,8 @@ import { DEPTH } from '../theme';
 export class Bullet extends Phaser.Physics.Arcade.Image {
   damage = 0;
   private lifeMs = 900;
+  private trailCd = 0;
+  private bulletColor = 0xffffff;
 
   constructor(scene: Phaser.Scene, x = 0, y = 0) {
     super(scene, x, y, 'bullet');
@@ -20,8 +22,11 @@ export class Bullet extends Phaser.Physics.Arcade.Image {
   ): void {
     this.enableBody(true, x, y, true, true);
     this.setTint(color);
+    this.bulletColor = color;
     this.damage = damage;
     this.lifeMs = 900;
+    this.trailCd = 0;
+    this.setRotation(angle);
     const body = this.body as Phaser.Physics.Arcade.Body;
     body.setAllowGravity(false);
     body.velocity.set(Math.cos(angle) * speed, Math.sin(angle) * speed);
@@ -30,6 +35,20 @@ export class Bullet extends Phaser.Physics.Arcade.Image {
   tick(delta: number): void {
     if (!this.active) return;
     this.lifeMs -= delta;
+    this.trailCd -= delta;
+    if (this.trailCd <= 0) {
+      this.trailCd = 28;
+      const ghost = this.scene.add
+        .circle(this.x, this.y, 2.2, this.bulletColor, 0.45)
+        .setDepth(DEPTH.bullet - 1);
+      this.scene.tweens.add({
+        targets: ghost,
+        alpha: 0,
+        scale: 0.2,
+        duration: 120,
+        onComplete: () => ghost.destroy(),
+      });
+    }
     if (
       this.lifeMs <= 0 ||
       this.x < -40 ||

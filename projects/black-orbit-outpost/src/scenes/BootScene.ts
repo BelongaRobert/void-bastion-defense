@@ -79,7 +79,28 @@ export class BootScene extends Phaser.Scene {
       g.fillRect(0, 0, 4, 4);
     });
 
-    this.scene.start('Menu');
+    // Brief brand splash before menu
+    this.cameras.main.setBackgroundColor(Colors.voidNavy);
+    this.add.rectangle(0, 0, this.scale.width, this.scale.height, Colors.voidNavy, 1).setOrigin(0);
+    const core = this.add.image(this.scale.width / 2, this.scale.height / 2 - 20, 'core').setDisplaySize(96, 96);
+    core.setTint(Colors.core).setAlpha(0);
+    const credit = this.add
+      .text(this.scale.width / 2, this.scale.height / 2 + 70, 'BELONGAROBERT', {
+        fontFamily: 'Orbitron, sans-serif',
+        fontSize: '18px',
+        color: '#8fa3b8',
+      })
+      .setOrigin(0.5)
+      .setAlpha(0);
+    this.tweens.add({ targets: [core, credit], alpha: 1, duration: 500 });
+    this.time.delayedCall(1100, () => {
+      this.tweens.add({
+        targets: [core, credit],
+        alpha: 0,
+        duration: 400,
+        onComplete: () => this.scene.start('Menu'),
+      });
+    });
   }
 
   private makeTexture(

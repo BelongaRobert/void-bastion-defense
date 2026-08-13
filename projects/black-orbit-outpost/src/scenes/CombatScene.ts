@@ -19,6 +19,7 @@ import { OutpostCore } from '../combat/OutpostCore';
 import { Player } from '../combat/Player';
 import { DialogueBox } from '../story/DialogueBox';
 import { Hud } from '../ui/Hud';
+import { Atmosphere } from '../fx/Atmosphere';
 
 export class CombatScene extends Phaser.Scene {
   private inputMap!: InputMap;
@@ -32,6 +33,7 @@ export class CombatScene extends Phaser.Scene {
   private hud!: Hud;
   private dialogue!: DialogueBox;
   private touch!: TouchControls;
+  private atmosphere!: Atmosphere;
   private nest: AutogunNest | null = null;
   private waveClearing = false;
   private failed = false;
@@ -44,6 +46,13 @@ export class CombatScene extends Phaser.Scene {
   create(): void {
     this.cameras.main.setBackgroundColor(Colors.voidNavy);
     this.drawArena();
+    this.atmosphere = new Atmosphere(this, {
+      mode: 'overlay',
+      dust: true,
+      dense: runState.act === 3,
+      coreGlow: false,
+    });
+    this.cameras.main.fadeIn(400, 7, 11, 18);
 
     this.inputMap = new InputMap(this);
     this.touch = new TouchControls(this);
@@ -124,6 +133,7 @@ export class CombatScene extends Phaser.Scene {
       return;
     }
     this.director.begin(wave);
+    audioBus.startAmbient(wave.elite ? 'elite' : 'combat');
     this.hud.flash(wave.label, this, wave.elite ? '#c9a0ff' : '#e8b84a');
     setRichPresence(`Act ${runState.act} · Wave ${runState.wave}`);
     this.waveClearing = false;
@@ -169,6 +179,7 @@ export class CombatScene extends Phaser.Scene {
 
   update(_time: number, delta: number): void {
     if (this.failed) return;
+    this.atmosphere?.update(_time);
 
     if (this.dialogue.isOpen()) {
       if (this.inputMap.justConfirmed()) this.dialogue.tryAdvance();
@@ -214,7 +225,9 @@ export class CombatScene extends Phaser.Scene {
       this.eliteAnnounced = true;
       this.hud.flash('CHAPTER ELITE INBOUND', this, '#c9a0ff');
       audioBus.eliteStinger();
+      audioBus.setAmbientIntensity('elite');
       this.cameras.main.flash(250, 80, 40, 120);
+      if (settingsState.screenShake) this.cameras.main.shake(280, 0.012);
     }
 
     this.hud.update(
@@ -291,6 +304,7 @@ export class CombatScene extends Phaser.Scene {
     this.touch.destroy();
     this.inputMap.attachTouch(null);
     this.dialogue.destroy();
+    this.atmosphere?.destroy();
   }
 
   private drawArena(): void {
@@ -298,39 +312,48 @@ export class CombatScene extends Phaser.Scene {
     if (runState.act === 3) {
       g.fillStyle(0x05060c, 1);
       g.fillRect(0, 0, GAME_WIDTH, GAME_HEIGHT);
-      for (let i = 0; i < 80; i++) {
-        g.fillStyle(0xffffff, 0.08 + Math.random() * 0.15);
-        g.fillCircle(Math.random() * GAME_WIDTH, Math.random() * GAME_HEIGHT, 1);
+      for (let i = 0; i < 120; i++) {
+        g.fillStyle(0xffffff, 0.06 + Math.random() * 0.18);
+        g.fillCircle(Math.random() * GAME_WIDTH, Math.random() * GAME_HEIGHT, 0.8 + Math.random());
       }
-      g.lineStyle(2, 0x402030, 0.8);
+      g.fillStyle(0xff3b5c, 0.04);
+      g.fillCircle(GAME_WIDTH / 2, GAME_HEIGHT / 2, 280);
+      g.lineStyle(2, 0x502038, 0.85);
       g.strokeRect(16, 16, GAME_WIDTH - 32, GAME_HEIGHT - 32);
       g.fillStyle(0x120818, 1);
       g.fillTriangle(100, 80, 180, 200, 40, 200);
       g.fillTriangle(GAME_WIDTH - 80, 100, GAME_WIDTH - 40, 260, GAME_WIDTH - 160, 240);
-      g.fillStyle(0xff3b5c, 0.06);
-      g.fillCircle(GAME_WIDTH / 2, GAME_HEIGHT / 2, 220);
+      g.lineStyle(1, 0xff3b5c, 0.2);
+      g.strokeCircle(GAME_WIDTH / 2, GAME_HEIGHT / 2, 200);
+      g.strokeCircle(GAME_WIDTH / 2, GAME_HEIGHT / 2, 260);
     } else if (runState.act === 2) {
       g.fillStyle(0x081018, 1);
       g.fillRect(0, 0, GAME_WIDTH, GAME_HEIGHT);
-      g.lineStyle(1, 0x1a3048, 0.55);
+      g.lineStyle(1, 0x1a3048, 0.45);
       for (let x = 0; x < GAME_WIDTH; x += 64) g.lineBetween(x, 0, x, GAME_HEIGHT);
       for (let y = 0; y < GAME_HEIGHT; y += 64) g.lineBetween(0, y, GAME_WIDTH, y);
-      g.lineStyle(2, 0x3a6080, 0.7);
+      g.fillStyle(0x7eb6ff, 0.06);
+      g.fillCircle(GAME_WIDTH / 2, 100, 220);
+      g.lineStyle(2, 0x3a6080, 0.75);
       g.strokeRect(16, 16, GAME_WIDTH - 32, GAME_HEIGHT - 32);
       g.fillStyle(0x102030, 1);
       g.fillRect(60, 100, 40, 220);
       g.fillRect(120, 100, 40, 220);
       g.fillRect(GAME_WIDTH - 160, 80, 50, 280);
       g.fillRect(GAME_WIDTH - 100, 80, 50, 280);
-      g.fillStyle(0x7eb6ff, 0.08);
-      g.fillCircle(GAME_WIDTH / 2, 120, 180);
+      g.fillStyle(0xb0d4ff, 0.08);
+      for (let i = 0; i < 12; i++) {
+        g.fillCircle(80 + i * 90, 60 + (i % 3) * 20, 3);
+      }
     } else {
       g.fillStyle(0x0a101a, 1);
       g.fillRect(0, 0, GAME_WIDTH, GAME_HEIGHT);
-      g.lineStyle(1, 0x1a2838, 0.7);
+      g.lineStyle(1, 0x1a2838, 0.55);
       for (let x = 0; x < GAME_WIDTH; x += 64) g.lineBetween(x, 0, x, GAME_HEIGHT);
       for (let y = 0; y < GAME_HEIGHT; y += 64) g.lineBetween(0, y, GAME_WIDTH, y);
-      g.lineStyle(2, Colors.steelDark, 0.8);
+      g.fillStyle(0x7dffb3, 0.03);
+      g.fillCircle(GAME_WIDTH / 2, GAME_HEIGHT / 2, 240);
+      g.lineStyle(2, Colors.steelDark, 0.85);
       g.strokeRect(16, 16, GAME_WIDTH - 32, GAME_HEIGHT - 32);
       g.fillStyle(0x121c2a, 1);
       g.fillRect(80, 80, 120, 40);
@@ -339,6 +362,9 @@ export class CombatScene extends Phaser.Scene {
       g.fillStyle(0x152030, 1);
       g.fillRect(200, 40, 16, 160);
       g.fillRect(200, 40, 90, 12);
+      g.fillStyle(0xe8b84a, 0.12);
+      g.fillRect(210, 55, 8, 8);
+      g.fillRect(230, 55, 8, 8);
     }
   }
 }

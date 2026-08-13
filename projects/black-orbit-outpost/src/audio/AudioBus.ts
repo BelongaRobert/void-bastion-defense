@@ -7,7 +7,10 @@ import { settingsState } from '../state/SettingsState';
 class AudioBusImpl {
   private ctx: AudioContext | null = null;
   private master: GainNode | null = null;
+  private ambientGain: GainNode | null = null;
+  private ambientOsc: OscillatorNode[] = [];
   private lastShot = 0;
+  private ambientOn = false;
 
   private ensure(): AudioContext | null {
     if (typeof window === 'undefined') return null;
@@ -32,6 +35,12 @@ class AudioBusImpl {
   setVolume(v: number): void {
     settingsState.sfxVolume = PhaserMathClamp(v, 0, 1);
     if (this.master) this.master.gain.value = settingsState.sfxVolume;
+    if (this.ambientGain) {
+      // Preserve relative ambient level roughly
+      this.ambientGain.gain.value = Math.max(0.01, this.ambientGain.gain.value) *
+        (settingsState.sfxVolume / Math.max(0.01, settingsState.sfxVolume || 0.8));
+      this.ambientGain.gain.value = 0.028 * settingsState.sfxVolume;
+    }
   }
 
   unlock(): void {
@@ -190,6 +199,62 @@ class AudioBusImpl {
       osc.start(t);
       osc.stop(t + 0.22);
     });
+  }
+
+  /** Quiet cosmic drone under menus / combat. */
+  startAmbient(intensity: 'menu' | 'combat' | 'elite' = 'menu'): void {
+    const ctx = this.ensure();
+    if (!ctx || !this.master) return;
+    this.stopAmbient();
+    this.ambientOn = true;
+    this.ambientGain = ctx.createGain();
+    const level = intensity === 'elite' ? 0.045 : intensity === 'combat' ? 0.032 : 0.022;
+    this.ambientGain.gain.value = level * settingsState.sfxVolume;
+    this.ambientGain.connect(this.master);
+
+    const base = intensity === 'elite' ? 46 : intensity === 'combat' ? 55 : 62;
+    const freqs = [base, base * 1.5, base * 2.02];
+    this.ambientOsc = [];
+    for (const f of freqs) {
+      const osc = ctx.createOscillator();
+      const g = ctx.createGain();
+      osc.type = 'sine';
+      osc.frequency.value = f;
+      g.gain.value = f === base ? 0.7 : 0.28;
+      osc.connect(g);
+      g.connect(this.ambientGain);
+      osc.start();
+      this.ambientOsc.push(osc);
+    }
+  }
+
+  stopAmbient(): void {
+    for (const osc of this.ambientOsc) {
+      try {
+        osc.stop();
+        osc.disconnect();
+      } catch {
+        /* already stopped */
+      }
+    }
+    this.ambientOsc = [];
+    try {
+      this.ambientGain?.disconnect();
+    } catch {
+      /* */
+    }
+    this.ambientGain = null;
+    this.ambientOn = false;
+  }
+
+  setAmbientIntensity(intensity: 'menu' | 'combat' | 'elite'): void {
+    if (!this.ambientOn) {
+      this.startAmbient(intensity);
+      return;
+    }
+    if (!this.ambientGain) return;
+    const level = intensity === 'elite' ? 0.045 : intensity === 'combat' ? 0.032 : 0.022;
+    this.ambientGain.gain.value = level * settingsState.sfxVolume;
   }
 
   private noiseBurst(duration: number, volume: number, cutoff: number): void {

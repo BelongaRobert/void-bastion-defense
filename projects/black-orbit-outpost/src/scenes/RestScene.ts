@@ -5,6 +5,7 @@ import { saveService } from '../state/SaveService';
 import { storyDirector } from '../story/StoryDirector';
 import { DialogueBox } from '../story/DialogueBox';
 import { Colors, GAME_HEIGHT, GAME_WIDTH } from '../theme';
+import { Atmosphere } from '../fx/Atmosphere';
 
 const HEAL_COST = 20;
 const CORE_REPAIR_COST = 25;
@@ -26,7 +27,9 @@ export class RestScene extends Phaser.Scene {
   create(): void {
     this.clearedWave = runState.wave;
     this.cameras.main.setBackgroundColor(Colors.voidNavy);
-    this.add.rectangle(0, 0, GAME_WIDTH, GAME_HEIGHT, 0x0f1826, 1).setOrigin(0);
+    new Atmosphere(this, { mode: 'overlay', dust: true, coreGlow: false });
+    this.add.rectangle(0, 0, GAME_WIDTH, GAME_HEIGHT, 0x0f1826, 0.55).setOrigin(0);
+    this.cameras.main.fadeIn(350, 7, 11, 18);
 
     this.add
       .text(GAME_WIDTH / 2, 60, runState.act === 3 ? 'REST — BLACK ORBIT' : runState.act === 2 ? 'REST — COLD STORAGE' : 'REST — DOCKYARD BAY', {

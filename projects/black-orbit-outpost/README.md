@@ -10,7 +10,7 @@ See [PLAN.md](./PLAN.md), [ART_BIBLE.md](./ART_BIBLE.md), and [steam/STORE_PAGE.
 
 ## Status
 
-**M7 polish:** Campaign Acts 1–3; procedural SFX + volume; gunfeel (muzzle/recoil); DEV cheats gated; Act 3 balance pass; Double Runners fixed; offline fonts; Windows icon. Steam App ID still deferred (no $100 fee yet).
+**Wonder polish (v0.2.0):** Cinematic menu with pulsing Core, ambient drone, bullet trails, typewriter dialogue, richer arenas, Belongarobert boot splash. Steam App ID / $100 fee still deferred until your playtest.
 
 ## Run (browser)
 

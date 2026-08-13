@@ -130,24 +130,37 @@ export class Hud {
   }
 
   flash(message: string, scene: Phaser.Scene, color = '#e8b84a'): void {
+    const bar = scene.add
+      .rectangle(GAME_WIDTH / 2, 108, 0, 36, 0x070b12, 0.75)
+      .setDepth(DEPTH.hud + 1)
+      .setScrollFactor(0);
+    scene.tweens.add({
+      targets: bar,
+      width: 520,
+      duration: 220,
+      ease: 'Cubic.easeOut',
+    });
     const t = scene.add
       .text(GAME_WIDTH / 2, 120, message, {
         fontFamily: 'Orbitron, sans-serif',
-        fontSize: '28px',
+        fontSize: '26px',
         color,
       })
       .setOrigin(0.5)
-      .setDepth(DEPTH.hud + 1)
+      .setDepth(DEPTH.hud + 2)
       .setScrollFactor(0)
       .setAlpha(0);
     scene.tweens.add({
       targets: t,
       alpha: 1,
-      y: 100,
+      y: 108,
       duration: 250,
       yoyo: true,
       hold: 1100,
-      onComplete: () => t.destroy(),
+      onComplete: () => {
+        t.destroy();
+        bar.destroy();
+      },
     });
   }
 }

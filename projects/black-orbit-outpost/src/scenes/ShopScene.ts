@@ -5,6 +5,7 @@ import { saveService } from '../state/SaveService';
 import { storyDirector } from '../story/StoryDirector';
 import { DialogueBox } from '../story/DialogueBox';
 import { Colors, GAME_HEIGHT, GAME_WIDTH } from '../theme';
+import { Atmosphere } from '../fx/Atmosphere';
 
 interface ShopItem {
   key: string;
@@ -28,7 +29,9 @@ export class ShopScene extends Phaser.Scene {
   create(): void {
     this.clearedWave = runState.wave;
     this.cameras.main.setBackgroundColor(Colors.voidNavy);
-    this.add.rectangle(0, 0, GAME_WIDTH, GAME_HEIGHT, 0x0c1420, 1).setOrigin(0);
+    new Atmosphere(this, { mode: 'overlay', dust: true, coreGlow: false });
+    this.add.rectangle(0, 0, GAME_WIDTH, GAME_HEIGHT, 0x0c1420, 0.6).setOrigin(0);
+    this.cameras.main.fadeIn(350, 7, 11, 18);
 
     this.add
       .text(
